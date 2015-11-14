@@ -10,7 +10,7 @@ GETTING STARTED__GROUP2_HARDWARE_SETUP
 
 --KINECT:
 Follow instruction:
-http://www.cs.princeton.edu/~edwardz/tutorials/kinect/kinect0.html
+http://www.cs.princeton.edu/~edwardz/tutorials/kinect2/kinect0.html
 Extract hand points from sceleton.
 
 --PROTOCOLL_FOR_SENDING_MESSAGES:
