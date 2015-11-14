@@ -6,7 +6,7 @@ Institute for Information Management in Engineering @ Karlsruhe Institute of Tec
 
 
 
-GETTING STARTED
+GETTING STARTED__GROUP2_HARDWARE_SETUP
 
 --KINECT:
 Follow instruction:
@@ -17,7 +17,7 @@ Extract hand points from sceleton.
 follow tutorial instruction:
 https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html
 
-can be done on windows side with C# and then on lnux side with Python
+can be done on windows side with C# or Python and then on Linux side with Python
 
 
 
