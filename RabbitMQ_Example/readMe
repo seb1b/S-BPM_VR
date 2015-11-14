@@ -1,0 +1,5 @@
+Installation
+https://www.rabbitmq.com/download.html
+
+for the example you might need to start 
+rabbitmq-server
