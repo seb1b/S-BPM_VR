@@ -11,6 +11,8 @@ GETTING STARTED__GROUP2_HARDWARE_SETUP
 --KINECT:
 Follow instruction:
 http://www.cs.princeton.edu/~edwardz/tutorials/kinect2/kinect0.html
+
+https://mva.microsoft.com/en-us/training-courses/programming-kinect-for-windows-v2-jump-start-9088?l=Ju7xHKf4_6604984382
 Extract hand points from sceleton.
 
 --PROTOCOLL_FOR_SENDING_MESSAGES:
