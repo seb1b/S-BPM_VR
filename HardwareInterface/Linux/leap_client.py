@@ -55,45 +55,28 @@ class SampleListener(Leap.Listener):
         for gesture in frame.gestures():
             if gesture.type == Leap.Gesture.TYPE_CIRCLE:
                 circle = CircleGesture(gesture)
-
                 # Determine clock direction using the angle between the pointable and the circle normal
                 if circle.pointable.direction.angle_to(circle.normal) <= Leap.PI/2:
                     clockwiseness = "clockwise"
                 else:
                     clockwiseness = "counterclockwise"
-
-                # Calculate the angle swept since the last frame
-                swept_angle = 0
-                if circle.state != Leap.Gesture.STATE_START:
-                    previous_update = CircleGesture(controller.frame(1).gesture(circle.id))
-                    swept_angle =  (circle.progress - previous_update.progress) * 2 * Leap.PI
-
-                # print "  Circle id: %d, %s, progress: %f, radius: %f, angle: %f degrees, %s" % (
-                #         gesture.id, self.state_names[gesture.state],
-                #         circle.progress, circle.radius, swept_angle * Leap.RAD_TO_DEG, clockwiseness)
+                stringToSend += "circle_"
+                stringToSend += clockwiseness
 
             if gesture.type == Leap.Gesture.TYPE_SWIPE:
-                swipe = SwipeGesture(gesture)
-                # print "  Swipe id: %d, state: %s, position: %s, direction: %s, speed: %f" % (
-                #         gesture.id, self.state_names[gesture.state],
-                #         swipe.position, swipe.direction, swipe.speed)
+                stringToSend += "swipe"
 
             if gesture.type == Leap.Gesture.TYPE_KEY_TAP:
-                keytap = KeyTapGesture(gesture)
-                # print "  Key Tap id: %d, %s, position: %s, direction: %s" % (
-                #         gesture.id, self.state_names[gesture.state],
-                #         keytap.position, keytap.direction )
+                stringToSend += "keytap"
 
             if gesture.type == Leap.Gesture.TYPE_SCREEN_TAP:
-                screentap = ScreenTapGesture(gesture)
-                # print "  Screen Tap id: %d, %s, position: %s, direction: %s" % (
-                #         gesture.id, self.state_names[gesture.state],
-                #         screentap.position, screentap.direction )
+                stringToSend += "screentap"
 
-            stringToSend += gesture.type
-        if not (frame.hands.is_empty and frame.gestures().is_empty):
-            print ""
-        print stringToSend    
+            stringToSend += " : "
+            stringToSend += self.state_names[gesture.state]
+        #if not (frame.hands.is_empty and frame.gestures().is_empty):
+                #print ""
+        #print stringToSend    
         channel.queue_declare(queue='hello')
         channel.basic_publish(exchange='',routing_key='hello',body=stringToSend)
 

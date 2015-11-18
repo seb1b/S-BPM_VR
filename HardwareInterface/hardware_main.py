@@ -12,7 +12,8 @@ channel.queue_declare(queue='hello')
 print ' [*] Waiting for messages. To exit press CTRL+C'
 
 def callback(ch, method, properties, body):
-    print body
+	if body != "":
+		print body
 
 channel.basic_consume(callback,
                       queue='hello',
