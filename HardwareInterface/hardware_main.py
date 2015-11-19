@@ -9,7 +9,7 @@ channel = connection.channel()
 
 channel.queue_declare(queue='hello')
 
-print ' [*] Waiting for messages. To exit press CTRL+C'
+print ' [*] Waiting for messages. To exit  please press CTRL+C'
 
 def callback(ch, method, properties, body):
 	if body != "":
