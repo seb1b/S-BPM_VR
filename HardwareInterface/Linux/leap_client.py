@@ -1,18 +1,16 @@
 #!/usr/bin/env_python
 
-
-import Leap, sys, thread, time, pika
+import sys, thread, time, pika
+if sys.path[0] != './Leap': sys.path.insert(0, './Leap')
+import Leap
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
-
 
 class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
-        #connection init 
-
-
+    #connection init 
     def on_init(self, controller):
         print "Initialized"
 
@@ -48,9 +46,6 @@ class SampleListener(Leap.Listener):
             # print "  %s, id %d, position: %s" % (
             #     handType, hand.id, hand.palm_position)
 
-
-
-
         # Get gestures
         for gesture in frame.gestures():
             if gesture.type == Leap.Gesture.TYPE_CIRCLE:
@@ -80,8 +75,6 @@ class SampleListener(Leap.Listener):
         
         channel.basic_publish(exchange='',routing_key='hello',body=stringToSend)
 
-
-
     def state_string(self, state):
         if state == Leap.Gesture.STATE_START:
             return "STATE_START"
@@ -103,8 +96,6 @@ def main():
     # Have the sample listener receive events from the controller
     controller.add_listener(listener)
 
-
-
     # Keep this process running until Enter is pressed
     print "Press Enter to quit..."
     try:
@@ -114,7 +105,6 @@ def main():
     finally:
         # Remove the sample listener when done
         controller.remove_listener(listener)
-
 
 if __name__ == "__main__":
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
