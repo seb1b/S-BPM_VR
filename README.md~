@@ -21,15 +21,5 @@ https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html
 
 can be done on windows side with C# or Python and then on Linux side with Python
 
---MYO:
-using PyoConnect_v2.0 written by  Fernando Cosentino - http://www.fernandocosentino.net/pyoconnect
-For writing a  new application, put your python script in
-S-BPM_VR/HardwareInterface/Linux/Myo/scripts
-In a terminal, navigate to the Myo folder and use python to run PyoManager.pyc:
-$ python PyoManager.pyc
-The "Connect Myo" and "Disconnect" buttons allow you to connect to your armband.
-
-For each script found in the Scripts folder, there will be a line in the menu, with a button to enable/disable that particular script, just like MyoConnect for windows. More than one script can be active at the same time. In fact, all scripts can be active at the same time.
-
 
 
