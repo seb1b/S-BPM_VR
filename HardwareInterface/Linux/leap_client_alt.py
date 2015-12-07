@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env_python
 
 import sys, thread, time, pika
@@ -10,11 +9,6 @@ class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
-
-    # userID
-    # 10: Leap1, 11: Leap2
-    # 20: Myo1, 21: Myo2
-    # 30: Kinect1, 31: Kinect2
 
     #connection init 
     def on_init(self, controller):
@@ -38,35 +32,19 @@ class SampleListener(Leap.Listener):
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
-        # Each Frame object representing a frame contains lists of tracked entities, such as hands, fingers, and tools, as well as recognized gestures and factors describing the overall motion in the scene.
         frame = controller.frame()
 
-        # userID:currentPositionX,currentPositionY,currentPositionZ:handType:currentGesture
         stringToSend = ""
-
-        userID = 10
-        currentGesture = ""
-        currentPositionX = ""
-        currentPositionY = ""
-        currentPositionZ = ""
-        handType = ""
 
         # Get hands
         for hand in frame.hands:
 
-            handType = "L" if hand.is_left else "R"
-
-            # palm_position in mm from the Leap Motion Controller origin as a Vector
-            
-            # vector.normalized returns a normalized copy of vector.
-            # A normalized vector has the same direction as the original vector, but with a length of one.
-
-            # vector.is_valid returns True if all of the vector’s components are finite. If any component is NaN or infinite, then this is False.
-            # vector.distance_to(other) returns the distance between the point represented by this Vector object and a point represented by the specified Vector object.
-
-            currentPositionX += str(hand.palm_position.x)
-            currentPositionY += str(hand.palm_position.y)
-            currentPositionZ += str(hand.palm_position.z)
+            handType = "Left hand" if hand.is_left else "Right hand"
+            stringToSend += handType
+            stringToSend += " : " 
+            stringToSend += str(hand.palm_position)
+            # print "  %s, id %d, position: %s" % (
+            #     handType, hand.id, hand.palm_position)
 
         # Get gestures
         for gesture in frame.gestures():
@@ -77,21 +55,23 @@ class SampleListener(Leap.Listener):
                     clockwiseness = "clockwise"
                 else:
                     clockwiseness = "counterclockwise"
-                currentGesture = "circle_" + clockwiseness
+                stringToSend += "circle_"
+                stringToSend += clockwiseness
 
             if gesture.type == Leap.Gesture.TYPE_SWIPE:
-                currentGesture = "swipe"
+                stringToSend += "swipe"
 
             if gesture.type == Leap.Gesture.TYPE_KEY_TAP:
-                currentGesture = "keytap"
+                stringToSend += "keytap"
 
             if gesture.type == Leap.Gesture.TYPE_SCREEN_TAP:
-                currentGesture = "screentap"
+                stringToSend += "screentap"
 
-            # Recognized movements occur over time and have a beginning, a middle, and an end. The state attribute reports where in that sequence this Gesture object falls.
-            # stringToSend += self.state_names[gesture.state]
-
-        stringToSend += str(userID) + ":" + str(currentPositionX) + "," + str(currentPositionY) + "," + str(currentPositionZ) + ":" + handType + ":" + currentGesture
+            stringToSend += " : "
+            stringToSend += self.state_names[gesture.state]
+        #if not (frame.hands.is_empty and frame.gestures().is_empty):
+                #print ""
+        #print stringToSend    
         
         channel.basic_publish(exchange='',routing_key='hello',body=stringToSend)
 
@@ -117,7 +97,7 @@ def main():
     controller.add_listener(listener)
 
     # Keep this process running until Enter is pressed
-    print "Press Enter to quit ..."
+    print "Press Enter to quit..."
     try:
         sys.stdin.readline()
     except KeyboardInterrupt:
