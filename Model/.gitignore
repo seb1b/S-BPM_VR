@@ -1,0 +1,5 @@
+/PASS.egg-info/
+/dist/
+/build/
+*.pyc
+*.py~
