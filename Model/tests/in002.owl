@@ -1,0 +1,3294 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY sp "http://spinrdf.org/sp#" >
+    <!ENTITY spin "http://spinrdf.org/spin#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY s-scm-ont "http://www.purl.org/s-scm-ont#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY abstract-pass-ont "http://www.imi.kit.edu/abstract-pass-ont#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.purl.org/s-scm-ont#"
+     xml:base="http://www.purl.org/s-scm-ont"
+     xmlns:abstract-pass-ont="http://www.imi.kit.edu/abstract-pass-ont#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:spin="http://spinrdf.org/spin#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:sp="http://spinrdf.org/sp#"
+     xmlns:s-scm-ont="http://www.purl.org/s-scm-ont#">
+    <owl:Ontology rdf:about="http://www.imi.kit.edu/abstract-pass-ont">
+        <owl:versionInfo rdf:datatype="&xsd;string">Created with TopBraid Composer</owl:versionInfo>
+        <owl:imports rdf:resource="http://spinrdf.org/spin"/>
+        <spin:imports rdf:resource="http://topbraid.org/spin/owlrl-all"/>
+        <spin:imports rdf:resource="http://topbraid.org/spin/rdfsplus"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://spinrdf.org/sp#arg1 -->
+
+    <owl:AnnotationProperty rdf:about="&sp;arg1"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#elements -->
+
+    <owl:AnnotationProperty rdf:about="&sp;elements"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#expression -->
+
+    <owl:AnnotationProperty rdf:about="&sp;expression"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#having -->
+
+    <owl:AnnotationProperty rdf:about="&sp;having"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#object -->
+
+    <owl:AnnotationProperty rdf:about="&sp;object"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#path -->
+
+    <owl:AnnotationProperty rdf:about="&sp;path"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#predicate -->
+
+    <owl:AnnotationProperty rdf:about="&sp;predicate"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#query -->
+
+    <owl:AnnotationProperty rdf:about="&sp;query"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#resultVariables -->
+
+    <owl:AnnotationProperty rdf:about="&sp;resultVariables"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#subPath -->
+
+    <owl:AnnotationProperty rdf:about="&sp;subPath"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#subject -->
+
+    <owl:AnnotationProperty rdf:about="&sp;subject"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#templates -->
+
+    <owl:AnnotationProperty rdf:about="&sp;templates"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#where -->
+
+    <owl:AnnotationProperty rdf:about="&sp;where"/>
+    
+
+
+    <!-- http://spinrdf.org/spin#constraint -->
+
+    <owl:AnnotationProperty rdf:about="&spin;constraint"/>
+    
+
+
+    <!-- http://spinrdf.org/spin#constructor -->
+
+    <owl:AnnotationProperty rdf:about="&spin;constructor"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://spinrdf.org/sp#as -->
+
+    <rdf:Description rdf:about="&sp;as">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#bindings -->
+
+    <rdf:Description rdf:about="&sp;bindings">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#deletePattern -->
+
+    <rdf:Description rdf:about="&sp;deletePattern">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#document -->
+
+    <rdf:Description rdf:about="&sp;document">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#elements -->
+
+    <rdf:Description rdf:about="&sp;elements">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#from -->
+
+    <rdf:Description rdf:about="&sp;from">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#fromNamed -->
+
+    <rdf:Description rdf:about="&sp;fromNamed">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#graphIRI -->
+
+    <rdf:Description rdf:about="&sp;graphIRI">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#graphNameNode -->
+
+    <rdf:Description rdf:about="&sp;graphNameNode">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#groupBy -->
+
+    <rdf:Description rdf:about="&sp;groupBy">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#having -->
+
+    <rdf:Description rdf:about="&sp;having">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#insertPattern -->
+
+    <rdf:Description rdf:about="&sp;insertPattern">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#into -->
+
+    <rdf:Description rdf:about="&sp;into">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#orderBy -->
+
+    <rdf:Description rdf:about="&sp;orderBy">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#path -->
+
+    <rdf:Description rdf:about="&sp;path">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#path1 -->
+
+    <rdf:Description rdf:about="&sp;path1">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#path2 -->
+
+    <rdf:Description rdf:about="&sp;path2">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#predicate -->
+
+    <rdf:Description rdf:about="&sp;predicate">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#query -->
+
+    <rdf:Description rdf:about="&sp;query">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#resultNodes -->
+
+    <rdf:Description rdf:about="&sp;resultNodes">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#resultVariables -->
+
+    <rdf:Description rdf:about="&sp;resultVariables">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#serviceURI -->
+
+    <rdf:Description rdf:about="&sp;serviceURI">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#subject -->
+
+    <rdf:Description rdf:about="&sp;subject">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#templates -->
+
+    <rdf:Description rdf:about="&sp;templates">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#using -->
+
+    <rdf:Description rdf:about="&sp;using">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#usingNamed -->
+
+    <rdf:Description rdf:about="&sp;usingNamed">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#values -->
+
+    <rdf:Description rdf:about="&sp;values">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#varNames -->
+
+    <rdf:Description rdf:about="&sp;varNames">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#variable -->
+
+    <rdf:Description rdf:about="&sp;variable">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#where -->
+
+    <rdf:Description rdf:about="&sp;where">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#with -->
+
+    <rdf:Description rdf:about="&sp;with">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#body -->
+
+    <rdf:Description rdf:about="&spin;body">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#column -->
+
+    <rdf:Description rdf:about="&spin;column">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#columnType -->
+
+    <rdf:Description rdf:about="&spin;columnType">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#command -->
+
+    <rdf:Description rdf:about="&spin;command">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#fix -->
+
+    <rdf:Description rdf:about="&spin;fix">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#nextRuleProperty -->
+
+    <rdf:Description rdf:about="&spin;nextRuleProperty">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#returnType -->
+
+    <rdf:Description rdf:about="&spin;returnType">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#violationLevel -->
+
+    <rdf:Description rdf:about="&spin;violationLevel">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#violationPath -->
+
+    <rdf:Description rdf:about="&spin;violationPath">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#violationRoot -->
+
+    <rdf:Description rdf:about="&spin;violationRoot">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#violationSource -->
+
+    <rdf:Description rdf:about="&spin;violationSource">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#belongsTo -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;belongsTo">
+        <rdfs:domain rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:range rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#hasIncommingEdge -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;hasIncommingEdge">
+        <rdfs:label rdf:datatype="&xsd;string">has incomming Edge</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;State"/>
+        <rdfs:range rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#hasMetaContent -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;hasMetaContent">
+        <rdfs:range rdf:resource="&abstract-pass-ont;MetaContent"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#hasModelComponent -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;hasModelComponent">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#importedTechnicalMetaProperties -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;importedTechnicalMetaProperties"/>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#objectPropertyOfModelElement -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;objectPropertyOfModelElement">
+        <rdfs:domain rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#references -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;references">
+        <rdfs:comment xml:lang="en">Describes another element this element references in the model (as a kind of placeholder).</rdfs:comment>
+        <rdfs:range rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#refersTo -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;refersTo">
+        <rdfs:comment xml:lang="en">Describes the message exchange a communication act transition represents in the SBD layer.</rdfs:comment>
+        <rdfs:domain rdf:resource="&abstract-pass-ont;CommunicationActTransition"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+        <rdfs:range rdf:resource="&s-scm-ont;MessageExchange"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#specifiesAlternative -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;specifiesAlternative">
+        <rdfs:comment>Each edge/transtion coming out of a state specifies an alternative for that state,
+
+(rules)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#stateBelongsTo -->
+
+    <owl:ObjectProperty rdf:about="&abstract-pass-ont;stateBelongsTo">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;belongsTo"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Behavior"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;State"/>
+        <owl:inverseOf rdf:resource="&s-scm-ont;hasState"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#assignedToBehavior -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;assignedToBehavior">
+        <rdfs:label rdf:datatype="&xsd;string">assigned to role</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Behavior"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#containsMessage -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;containsMessage">
+        <rdfs:label rdf:datatype="&xsd;string">contains message</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;InputPool"/>
+        <rdfs:range rdf:resource="&s-scm-ont;MessageExchange"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasAlternative -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">has alternative</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">the alternative of a state</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;State"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasBehavior -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasBehavior">
+        <rdfs:label rdf:datatype="&xsd;string">has behavior</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Behavior"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Subject"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasCommMode -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasCommMode">
+        <rdfs:label rdf:datatype="&xsd;string">has comm mode</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">receive alternatives define the mode of receiving messages (sync or async)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;CommMode"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;ReceiveExitCondition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasConstraint -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">has constraint</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;MessagePoolConstraint"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasEdge -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasEdge">
+        <rdfs:label rdf:datatype="&xsd;string">has edge</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Behavior"/>
+        <rdfs:range rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasExitCondition -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">has exit cond</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">The exit condition of a transition</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:range rdf:resource="&s-scm-ont;ExitCondition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasExitEdge -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasExitEdge">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has exit edge</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">An Alternative has one edge that is valid if the alternatives exit condition is valid. </rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <owl:inverseOf rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:range rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasExpectedMessagesDescription -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasExpectedMessagesDescription">
+        <rdfs:label rdf:datatype="&xsd;string">has expected message description</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Exit Conditions of Communication Acts define a set of messages to be sent or received. This can defined by a implizitly enumerate the participants, or by defining the set with a set definition. The C-SCM supports this step by providing the function roleMembers(Role) and groupMembers(Group).</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;MessageExchangeCondition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasGroupMember -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasGroupMember">
+        <rdfs:label rdf:datatype="&xsd;string">has group member</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Group"/>
+        <rdfs:range rdf:resource="&s-scm-ont;StandardSubject"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasInputpool -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasInputpool">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has inputpool</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">each actor/subject in a model can be considered to haven an Input Pool,</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;InputPool"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Subject"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasMessageType -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasMessageType">
+        <rdfs:label rdf:datatype="&xsd;string">has type</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;MessageExchange"/>
+        <rdfs:range rdf:resource="&s-scm-ont;MessageType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasMessageTypeConstraint -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasMessageTypeConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">has type constraint</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">defines a message type constraint for an input pool</rdfs:comment>
+        <rdfs:range rdf:resource="&s-scm-ont;MessageTypeConstraint"/>
+        <rdfs:subPropertyOf rdf:resource="&s-scm-ont;hasConstraint"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasOutgoingEdge -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasOutgoingEdge">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">has Outgoing Edge</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;State"/>
+        <rdfs:range rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasRoleMember -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasRoleMember">
+        <rdfs:label rdf:datatype="&xsd;string">has role member</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">A role is assigned to actors that executes a behavior associated to this role</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Subject"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasSenderConstraint -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasSenderConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">has sender restriction</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">defines a size description for an input pool regarding a certain sender</rdfs:comment>
+        <rdfs:range rdf:resource="&s-scm-ont;SenderConstraint"/>
+        <rdfs:subPropertyOf rdf:resource="&s-scm-ont;hasConstraint"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasSenderTypeConstraint -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasSenderTypeConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">has sender type constraint</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:range rdf:resource="&s-scm-ont;SenderTypeConstraint"/>
+        <rdfs:subPropertyOf rdf:resource="&s-scm-ont;hasConstraint"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasServiceType -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasServiceType">
+        <rdfs:label rdf:datatype="&xsd;string">has service type</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">The type of service of a state</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;Activity"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;State"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasSourceState -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasSourceState">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;State"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasState -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasState">
+        <rdfs:label rdf:datatype="&xsd;string">has state</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;Behavior"/>
+        <rdfs:range rdf:resource="&s-scm-ont;State"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasTargetState -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;hasTargetState">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;State"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#nextState -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;nextState">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+        <rdfs:range rdf:resource="&s-scm-ont;State"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;State"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#receiver -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;receiver">
+        <rdfs:label rdf:datatype="&xsd;string">receiver</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">The receiver of a message exchange</rdfs:comment>
+        <rdfs:range rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#regarding -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;regarding">
+        <rdfs:label rdf:datatype="&xsd;string">regarding</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+        <rdfs:domain rdf:resource="&s-scm-ont;MessagePoolConstraint"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#scriptRole -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;scriptRole">
+        <rdfs:label rdf:datatype="&xsd;string">script role</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">assigns roles to script processes</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#sender -->
+
+    <owl:ObjectProperty rdf:about="&s-scm-ont;sender">
+        <rdfs:label rdf:datatype="&xsd;string">sender</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:range rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;objectPropertyOfModelElement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://spinrdf.org/sp#all -->
+
+    <rdf:Description rdf:about="&sp;all">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#default -->
+
+    <rdf:Description rdf:about="&sp;default">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#distinct -->
+
+    <rdf:Description rdf:about="&sp;distinct">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#limit -->
+
+    <rdf:Description rdf:about="&sp;limit">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#modMax -->
+
+    <rdf:Description rdf:about="&sp;modMax">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#modMin -->
+
+    <rdf:Description rdf:about="&sp;modMin">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#named -->
+
+    <rdf:Description rdf:about="&sp;named">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#offset -->
+
+    <rdf:Description rdf:about="&sp;offset">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#reduced -->
+
+    <rdf:Description rdf:about="&sp;reduced">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#separator -->
+
+    <rdf:Description rdf:about="&sp;separator">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#silent -->
+
+    <rdf:Description rdf:about="&sp;silent">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#text -->
+
+    <rdf:Description rdf:about="&sp;text">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/sp#varName -->
+
+    <rdf:Description rdf:about="&sp;varName">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#abstract -->
+
+    <rdf:Description rdf:about="&spin;abstract">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#cachable -->
+
+    <rdf:Description rdf:about="&spin;cachable">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#columnIndex -->
+
+    <rdf:Description rdf:about="&spin;columnIndex">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#columnWidth -->
+
+    <rdf:Description rdf:about="&spin;columnWidth">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#labelTemplate -->
+
+    <rdf:Description rdf:about="&spin;labelTemplate">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#private -->
+
+    <rdf:Description rdf:about="&spin;private">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#rulePropertyMaxIterationCount -->
+
+    <rdf:Description rdf:about="&spin;rulePropertyMaxIterationCount">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#symbol -->
+
+    <rdf:Description rdf:about="&spin;symbol">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spin#thisUnbound -->
+
+    <rdf:Description rdf:about="&spin;thisUnbound">
+        <rdfs:subPropertyOf rdf:resource="&abstract-pass-ont;ExternalDataPropertie"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ExternalDataPropertie -->
+
+    <owl:DatatypeProperty rdf:about="&abstract-pass-ont;ExternalDataPropertie"/>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#hasKey -->
+
+    <owl:DatatypeProperty rdf:about="&abstract-pass-ont;hasKey">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#hasModelComponentID -->
+
+    <owl:DatatypeProperty rdf:about="&abstract-pass-ont;hasModelComponentID">
+        <rdfs:comment rdf:datatype="&xsd;string">Each modelcomponent should have a component ID that is uniqu for the model</rdfs:comment>
+        <rdfs:domain rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="&abstract-pass-ont;hasValue">
+        <rdfs:range rdf:resource="&rdf;XMLLiteral"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasCapacity -->
+
+    <owl:DatatypeProperty rdf:about="&s-scm-ont;hasCapacity">
+        <rdfs:label rdf:datatype="&xsd;string">has capacity</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasTimeoutValue -->
+
+    <owl:DatatypeProperty rdf:about="&s-scm-ont;hasTimeoutValue">
+        <rdfs:label rdf:datatype="&xsd;string">has timeout time</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">the time for a timeout</rdfs:comment>
+        <rdfs:domain rdf:resource="&s-scm-ont;TimeOutExitCondition"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://spinrdf.org/sp#Ask -->
+
+    <owl:Class rdf:about="&sp;Ask"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#Construct -->
+
+    <owl:Class rdf:about="&sp;Construct"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#Count -->
+
+    <owl:Class rdf:about="&sp;Count"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#Filter -->
+
+    <owl:Class rdf:about="&sp;Filter"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#ModPath -->
+
+    <owl:Class rdf:about="&sp;ModPath"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#Optional -->
+
+    <owl:Class rdf:about="&sp;Optional"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#Select -->
+
+    <owl:Class rdf:about="&sp;Select"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#SubQuery -->
+
+    <owl:Class rdf:about="&sp;SubQuery"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#TriplePath -->
+
+    <owl:Class rdf:about="&sp;TriplePath"/>
+    
+
+
+    <!-- http://spinrdf.org/sp#bound -->
+
+    <owl:Class rdf:about="&sp;bound">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://spinrdf.org/sp#lt -->
+
+    <owl:Class rdf:about="&sp;lt">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://spinrdf.org/sp#not -->
+
+    <owl:Class rdf:about="&sp;not">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://spinrdf.org/spl#Attribute -->
+
+    <rdf:Description rdf:about="http://spinrdf.org/spl#Attribute">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://spinrdf.org/spl#ConstructDefaultValues -->
+
+    <rdf:Description rdf:about="http://spinrdf.org/spl#ConstructDefaultValues">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractActor -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractActor">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractSIDComponent"/>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An Abstract actor/subject is a subject with not completly specified behavior.
+
+Such abstract behaviour can only be specified on model layers deemed as abstract. Thus abstract actors/subjects can only be implemented on abstract layers as well.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractFunctionState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractFunctionState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractState"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractLayer -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractLayer">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Layer"/>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;abstractModelElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractMessageExchange -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractMessageExchange">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractSIDComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An abstract message exchange is defined on an abstract layer.
+
+It defines a possible message exchange between two subjects. (a recommendation for a message)
+
+On an implementing layer though it is allowed to unite the two subjects and thus ignore this communication. (e.g. because in the real process a human being is doing both tasks unitedly 
+
+In contrast a standard MessageExchange would defined that two subjects (abstract or not) are not to be united.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractMultiSubject -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractMultiSubject">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractActor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractReceiveState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractReceiveState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractState"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractSIDComponent -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractSIDComponent">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An abstract SID Component is a model Component only used on model layers defined as abstract.
+
+It is used to specify a possible process or process elements that later can be used to implement others</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractSendState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractSendState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractState"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractState">
+        <rdfs:label rdf:datatype="&xsd;string">Abstract State</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;abstractModelElement"/>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+        <rdfs:comment>An abstract state is a state with no or only partly defined a action. It can only be found on an abstract layer but can be implemented.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractSubject -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractSubject">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractActor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#AbstractTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;AbstractTransition">
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ActiveProcessComponent -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ActiveProcessComponent">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#BaseLayer -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;BaseLayer">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Layer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#CommunicationActTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;CommunicationActTransition">
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;refersTo"/>
+                <owl:onClass rdf:resource="&s-scm-ont;MessageExchange"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#CommunicationRestriction -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;CommunicationRestriction">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractSIDComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Communication Restriction is a concept on an abstract layer. 
+
+A Communication Restriction defines that no communication is allowed between the defined subjects</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ExclusiveMessageExchange -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ExclusiveMessageExchange">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractSIDComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Exclusive Message Exchange is an abstract concept to be used on abstract layers
+
+An exclusive message exchange defines that a subject is not allowed to comunicate with other non-specificly designed subject/types.
+
+If an exlusive message connection is used on a subject no other normal or abstract Message Exchange is allowed (while Communication Restrictions are not necessary).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ExtensionLayer -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ExtensionLayer">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Layer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ExternalSubject -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ExternalSubject">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;InterfaceActor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ExternalSubjectGroup -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ExternalSubjectGroup">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;InterfaceActor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#FreeExplanaitionLabel -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;FreeExplanaitionLabel">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#FunctionState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;FunctionState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Standard_PASS-State"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasServiceType"/>
+                <owl:onClass rdf:resource="&s-scm-ont;ActionAlternative"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#GeneralAbstractState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;GeneralAbstractState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractState"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#GuardLayer -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;GuardLayer">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Layer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ImportedTechnicalMetaConcept -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#InterfaceActor -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;InterfaceActor">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasBehavior"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Behavior"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;references"/>
+                <owl:onClass rdf:resource="&abstract-pass-ont;PASSProcessModel"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">An external subject/actor is a subject on an &quot;normal layer&quot; that is not deemed to have an described behaviour (no SBD).
+
+They function as interfaces to other process models and automation systems</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#Layer -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;Layer">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;Subject"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;belongsTo"/>
+                <owl:onClass rdf:resource="&abstract-pass-ont;PASSProcessModel"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;MessageExchange"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;InputPool"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;Behavior"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+                <owl:someValuesFrom rdf:resource="&abstract-pass-ont;ModelView"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A Layer is an abstract concept in a process model. The layer-mechanism can be used to combine several modelled components that have been defines on different layers. 
+
+A standard process model only consist of a base layer. Each layer always contains a descriptions for subject interaction diagram (a specification of subjects and their interaction possibilities) an according to that multiple sup specification for the defined subjects, like behavior and input Pool)
+A model can include multiple layers, or refer to other models/layers defined in other models/files/places. 
+There is a hierarchy of layers inside the model. The hierarchy is important for execution but also for display. 
+The hierarchy is indirectly defined from the bottom (base layer) to layers that extend a base layer. Next a guard layers that define guards for subjects on a base layer. Beyond that but usually in a different even higher a guard layers that guard extension layers.
+
+This is different for Abstract layers - layers containing abstract (not-completely defined) specification for Interaction and behavior. 
+
+Each layer can be defined to “implement” an abstract layer – to adhere to the specifications of an abstract layer. To check/verify that indeed, a base layer implements an abstract layer a separate software/program is needed.  A mapping is needed that specifies what components of an “implementing layer” are supposed to implement what component of an abstract layer.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#MetaContent -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;MetaContent">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasKey"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&rdf;XMLLiteral"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Class to describe one key-value-pair of meta data assigned to a PASSProcessModelElement</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ModelView -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ModelView">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:comment>A Model View is an Ojbect or Instance that hold technical Information on how to graphically represent a PASS Model</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#PASSProcessModel -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;PASSProcessModel">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponent"/>
+                <owl:onClass rdf:resource="&abstract-pass-ont;Layer"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#PASSProcessModelElement -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;PASSProcessModelElement">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasModelComponentID"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;hasMetaContent"/>
+                <owl:someValuesFrom rdf:resource="&abstract-pass-ont;MetaContent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">All sub-class/instances of subclasses can be considered elements of PASS Process Models</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ReceiveState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ReceiveState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Standard_PASS-State"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasServiceType"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Receive"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#ReceiveTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;ReceiveTransition">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;CommunicationActTransition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;ReceiveActAlternative"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasSourceState"/>
+                <owl:someValuesFrom rdf:resource="&abstract-pass-ont;ReceiveState"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#SendState -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;SendState">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;Standard_PASS-State"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasServiceType"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Send"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#SendTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;SendTransition">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;CommunicationActTransition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasSourceState"/>
+                <owl:someValuesFrom rdf:resource="&abstract-pass-ont;SendState"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;SendActAlternative"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#StandardTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;StandardTransition">
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;ActionAlternative"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasSourceState"/>
+                <owl:someValuesFrom rdf:resource="&abstract-pass-ont;FunctionState"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#Standard_PASS-State -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;Standard_PASS-State">
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#StateExtension -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;StateExtension">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractState"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#StatePlaceholder -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;StatePlaceholder">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractState"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#SubjectBehaviorDescribingComponent -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;SubjectBehaviorDescribingComponent">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:comment>Group of PASS-Model components, that describe aspects of the behaviour of subjects</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#SubjectInteractionDescribingComponent -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;SubjectInteractionDescribingComponent">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#SubjectPlaceHolder -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;SubjectPlaceHolder">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractSIDComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An empty model component that may be the (empty) origin or target of a message exchange can later (in implementing layers) be substituted for any other subject 
+
+Idea if the place is supposed to be left empty</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#SuccessionTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;SuccessionTransition">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractTransition"/>
+        <rdfs:comment rdf:datatype="&xsd;string">MUST-COME-BEFORE
+
+An Abstract Transtion that denotes that before the target state of this transtion must come the origin state. But the origin state does not force one to visit the target state.
+Weaker than Trigger Transtion.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#TechnicalMetaConcept -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;TechnicalMetaConcept">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#TimeOutTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;TimeOutTransition">
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;TimeoutAlternative"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#TriggerTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;TriggerTransition">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;AbstractTransition"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A MUST-COME-BEFORE B AND
+IF A THAN B MUST COME
+
+An abstract transition Arc, that denotes that a target state must also be visited IF the origin State was executed. It cannot be avoided.
+Also the other way around.
+At the same time it denotes: bevor the target state/stategroup there must come the origin state or state group.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#UserCancelTransition -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;UserCancelTransition">
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;UserAbruptionAlternative"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#abstractModelElement -->
+
+    <owl:Class rdf:about="&abstract-pass-ont;abstractModelElement">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Abstract Process Elements are only used on abstract layers that do not specify complete behaviours</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Action -->
+
+    <owl:Class rdf:about="&s-scm-ont;Action">
+        <rdfs:label rdf:datatype="&xsd;string">Function</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Activity"/>
+        <owl:disjointWith rdf:resource="&s-scm-ont;CommunicationAct"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An internal function that is performed by a subject</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#ActionAlternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;ActionAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">Action alternative</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:allValuesFrom rdf:resource="&s-scm-ont;ActionExitCondition"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;ActionExitCondition"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&s-scm-ont;CommActAlternative"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#ActionExitCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;ActionExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">Normal exit condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;ExitCondition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Activity -->
+
+    <owl:Class rdf:about="&s-scm-ont;Activity">
+        <rdfs:label rdf:datatype="&xsd;string">Action</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;Action"/>
+                    <rdf:Description rdf:about="&s-scm-ont;CommunicationAct"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;TechnicalMetaConcept"/>
+        <rdfs:comment rdf:datatype="&xsd;string">In a state a certain type of action is defined. We distinguish between internal function and communication acts (send or receive)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Alternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;Alternative">
+        <rdfs:label rdf:datatype="&xsd;string">Alternative</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;ActionAlternative"/>
+                    <rdf:Description rdf:about="&s-scm-ont;CommActAlternative"/>
+                    <rdf:Description rdf:about="&s-scm-ont;TimeoutAlternative"/>
+                    <rdf:Description rdf:about="&s-scm-ont;UserAbruptionAlternative"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;TechnicalMetaConcept"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasExitEdge"/>
+                <owl:onClass rdf:resource="&s-scm-ont;TransitionEdge"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                <owl:onClass rdf:resource="&s-scm-ont;ExitCondition"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">States may have one or more alternatives that define a certain outcome of an activitiy. Macro state have at most one alternative and then only one outgoing edge.
+
+In diagrams these alternatives are usually specified by the outgoing edges</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Behavior -->
+
+    <owl:Class rdf:about="&s-scm-ont;Behavior">
+        <rdfs:label rdf:datatype="&xsd;string">Behavior</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;PASSProcessModelElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;references"/>
+                <owl:onClass rdf:resource="&abstract-pass-ont;PASSProcessModel"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&s-scm-ont;hasState"/>
+                                <owl:onClass rdf:resource="&s-scm-ont;State"/>
+                                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&s-scm-ont;hasState"/>
+                                <owl:onClass rdf:resource="&s-scm-ont;InitialState"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasState"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;InitialState"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasEdge"/>
+                <owl:onClass rdf:resource="&s-scm-ont;TransitionEdge"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">The process behavior that is assigned to an actor and defined by its states and state transitions</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#CommActAlternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;CommActAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">Comm act alternative</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;ReceiveActAlternative"/>
+                    <rdf:Description rdf:about="&s-scm-ont;SendActAlternative"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#CommMode -->
+
+    <owl:Class rdf:about="&s-scm-ont;CommMode">
+        <rdfs:label rdf:datatype="&xsd;string">Comm mode</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;ASYNC"/>
+                    <rdf:Description rdf:about="&s-scm-ont;SYNC"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;TechnicalMetaConcept"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The class of Communication modes, which is either sync or async</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#CommunicationAct -->
+
+    <owl:Class rdf:about="&s-scm-ont;CommunicationAct">
+        <rdfs:label rdf:datatype="&xsd;string">Communication act</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;Receive"/>
+                    <rdf:Description rdf:about="&s-scm-ont;Send"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Activity"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A communication act (send or receive)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#EndState -->
+
+    <owl:Class rdf:about="&s-scm-ont;EndState">
+        <rdfs:label rdf:datatype="&xsd;string">Final state</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An end state of a behavior. A subject behavior may have one or more end states</rdfs:comment>
+        <spin:constraint>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;Ask"/>
+                <sp:where>
+                    <rdf:Description/>
+                </sp:where>
+            </rdf:Description>
+        </spin:constraint>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#ExitCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;ExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">Exit condition</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;ActionExitCondition"/>
+                    <rdf:Description rdf:about="&s-scm-ont;MessageExchangeCondition"/>
+                    <rdf:Description rdf:about="&s-scm-ont;TimeOutExitCondition"/>
+                    <rdf:Description rdf:about="&s-scm-ont;UserAbruptionExitCondition"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;TechnicalMetaConcept"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The class of exit conditions</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Group -->
+
+    <owl:Class rdf:about="&s-scm-ont;Group">
+        <rdfs:label rdf:datatype="&xsd;string">Group</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Subject"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasGroupMember"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Subject"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A group is an acting element that is assigned to a behavior. A group has one or more group members. 
+
+In classic S-BPM this was considered a &quot;Multi-Subject&quot;
+
+On persepective of the model, a Group is described exactly like a standard subject.
+
+Only sending transitions of Messages with Groups-As receivers behave differently</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#GroupState -->
+
+    <owl:Class rdf:about="&s-scm-ont;GroupState">
+        <rdfs:label rdf:datatype="&xsd;string">Group state</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+        <owl:disjointWith rdf:resource="&s-scm-ont;MacroState"/>
+        <owl:disjointWith rdf:resource="&s-scm-ont;SubjectState"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#InitialState -->
+
+    <owl:Class rdf:about="&s-scm-ont;InitialState">
+        <rdfs:label rdf:datatype="&xsd;string">Initial state</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The inital state of a behavior</rdfs:comment>
+        <spin:constraint>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;Ask"/>
+                <sp:where>
+                    <rdf:Description/>
+                </sp:where>
+            </rdf:Description>
+        </spin:constraint>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#InputPool -->
+
+    <owl:Class rdf:about="&s-scm-ont;InputPool">
+        <rdfs:label rdf:datatype="&xsd;string">Input pool</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasSenderTypeConstraint"/>
+                <owl:onClass rdf:resource="&s-scm-ont;SenderTypeConstraint"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasSenderConstraint"/>
+                <owl:onClass rdf:resource="&s-scm-ont;SenderConstraint"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasMessageTypeConstraint"/>
+                <owl:onClass rdf:resource="&s-scm-ont;MessageTypeConstraint"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasCapacity"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;positiveInteger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">This model component describes the restriction for a message input pool that subjects will have when executing the process model.
+
+By default the input pool has unlimited storage capacity for all messages defined to be received in the process.
+
+Also messages are stored and archived depending on their time of arrival. 
+
+The input pool model element should contain all the rules defined in the model when and how to handle messages.
+
+E.g. if limited capacity for a message etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#MacroState -->
+
+    <owl:Class rdf:about="&s-scm-ont;MacroState">
+        <rdfs:label rdf:datatype="&xsd;string">Macro state</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasAlternative"/>
+                        <owl:allValuesFrom rdf:resource="&s-scm-ont;ActionAlternative"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasAlternative"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;Alternative"/>
+                        <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&s-scm-ont;SubjectState"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A state that is replaced by a certain behavior during process execution.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#MessageExchange -->
+
+    <owl:Class rdf:about="&s-scm-ont;MessageExchange">
+        <rdfs:label rdf:datatype="&xsd;string">Message Exchange</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasMessageType"/>
+                <owl:onClass rdf:resource="&s-scm-ont;MessageType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;receiver"/>
+                <owl:onClass rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;sender"/>
+                <owl:onClass rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A message is exchanged between subjects via their input pools</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#MessageExchangeCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;MessageExchangeCondition">
+        <rdfs:label rdf:datatype="&xsd;string">Message exchange condition</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;ReceiveExitCondition"/>
+                    <rdf:Description rdf:about="&s-scm-ont;SendExitCondition"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;ExitCondition"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExpectedMessagesDescription"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasMessageTypeConstraint"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;MessageType"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">defines a set of messages to be sent or received for messages of a certain type in a certain state</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#MessagePoolConstraint -->
+
+    <owl:Class rdf:about="&s-scm-ont;MessagePoolConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">Input Pool Restriction</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Size restriction of an input pool regarding messages</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#MessageType -->
+
+    <owl:Class rdf:about="&s-scm-ont;MessageType">
+        <rdfs:label rdf:datatype="&xsd;string">Message type</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The type of a message</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#MessageTypeConstraint -->
+
+    <owl:Class rdf:about="&s-scm-ont;MessageTypeConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">MessageType Constraint</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;MessagePoolConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasCapacity"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;positiveInteger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;regarding"/>
+                <owl:onClass rdf:resource="&s-scm-ont;MessageType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A size restrictions regarding the certain types of messages</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Receive -->
+
+    <owl:Class rdf:about="&s-scm-ont;Receive">
+        <rdfs:label rdf:datatype="&xsd;string">Receive</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;CommunicationAct"/>
+        <owl:disjointWith rdf:resource="&s-scm-ont;Send"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A receive communication act</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#ReceiveActAlternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;ReceiveActAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">Receive act alternative</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;CommActAlternative"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:allValuesFrom rdf:resource="&s-scm-ont;ReceiveExitCondition"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;ReceiveExitCondition"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&s-scm-ont;SendActAlternative"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An alternative of a receive state</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#ReceiveExitCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;ReceiveExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">Receive exit condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;MessageExchangeCondition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasCommMode"/>
+                <owl:onClass rdf:resource="&s-scm-ont;CommMode"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&s-scm-ont;SendExitCondition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Role -->
+
+    <owl:Class rdf:about="&s-scm-ont;Role">
+        <rdfs:label rdf:datatype="&xsd;string">Role</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectInteractionDescribingComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasBehavior"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Behavior"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A role in a process model.
+
+Roles are used to map Actors/subjects in the model with external ID-carriers/excutors (e.g. Users or Systems) upon execution.
+
+User/User Grou -has a-&gt; Role 
+ Actor/Subject -is-assigned--&gt; Role
+
+This inbetween step allows flexibility when assigning.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Send -->
+
+    <owl:Class rdf:about="&s-scm-ont;Send">
+        <rdfs:label rdf:datatype="&xsd;string">Send</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;CommunicationAct"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A send communication act</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#SendActAlternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;SendActAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">Send act alternative</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;CommActAlternative"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:allValuesFrom rdf:resource="&s-scm-ont;SendExitCondition"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;SendExitCondition"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">An alternative af a send state</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#SendExitCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;SendExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">Send exit condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;MessageExchangeCondition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#SenderConstraint -->
+
+    <owl:Class rdf:about="&s-scm-ont;SenderConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">Sender constraint</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;MessagePoolConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasCapacity"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;positiveInteger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;regarding"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Subject"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A size restrictions regarding a certain sender subject</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#SenderTypeConstraint -->
+
+    <owl:Class rdf:about="&s-scm-ont;SenderTypeConstraint">
+        <rdfs:label rdf:datatype="&xsd;string">has sender type constraint</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;MessagePoolConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasCapacity"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;positiveInteger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;regarding"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Subject"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;regarding"/>
+                <owl:onClass rdf:resource="&s-scm-ont;MessageType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">an input pool constraint regarding both sender and message type</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#StandardSubject -->
+
+    <owl:Class rdf:about="&s-scm-ont;StandardSubject">
+        <rdfs:label rdf:datatype="&xsd;string">Subject</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Subject"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A subject is an acting element within a process. Subjects execute and synchronize their activities by exchanging messages.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#State -->
+
+    <owl:Class rdf:about="&s-scm-ont;State">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectBehaviorDescribingComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasServiceType"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Activity"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasOutgoingEdge"/>
+                <owl:someValuesFrom rdf:resource="&s-scm-ont;TransitionEdge"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasAlternative"/>
+                        <owl:someValuesFrom rdf:resource="&s-scm-ont;Alternative"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasAlternative"/>
+                        <owl:someValuesFrom rdf:resource="&s-scm-ont;UserAbruptionAlternative"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasAlternative"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;TimeoutAlternative"/>
+                        <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&s-scm-ont;TransitionEdge"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Subject -->
+
+    <owl:Class rdf:about="&s-scm-ont;Subject">
+        <rdfs:label rdf:datatype="&xsd;string">Actor</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&s-scm-ont;Group"/>
+                    <rdf:Description rdf:about="&s-scm-ont;StandardSubject"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ActiveProcessComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasInputpool"/>
+                <owl:onClass rdf:resource="&s-scm-ont;InputPool"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasBehavior"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Behavior"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">An actor is an acting participant of a process that is assigned to a role that executes a behavior. An Actor is either a subject (individuum) or a group of subjects.
+
+In classic S-BPM this was refered to as simply as subject, while groups where referred to as Multi-Subject</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#SubjectState -->
+
+    <owl:Class rdf:about="&s-scm-ont;SubjectState">
+        <rdfs:label rdf:datatype="&xsd;string">Subject state</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;State"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#TimeOutExitCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;TimeOutExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">Time out exit condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;ExitCondition"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasTimeoutValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;positiveInteger"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">a condition that is deemed &apos;true&apos; and thus the according edge is gone, if: a surrounding execution system has deemed the time since entering the state and starting with the execution of the according action as too long (predefined by the outgoing edge)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#TimeoutAlternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;TimeoutAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">Timeout alternative</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:allValuesFrom rdf:resource="&s-scm-ont;TimeOutExitCondition"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&s-scm-ont;hasExitCondition"/>
+                        <owl:onClass rdf:resource="&s-scm-ont;TimeOutExitCondition"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#TransitionEdge -->
+
+    <owl:Class rdf:about="&s-scm-ont;TransitionEdge">
+        <rdfs:label rdf:datatype="&xsd;string">Transition Edge</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;SubjectBehaviorDescribingComponent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasSourceState"/>
+                <owl:onClass rdf:resource="&s-scm-ont;State"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&abstract-pass-ont;specifiesAlternative"/>
+                <owl:onClass rdf:resource="&s-scm-ont;Alternative"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&s-scm-ont;hasTargetState"/>
+                <owl:onClass rdf:resource="&s-scm-ont;State"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">An edge defines the transition between two states. A transition is true if it satisfies a certain exit condition.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#UserAbruptionAlternative -->
+
+    <owl:Class rdf:about="&s-scm-ont;UserAbruptionAlternative">
+        <rdfs:label rdf:datatype="&xsd;string">User abruption alternative</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;Alternative"/>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#UserAbruptionExitCondition -->
+
+    <owl:Class rdf:about="&s-scm-ont;UserAbruptionExitCondition">
+        <rdfs:label rdf:datatype="&xsd;string">User abruption exit condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&s-scm-ont;ExitCondition"/>
+        <rdfs:comment rdf:datatype="&xsd;string">a condition that is deemed &apos;true&apos; and thus the according edge is gone, if a surrounding execution system sets a flag (usually triggered by user-interaction). This happens unrleated/unrestricted by ohter exit conditions.
+
+Standard for receiving-states/states with receiving actions where the other exit conditions (the existance of an according message in the input pool) has not been met yet.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#List -->
+
+    <rdf:Description rdf:about="&rdf;List">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#Property -->
+
+    <rdf:Description rdf:about="&rdf;Property">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#Class -->
+
+    <rdf:Description rdf:about="&rdfs;Class">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#Resource -->
+
+    <rdf:Description rdf:about="&rdfs;Resource">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Ontology -->
+
+    <rdf:Description rdf:about="&owl;Ontology">
+        <rdfs:subClassOf rdf:resource="&abstract-pass-ont;ImportedTechnicalMetaConcept"/>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#DefaultSendAction -->
+
+    <owl:NamedIndividual rdf:about="&abstract-pass-ont;DefaultSendAction">
+        <rdf:type rdf:resource="&s-scm-ont;Send"/>
+        <rdfs:comment>The standard/default empty send action.
+
+This implies that the choice of next state is deteminded by the execution sytem (aka. the user) depending on the choices defined by all outgoing edges of that state</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#MyProcessModel -->
+
+    <owl:NamedIndividual rdf:about="&abstract-pass-ont;MyProcessModel">
+        <rdf:type rdf:resource="&abstract-pass-ont;PASSProcessModel"/>
+        <abstract-pass-ont:hasModelComponentID rdf:datatype="&xsd;string">PM001</abstract-pass-ont:hasModelComponentID>
+        <abstract-pass-ont:hasModelComponent rdf:resource="&abstract-pass-ont;MyProcessStandardLayer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#MyProcessStandardLayer -->
+
+    <owl:NamedIndividual rdf:about="&abstract-pass-ont;MyProcessStandardLayer">
+        <rdf:type rdf:resource="&abstract-pass-ont;Layer"/>
+        <abstract-pass-ont:hasModelComponentID rdf:datatype="&xsd;string">Layer001</abstract-pass-ont:hasModelComponentID>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#StandardFunctionAction -->
+
+    <owl:NamedIndividual rdf:about="&abstract-pass-ont;StandardFunctionAction">
+        <rdf:type rdf:resource="&s-scm-ont;Action"/>
+        <rdfs:comment>The Standard/Default Empty function Action.
+
+This implies that the choice of next state is deteminded by the execution sytem (aka. the user) depending on the choices defined by all outgoing edges of that state</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.imi.kit.edu/abstract-pass-ont#StandardReceiveAction -->
+
+    <owl:NamedIndividual rdf:about="&abstract-pass-ont;StandardReceiveAction">
+        <rdf:type rdf:resource="&s-scm-ont;Receive"/>
+        <rdfs:comment>The standard/default empty receive action.
+
+This implies that the choice of next state is deteminded by the execution sytem (aka. the user) depending on the choices defined by all outgoing edges of that state. 
+
+A progression during execution is only possible if an according message is available in the Input Pool of the specified subject/actor</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#ASYNC -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;ASYNC">
+        <rdf:type rdf:resource="&s-scm-ont;CommMode"/>
+        <rdfs:label rdf:datatype="&xsd;string">ASYNC</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Ask_1 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Ask_1">
+        <rdf:type rdf:resource="&sp;Ask"/>
+        <rdfs:label rdf:datatype="&xsd;string">Ask 1</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Do_BT -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Do_BT">
+        <rdf:type rdf:resource="&s-scm-ont;State"/>
+        <rdfs:label rdf:datatype="&xsd;string">Do BT</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasOutgoingEdge rdf:resource="&s-scm-ont;Edge_5"/>
+        <nextState rdf:resource="&s-scm-ont;End"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_1 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_1">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge 1</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasSourceState rdf:resource="&s-scm-ont;Fill_out_request"/>
+        <hasTargetState rdf:resource="&s-scm-ont;Send_request"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_2 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_2">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge 2</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasTargetState rdf:resource="&s-scm-ont;Receive_answer"/>
+        <hasSourceState rdf:resource="&s-scm-ont;Send_request"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_3 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_3">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge 3</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasTargetState rdf:resource="&s-scm-ont;Do_BT"/>
+        <hasSourceState rdf:resource="&s-scm-ont;Receive_answer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_4 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_4">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge 4</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasTargetState rdf:resource="&s-scm-ont;End"/>
+        <hasSourceState rdf:resource="&s-scm-ont;Receive_answer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_5 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_5">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge 5</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasSourceState rdf:resource="&s-scm-ont;Do_BT"/>
+        <hasTargetState rdf:resource="&s-scm-ont;End"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_Incoming_InitialState -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_Incoming_InitialState">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge Incoming Initial state</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">test edge for structural soundness violation</rdfs:comment>
+        <hasTargetState rdf:resource="&s-scm-ont;InitialState_With_IncomingEdge"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_Lost -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_Lost">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge Lost</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasSourceState rdf:resource="&s-scm-ont;Fill_out_request"/>
+        <hasTargetState rdf:resource="&s-scm-ont;LostState"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Edge_Lost_2 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Edge_Lost_2">
+        <rdf:type rdf:resource="&s-scm-ont;TransitionEdge"/>
+        <rdfs:label rdf:datatype="&xsd;string">Edge Lost 2</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasSourceState rdf:resource="&s-scm-ont;LostState"/>
+        <hasTargetState rdf:resource="&s-scm-ont;LostState_2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Employee -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Employee">
+        <rdf:type rdf:resource="&s-scm-ont;StandardSubject"/>
+        <rdfs:label rdf:datatype="&xsd;string">Employee</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasBehavior rdf:resource="&s-scm-ont;Employee_Behavior"/>
+        <hasInputpool rdf:resource="&s-scm-ont;Employee_IP"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Employee_Behavior -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Employee_Behavior">
+        <rdf:type rdf:resource="&s-scm-ont;Behavior"/>
+        <rdfs:label rdf:datatype="&xsd;string">Employee Behavior</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasState rdf:resource="&s-scm-ont;Do_BT"/>
+        <hasEdge rdf:resource="&s-scm-ont;Edge_1"/>
+        <hasEdge rdf:resource="&s-scm-ont;Edge_2"/>
+        <hasEdge rdf:resource="&s-scm-ont;Edge_3"/>
+        <hasEdge rdf:resource="&s-scm-ont;Edge_4"/>
+        <hasEdge rdf:resource="&s-scm-ont;Edge_5"/>
+        <hasState rdf:resource="&s-scm-ont;End"/>
+        <hasState rdf:resource="&s-scm-ont;Fill_out_request"/>
+        <hasState rdf:resource="&s-scm-ont;Receive_answer"/>
+        <hasState rdf:resource="&s-scm-ont;Send_request"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Employee_IP -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Employee_IP">
+        <rdf:type rdf:resource="&s-scm-ont;InputPool"/>
+        <rdfs:label rdf:datatype="&xsd;string">Employee IP</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasCapacity rdf:datatype="&xsd;positiveInteger">10</hasCapacity>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#End -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;End">
+        <rdf:type rdf:resource="&s-scm-ont;EndState"/>
+        <rdfs:label rdf:datatype="&xsd;string">End</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#EndState_1 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;EndState_1">
+        <rdf:type rdf:resource="&s-scm-ont;EndState"/>
+        <rdfs:label rdf:datatype="&xsd;string">End state 1</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Fill_out_request -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Fill_out_request">
+        <rdf:type rdf:resource="&s-scm-ont;InitialState"/>
+        <rdf:type rdf:resource="&s-scm-ont;State"/>
+        <rdfs:label rdf:datatype="&xsd;string">Fill out request</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasServiceType rdf:resource="&abstract-pass-ont;StandardFunctionAction"/>
+        <hasOutgoingEdge rdf:resource="&s-scm-ont;Edge_1"/>
+        <nextState rdf:resource="&s-scm-ont;Send_request"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#InitialState_With_IncomingEdge -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;InitialState_With_IncomingEdge">
+        <rdf:type rdf:resource="&s-scm-ont;InitialState"/>
+        <rdfs:label rdf:datatype="&xsd;string">Initial state With Incoming edge</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">a test start state with an incoming edge to check structural soundness violation</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#LostState -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;LostState">
+        <rdf:type rdf:resource="&s-scm-ont;State"/>
+        <rdfs:label rdf:datatype="&xsd;string">Lost state</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">A demo state that has no path to an End State</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#LostState_2 -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;LostState_2">
+        <rdf:type rdf:resource="&s-scm-ont;State"/>
+        <rdfs:label rdf:datatype="&xsd;string">Lost state 2</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">a lost state for demo</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Receive_answer -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Receive_answer">
+        <rdf:type rdf:resource="&s-scm-ont;State"/>
+        <rdfs:label rdf:datatype="&xsd;string">Receive answer</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <nextState rdf:resource="&s-scm-ont;Do_BT"/>
+        <hasOutgoingEdge rdf:resource="&s-scm-ont;Edge_3"/>
+        <hasOutgoingEdge rdf:resource="&s-scm-ont;Edge_4"/>
+        <nextState rdf:resource="&s-scm-ont;End"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#SYNC -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;SYNC">
+        <rdf:type rdf:resource="&s-scm-ont;CommMode"/>
+        <rdfs:label rdf:datatype="&xsd;string">SYNC</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#Send_request -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;Send_request">
+        <rdf:type rdf:resource="&s-scm-ont;State"/>
+        <rdfs:label rdf:datatype="&xsd;string">Send request</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
+        <hasOutgoingEdge rdf:resource="&s-scm-ont;Edge_2"/>
+        <nextState rdf:resource="&s-scm-ont;Receive_answer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#State -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;State">
+        <spin:constructor>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;Construct"/>
+                <sp:where>
+                    <rdf:Description/>
+                </sp:where>
+                <sp:templates>
+                    <rdf:Description/>
+                </sp:templates>
+            </rdf:Description>
+        </spin:constructor>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#TESTTHING -->
+
+    <owl:Thing rdf:about="&s-scm-ont;TESTTHING">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label rdf:datatype="&xsd;string">TESTTHING</rdfs:label>
+        <hasCapacity rdf:datatype="&xsd;positiveInteger">1</hasCapacity>
+        <rdfs:comment rdf:datatype="&xsd;string">TEST</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasSourceState -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;hasSourceState"/>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#hasTargetState -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;hasTargetState"/>
+    
+
+
+    <!-- http://www.purl.org/s-scm-ont#nextState -->
+
+    <owl:NamedIndividual rdf:about="&s-scm-ont;nextState"/>
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#type -->
+
+    <owl:NamedIndividual rdf:about="&rdf;type"/>
+    <rdf:Description>
+        <sp:object rdf:resource="&s-scm-ont;EndState"/>
+        <sp:predicate rdf:resource="&rdf;type"/>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;TriplePath"/>
+        <sp:subject rdf:resource="&spin;_this"/>
+        <sp:object>
+            <rdf:Description/>
+        </sp:object>
+        <sp:path>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;ModPath"/>
+                <sp:subPath rdf:resource="&s-scm-ont;nextState"/>
+            </rdf:Description>
+        </sp:path>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:predicate rdf:resource="&s-scm-ont;hasTargetState"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;Optional"/>
+        <sp:elements>
+            <rdf:Description/>
+        </sp:elements>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:object rdf:resource="&spin;_this"/>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;lt"/>
+        <sp:arg1>
+            <rdf:Description/>
+        </sp:arg1>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:predicate rdf:resource="&s-scm-ont;hasTargetState"/>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:predicate rdf:resource="&s-scm-ont;hasSourceState"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;Filter"/>
+        <sp:expression>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;not"/>
+                <sp:arg1>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&sp;bound"/>
+                        <sp:arg1>
+                            <rdf:Description/>
+                        </sp:arg1>
+                    </rdf:Description>
+                </sp:arg1>
+            </rdf:Description>
+        </sp:expression>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:subject rdf:resource="&spin;_this"/>
+        <sp:predicate rdf:resource="&s-scm-ont;nextState"/>
+        <sp:object>
+            <rdf:Description/>
+        </sp:object>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;Filter"/>
+        <sp:expression>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;not"/>
+                <sp:arg1>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&sp;bound"/>
+                        <sp:arg1>
+                            <rdf:Description/>
+                        </sp:arg1>
+                    </rdf:Description>
+                </sp:arg1>
+            </rdf:Description>
+        </sp:expression>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;SubQuery"/>
+        <sp:query>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;Select"/>
+                <sp:where>
+                    <rdf:Description/>
+                </sp:where>
+                <sp:having>
+                    <rdf:Description/>
+                </sp:having>
+                <sp:resultVariables>
+                    <rdf:Description/>
+                </sp:resultVariables>
+            </rdf:Description>
+        </sp:query>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:object rdf:resource="&s-scm-ont;State"/>
+        <sp:predicate rdf:resource="&rdf;type"/>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:object>
+            <rdf:Description/>
+        </sp:object>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:expression>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;Count"/>
+                <sp:expression>
+                    <rdf:Description/>
+                </sp:expression>
+            </rdf:Description>
+        </sp:expression>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:subject rdf:resource="&spin;_this"/>
+        <sp:object rdf:resource="&s-scm-ont;EndState"/>
+        <sp:predicate rdf:resource="&rdf;type"/>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:object rdf:resource="&spin;_this"/>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&sp;Optional"/>
+        <sp:elements>
+            <rdf:Description/>
+        </sp:elements>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:object rdf:resource="&s-scm-ont;Edge"/>
+        <sp:predicate rdf:resource="&rdf;type"/>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    <rdf:Description>
+        <sp:object rdf:resource="&s-scm-ont;Edge"/>
+        <sp:predicate rdf:resource="&rdf;type"/>
+        <sp:subject>
+            <rdf:Description/>
+        </sp:subject>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="&s-scm-ont;nextState">
+        <rdfs:label rdf:datatype="&xsd;string">next state</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">The subsequent state of a state</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description rdf:about="&s-scm-ont;State">
+        <rdfs:label rdf:datatype="&xsd;string">State</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">A state is part of a behavior and is assigned to a certain activity type. A subject can be in only one state at a time. There are initial states, final states, subject states, and group states. A behavior diagram can have only one initial state but one or more end states. A state has further a specific type of action (send, receive, function).</rdfs:comment>
+        <spin:constraint>
+            <rdf:Description>
+                <rdf:type rdf:resource="&sp;Ask"/>
+                <sp:where>
+                    <rdf:Description/>
+                </sp:where>
+            </rdf:Description>
+        </spin:constraint>
+    </rdf:Description>
+    <rdf:Description rdf:about="&s-scm-ont;hasSourceState">
+        <rdfs:label rdf:datatype="&xsd;string">has source state</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">The source state of an edge</rdfs:comment>
+    </rdf:Description>
+    <rdf:Description rdf:about="&s-scm-ont;hasTargetState">
+        <rdfs:label rdf:datatype="&xsd;string">has target state</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">The target state of an edge</rdfs:comment>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+
