@@ -1,0 +1,14 @@
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.Data.dll
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.Transport.dll
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\protobuf-net.dll
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\RabbitMQ.Client.dll
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.Data.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.Transport.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\protobuf-net.xml
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\RabbitMQ.Client.xml
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\obj\Debug\Arges.KinectRemote.TestConsole.csprojResolveAssemblyReference.cache
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.TestConsole.exe.config
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.TestConsole.exe
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\bin\Debug\Arges.KinectRemote.TestConsole.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\obj\Debug\Arges.KinectRemote.TestConsole.exe
+D:\Projekte\Kinect\Arges.KinectRemote.TestConsole\obj\Debug\Arges.KinectRemote.TestConsole.pdb
