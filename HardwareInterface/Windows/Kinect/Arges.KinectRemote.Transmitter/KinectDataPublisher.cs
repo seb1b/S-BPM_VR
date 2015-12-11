@@ -126,15 +126,15 @@ namespace Arges.KinectRemote.Transmitter
             }
             if (body.HandLeftState == KinectHandState.Closed)
             {
-                gestures.Add(body.bodyPosition.getLeftHandPosition().Magnitude + ":LeftHandClosed");
+                gestures.Add(body.bodyPosition.getLeftHandPosition().ToString() + ":LeftHandClosed");
             }
             if (body.HandRightState == KinectHandState.Closed)
             {
-                gestures.Add(body.bodyPosition.getRightHandPosition().Magnitude + ":RightHandClosed");
+                gestures.Add(body.bodyPosition.getRightHandPosition().ToString() + ":RightHandClosed");
             }
             if (gestures.Count == 0)
             {
-                gestures.Add(body.bodyPosition.getHeadPosition().Magnitude + ":None");
+                gestures.Add(body.bodyPosition.getHeadPosition().ToString() + ":None");
             }
             return gestures;
         }
