@@ -1,3 +1,9 @@
+Das Projekt das im folgenden beschrieben ist, ist das auf dem ich aufbaue.
+Um das senden zu starten muss man den Transmitter ausführen und man kann die Daten mit TestConsole empfangen.
+
+
+
+
 # Kinect 2 Remote  1.1
 
 ## Introduction
