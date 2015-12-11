@@ -15,7 +15,6 @@ class SampleListener(Leap.Listener):
     # 10: Leap1, 11: Leap2
     # 20: Myo1, 21: Myo2
     # 30: Kinect1, 31: Kinect2
-    # 40: Tablet1
 
     #connection init 
     def on_init(self, controller):
