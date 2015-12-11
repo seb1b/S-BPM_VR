@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene name_suffix="0" base_name="temp_view" name_space="Scene">
+  <Objects>
+    <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
+      <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-1.9 1.4 -3" at="-1.89395 1.3903 -3.04867" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="0" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
+          <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
+        </Object>
+      </Object>
+    </Object>
+  </Objects>
+  <Rendering deferred_rendering="0" frustum_culling="1" occlusion_culling="0" ssao="0" ssao_kernel="4" ssao_noise="4" ssao_radius="0.02" two_sided="1"/>
+  <Scripts>
+    <Script name_suffix="0" base_name="click" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	print 'clicked'
+	clicked_obj = dev.getIntersected()
+	if not clicked_obj: return
+	
+	# if message or subject are clicked, drag 
+
+	if clicked_obj.hasTag('menu_subject') or clicked_obj.hasTag('menu_message'):
+		#print clicked_obj
+		obj = clicked_obj.duplicate()
+		obj.setPickable(True)
+		obj.makeUnique()
+		#obj.setRandomColors()
+		if clicked_obj.hasTag('menu_subject'):
+			obj.setColors(VR.view_colors['subject'])
+		else:
+			obj.setColors(VR.view_colors['message'])
+		obj.setMaterial(VR.Material('sample material'))
+		obj.addTag('subject')
+		dev.drag(obj)
+	elif clicked_obj.hasTag('subject') or clicked_obj.hasTag('message'):
+		dev.drag(clicked_obj)
+
+</core>
+      <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="2" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="handler" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	if not hasattr(VR, "view_temp_idx"):
+		VR.view_temp_idx = 0
+	VR.view_temp_idx = VR.view_temp_idx + 0.05
+	print "calling move_cursor"
+	VR.move_cursor(0, [VR.view_temp_idx, 0, -3], 0)
+</core>
+      <trig type="on_device" dev="mouse" state="Pressed" param="50" key="2" name_suffix="0" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="init" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	# setup root
+	VR.view_root = VR.getRoot().find('Default')
+	VR.view_root.setFrom(-1.9, 1.4, -3)
+	
+	# set colors
+	VR.view_colors = {}
+	VR.view_colors['menu_subject'] = [[0.56, 0.78, 0.95]]
+	VR.view_colors['subject'] = [[0.56, 0.78, 0.95]]
+	VR.view_colors['menu_message'] = [[0.95, 0.85, 0.56]]
+	VR.view_colors['message'] = [[0.95, 0.85, 0.56]]
+	
+	# setup menu bar
+	# add subject
+	VR.view_subject = VR.Geometry('cube')
+	VR.view_subject.setPrimitive('Box 0.5 0.5 0.3 1 1 1')
+	VR.view_subject.setMaterial(VR.Material('sample material'))
+	VR.view_subject.setFrom(-1.8, 0, -3)
+	VR.view_subject.setPickable(False)
+	VR.view_subject.addTag('menu_subject')
+	VR.view_root.addChild(VR.view_subject)
+	# add message
+	VR.view_message = VR.Geometry('cube')
+	VR.view_message.setPrimitive('Box 0.4 0.2 0.01 1 1 1')
+	VR.view_message.setMaterial(VR.Material('sample material'))
+	VR.view_message.setFrom(-2, -1, -3)
+	VR.view_message.setPickable(False)
+	VR.view_message.addTag('menu_message')
+	VR.view_root.addChild(VR.view_message)
+		
+</core>
+      <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="1" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="move_cursor" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	import math
+	
+	max_users = 5
+	colors = [1]
+
+	assert isinstance(is_left, int)
+	is_left = bool(is_left)
+	assert isinstance(user_id, int)
+
+	if not hasattr(VR, 'view_user_cursors'):
+		VR.view_user_cursors = {}
+	if not hasattr(VR, 'view_user_colors'):
+		VR.view_user_colors = {}
+	if not hasattr(VR, 'view_user_positions'):
+		VR.view_user_positions = {}
+
+	if user_id not in VR.view_user_cursors:
+		assert len(VR.view_user_cursors) &lt; max_users
+		cursor_left = VR.Geometry('sphere')
+		cursor_left.setPrimitive('Sphere 0.05 5')
+		cursor_left.setMaterial(VR.Material('sample material'))
+		cursor_left.setFrom(-1, 0, -3)
+		cursor_left.addTag(str([user_id, True]))
+		VR.view_root.addChild(cursor_left)
+		cursor_right = VR.Geometry('sphere')
+		cursor_right.setPrimitive('Sphere 0.05 5')
+		cursor_right.setMaterial(VR.Material('sample material'))
+		cursor_right.setFrom(1, 0, -3)
+		cursor_right.addTag(str([user_id, False]))
+		VR.view_root.addChild(cursor_right)
+		VR.view_user_cursors[user_id] = {}
+		VR.view_user_cursors[user_id][True] = cursor_left
+		VR.view_user_cursors[user_id][False] = cursor_right
+		VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
+		VR.view_user_positions[user_id] = {}
+		VR.view_user_positions[user_id][True] = [0, 0, 0]
+		VR.view_user_positions[user_id][False] = [0, 0, 0]
+		print 'init new user done'
+
+	delta = [p_new - p_old for p_new, p_old in zip(pos_ws, VR.view_user_positions[user_id][is_left])]
+	length = math.sqrt(sum(d * d for d in delta))
+	if length &gt; 0:
+		direction = [d / length for d in delta]
+	else:
+		direction = [0, 1, 0]
+
+	cursor = next((c for c in VR.view_root.getChildren() if c.hasTag(str([user_id, is_left]))), None)
+	assert cursor is not None
+	path = VR.Path()
+	path.set(VR.view_user_positions[user_id][is_left], direction, pos_ws, direction, 2)
+	# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
+	cursor.animate(path, 2, 0, False)
+	VR.view_user_positions[user_id][is_left] = pos_ws
+	print 'done'
+</core>
+      <arg type="int" value="0" name_suffix="0" base_name="is_left" name_space="move_cursor"/>
+      <arg type="str" value="0" name_suffix="0" base_name="pos_ws" name_space="move_cursor"/>
+      <arg type="int" value="0" name_suffix="0" base_name="user_id" name_space="move_cursor"/>
+    </Script>
+  </Scripts>
+  <Sockets/>
+  <Background color="0.459739 0.459739 0.459739" format=".png" path="" type="0"/>
+  <Navigation active="Orbit"/>
+  <Materials/>
+</Scene>
