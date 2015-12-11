@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="http://www.example.org/#SupermanFilm">
+    <ns0:isOfType xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Film"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#SupermanFilm">
+    <ns0:linkedWith xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Superman"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#SupermanFilm">
+    <rdf:type rdf:resource="http://www.example.org/#Spielfilm"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#Spiderman">
+    <ns0:linkedWith xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Comicfigur"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#SpidermanFilm">
+    <ns0:isOfType xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Film"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#SpidermanFilm">
+    <ns0:linkedWith xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Spiderman"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#Superman">
+    <ns0:linkedWith xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Comicfigur"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.example.org/#Hulk">
+    <ns0:linkedWith xmlns:ns0="http://www.example.org/" rdf:resource="http://www.example.org/#Comicfigur"/>
+  </rdf:Description>
+</rdf:RDF>

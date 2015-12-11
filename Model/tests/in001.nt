@@ -1,0 +1,8 @@
+<http://www.example.org/#Spiderman> <http://www.example.org/linkedWith> <http://www.example.org/#Comicfigur> .
+<http://www.example.org/#Superman> <http://www.example.org/linkedWith> <http://www.example.org/#Comicfigur> .
+<http://www.example.org/#SpidermanFilm> <http://www.example.org/isOfType> <http://www.example.org/#Film> .
+<http://www.example.org/#SpidermanFilm> <http://www.example.org/linkedWith> <http://www.example.org/#Spiderman> .
+<http://www.example.org/#SupermanFilm> <http://www.example.org/isOfType> <http://www.example.org/#Film> .
+<http://www.example.org/#SupermanFilm> <http://www.example.org/linkedWith> <http://www.example.org/#Superman> .
+<http://www.example.org/#Hulk> <http://www.example.org/linkedWith> <http://www.example.org/#Comicfigur> .
+<http://www.example.org/#SupermanFilm> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.example.org/#Spielfilm>
