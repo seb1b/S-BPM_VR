@@ -1,0 +1,9 @@
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\obj\Debug\Arges.KinectRemote.BodyProcessor.csprojResolveAssemblyReference.cache
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\bin\Debug\Arges.KinectRemote.BodyProcessor.dll
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\bin\Debug\Arges.KinectRemote.BodyProcessor.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\bin\Debug\Arges.KinectRemote.Data.dll
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\bin\Debug\protobuf-net.dll
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\bin\Debug\Arges.KinectRemote.Data.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\bin\Debug\protobuf-net.xml
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\obj\Debug\Arges.KinectRemote.BodyProcessor.dll
+D:\Projekte\Kinect\Arges.KinectRemote.BodyProcessor\obj\Debug\Arges.KinectRemote.BodyProcessor.pdb

@@ -1,0 +1,7 @@
+D:\Projekte\Kinect\Arges.KinectRemote.Data\bin\Debug\Arges.KinectRemote.Data.dll
+D:\Projekte\Kinect\Arges.KinectRemote.Data\bin\Debug\Arges.KinectRemote.Data.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.Data\bin\Debug\protobuf-net.dll
+D:\Projekte\Kinect\Arges.KinectRemote.Data\bin\Debug\protobuf-net.xml
+D:\Projekte\Kinect\Arges.KinectRemote.Data\obj\Debug\Arges.KinectRemote.Data.dll
+D:\Projekte\Kinect\Arges.KinectRemote.Data\obj\Debug\Arges.KinectRemote.Data.pdb
+D:\Projekte\Kinect\Arges.KinectRemote.Data\obj\Debug\Arges.KinectRemote.Data.csprojResolveAssemblyReference.cache
