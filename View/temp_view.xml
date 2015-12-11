@@ -15,6 +15,7 @@
       <core>
 	import VR
 	print 'clicked'
+	if not dev.intersect(): return
 	clicked_obj = dev.getIntersected()
 	if not clicked_obj: return
 	
@@ -56,7 +57,7 @@
 	
 	# setup root
 	VR.view_root = VR.getRoot().find('Default')
-	VR.view_root.setFrom(-1.9, 1.4, -3)
+	#VR.view_root.setFrom(-1.9, 1.4, -3)
 	
 	# set colors
 	VR.view_colors = {}
