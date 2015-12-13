@@ -4,19 +4,19 @@
 import sys, thread, time, pika
 if sys.path[0] != './Leap': sys.path.insert(0, './Leap')
 import Leap
-from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
+from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture, Vector, Bone, Finger
 
 class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
-    state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
-    # userID
+    # ID
     # 10: Leap1, 11: Leap2
     # 20: Myo1, 21: Myo2
     # 30: Kinect1, 31: Kinect2
+    # 40: Tablet1
 
-    #connection init 
+    # Connection init 
     def on_init(self, controller):
         print "Initialized"
 
@@ -41,32 +41,61 @@ class SampleListener(Leap.Listener):
         # Each Frame object representing a frame contains lists of tracked entities, such as hands, fingers, and tools, as well as recognized gestures and factors describing the overall motion in the scene.
         frame = controller.frame()
 
-        # userID:currentPositionX,currentPositionY,currentPositionZ:handType:currentGesture
-        stringToSend = ""
+        # The current InteractionBox for the frame.
+        box = frame.interaction_box
 
-        userID = 10
-        currentGesture = ""
-        currentPositionX = ""
-        currentPositionY = ""
-        currentPositionZ = ""
-        handType = ""
+        # ID:current_handpalm_position_x,current_handpalm_position_y,current_handpalm_position_z:hand_type:current_gesture
+        string_to_send = ""
+
+        ID = 10
+        current_gesture = ""
+        current_handpalm_position_x = ""
+        current_handpalm_position_y = ""
+        current_handpalm_position_z = ""
+        hand_type = ""
+
+        positions_fingertips = [Vector]*5
+        distance_fingers = 0.0
+        positions_distal_phalanges = [Vector]*5
+        distance_distal_phalanges = 0.0
+
 
         # Get hands
         for hand in frame.hands:
 
-            handType = "L" if hand.is_left else "R"
+            hand_type = "L" if hand.is_left else "R"
 
-            # palm_position in mm from the Leap Motion Controller origin as a Vector
-            
-            # vector.normalized returns a normalized copy of vector.
-            # A normalized vector has the same direction as the original vector, but with a length of one.
+            # Coordinates from the Leap Motion frame of reference (millimeters) are converted to a range of [0..1] such that
+            # the minimum value of the InteractionBox maps to 0 and the maximum value of the InteractionBox maps to 1.
+            # The coordinates for normalized points outside the InteractionBox boundaries can be negative or greater than one
+            # (unless the clamp parameter is True, which is the default).
+            # normalized_point = box.normalize_point(vector, True)
 
-            # vector.is_valid returns True if all of the vector’s components are finite. If any component is NaN or infinite, then this is False.
-            # vector.distance_to(other) returns the distance between the point represented by this Vector object and a point represented by the specified Vector object.
+            # Use handpalm
+            # current_handpalm_position_x += str(hand.palm_position.x)
+            # current_handpalm_position_y += str(hand.palm_position.y)
+            # current_handpalm_position_z += str(hand.palm_position.z)
 
-            currentPositionX += str(hand.palm_position.x)
-            currentPositionY += str(hand.palm_position.y)
-            currentPositionZ += str(hand.palm_position.z)
+            # Use frontmost finger
+            current_handpalm_position_x += str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
+            current_handpalm_position_y += str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).y)
+            current_handpalm_position_z += str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)
+
+            fingers = hand.fingers
+            for finger in fingers:
+                if finger.is_valid:
+                    positions_fingertips[finger.type] = finger.joint_position(Finger.JOINT_TIP)
+                    positions_distal_phalanges[finger.type] = finger.bone(Bone.TYPE_DISTAL).next_joint
+
+            # Leave pinky and ring finger out
+            for i in range(1, Finger.TYPE_MIDDLE + 1):
+                distance_fingers += positions_fingertips[0].distance_to(positions_fingertips[i])
+                distance_distal_phalanges += positions_distal_phalanges[0].distance_to(positions_distal_phalanges[i])
+
+            # An open hand has a grab strength of zero. As a hand closes into a fist, its grab strength increases to one.
+            # if hand.grab_strength >= 0.8 and 
+            if distance_fingers <= 100 and distance_distal_phalanges <= 100:
+                current_gesture = "grab"       
 
         # Get gestures
         for gesture in frame.gestures():
@@ -77,36 +106,23 @@ class SampleListener(Leap.Listener):
                     clockwiseness = "clockwise"
                 else:
                     clockwiseness = "counterclockwise"
-                currentGesture = "circle_" + clockwiseness
+                current_gesture = "circle_" + clockwiseness
 
             if gesture.type == Leap.Gesture.TYPE_SWIPE:
-                currentGesture = "swipe"
+                current_gesture = "swipe"
 
             if gesture.type == Leap.Gesture.TYPE_KEY_TAP:
-                currentGesture = "keytap"
+                current_gesture = "keytap"
 
             if gesture.type == Leap.Gesture.TYPE_SCREEN_TAP:
-                currentGesture = "screentap"
+                current_gesture = "screentap"
 
             # Recognized movements occur over time and have a beginning, a middle, and an end. The state attribute reports where in that sequence this Gesture object falls.
-            # stringToSend += self.state_names[gesture.state]
 
-        stringToSend += str(userID) + ":" + str(currentPositionX) + "," + str(currentPositionY) + "," + str(currentPositionZ) + ":" + handType + ":" + currentGesture
-        
-        channel.basic_publish(exchange='',routing_key='hello',body=stringToSend)
+        string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + hand_type + ":" + current_gesture
 
-    def state_string(self, state):
-        if state == Leap.Gesture.STATE_START:
-            return "STATE_START"
-
-        if state == Leap.Gesture.STATE_UPDATE:
-            return "STATE_UPDATE"
-
-        if state == Leap.Gesture.STATE_STOP:
-            return "STATE_STOP"
-
-        if state == Leap.Gesture.STATE_INVALID:
-            return "STATE_INVALID"
+        if current_handpalm_position_x:
+            channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
 
 def main():
     # Create a sample listener and controller
