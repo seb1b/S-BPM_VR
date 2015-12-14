@@ -1,39 +1,42 @@
 import VR
+import math
 
 class View():
 
 	def __init__(self):
 		self.ZOOM_STEP = 0.1
-	
-		VR.view_cam_from = [1, 0.5, -2]
-		VR.view_cam_at = [1, 0.5, -1.0]
-		VR.view_cam_dir = [0, 0, 1]
-		VR.view_cam_world_from = [1, 0.5, -2]
+		self.MAX_USERS = 5
+		
+		self.camera_from = [1, 0.5, 2]
+		self.camera_at = [1, 0.5, -1.0]
+		self.camera_dir =[0, 0, -1]
+		
+		self.objects = []
 		
 		# setup root
 		VR.view_root = VR.getRoot().find('Headlight')
 		VR.cam = VR.getRoot().find('Default')
-		VR.cam.setFrom(VR.view_cam_from)
-		VR.cam.setAt(VR.view_cam_at)
-		VR.cam.setDir(VR.view_cam_dir)
-		VR.cam.setWorldFrom(VR.view_cam_world_from)
+		VR.cam.setFrom(self.camera_from)
+		VR.cam.setAt(self.camera_at)
+		VR.cam.setDir(self.camera_dir)
 	
 		# set colors
-		VR.view_colors = {}
-		VR.view_colors['menu_subject'] = [[0.56, 0.78, 0.95]]
-		VR.view_colors['subject'] = [[0.56, 0.78, 0.95]]
-		VR.view_colors['menu_message'] = [[0.95, 0.85, 0.56]]
-		VR.view_colors['message'] = [[0.95, 0.85, 0.56]]
+		self.colors = {}
+		self.colors['menu_subject'] = [[0.56, 0.78, 0.95]]
+		self.colors['subject'] = [[0.56, 0.78, 0.95]]
+		self.colors['menu_message'] = [[0.95, 0.85, 0.56]]
+		self.colors['message'] = [[0.95, 0.85, 0.56]]
+		self.colors['highlight'] = [[1, 0, 0]]
 	
 		# setup menu bar
 		# add subject
-		VR.view_subject = VR.Geometry('cube')
-		VR.view_subject.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
-		VR.view_subject.setMaterial(VR.Material('sample material'))
-		VR.view_subject.setFrom(0.4, 0.2, 0)
-		VR.view_subject.setPickable(False)
-		VR.view_subject.addTag('menu_subject')
-		VR.view_root.addChild(VR.view_subject)
+		menu_subject = VR.Geometry('cube')
+		menu_subject.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+		menu_subject.setMaterial(VR.Material('sample material'))
+		menu_subject.setFrom(0.4, 0.2, 0)
+		menu_subject.setPickable(False)
+		menu_subject.addTag('menu_subject')
+		VR.view_root.addChild(menu_subject)
 		# add message
 		#VR.view_message = VR.Geometry('cube')
 		#VR.view_message.setPrimitive('Box 0.4 0.2 0.01 1 1 1')
@@ -48,7 +51,7 @@ class View():
 		ll = VR.Geometry('cube')
 		ll.setPrimitive('Box 0.05 0.05 0.05 1 1 1')
 		ll.setMaterial(VR.Material('sample material'))
-		ll.setColors([[1,0,1]])
+		ll.setColors([[0,1,0]])
 		ll.setFrom(0,0,0)
 		ll.setPickable(False)
 		VR.view_root.addChild(ll)
@@ -56,7 +59,7 @@ class View():
 		rl = VR.Geometry('cube')
 		rl.setPrimitive('Box 0.05 0.05 0.05 1 1 1')
 		rl.setMaterial(VR.Material('sample material'))
-		rl.setColors([[1,0,0]])
+		rl.setColors([[0,1,0]])
 		rl.setFrom(2,0,0)
 		rl.setPickable(False)
 		VR.view_root.addChild(rl)
@@ -64,7 +67,7 @@ class View():
 		ru = VR.Geometry('cube')
 		ru.setPrimitive('Box 0.05 0.05 0.05 1 1 1')
 		ru.setMaterial(VR.Material('sample material'))
-		ru.setColors([[1,0,0]])
+		ru.setColors([[0,1,0]])
 		ru.setFrom(2,1,0)
 		ru.setPickable(False)
 		VR.view_root.addChild(ru)
@@ -72,17 +75,67 @@ class View():
 		lu = VR.Geometry('cube')
 		lu.setPrimitive('Box 0.05 0.05 0.05 1 1 1')
 		lu.setMaterial(VR.Material('sample material'))
-		lu.setColors([[1,0,0]])
+		lu.setColors([[0, 1, 0]])
 		lu.setFrom(0,1,0)
 		lu.setPickable(False)
 		VR.view_root.addChild(lu)		
 
 	def zoom(self, level):
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p,d in zip(VR.cam.getFrom(), VR.cam.getDir())]
-		VR.cam.setFrom(new_cam_pos)
+		if not new_cam_pos[2] < 2:
+			VR.cam.setFrom(new_cam_pos)
 		
 	def move_cursor(self, pos_ws, user_id, is_left):
-		pass
+		colors = [1]
+
+		assert isinstance(is_left, bool)
+		assert isinstance(user_id, int)
+
+		if not hasattr(VR, 'view_user_cursors'):
+			VR.view_user_cursors = {}
+		if not hasattr(VR, 'view_user_colors'):
+			VR.view_user_colors = {}
+		if not hasattr(VR, 'view_user_positions'):
+			VR.view_user_positions = {}
+
+		if user_id not in VR.view_user_cursors:
+			assert len(VR.view_user_cursors) < self.MAX_USERS
+			cursor_left = VR.Geometry('sphere')
+			cursor_left.setPrimitive('Sphere 0.05 5')
+			cursor_left.setMaterial(VR.Material('sample material'))
+			cursor_left.setFrom(-1, 0, -3)
+			cursor_left.addTag(str([user_id, True]))
+			VR.view_root.addChild(cursor_left)
+			cursor_right = VR.Geometry('sphere')
+			cursor_right.setPrimitive('Sphere 0.05 5')
+			cursor_right.setMaterial(VR.Material('sample material'))
+			cursor_right.setFrom(1, 0, -3)
+			cursor_right.addTag(str([user_id, False]))
+			VR.view_root.addChild(cursor_right)
+			VR.view_user_cursors[user_id] = {}
+			VR.view_user_cursors[user_id][True] = cursor_left
+			VR.view_user_cursors[user_id][False] = cursor_right
+			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
+			VR.view_user_positions[user_id] = {}
+			VR.view_user_positions[user_id][True] = [0, 0, 0]
+			VR.view_user_positions[user_id][False] = [0, 0, 0]
+			print 'init new user done'
+
+		delta = [p_new - p_old for p_new, p_old in zip(pos_ws, VR.view_user_positions[user_id][is_left])]
+		length = math.sqrt(sum(d * d for d in delta))
+		if length > 0:
+			direction = [d / length for d in delta]
+		else:
+			direction = [0, 1, 0]
+
+		cursor = next((c for c in VR.view_root.getChildren() if c.hasTag(str([user_id, is_left]))), None)
+		assert cursor is not None
+		path = VR.Path()
+		path.set(VR.view_user_positions[user_id][is_left], direction, pos_ws, direction, 2)
+		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
+		cursor.animate(path, 2, 0, False)
+		VR.view_user_positions[user_id][is_left] = pos_ws
+		#print 'done'
 		
 	def move_scene(self, translation):
 		cam_pos = VR.cam.getFrom()
@@ -90,5 +143,29 @@ class View():
 		assert len(translation) == 2
 		new_cam_pos = [cam_pos[0] + translation[0], cam_pos[1] + translation[1], cam_pos[2]]
 		VR.cam.setFrom(new_cam_pos)
+		
+	def set_highlight(self, obj, highlight):
+		assert isinstance(highlight, bool)
+		if highlight:
+			obj.setColors([[1, 0 , 0]])
+			return True
+		else:
+			if obj.hasTag('subject'):
+				obj.setColors(self.colors['subject'])
+				return True
+			elif obj.hasTag('message'):
+				obj.setColors(self.colors['message'])
+				return True
+			else:
+				print "Error: no valid object tag"
+				return False
+		return False
+	
+	def get_object(self, pos_ws):
+		pass
+		
+	def rotate(self, degrees):
+		pass
+			
 		
 	
