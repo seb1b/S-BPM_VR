@@ -1,194 +1,229 @@
-#!/usr/bin/env python3
-
-def press(pos, user_id, is_left=False):
-	"""This function handles a push or press event
-
-	Press handles user input similar to a pressing a mouse button but not
-	releasing it yet, i.e. this function should only be called for pushing
-	the button, not for releasing it.
-
-	:param pos: the 3D position in normalized screen space coordinates
-	:type pos: float array of length 3
-	:param user_id: the id of the user causing this event
-	:type user_id: integer
-	:param is_left: Whether or not this event was caused by the left hand (default: false)
-	:type is_left: boolean
-
-	:return: None
-	"""
-	assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
-	for p in pos:
-		assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-		assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
-	assert isinstance(user_id, int), "User ID must be an integer"
-	assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
-
-	print("press({}, {}, {})".format(pos, user_id, is_left))
-	return None
+#!/usr/bin/env python2
 
 
-def release(pos, user_id, is_left=False):
-	"""This function handles a release event
+class Controller:
+	# from PASS import ModelManager
+	# import View
 
-	Release handles user input similar to a releasing a mouse button after
-	pushing it, i.e. this function should only be called for releasing the
-	button, not for pushing it.
+	def __init__(self):
+		# dictionaries of model and view, file path is key
+		self.model = {}
+		self.view = {}
+		self.current_model = None
+		self.current_view = None
 
-	:param pos: the 3D position in normalized screen space coordinates
-	:type pos: float array of length 3
-	:param user_id: the id of the user causing this event
-	:type user_id: integer
-	:param is_left: Whether or not this event was caused by the left hand (default: false)
-	:type is_left: boolean
+		self.press_position = None
+		self.drag_position = None
+		self.release_position = None
 
-	:return: None
-	"""
-	assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
-	for p in pos:
-		assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-		assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
-	assert isinstance(user_id, int), "User ID must be an integer"
-	assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
+		self.selected_objects = []
+		self.pressed_object = None
+		self.released_object = None
+		self.pressed_is_left = False
 
-	print("release({}, {}, {})".format(pos, user_id, is_left))
-	return None
+	def press(self, pos, user_id, is_left=False):
+		"""This function handles a push or press event
 
+		Press handles user input similar to a pressing a mouse button but not
+		releasing it yet, i.e. this function should only be called for pushing
+		the button, not for releasing it.
 
-def move(pos, user_id, is_left=False):
-	"""This function handles a move event
+		:param pos: the 3D position in normalized screen space coordinates
+		:type pos: float array of length 3
+		:param user_id: the id of the user causing this event
+		:type user_id: integer
+		:param is_left: Whether or not this event was caused by the left hand(default: false)
+		:type is_left: boolean
 
-	Move handles movement of an input device similar to mouse movement. It should
-	be called continuously to update the virtual pointing device, e.g. a mouse
-	pointer. Calling this function after press() will be interpreted as dragging.
+		:return: None
+		"""
+		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
+		for p in pos:
+			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
+		assert isinstance(user_id, int), "User ID must be an integer"
+		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
 
-	:param pos: the 3D position in normalized screen space coordinates
-	:type pos: float array of length 3
-	:param user_id: the id of the user causing this event
-	:type user_id: integer
-	:param is_left: Whether or not this event was caused by the left hand (default: false)
-	:type is_left: boolean
+		# TODO: update pressed_is_left
 
-	:return: None
-	"""
-	assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
-	for p in pos:
-		assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-		assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
-	assert isinstance(user_id, int), "User ID must be an integer"
-	assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
+		print("press({}, {}, {})".format(pos, user_id, is_left))
+		return None
 
-	print("move({}, {}, {})".format(pos, user_id, is_left))
-	return None
+	def release(self, pos, user_id, is_left=False):
+		"""This function handles a release event
 
+		Release handles user input similar to a releasing a mouse button after
+		pushing it, i.e. this function should only be called for releasing the
+		button, not for pushing it.
 
-def zoom(level):
-	"""TODO
+		:param pos: the 3D position in normalized screen space coordinates
+		:type pos: float array of length 3
+		:param user_id: the id of the user causing this event
+		:type user_id: integer
+		:param is_left: Whether or not this event was caused by the left hand (default: false)
+		:type is_left: boolean
 
-	:param level: the zoom level
-	:type level: integer or float
+		:return: None
+		"""
+		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
+		for p in pos:
+			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
+		assert isinstance(user_id, int), "User ID must be an integer"
+		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
 
-	:return: None
-	"""
-	assert isinstance(level, (float, int)), "Level must be a number"
-	#TODO check what level actually means (absolute or relative value)
+		print("release({}, {}, {})".format(pos, user_id, is_left))
+		return None
 
-	print("zoom({})".format(level))
-	return None
+	def move(self, pos, user_id, is_left=False):
+		"""This function handles a move event
 
+		Move handles movement of an input device similar to mouse movement. It should
+		be called continuously to update the virtual pointing device, e.g. a mouse
+		pointer. Calling this function after press() will be interpreted as dragging.
 
-def fade_away():
-	"""This function fades the view away
+		:param pos: the 3D position in normalized screen space coordinates
+		:type pos: float array of length 3
+		:param user_id: the id of the user causing this event
+		:type user_id: integer
+		:param is_left: Whether or not this event was caused by the left hand (default: false)
+		:type is_left: boolean
 
-	This fades the view away in one step (full zoom out) to give an broad
-	overview over the entire scene. It should be called if the user wants to
-	zoom out from a close up view and directly jump to the lowest zoom level.
+		:return: None
+		"""
+		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
+		for p in pos:
+			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
+		assert isinstance(user_id, int), "User ID must be an integer"
+		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
 
-	:return: None
-	"""
-	print("fade_away()")
-	return None
+		print("move({}, {}, {})".format(pos, user_id, is_left))
 
+		if self.current_view is not None:
+			assert self.current_model is not None
+			if self.pressed_object is not None and self.pressed_is_left == is_left:
+				assert self.pressed_object in self.selected_objects
+				self.pressed_object.hasVisualPresentation().setPoint3D(pos[0], pos[1], pos[2])
+			self.view.move_cursor(pos, user_id, is_left)
 
-def rotate(degrees):
-	"""This function rotates the entire scene for the given number of degrees
+		return None
 
-	:param degrees: The number of degrees to rotate
-	:type degrees: integer or float
+	def zoom(self, level):
+		"""TODO
 
-	:return: None
-	"""
-	assert isinstance(degrees, (float, int)), "Degrees must be a number"
+		:param level: the relative zoom level: -1 zoom out, +1 zoom in
+		:type level: integer or float
 
-	print("rotate({})".format(degrees))
-	return None
+		:return: None
+		"""
+		assert isinstance(level, (float, int)), "Level must be a number"
+		if self.current_view is not None:
+			assert self.current_model is not None
+			if level < 0:
+				if current_zoom == 0:
+					# TODO: go back one s-bpm level
+					pass
+				else:
+					current_zoom = current_zoom - 1
+					self.current_view.zoom(current_zoom)
+			elif level > 0:
+				current_zoom = current_zoom + 1
+				self.current_view.zoom(current_zoom)
 
+		print("zoom({})".format(level))
+		return None
 
-def move_model(pos, user_id):
-	"""This function moves the entire model or scene
+	def fade_away(self):
+		"""This function fades the view away
 
-	Moves the entire model or scene regardless of selected objects. This
-	function should be called continuously to ensure a smooth animation of
-	movement. The position parameter should be a directional vector with a
-	length that corresponds to the moved distance. The third value (Z-direction)
-	should probably be 0.
+		This fades the view away in one step (full zoom out) to give an broad
+		overview over the entire scene. It should be called if the user wants to
+		zoom out from a close up view and directly jump to the lowest zoom level.
 
-	:param pos: the 3D position in normalized screen space coordinates
-	:type pos: float array of length 3
-	:param user_id: the id of the user causing this event
-	:type user_id: integer
+		:return: None
+		"""
+		print("fade_away()")
+		return None
 
-	:return: None
-	"""
-	assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
-	for p in pos:
-		assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-	assert isinstance(user_id, int), "User ID must be an integer"
+	def rotate(self, degrees):
+		"""This function rotates the entire scene for the given number of degrees
 
-	print("move_model({}, {})".format(pos, user_id))
-	return None
+		:param degrees: The number of degrees to rotate
+		:type degrees: integer or float
 
+		:return: None
+		"""
+		assert isinstance(degrees, (float, int)), "Degrees must be a number"
 
-def move_head(pos, degrees, user_id):
-	"""This function updates a user's head position for head tracking
+		print("rotate({})".format(degrees))
+		return None
 
-	Updates the given user's head position and rotation. This function should
-	be called continuously to ensure smooth movement representation. The
-	position parameter should be a directional vector with a length that
-	corresponds to the moved distance. The degrees parameter should be a
-	relative value in degrees.
+	def move_model(self, pos, user_id):
+		"""This function moves the entire model or scene
 
-	:param pos: the 3D position in normalized screen space coordinates
-	:type pos: float array of length 3
-	:param degrees: The number of degrees to rotate
-	:type degrees: integer or float
-	:param user_id: the id of the user causing this event
-	:type user_id: integer
+		Moves the entire model or scene regardless of selected objects. This
+		function should be called continuously to ensure a smooth animation of
+		movement. The position parameter should be a directional vector with a
+		length that corresponds to the moved distance. The third value (Z-direction)
+		should probably be 0.
 
-	:return: None
-	"""
-	assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
-	for p in pos:
-		assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-	assert isinstance(degrees, (float, int)), "Degrees must be a number"
-	assert isinstance(user_id, int), "User ID must be an integer"
+		:param pos: the 3D position in normalized screen space coordinates
+		:type pos: float array of length 3
+		:param user_id: the id of the user causing this event
+		:type user_id: integer
 
-	print("move_head({}, {}, {})".format(pos, degrees, user_id))
-	return None
+		:return: None
+		"""
+		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
+		for p in pos:
+			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+		assert isinstance(user_id, int), "User ID must be an integer"
 
+		print("move_model({}, {})".format(pos, user_id))
+		return None
 
-def test():
-	print("Test run")
-	press([1, 1, 0], 2, True)
-	move([0.3,0.2,0.9], 123, False)
-	move([0.3,0.2,0.8], 123, False)
-	release([0.1, 0.2, 0.3], 2, True)
-	zoom(123)
-	fade_away()
-	rotate(90)
-	move_model([4.3, 0.4, 0.5], 33)
-	move_head([1.4, 0.0, -1.2], 180.2, 4)
+	def move_head(self, pos, degrees, user_id):
+		"""This function updates a user's head position for head tracking
+
+		Updates the given user's head position and rotation. This function should
+		be called continuously to ensure smooth movement representation. The
+		position parameter should be a directional vector with a length that
+		corresponds to the moved distance. The degrees parameter should be a
+		relative value in degrees.
+
+		:param pos: the 3D position in normalized screen space coordinates
+		:type pos: float array of length 3
+		:param degrees: The number of degrees to rotate
+		:type degrees: integer or float
+		:param user_id: the id of the user causing this event
+		:type user_id: integer
+
+		:return: None
+		"""
+		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
+		for p in pos:
+			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+		assert isinstance(degrees, (float, int)), "Degrees must be a number"
+		assert isinstance(user_id, int), "User ID must be an integer"
+
+		print("move_head({}, {}, {})".format(pos, degrees, user_id))
+		return None
+
+	def test(self):
+		print("Test run")
+		self.press([1, 1, 0], 2, True)
+		self.move([0.3, 0.2, 0.9], 123, False)
+		self.move([0.3, 0.2, 0.8], 123, False)
+		self.release([0.1, 0.2, 0.3], 2, True)
+		self.zoom(123)
+		self.fade_away()
+		self.rotate(90)
+		self.move_model([4.3, 0.4, 0.5], 33)
+		self.move_head([1.4, 0.0, -1.2], 180.2, 4)
 
 
 if __name__ == "__main__":
-	test()
+	c = Controller()
+	c.test()
 
