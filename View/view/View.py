@@ -77,14 +77,18 @@ class View():
 		lu.setPickable(False)
 		VR.view_root.addChild(lu)		
 
-	def zoom(level):
+	def zoom(self, level):
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p,d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		VR.cam.setFrom(new_cam_pos)
 		
-	def move_cursor(pos_ws, user_id, is_left):
+	def move_cursor(self, pos_ws, user_id, is_left):
 		pass
 		
-	def move_scene(translation):
-		pass
+	def move_scene(self, translation):
+		cam_pos = VR.cam.getFrom()
+		assert len(cam_pos) == 3
+		assert len(translation) == 2
+		new_cam_pos = [cam_pos[0] + translation[0], cam_pos[1] + translation[1], cam_pos[2]]
+		VR.cam.setFrom(new_cam_pos)
 		
 	
