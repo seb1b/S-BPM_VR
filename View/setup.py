@@ -1,11 +1,11 @@
 from setuptools import setup
 
-setup(name = "View",
+setup(name = "view",
 	version = "0.1",
 	description = "Implementation of the View",
 	url = "http://www.kit.edu",
-	author = "Mirjam Jöchner",
+	author = "Mirjam Joechner",
 	author_email = "uagmw@student.kit.edu",
 	license = "Other",
-	packages = ["View"],
+	packages = ["view"],
 	zip_safe = False)
