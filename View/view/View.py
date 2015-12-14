@@ -4,7 +4,6 @@ class View():
 
 	def __init__(self):
 		self.ZOOM_STEP = 0.1
-		import VR
 	
 		VR.view_cam_from = [1, 0.5, -2]
 		VR.view_cam_at = [1, 0.5, -1.0]
