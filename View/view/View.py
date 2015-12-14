@@ -11,8 +11,6 @@ class View():
 		self.camera_at = [1, 0.5, -1.0]
 		self.camera_dir =[0, 0, -1]
 		
-		self.objects = []
-		
 		# setup root
 		VR.view_root = VR.getRoot().find('Headlight')
 		VR.cam = VR.getRoot().find('Default')
@@ -27,16 +25,46 @@ class View():
 		self.colors['menu_message'] = [[0.95, 0.85, 0.56]]
 		self.colors['message'] = [[0.95, 0.85, 0.56]]
 		self.colors['highlight'] = [[1, 0, 0]]
+		
+		#HACK create 3 clickable and movable objects
+		self.objects = []
+		obj1 = VR.Geometry('cube')
+		obj1.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+		obj1.setMaterial(VR.Material('sample material'))
+		obj1.setColors(self.colors['subject'])
+		obj1.setFrom(0.3, 0.3, 0)
+		obj1.setPickable(True)
+		obj1.addTag('subject')
+		VR.view_root.addChild(obj1)
+		self.objects.append(obj1)
+		obj2 = VR.Geometry('cube')
+		obj2.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+		obj2.setMaterial(VR.Material('sample material'))
+		obj2.setColors(self.colors['subject'])
+		obj2.setFrom(0.6, 0.3, 0)
+		obj2.setPickable(True)
+		obj2.addTag('subject')
+		VR.view_root.addChild(obj2)
+		self.objects.append(obj2)
+		obj3 = VR.Geometry('cube')
+		obj3.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+		obj3.setMaterial(VR.Material('sample material'))
+		obj3.setColors(self.colors['subject'])
+		obj3.setFrom(0.5, 0.7, 0)
+		obj3.setPickable(True)
+		obj3.addTag('subject')
+		VR.view_root.addChild(obj3)
+		self.objects.append(obj3)
 	
 		# setup menu bar
 		# add subject
-		menu_subject = VR.Geometry('cube')
-		menu_subject.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
-		menu_subject.setMaterial(VR.Material('sample material'))
-		menu_subject.setFrom(0.4, 0.2, 0)
-		menu_subject.setPickable(False)
-		menu_subject.addTag('menu_subject')
-		VR.view_root.addChild(menu_subject)
+		#menu_subject = VR.Geometry('cube')
+		#menu_subject.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+		#menu_subject.setMaterial(VR.Material('sample material'))
+		#menu_subject.setFrom(0.4, 0.2, 0)
+		#menu_subject.setPickable(False)
+		#menu_subject.addTag('menu_subject')
+		#VR.view_root.addChild(menu_subject)
 		# add message
 		#VR.view_message = VR.Geometry('cube')
 		#VR.view_message.setPrimitive('Box 0.4 0.2 0.01 1 1 1')
@@ -90,6 +118,7 @@ class View():
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
+		pos_ws = [pos_ws[0] * 2, pos_ws[1]]
 
 		if not hasattr(VR, 'view_user_cursors'):
 			VR.view_user_cursors = {}
@@ -162,10 +191,28 @@ class View():
 		return False
 	
 	def get_object(self, pos_ws):
-		pass
+		return get_intersected_obj(pos_ws)
 		
 	def rotate(self, degrees):
 		pass
+		
+	#HACK
+	def get_intersected_obj(self, pos):
+		assert len(pos) == 2
+		pos = [pos[0] * 2, pos[1]]
+		for o in self.objects:
+			o_pos = o.getFrom
+			if pos[0] < o_pos[0] + 0.2 and pos[0] > o_pos[0] - 0.2 and pos[1] < o_pos[1] + 0.2 and pos[1] > o_pos[1] - 0.2:
+				return o
+		return None
+		
+	def move_object(self, obj, ws_pos):
+		path = VR.Path()
+		ws_pos.append(0)
+		direction = ws_pos - obj.getFrom()
+		path.set(obj.getFrom(), direction, pos_ws, direction, 2)
+		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
+		cursor.animate(path, 2, 0, False)
 			
 		
 	
