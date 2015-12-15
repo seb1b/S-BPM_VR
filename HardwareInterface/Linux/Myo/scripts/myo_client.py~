@@ -2,19 +2,28 @@
 import pika
 
 
-def getChange():
+def getChange(edge):
 	# initial definitions
 	# userID:posXYZ:L/R:Geste
 	stringToSend = ""
 
 	# myo = 2, number of users = 1
-	userID = "21" #TODO extend for more myos
+	userID = "20" #TODO extend for more myos
 
 	# position on the screen:
 	# 8 | 1 | 2
 	# 7 | 0 | 3
 	# 6 | 5 | 4
-	position = myo.getBox()
+	posBox = myo.getBox()
+	#600+myo.rotYaw()*2000, 500-myo.rotPitch()*2000
+	x = 600+myo.rotYaw()*2000
+	y = 500-myo.rotPitch()*2000
+	z = 0
+
+	xRot = myo.rotYaw()
+	yRot = myo.rotPitch()
+	zRot = myo.rotRoll()
+	position = str(x) + "," + str(y) + "," + str(z) + ";" + str(posBox) + ";" + str(xRot) + "," + str(yRot) + "," + str(zRot)
 
 	hand = ""
 	h = myo.getArm() # TODO assuming the arm won't change?
@@ -26,7 +35,8 @@ def getChange():
 		hand = "unknown"
 
 	gesture = myo.getPose()
-	stringToSend = userID + ":" + str(position) + ":" + hand + ":" + gesture
+	gest_edge = gesture + ";" + edge
+	stringToSend = userID + ":" + str(position) + ":" + hand + ":" + gest_edge
 	
 	return stringToSend	
 
@@ -43,7 +53,7 @@ def onPoseEdge(pose, edge):
 	if (pose == 'doubleTap') and (edge == "on"):
 		myo.rotSetCenter()
 
-	stringToSend = getChange()
+	stringToSend = getChange(edge)
 	channel.basic_publish(exchange='',
                       routing_key='hello',
                       body=stringToSend)
@@ -52,7 +62,7 @@ def onPoseEdge(pose, edge):
 
 
 def onBoxChange(box, edge):	
-	stringToSend = getChange()
+	stringToSend = getChange(edge)
 	channel.basic_publish(exchange='',
                       routing_key='hello',
                       body=stringToSend)
