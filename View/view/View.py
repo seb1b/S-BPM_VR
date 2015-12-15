@@ -124,7 +124,8 @@ class View():
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
-		pos_ws = [pos_ws[0] * 2, pos_ws[1]]
+		pos_ws = [(pos_ws[0] - 0.5) * 2, pos_ws[1] - 0.5]
+		pos_ws.append(0)
 
 		if not hasattr(VR, 'view_user_cursors'):
 			VR.view_user_cursors = {}
@@ -139,14 +140,18 @@ class View():
 			cursor_left.setPrimitive('Sphere 0.05 5')
 			cursor_left.setMaterial(VR.Material('sample material'))
 			cursor_left.setFrom(0.5, 0, 0)
+			cursor_left.setPlaneConstraints([0, 0, 1])
+			cursor_left.setRotationConstraints([1, 1, 1])
 			cursor_left.addTag(str([user_id, True]))
-			VR.view_root.addChild(cursor_left)
+			VR.cam.addChild(cursor_left)
 			cursor_right = VR.Geometry('sphere')
 			cursor_right.setPrimitive('Sphere 0.05 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, 0)
+			cursor_right.setPlaneConstraints([0, 0, 1])
+			cursor_right.setRotationConstraints([1, 1, 1])
 			cursor_right.addTag(str([user_id, False]))
-			VR.view_root.addChild(cursor_right)
+			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
 			VR.view_user_cursors[user_id][True] = cursor_left
 			VR.view_user_cursors[user_id][False] = cursor_right
@@ -163,12 +168,12 @@ class View():
 		else:
 			direction = [0, 1, 0]
 
-		cursor = next((c for c in VR.view_root.getChildren() if c.hasTag(str([user_id, is_left]))), None)
+		cursor = next((c for c in VR.cam.getChildren() if c.hasTag(str([user_id, is_left]))), None)
 		assert cursor is not None
 		path = VR.Path()
 		path.set(VR.view_user_positions[user_id][is_left], direction, pos_ws, direction, 2)
 		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
-		cursor.animate(path, 2, 0, False)
+		cursor.animate(path, 0.01, 0, False)
 		VR.view_user_positions[user_id][is_left] = pos_ws
 		#print 'done'
 		
