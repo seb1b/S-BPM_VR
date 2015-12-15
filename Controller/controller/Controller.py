@@ -2,6 +2,7 @@
 
 from PASS import ModelManager
 from view import View
+from hardware_main import VRHardware
 
 class Controller:
 
@@ -20,6 +21,11 @@ class Controller:
 		self.pressed_object = None
 		self.released_object = None
 		self.pressed_is_left = False
+
+		self.hw_main = VRHardware(self)
+
+	def process(self):
+		self.hw_main.process()
 
 	def press(self, pos, user_id, is_left=False):
 		"""This function handles a push or press event
