@@ -161,19 +161,20 @@ class View():
 			VR.view_user_positions[user_id][False] = [0, 0, 0]
 			print 'init new user done'
 
-		delta = [p_new - p_old for p_new, p_old in zip(pos_ws, VR.view_user_positions[user_id][is_left])]
-		length = math.sqrt(sum(d * d for d in delta))
-		if length > 0:
-			direction = [d / length for d in delta]
-		else:
-			direction = [0, 1, 0]
+		#delta = [p_new - p_old for p_new, p_old in zip(pos_ws, VR.view_user_positions[user_id][is_left])]
+		#length = math.sqrt(sum(d * d for d in delta))
+		#if length > 0:
+		#	direction = [d / length for d in delta]
+		#else:
+		#	direction = [0, 1, 0]
 
 		cursor = next((c for c in VR.cam.getChildren() if c.hasTag(str([user_id, is_left]))), None)
 		assert cursor is not None
-		path = VR.Path()
-		path.set(VR.view_user_positions[user_id][is_left], direction, pos_ws, direction, 2)
+		#path = VR.Path()
+		#path.set(VR.view_user_positions[user_id][is_left], direction, pos_ws, direction, 2)
 		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
-		cursor.animate(path, 0.01, 0, False)
+		#cursor.animate(path, 0.01, 0, False)
+		cursor.setFrom(pos_ws)
 		VR.view_user_positions[user_id][is_left] = pos_ws
 		#print 'done'
 		
@@ -209,13 +210,14 @@ class View():
 		
 	def move_object(self, obj, pos_ws):
 		assert len(pos_ws) == 2
-		path = VR.Path()
+		#path = VR.Path()
 		pos_ws.append(0)
 		pos_ws[0] = pos_ws[0] * 2
-		direction = [wp - op for wp, op in zip(pos_ws, obj.getFrom())]
-		path.set(obj.getFrom(), direction, pos_ws, direction, 2)
+		#direction = [wp - op for wp, op in zip(pos_ws, obj.getFrom())]
+		#path.set(obj.getFrom(), direction, pos_ws, direction, 2)
 		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
-		obj.animate(path, 2, 0, False)
+		#obj.animate(path, 2, 0, False)
+		obj.setFrom(pos_ws)
 		
 	#HACK
 	def get_intersected_obj(self, pos):
