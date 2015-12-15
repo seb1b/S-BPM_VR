@@ -3,17 +3,19 @@
 import collections, pika, sys
 if sys.path[0] != '../Controller': sys.path.insert(0, '../Controller')
 import controller
+import threading
+import itertools
 
 class VRHardware():
 	
-	def __init__(self):	
-		self.controller = None
+	def __init__(self, controller):	
+		self.controller = controller
 	
 		#TODO any way to make this constant?	
-		self.LEAP_ID = 1
-		self.MYO_ID = 2
-		self.KINECT_ID = 3
-		self.TABLET_ID = 4
+		self.LEAP_ID = 10
+		self.MYO_ID = 20
+		self.KINECT_ID = 30
+		self.TABLET_ID = 40
 	
 		# variables used for Leap control		
 		self.cache = collections.deque(list(), 200)
@@ -21,34 +23,37 @@ class VRHardware():
 
 		# initialize RabbitMq communication		
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-		self.channel = connection.channel()
+		self.channel = self.connection.channel()
 		self.channel.queue_declare(queue='hello')
 		
 		print ' [*] Waiting for messages. To exit please press CTRL+C'
 		# user_id:position_x,position_y,position_z:hand_type:gesture
 
-		self.channel.basic_consume(callback, queue='hello', no_ack=True)
-		self.channel.start_consuming()
+		self.channel.basic_consume(self.callback, queue='hello', no_ack=True)
+		#self.channel.start_consuming()
+		t1 = threading.Thread(target=self.channel.start_consuming)
+		t1.start()
 
-
-	def callback(ch, method, properties, body):
+	def callback(self, ch, method, properties, body):
 		if body:
 			#split the body string
 			bodyParts = body.split(':')
-			user_id = bodyParts[0]
+			user_id = int(bodyParts[0])
 			pos = bodyParts[1]
 			hand_type = bodyParts[2]
 			gesture = bodyParts[3]
+			
+			xyz = [float(x) for x in pos.split(",")]
 			
 			is_left = False
 			if hand_type == 'L':
 				is_left = True
 	
 			# LEAP
-			if user_id.startswith(LEAP_ID):
+			if user_id >= self.LEAP_ID and user_id < self.MYO_ID:
 				
 				# MOVE
-				move(pos, user_id, is_left)
+				self.controller.move(xyz, user_id, is_left)
 	
 				# Store the last 200 frames
 				self.cache.append(gesture)
@@ -56,12 +61,12 @@ class VRHardware():
 				# PRESS
 				if gesture == "grab":
 					self.called_press = True
-					press(pos, user_id, is_left)
+					self.controller.press(xyz, user_id, is_left)
 	
 				# RELEASE
 				# If press() has been called but released() has not been called yet and the current gesture does not equal 	grab
-				elif called_press:
-					release(pos, user_id, is_left)
+				elif self.called_press:
+					self.controller.release(xyz, user_id, is_left)
 					self.called_press = False
 	
 	
@@ -70,19 +75,20 @@ class VRHardware():
 					# Iterate over last n gestures
 					false_alarm = False
 					n = 10 #TODO probably too small for leap
-					for element in self.cache[-n:]:
+					#for element in self.cache[-n:]:
+					for element in list(itertools.islice(self.cache, len(self.cache) - n, len(self.cache))):
 						# If the circle does not occur at least n times in a row, it will be interpreted as false 	alarm
 						if element != gesture:
 							false_alarm = True
 	
 					if not false_alarm:
 						if gesture == "circle_clockwise":
-							zoom(1)
+							self.controller.zoom(1)
 						elif gesture == "circle_counterclockwise":
-							zoom(-1)
+							self.controller.zoom(-1)
 	
 			# MYO
-			elif id.startswith(MYO_ID):
+			elif user_id >= self.MYO_ID and user_id < self.KINECT_ID:
 				# myo has some additional info
 				posSplit = pos.split(";")
 				box = posSplit[1]
@@ -96,14 +102,14 @@ class VRHardware():
 	
 				# MOVE
 				#TODO normalize position on 0, 1 -> in myo client
-				move(pos, user_id, is_left)
+				self.controller.move(pos, user_id, is_left)
 	
 				#PRESS
 				if gesture == "fist" and edge == "on":
-					press(pos, user_id, is_left)
+					self.controller.press(pos, user_id, is_left)
 	
 				elif gesture == "fist" and edge == "off":
-					release(pos, user_id, is_left)
+					self.controller.release(pos, user_id, is_left)
 				
 				#ZOOM
 				elif gesture == "fingersSpread":
