@@ -68,7 +68,7 @@ class VRHardware():
 	def process(self):
 		self.connection.process_data_events()
 
-'''
+	'''
 	def on_connection_open(self, unused_connection):
 		self.connection.channel(on_open_callback=self.on_channel_open)
 
@@ -83,7 +83,7 @@ class VRHardware():
 	def on_bindok(self, unused_frame):
 		#self._consumer_tag = 
 		self.channel.basic_consume(self.callback, "hello2")
-'''
+	'''
 
 	def callback(self, ch, method, properties, body):
 		if body:
