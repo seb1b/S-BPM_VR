@@ -1,14 +1,14 @@
 #!/usr/bin/env python2
 
+from PASS import ModelManager
+from view import View
 
 class Controller:
-	# from PASS import ModelManager
-	# import View
 
 	def __init__(self):
 		# dictionaries of model and view, file path is key
-		self.model = {}
-		self.view = {}
+		self.models = {}
+		self.views = {}
 		self.current_model = None
 		self.current_view = None
 
@@ -44,9 +44,21 @@ class Controller:
 		assert isinstance(user_id, int), "User ID must be an integer"
 		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
 
-		# TODO: update pressed_is_left
-
 		print("press({}, {}, {})".format(pos, user_id, is_left))
+
+		# TODO: check quick and dirty implementation
+
+		if self.current_view is not None:
+			assert self.current_model is not None
+			obj = self.current_view.get_object([0.4, 0.4])
+			if obj is not None:
+				if obj not in self.selected_objects:
+					self.selected_objects.append(obj)
+				self.pressed_object = obj
+				self.pressed_is_left = is_left
+				self.current_view.set_highlight(obj, True)
+		self.press_position = pos;
+
 		return None
 
 	def release(self, pos, user_id, is_left=False):
@@ -104,8 +116,10 @@ class Controller:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
-				self.pressed_object.hasVisualPresentation().setPoint3D(pos[0], pos[1], pos[2])
-			self.view.move_cursor(pos, user_id, is_left)
+				# TODO: self.pressed_object.hasVisualPresentation().setPoint3D(pos[0], pos[1], pos[2])
+				# TODO: check and fix quick and dirty implementation
+				self.current_view.move_object(self.pressed_object, pos[:2])
+			self.current_view.move_cursor(pos, user_id, is_left)
 
 		return None
 
@@ -121,15 +135,13 @@ class Controller:
 		if self.current_view is not None:
 			assert self.current_model is not None
 			if level < 0:
-				if current_zoom == 0:
+				# TODO: if self.current_view.get_current_zoom_level() == 0:
 					# TODO: go back one s-bpm level
-					pass
-				else:
-					current_zoom = current_zoom - 1
-					self.current_view.zoom(current_zoom)
+					# pass
+				# else:
+				self.current_view.zoom(-1)
 			elif level > 0:
-				current_zoom = current_zoom + 1
-				self.current_view.zoom(current_zoom)
+				self.current_view.zoom(+1)
 
 		print("zoom({})".format(level))
 		return None
@@ -181,6 +193,11 @@ class Controller:
 		assert isinstance(user_id, int), "User ID must be an integer"
 
 		print("move_model({}, {})".format(pos, user_id))
+
+		if self.current_view is not None:
+			assert self.current_model is not None
+			self.current_view.move_scene(pos[:2])
+
 		return None
 
 	def move_head(self, pos, degrees, user_id):
@@ -221,6 +238,15 @@ class Controller:
 		self.rotate(90)
 		self.move_model([4.3, 0.4, 0.5], 33)
 		self.move_head([1.4, 0.0, -1.2], 180.2, 4)
+
+	def init_debug_setup(self):
+		print("Initializing debug/testing model and view")
+		file_path = "/var/temp/temp_model"
+		self.models[file_path] = ModelManager(None)
+		# TODO: init model
+		self.views[file_path] = View()
+		self.current_model = self.models[file_path]
+		self.current_view = self.views[file_path]
 
 
 if __name__ == "__main__":
