@@ -18,8 +18,7 @@ class VRHardware():
 		# variables used for Leap control		
 		self.cache = collections.deque(list(), 200)
 		self.called_press = False	
-	
-	def init_communication():
+
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 		self.channel = connection.channel()
 		self.channel.queue_declare(queue='hello')
@@ -102,7 +101,7 @@ class VRHardware():
 				if gesture == "fist" and edge == "on":
 					press(pos, user_id, is_left)
 	
-				elif gesture == "fist" and edge == "release":
+				elif gesture == "fist" and edge == "off":
 					release(pos, user_id, is_left)
 				
 				#ZOOM

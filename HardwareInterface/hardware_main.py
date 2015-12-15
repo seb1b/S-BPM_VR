@@ -19,6 +19,7 @@ class VRHardware():
 		self.cache = collections.deque(list(), 200)
 		self.called_press = False	
 
+		# initialize RabbitMq communication		
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 		self.channel = connection.channel()
 		self.channel.queue_declare(queue='hello')
