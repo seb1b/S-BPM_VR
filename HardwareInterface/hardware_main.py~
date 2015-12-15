@@ -6,17 +6,18 @@ import controller
 
 class VRHardware():
 	
-	self.controller = None
-
-	#TODO any way to make this constant?	
-	self.LEAP_ID = 1
-	self.MYO_ID = 2
-	self.KINECT_ID = 3
-	self.TABLET_ID = 4
-
-	# variables used for Leap control		
-	self.cache = collections.deque(list(), 200)
-	self.called_press = False	
+	def __init__(self):	
+		self.controller = None
+	
+		#TODO any way to make this constant?	
+		self.LEAP_ID = 1
+		self.MYO_ID = 2
+		self.KINECT_ID = 3
+		self.TABLET_ID = 4
+	
+		# variables used for Leap control		
+		self.cache = collections.deque(list(), 200)
+		self.called_press = False	
 	
 	def init_communication():
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
