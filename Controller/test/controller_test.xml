@@ -38,7 +38,7 @@
 	print("dev.getKey(): %i") % k
 	if k == 4:  # wheel_down
 		VR.controller.zoom(-1)
-	if k == 3:  # wheel_down
+	if k == 3:  # wheel_up
 		VR.controller.zoom(1)
 	if k == 0:  # left click
 		VR.controller.press([0.4, 0.4, 0.0], 0, True)
@@ -67,6 +67,13 @@
 	VR.controller.init_debug_setup()
 </core>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="pika_update" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	VR.controller.process()
+</core>
+      <trig type="on_timeout" dev="" state="Pressed" param="0" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
     </Script>
   </Scripts>
   <Sockets/>

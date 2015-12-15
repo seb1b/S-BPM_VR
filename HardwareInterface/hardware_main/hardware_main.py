@@ -3,8 +3,29 @@
 import collections, pika, sys
 if sys.path[0] != '../Controller': sys.path.insert(0, '../Controller')
 import controller
+#from controller import Controller
 import threading
 import itertools
+
+'''
+class Controller:
+	def press(self, pos, user_id, is_left=False):
+		print "press"
+	def release(self, pos, user_id, is_left=False):
+		print "release"
+	def move(self, pos, user_id, is_left=False):
+		print "move"
+	def zoom(self, level):
+		print "zoom"
+	def fade_away(self):
+		print "faed_away"
+	def rotate(self, degrees):
+		print "rotate"
+	def move_model(self, pos, user_id):
+		print "move_model"
+	def move_head(self, pos, degrees, user_id):
+		print "move_head"
+'''
 
 class VRHardware():
 	
@@ -21,18 +42,48 @@ class VRHardware():
 		self.cache = collections.deque(list(), 200)
 		self.called_press = False	
 
-		# initialize RabbitMq communication		
+		# initialize RabbitMq communication
+		# NOTE: we changed stop_ioloop_on_close=True
+		#self.connection = pika.SelectConnection(pika.ConnectionParameters(host='localhost'), self.on_connection_open, stop_ioloop_on_close=True) 
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+		#self.channel = None
 		self.channel = self.connection.channel()
 		self.channel.queue_declare(queue='hello')
 		
-		print ' [*] Waiting for messages. To exit please press CTRL+C'
+		#print ' [*] Waiting for messages. To exit please press CTRL+C'
 		# user_id:position_x,position_y,position_z:hand_type:gesture
 
 		self.channel.basic_consume(self.callback, queue='hello', no_ack=True)
 		#self.channel.start_consuming()
-		t1 = threading.Thread(target=self.channel.start_consuming)
-		t1.start()
+		#t1 = threading.Thread(target=self.channel.start_consuming)
+		#t1.start()
+		#self.connection.ioloop.start()
+		#t1 = threading.Thread(target=self.connection.ioloop.start)
+		#t1.start()
+		#print help(self.connection)
+		#t1 = threading.Thread(target=self.process)
+		#t1.start()
+		print 'VRHardware init done'
+
+	def process(self):
+		self.connection.process_data_events()
+
+'''
+	def on_connection_open(self, unused_connection):
+		self.connection.channel(on_open_callback=self.on_channel_open)
+
+	def on_channel_open(self, channel):
+		self.channel = channel
+		self.channel.exchange_declare(self.on_exchange_declareok, "message", "topic")
+
+	def on_exchange_declareok(self, unused_frame):
+		print "on_exchange_declareok(self, unused_frame)"
+		self.channel.queue_bind(self.on_bindok, "hello2", "message", "hello2")
+
+	def on_bindok(self, unused_frame):
+		#self._consumer_tag = 
+		self.channel.basic_consume(self.callback, "hello2")
+'''
 
 	def callback(self, ch, method, properties, body):
 		if body:
@@ -43,7 +94,11 @@ class VRHardware():
 			hand_type = bodyParts[2]
 			gesture = bodyParts[3]
 			
-			xyz = [float(x) for x in pos.split(",")]
+			try:
+				xyz = [float(x) for x in pos.split(",")]
+			except:
+				print pos
+				raise ValueError("invalid literal for float(): bla")
 			
 			is_left = False
 			if hand_type == 'L':
@@ -76,10 +131,11 @@ class VRHardware():
 					false_alarm = False
 					n = 10 #TODO probably too small for leap
 					#for element in self.cache[-n:]:
-					for element in list(itertools.islice(self.cache, len(self.cache) - n, len(self.cache))):
-						# If the circle does not occur at least n times in a row, it will be interpreted as false 	alarm
-						if element != gesture:
-							false_alarm = True
+					if len(self.cache) >= n:
+						for element in list(itertools.islice(self.cache, len(self.cache) - n, len(self.cache))):
+							# If the circle does not occur at least n times in a row, it will be interpreted as false 	alarm
+							if element != gesture:
+								false_alarm = True
 	
 					if not false_alarm:
 						if gesture == "circle_clockwise":
@@ -117,7 +173,15 @@ class VRHardware():
 					if rotX > 0:
 						rot(1)
 					else:
-						rot(-1)	
-				
-	
+						rot(-1)
+
+		#self.channel.basic_ack(method.delivery_tag)
+
+def test():
+	c = Controller()
+	vr = VRHardware(c)
+
+if __name__ == "__main__":
+	test()
+
 

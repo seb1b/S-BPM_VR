@@ -24,6 +24,9 @@ class Controller:
 
 		self.hw_main = VRHardware(self)
 
+	def process(self):
+		self.hw_main.process()
+
 	def press(self, pos, user_id, is_left=False):
 		"""This function handles a push or press event
 
