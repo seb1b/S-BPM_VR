@@ -32,8 +32,10 @@ class View():
 		obj1.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
 		obj1.setMaterial(VR.Material('sample material'))
 		obj1.setColors(self.colors['subject'])
-		obj1.setFrom(0.3, 0.3, 0)
+		obj1.setFrom(0.3, 0.3, 0.0)
 		obj1.setPickable(True)
+		obj1.setPlaneConstraints([0, 0, 1])
+		obj1.setRotationConstraints([1, 1, 1])
 		obj1.addTag('subject')
 		VR.view_root.addChild(obj1)
 		self.objects.append(obj1)
@@ -41,8 +43,10 @@ class View():
 		obj2.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
 		obj2.setMaterial(VR.Material('sample material'))
 		obj2.setColors(self.colors['subject'])
-		obj2.setFrom(0.6, 0.3, 0)
+		obj2.setFrom(1.5, 0.3, 0.0)
 		obj2.setPickable(True)
+		obj2.setPlaneConstraints([0, 0, 1])
+		obj2.setRotationConstraints([1, 1, 1])
 		obj2.addTag('subject')
 		VR.view_root.addChild(obj2)
 		self.objects.append(obj2)
@@ -50,8 +54,10 @@ class View():
 		obj3.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
 		obj3.setMaterial(VR.Material('sample material'))
 		obj3.setColors(self.colors['subject'])
-		obj3.setFrom(0.5, 0.7, 0)
+		obj3.setFrom(1.0, 0.7, 0.0)
 		obj3.setPickable(True)
+		obj3.setPlaneConstraints([0, 0, 1])
+		obj3.setRotationConstraints([1, 1, 1])
 		obj3.addTag('subject')
 		VR.view_root.addChild(obj3)
 		self.objects.append(obj3)
@@ -110,7 +116,7 @@ class View():
 
 	def zoom(self, level):
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p,d in zip(VR.cam.getFrom(), VR.cam.getDir())]
-		if not new_cam_pos[2] < 2:
+		if not new_cam_pos[2] > 2:
 			VR.cam.setFrom(new_cam_pos)
 		
 	def move_cursor(self, pos_ws, user_id, is_left):
@@ -132,13 +138,13 @@ class View():
 			cursor_left = VR.Geometry('sphere')
 			cursor_left.setPrimitive('Sphere 0.05 5')
 			cursor_left.setMaterial(VR.Material('sample material'))
-			cursor_left.setFrom(-1, 0, -3)
+			cursor_left.setFrom(0.5, 0, 0)
 			cursor_left.addTag(str([user_id, True]))
 			VR.view_root.addChild(cursor_left)
 			cursor_right = VR.Geometry('sphere')
 			cursor_right.setPrimitive('Sphere 0.05 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
-			cursor_right.setFrom(1, 0, -3)
+			cursor_right.setFrom(1.5, 0, 0)
 			cursor_right.addTag(str([user_id, False]))
 			VR.view_root.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
@@ -191,28 +197,30 @@ class View():
 		return False
 	
 	def get_object(self, pos_ws):
-		return get_intersected_obj(pos_ws)
+		return self.get_intersected_obj(pos_ws)
 		
 	def rotate(self, degrees):
 		pass
+		
+	def move_object(self, obj, pos_ws):
+		assert len(pos_ws) == 2
+		path = VR.Path()
+		pos_ws.append(0)
+		pos_ws[0] = pos_ws[0] * 2
+		direction = [wp - op for wp, op in zip(pos_ws, obj.getFrom())]
+		path.set(obj.getFrom(), direction, pos_ws, direction, 2)
+		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
+		obj.animate(path, 2, 0, False)
 		
 	#HACK
 	def get_intersected_obj(self, pos):
 		assert len(pos) == 2
 		pos = [pos[0] * 2, pos[1]]
 		for o in self.objects:
-			o_pos = o.getFrom
+			o_pos = o.getFrom()
 			if pos[0] < o_pos[0] + 0.2 and pos[0] > o_pos[0] - 0.2 and pos[1] < o_pos[1] + 0.2 and pos[1] > o_pos[1] - 0.2:
 				return o
 		return None
-		
-	def move_object(self, obj, ws_pos):
-		path = VR.Path()
-		ws_pos.append(0)
-		direction = ws_pos - obj.getFrom()
-		path.set(obj.getFrom(), direction, pos_ws, direction, 2)
-		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
-		cursor.animate(path, 2, 0, False)
 			
 		
 	
