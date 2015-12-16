@@ -71,7 +71,7 @@
     <Script name_suffix="0" base_name="pika_update" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
-	if hasattr(VR, "controller")
+	if hasattr(VR, "controller"):
 		VR.controller.process()
 </core>
       <trig type="on_timeout" dev="" state="Pressed" param="0" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
