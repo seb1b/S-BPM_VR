@@ -77,9 +77,9 @@ class SampleListener(Leap.Listener):
             # current_handpalm_position_z += str(hand.palm_position.z)
 
             # Use frontmost finger
-            current_handpalm_position_x += str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
-            current_handpalm_position_y += str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).y)
-            current_handpalm_position_z += str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)
+            current_handpalm_position_x = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
+            current_handpalm_position_y = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).y)
+            current_handpalm_position_z = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)
 
             fingers = hand.fingers
             for finger in fingers:
@@ -120,7 +120,8 @@ class SampleListener(Leap.Listener):
             # Recognized movements occur over time and have a beginning, a middle, and an end. The state attribute reports where in that sequence this Gesture object falls.
 
         string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + hand_type + ":" + current_gesture
-
+        print "string_to_send: " + string_to_send
+		
         if current_handpalm_position_x:
             channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
 

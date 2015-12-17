@@ -6,6 +6,7 @@ import time
 import webbrowser
 import importlib
 import ConfigParser
+import Tkinter as tk
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 from PyoConnectLib import *
 myo = Myo(sys.argv[1] if len(sys.argv) >= 2 else None)

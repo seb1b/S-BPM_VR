@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import pika
-
+import math
 
 def getChange(edge):
 	# initial definitions
@@ -16,13 +16,19 @@ def getChange(edge):
 	# 6 | 5 | 4
 	posBox = myo.getBox()
 	#600+myo.rotYaw()*2000, 500-myo.rotPitch()*2000
-	x = 600+myo.rotYaw()*2000
-	y = 500-myo.rotPitch()*2000
+
+	#x = 600+myo.rotYaw()*2000
+	#y = 500-myo.rotPitch()*2000
+	#z = 0
+
+	#x = math.atan(myo.rotYaw()) * 1.67 + 0.5
+	x = min(max(math.atan(myo.rotYaw()) * 1.67 + 0.5, 0.0), 1.0)
+	y = min(max(math.atan(myo.rotPitch()) * 1.67 + 0.5, 0.0), 1.0)
 	z = 0
 
-	xRot = myo.rotYaw()
+	zRot = myo.rotYaw()
 	yRot = myo.rotPitch()
-	zRot = myo.rotRoll()
+	xRot = myo.rotRoll()
 	position = str(x) + "," + str(y) + "," + str(z) + ";" + str(posBox) + ";" + str(xRot) + "," + str(yRot) + "," + str(zRot)
 
 	hand = ""
@@ -60,13 +66,21 @@ def onPoseEdge(pose, edge):
 	print("Pose: "+stringToSend)
 	#connection.close()
 
-
+'''
 def onBoxChange(box, edge):	
 	stringToSend = getChange(edge)
 	channel.basic_publish(exchange='',
                       routing_key='hello',
                       body=stringToSend)
 	print("Box: "+stringToSend)
+'''
+	
+def onPeriodic():
+	stringToSend = getChange('on')
+	channel.basic_publish(exchange='',
+                      routing_key='hello',
+                      body=stringToSend)
+	print("Periodic: "+stringToSend)
 
 
 

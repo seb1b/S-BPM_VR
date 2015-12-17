@@ -41,6 +41,9 @@ class VRHardware():
 		# variables used for Leap control		
 		self.cache = collections.deque(list(), 200)
 		self.called_press = False	
+		
+		# variables used for Leap control	
+		self.called_press_myo = False			
 
 		# initialize RabbitMq communication
 		# NOTE: we changed stop_ioloop_on_close=True
@@ -143,13 +146,15 @@ class VRHardware():
 				xyz = [float(x) for x in pos.split(";")[0].split(",")]
 				# box = [float(x) for x in pos.split(";")[1].split(",")]
 				rot = [float(x) for x in pos.split(";")[2].split(",")]
+				
 
 				# myo has some additional info
+				'''
 				posSplit = pos.split(";")
 				box = posSplit[1]
 				rot = posSplit[2]			
 				pos = posSplit[0] #x,y,z
-				
+				'''
 				
 				gesSplit = gesture.split(";")
 				edge = gesSplit[1]
@@ -160,22 +165,24 @@ class VRHardware():
 				self.controller.move(xyz, user_id, is_left)
 	
 				#PRESS
-				if gesture == "fist" and edge == "on":
+				if gesture == "fist": 				
+					self.called_press_myo = True
 					print("Myo press")
 					self.controller.press(xyz, user_id, is_left)
 	
-				elif gesture == "fist" and edge == "off":
+				elif gesture == "rest" and self.called_press_myo == True:
 					print("Myo release")
-					self.controller.release(xyz, user_id, is_left)
+					self.controller.release(xyz, user_id, is_left)									
+					self.called_press_myo = False
 				
 				#ZOOM
 				elif gesture == "fingersSpread":
-					print("Myo zoom")
-					#TODO figure out how quaternions work on myo
-					if rotX > 0:
-						rot(1)
-					else:
-						rot(-1)
+					print("Myo zoom: " + str(rot[0]))
+					#TODO for left arm different
+					if rot[0] > 0.2:
+						self.controller.zoom(1)
+					elif rot[0] < -0.5:
+						self.controller.zoom(-1)
 
 		#self.channel.basic_ack(method.delivery_tag)
 
