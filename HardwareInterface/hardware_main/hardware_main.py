@@ -94,18 +94,13 @@ class VRHardware():
 			hand_type = bodyParts[2]
 			gesture = bodyParts[3]
 			
-			try:
-				xyz = [float(x) for x in pos.split(",")]
-			except:
-				print pos
-				raise ValueError("invalid literal for float(): bla")
-			
 			is_left = False
 			if hand_type == 'L':
 				is_left = True
 	
 			# LEAP
 			if user_id >= self.LEAP_ID and user_id < self.MYO_ID:
+				xyz = [float(x) for x in pos.split(",")]
 				
 				# MOVE
 				self.controller.move(xyz, user_id, is_left)
@@ -145,6 +140,10 @@ class VRHardware():
 	
 			# MYO
 			elif user_id >= self.MYO_ID and user_id < self.KINECT_ID:
+				xyz = [float(x) for x in pos.split(";")[0].split(",")]
+				# box = [float(x) for x in pos.split(";")[1].split(",")]
+				rot = [float(x) for x in pos.split(";")[2].split(",")]
+
 				# myo has some additional info
 				posSplit = pos.split(";")
 				box = posSplit[1]
@@ -158,17 +157,20 @@ class VRHardware():
 	
 				# MOVE
 				#TODO normalize position on 0, 1 -> in myo client
-				self.controller.move(pos, user_id, is_left)
+				self.controller.move(xyz, user_id, is_left)
 	
 				#PRESS
 				if gesture == "fist" and edge == "on":
-					self.controller.press(pos, user_id, is_left)
+					print("Myo press")
+					self.controller.press(xyz, user_id, is_left)
 	
 				elif gesture == "fist" and edge == "off":
-					self.controller.release(pos, user_id, is_left)
+					print("Myo release")
+					self.controller.release(xyz, user_id, is_left)
 				
 				#ZOOM
 				elif gesture == "fingersSpread":
+					print("Myo zoom")
 					#TODO figure out how quaternions work on myo
 					if rotX > 0:
 						rot(1)
