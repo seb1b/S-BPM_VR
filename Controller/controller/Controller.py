@@ -56,7 +56,6 @@ class Controller:
 
 		if self.current_view is not None:
 			assert self.current_model is not None
-			#obj = self.current_view.get_object([0.4, 0.4])
 			obj = self.current_view.get_object(pos[:2])
 			if obj is not None:
 				if obj not in self.selected_objects:
@@ -64,7 +63,7 @@ class Controller:
 				self.pressed_object = obj
 				self.pressed_is_left = is_left
 				self.current_view.set_highlight(obj, True)
-		self.press_position = pos;
+		self.press_position = pos
 
 		return None
 
@@ -92,6 +91,16 @@ class Controller:
 		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
 
 		print("release({}, {}, {})".format(pos, user_id, is_left))
+
+		if self.current_view is not None:
+			assert self.current_model is not None
+			if self.pressed_object is not None and self.pressed_is_left == is_left:
+				assert self.pressed_object in self.selected_objects
+				self.released_object = self.pressed_object
+				self.pressed_object = None
+				self.current_view.set_highlight(self.released_object, False)
+		self.release_position = pos
+
 		return None
 
 	def move(self, pos, user_id, is_left=False):
