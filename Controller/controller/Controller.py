@@ -56,7 +56,8 @@ class Controller:
 
 		if self.current_view is not None:
 			assert self.current_model is not None
-			obj = self.current_view.get_object([0.4, 0.4])
+			#obj = self.current_view.get_object([0.4, 0.4])
+			obj = self.current_view.get_object(pos[:2])
 			if obj is not None:
 				if obj not in self.selected_objects:
 					self.selected_objects.append(obj)

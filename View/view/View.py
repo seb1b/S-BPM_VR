@@ -4,7 +4,7 @@ import math
 class View():
 
 	def __init__(self):
-		self.ZOOM_STEP = 0.1
+		self.ZOOM_STEP = 0.01
 		self.MAX_USERS = 5
 		
 		self.camera_from = [1, 0.5, 2]
@@ -139,7 +139,7 @@ class View():
 			cursor_left = VR.Geometry('sphere')
 			cursor_left.setPrimitive('Sphere 0.05 5')
 			cursor_left.setMaterial(VR.Material('sample material'))
-			cursor_left.setFrom(0.5, 0, 0)
+			cursor_left.setFrom(0.5, 0, 0.3)
 			cursor_left.setPlaneConstraints([0, 0, 1])
 			cursor_left.setRotationConstraints([1, 1, 1])
 			cursor_left.addTag(str([user_id, True]))
@@ -147,7 +147,7 @@ class View():
 			cursor_right = VR.Geometry('sphere')
 			cursor_right.setPrimitive('Sphere 0.05 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
-			cursor_right.setFrom(1.5, 0, 0)
+			cursor_right.setFrom(1.5, 0, 0.3)
 			cursor_right.setPlaneConstraints([0, 0, 1])
 			cursor_right.setRotationConstraints([1, 1, 1])
 			cursor_right.addTag(str([user_id, False]))
