@@ -1,0 +1,5 @@
+*.pyc
+*.*~
+Controller/build
+HardwareInterface/build
+View/build
