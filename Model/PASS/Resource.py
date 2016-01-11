@@ -1,9 +1,12 @@
 import RDF
 
+from ListenerList import *
+
 class Resource(object):
 
 	"""
-
+	Resource is a class to represent the idea of a rdf resource in our object model. It is superclass
+	for all model classes that contain persitent data.
 
 	:version: 2015-12-04
 	:author: Lukas Block
@@ -57,7 +60,7 @@ class Resource(object):
 		"""
 		#By default a resource does not fire change events
 		self._fireChangeEvents = False
-			
+		
 		#Import it just here because it is not needed before
 		from ModelManager import *
 		#Check the type of the manager object
@@ -65,7 +68,7 @@ class Resource(object):
 			raise Exception("Paramter \"manager\" has to be of type ModelManager!")
 		self._modelManager = manager
 		self._modelManager.registerResource(self)
-		self.type = []
+		self.type = ListenerList([], self)
 		#Now check whether to create a normal or a blank resource
 		self._isBlank = isBlank
 		if(not self._isBlank):
@@ -117,7 +120,7 @@ class Resource(object):
 		#First set yourself the class type if it is not Resource or already set
 		if(type(self).__name__ != "Resource"):
 			if(not hasattr(self, "type")):
-				self.type = []
+				self.type = ListenerList([], self)
 			ownClassUri = self.modelManager.classMapper.getClassResource(type(self).__name__)
 			#ToDo: Does not work because they are of type resource
 			found = False
@@ -180,12 +183,12 @@ class Resource(object):
 		@return bool :
 		@author
 		"""
-		#A resource is always valid even if not uri has been set
+		#A resource is always valid even if no uri has been set
 		return True
 
 	@staticmethod
 	def castLiteralToType(literalString, datatypeUri):
-		#ToDo: Take care of language tags
+		#Possible extension: Take care of language tags
 		"""
 		 Cast a given literal to a python value using the specificed type uri. Currently
 		 implemented are the XMLSchema-Types double, float, int, string, boolean.
@@ -216,7 +219,7 @@ class Resource(object):
 
 	@staticmethod
 	def castTypeToLiteral(pythonVar):
-		#ToDo: Take care of language tags
+		#Possible extension: Take care of language tags
 		"""
 		 Converts a python variable to a RDF literal. The return value is an array of
 		 type [literalString, datatypeUri].  Currently implemented are the

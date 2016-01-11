@@ -3,10 +3,10 @@ from State import *
 class ReceiveState(State):
 
 	"""
-
+	A state that represents that the actor waits for an incoming message.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None):

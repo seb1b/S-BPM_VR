@@ -5,7 +5,7 @@ from Tools import *
 class VisualRepresentation(Resource):
 
 	"""
-
+	A wrapper class to include data of different formats into the PASS process model.
 
 	:version: 2015-12-04
 	:author: Lukas Block

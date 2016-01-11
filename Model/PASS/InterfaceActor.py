@@ -5,10 +5,10 @@ from AttributeMultiplicity import *
 class InterfaceActor(ActiveProcessComponent):
 
 	"""
-
+	An interface actor is the superclass for all external subject like elements in a PASS model.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES
@@ -16,11 +16,11 @@ class InterfaceActor(ActiveProcessComponent):
 	 The PASSProcessModel this Interface Actor references. Returns exactly the URI
 	 (or a sameAs) of the model that should be referenced!
 
-	hasReferences  (public)
+	references  (public)
 
 	 Property that shows the uri, that is also stored in the references resource.
 
-	hasReferenceUri  (public)
+	referenceUri  (public)
 
 	"""
 

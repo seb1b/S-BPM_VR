@@ -35,7 +35,9 @@ class Point3D(Resource):
 		@author
 		"""
 		Resource.__init__(self, manager, isBlank = True, blankNodeId = str(randomXMLName()))
-		
+		x = float(x)
+		y = float(y)
+		z = float(z)
 		self.hasXValue = x
 		self.hasYValue = y
 		self.hasZValue = z

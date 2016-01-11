@@ -3,10 +3,11 @@ from PASSProcessModelElement import *
 class MessageType(PASSProcessModelElement):
 
 	"""
-
+	The type of message that is exchanged between two active process components. It most likely belongs to
+	a message exchange.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None):

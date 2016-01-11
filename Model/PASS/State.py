@@ -3,10 +3,10 @@ from PASSProcessModelElement import *
 class State(PASSProcessModelElement):
 
 	"""
-
+	Is a superclass for all states in a behavior.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES

@@ -3,10 +3,10 @@ from State import *
 class SendState(State):
 
 	"""
-
+	A state that indicates that an active process component sends a message.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None):

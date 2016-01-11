@@ -4,10 +4,10 @@ from MessageExchange import *
 class CommunicationActTransition(TransitionEdge):
 
 	"""
-
+	The communication act transition is a superclass transition from a receive state or a transition to a send state.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES
@@ -31,7 +31,7 @@ class CommunicationActTransition(TransitionEdge):
 		"""
 		TransitionEdge.__init__(self, manager, uri, isBlank, blankNodeId, sourceState, targetState)
 		if((refersTo is not None) and (not isinstance(refersTo, MessageExchange))):
-			raise Exception("RefersTo must be of type MessageExchange!")
+			raise Exception("'RefersTo' must be of type MessageExchange!")
 		self.refersTo = refersTo
 		
 	def getAttrMultiplicity(self, attributeName):

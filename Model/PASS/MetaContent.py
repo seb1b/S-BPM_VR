@@ -5,7 +5,7 @@ from AttributeMultiplicity import *
 class MetaContent(Resource):
 
 	"""
-
+	A single meta content key value combination.
 
 	:version: 2012-12-04
 	:author: Lukas Block

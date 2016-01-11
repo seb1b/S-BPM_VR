@@ -4,10 +4,10 @@ from State import *
 class TransitionEdge(PASSProcessModelElement):
 
 	"""
-
+	This is a the superclass for all transition edges between states in a behavior.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES

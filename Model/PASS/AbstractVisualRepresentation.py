@@ -7,8 +7,9 @@ from AttributeMultiplicity import *
 class AbstractVisualRepresentation(Resource):
 
 	"""
-
-
+	This class represents the position of a PASSProcessModelElement in 2D and 3D space. As it does only
+	provide some coordinates and no real visual representation it is called an abstract visual representation.
+	
 	:version: 2012-12-04
 	:author: Lukas Block
 	"""
@@ -60,8 +61,8 @@ class AbstractVisualRepresentation(Resource):
 		@return  :
 		@author
 		"""
-		if((not isinstance(xCoordinate, float)) or (not isinstance(yCoordinate, float))):
-			raise Exception("The coordinates must be of type double!")
+		xCoordinate = float(xCoordinate)
+		yCoordinate = float(yCoordinate)
 		self.hasPoint2D.hasXValue = xCoordinate
 		self.hasPoint2D.hasYValue = yCoordinate
 
@@ -75,8 +76,9 @@ class AbstractVisualRepresentation(Resource):
 		@return  :
 		@author
 		"""
-		if((not isinstance(xCoordinate, float)) or (not isinstance(yCoordinate, float)) or (not isinstance(zCoordinate, float))):
-			raise Exception("The coordinates must be of type double!")
+		xCoordinate = float(xCoordinate)
+		yCoordinate = float(yCoordinate)
+		zCoordinate = float(zCoordinate)
 		self.hasPoint3D.hasXValue = xCoordinate
 		self.hasPoint3D.hasYValue = yCoordinate
 		self.hasPoint3D.hasZValue = zCoordinate

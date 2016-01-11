@@ -4,10 +4,10 @@ from FunctionState import *
 class StandardTransition(TransitionEdge):
 
 	"""
-
+	A standard trnasition that originiates from a function state.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None, sourceState = None, targetState = None):

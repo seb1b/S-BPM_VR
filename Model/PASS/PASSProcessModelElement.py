@@ -3,11 +3,13 @@ from AbstractVisualRepresentation import *
 from AttributeMultiplicity import *
 from Tools import *
 from MetaContent import *
+from ListenerList import *
 
 class PASSProcessModelElement(Resource):
 
 	"""
-
+	This class is the superclass for all Elements in a PASS process. It is responsible for their
+	representation, their meta data and their linking.
 
 	:version: 2015-12-04
 	:author: Lukas Block
@@ -73,10 +75,10 @@ class PASSProcessModelElement(Resource):
 		
 		#Generate the component id and the empty array for the meta content
 		self.hasComponentID = randomXMLName()
-		self.hasMetaContent = []
+		self.hasMetaContent = ListenerList([], self)
 		self.hasAbstractVisualRepresentation = None
 		self.hasVisualRepresentation = None
-		self.label = []
+		self.label = ListenerList([], self)
 		
 	@property
 	def uri(self):
@@ -146,8 +148,13 @@ class PASSProcessModelElement(Resource):
 		
 		return results
 		
-	#ToDo: Functions for getting keys and deleting meta content
 	def getMetaKeys(self):
+		"""
+		Function that returns all registered meta content keys.
+		
+		@return  :
+		@author
+		"""
 		results = []
 		
 		for value in self.hasMetaContent:
@@ -157,6 +164,13 @@ class PASSProcessModelElement(Resource):
 		return results
 		
 	def removeMetaContent(self, key, onlyFirst = False):
+		"""
+		Function that removes all registered meta content with that key.
+		
+		@return  :
+		@author
+		"""
+		
 		for content in self.hasMetaContent:
 			if(content.hasKey == key):
 				self.hasMetaContent.remove(content)
@@ -168,6 +182,13 @@ class PASSProcessModelElement(Resource):
 
 		
 	def getParent(self, classType = None, recursionDepth = 5):
+		"""
+		Returns the parent of this PASSProcessModelElement by using ModelManager.getParent(...). Refer to this function for further information.
+		
+		@return  :
+		@author
+		"""
+		
 		return self.modelManager.getParent(self, classType, recursionDepth)
 
 

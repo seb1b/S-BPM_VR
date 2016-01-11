@@ -3,10 +3,10 @@ from Actor import *
 class Subject(Actor):
 
 	"""
-
+	A special kind of actor which's behavior is described through a behavior.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None, behavior = None):

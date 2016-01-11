@@ -8,14 +8,15 @@ from MessageExchange import *
 from SendTransition import *
 from SendState import *
 from TransitionEdge import *
+from ListenerList import *
 
 class Behavior(PASSProcessModelElement):
 
 	"""
-
+	A behavior is a state diagram that defines how an subject reacts when it receives or sends messages.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES
@@ -42,8 +43,11 @@ class Behavior(PASSProcessModelElement):
 		@author
 		"""
 		PASSProcessModelElement.__init__(self, manager, uri, isBlank, blankNodeId)
-		self.hasEdge = []
-		self.hasState = []
+		self.hasEdge = ListenerList([], self)
+		self.hasState = ListenerList([], self)
+		
+		self._fireChangeEvents = True
+		self.fireChangeEvent()
 
 	def addFunctionState(self):
 		"""
@@ -54,6 +58,7 @@ class Behavior(PASSProcessModelElement):
 		"""
 		newFunc = FunctionState(self.modelManager)
 		self.hasState.append(newFunc)
+		#Check if we should set the initial state
 		if(len(self.hasState) == 1):
 			self.setInitialState(newFunc)
 		return newFunc
@@ -67,6 +72,7 @@ class Behavior(PASSProcessModelElement):
 		"""
 		newS = ReceiveState(self.modelManager)
 		self.hasState.append(newS)
+		#Check if we should set the initial state
 		if(len(self.hasState) == 1):
 			self.setInitialState(newS)
 		return newS
@@ -80,6 +86,7 @@ class Behavior(PASSProcessModelElement):
 		"""
 		newS = SendState(self.modelManager)
 		self.hasState.append(newS)
+		#Check if we should set the initial state
 		if(len(self.hasState) == 1):
 			self.setInitialState(newS)
 		return newS
@@ -98,7 +105,7 @@ class Behavior(PASSProcessModelElement):
 		self.hasEdge[:] = [t for t in self.hasEdge if not ((t.hasSourceState is state) or (t.hasTargetState is state))]
 		#Delete state
 		self.hasState.remove(state)
-		#Check if it was the initial state
+		#Check if it was the initial state - if yes set another initial state if there are other states
 		if(state.isInitialState and (len(self.hasState) > 0)):
 			self.setInitialState(self.hasState[0])
 
@@ -112,9 +119,9 @@ class Behavior(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(from_, FunctionState)):
-			raise Exception("From must be of type FunctionState!")
+			raise Exception("'From' must be of type FunctionState!")
 		if(not isinstance(to, State)):
-			raise Exception("To must be of type State!")
+			raise Exception("'To' must be of type State!")
 		newT = StandardTransition(self.modelManager, sourceState = from_, targetState = to)
 		self.hasEdge.append(newT)
 		return newT
@@ -131,12 +138,12 @@ class Behavior(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(from_, ReceiveState)):
-			raise Exception("From must be of type ReceiveState!")
+			raise Exception("'From' must be of type ReceiveState!")
 		if(not isinstance(to, State)):
-			raise Exception("To must be of type State!")
+			raise Exception("'To' must be of type State!")
 		if(not isinstance(refersTo, MessageExchange)):
-			raise Exception("RefersTo must be of type MessageExchange!")
-		#ToDo: Check whether the subject might receive the referred message
+			raise Exception("'RefersTo' must be of type MessageExchange!")
+		#Now create the transition
 		newT = ReceiveTransition(self.modelManager, sourceState = from_, targetState = to, refersTo = refersTo)
 		self.hasEdge.append(newT)
 		return newT
@@ -152,12 +159,12 @@ class Behavior(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(from_, SendState)):
-			raise Exception("From must be of type ReceiveState!")
+			raise Exception("'From' must be of type ReceiveState!")
 		if(not isinstance(to, State)):
-			raise Exception("To must be of type State!")
+			raise Exception("'To' must be of type State!")
 		if(not isinstance(refersTo, MessageExchange)):
-			raise Exception("RefersTo must be of type MessageExchange!")
-		#ToDo: Check whether the subject might send the referred message
+			raise Exception("'RefersTos' must be of type MessageExchange!")
+		#Now create the transition
 		newT = SendTransition(self.modelManager, sourceState = from_, targetState = to, refersTo = refersTo)
 		self.hasEdge.append(newT)
 		return newT

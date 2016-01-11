@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import PASS
+
+i = 0
 
 def buildHelper(manager, model):
 	#SID
@@ -21,12 +25,16 @@ def buildHelper(manager, model):
 	behavior2.addReceiveTransition(newState3, newState1, messageExchange)
 
 
-#Create manager
-manager = PASS.ModelManager("./tests/in001.nt")
-#Now build the model
-model = PASS.PASSProcessModel(manager)
-buildHelper(manager, model)
+def changeListener(object):
+	global i
+	print(("==> Object changed: " + str(object) + "!"))
+	i += 1
 
 
-#Save
-manager.saveAs("./tests/out001-3.owl")
+
+print("========= Loading: =============")
+manager = PASS.ModelManager()
+manager.addChangeListener(changeListener)
+buildHelper(manager, manager.model)
+
+print(i)

@@ -3,7 +3,7 @@ from collections import OrderedDict
 class ClassMapper(object):
 
 	"""
-
+	The class mapper is responsible for mapping the rdf:type attribute to the python classes and vice versa.
 
 	:version: 2015-12-04
 	:author: Lukas Block
@@ -33,7 +33,7 @@ class ClassMapper(object):
 		"""
 		#Class mapping is an ordered dictionary => Order sepcifies specificy => First one is most specific
 		self._classMapping = OrderedDict()
-		#ToDo: Might lead to mistakes
+		#Be carefull with the order: Might lead to mistakes
 		self._classMapping["Resource"] = "http://www.w3.org/2000/01/rdf-schema#Class"
 		
 		self._classMapping["SendState"] = "http://www.imi.kit.edu/abstract-pass-ont#SendState"

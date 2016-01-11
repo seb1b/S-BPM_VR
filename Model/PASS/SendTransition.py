@@ -4,10 +4,10 @@ from SendState import *
 class SendTransition(CommunicationActTransition):
 
 	"""
-
+	A transition with a send state as its resource.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None, sourceState = None, targetState = None, refersTo = None):

@@ -5,6 +5,7 @@ from AttributeMapper import *
 from ClassMapper import *
 from Resource import *
 from AttributeMultiplicity import *
+from ListenerList import *
 
 
 class ModelManager(object):
@@ -86,7 +87,6 @@ class ModelManager(object):
 
 	"""
 	
-	#ToDo: Complete list
 	POSSIBLE_EXTENSIONS = [".owl", ".nt"]
 	DEFAULT_EXTENSION = ".owl"
 	DEFAULT_BASE_URI = "http://www.imi.kit.edu/passModelInstances/"
@@ -119,89 +119,95 @@ class ModelManager(object):
 			layer = BaseLayer(self)
 			self._model.hasModelComponent.append(layer)
 		else:
-			#Load a model
-			#ToDo: Find model in the loaded file
+			#========= Load a model =======
+			
 			#Check the type of the path and whether the path exists
-			hasWriteAccess = os.access(os.path.dirname(filePath), os.W_OK)
 			isString = isinstance(filePath, str)
-			validExtension = os.path.splitext(filePath)[-1] in ModelManager.POSSIBLE_EXTENSIONS
-			#Raise exceptions if above restrictions are not valid
 			if(not isString):
 				raise Exception("Parameter \"filePath\" must be of type str!")
-			elif(not hasWriteAccess):
+			#If the basepath is used to define the uri delete it an replace it with a relative path
+			filePath = filePath.replace(ModelManager.DEFAULT_BASE_URI, "./")
+			hasWriteAccess = os.access(os.path.dirname(filePath), os.W_OK)
+			validExtension = os.path.splitext(filePath)[-1] in ModelManager.POSSIBLE_EXTENSIONS
+			#Raise exceptions if above restrictions are not valid
+			if(not hasWriteAccess):
 				raise Exception("Parameter \"filePath\" must point to a valid file address!")
-			elif(not validExtension):
+			if(not validExtension):
 				raise Exception("Parameter \"filePath\" must have a valid extension!")
+				
+			#========= Continue if everything is alright ========
+			#Set the variable to not fire change events currently
+			self._currentlyLoading = True
+			
+			#Set the file path
+			self._filePath = filePath
+			#========= Now load the model =========
+			storage = RDF.MemoryStorage()
+			if storage is None:
+				raise Exception("Failed to create storage for reading from the file!")
+			model = RDF.Model(storage)
+			if(model is None):
+				raise Exception("Faile to create model for reading from the file!")
+			#========= Now start parsing =========
+			#Select parser by file type
+			if(os.path.splitext(filePath)[-1] == ".nt"):
+				parser = RDF.NTriplesParser()
 			else:
-				#ToDo: Pack all this functionality into subfunctions
-				
-				#Set the variable to not fire change events currently
-				self._currentlyLoading = True
-				
-				#Set the file path
-				self._filePath = filePath
-				#========= Now load the model =========
-				storage = RDF.MemoryStorage()
-				if storage is None:
-					raise Exception("Failed to create storage for reading from the file!")
-				model = RDF.Model(storage)
-				if(model is None):
-					raise Exception("Faile to create model for reading from the file!")
-				#========= Now start parsing =========
-				#Select parser by file type
-				if(os.path.splitext(filePath)[-1] == ".nt"):
-					parser = RDF.NTriplesParser()
+				parser = RDF.Parser("raptor")
+			#Read from file
+			uri = RDF.Uri(string="file:" + filePath)
+			for statement in parser.parse_as_stream(uri, uri):
+				model.add_statement(statement)
+			#Get all class types of each subject node by rdf:type and store them all in the classTypes dict
+			typeQuery = RDF.Query("SELECT ?s ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o }")
+			classTypes = {}
+			for result in typeQuery.execute(model):
+				#Check the type of s
+				if(result["s"].is_resource()):
+					subjectString = str(result["s"].uri)
+				elif(result["s"].is_blank()):
+					subjectString = str(result["s"].blank_identifier)
 				else:
-					parser = RDF.Parser("raptor")
-				#Read from file
-				uri = RDF.Uri(string="file:" + filePath)
-				for statement in parser.parse_as_stream(uri, uri):
-					model.add_statement(statement)
-				#Get all class types of each subject node by rdf:type and store them all in the classTypes dict
-				typeQuery = RDF.Query("SELECT ?s ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o }")
-				classTypes = {}
-				for result in typeQuery.execute(model):
-					#Check the type of s
-					if(result["s"].is_resource()):
-						subjectString = str(result["s"].uri)
-					elif(result["s"].is_blank()):
-						subjectString = str(result["s"].blank_identifier)
-					else:
-						raise Exception("Received a RDFNode that is a subject and neither of type normal nor blank!")
-					#Now insert it into dict if not and append type
-					if (not (subjectString in classTypes)):
-						classTypes[subjectString] = []
-					classTypes[subjectString].append(str(result["o"]))
-				#Now generate the instances depending on their rdf:type links stored in the classTypes dict
-				ownClasses = {}
-				for (key, value) in list(classTypes.items()):
-					className = self._classMapper.getClassName(value)
-					#Do a dynamic import of the missing class
-					exec(str("from " + className + " import *"), globals())
-					classConstructor = globals()[className]
-					if(key.startswith("http://")):
-						newClass = classConstructor(self, uri = key)
-					else:
-						newClass = classConstructor(self, isBlank = True, blankNodeId = key)
-					#Set the PASSProcessModel-Reference
-					if(className == "PASSProcessModel"):
-						if(self._model is not None):
-							print("WARNING! Two Process Models were read from the file while only one can be instanciated!")
-						self._model = newClass
-					ownClasses[key] = newClass
-				#Go through all triples with the component id and perform them before the others to set the right ids on the PASSProcessModelElements
-				tripleQuery = RDF.Query("SELECT ?s ?o WHERE { ?s <http://www.imi.kit.edu/abstract-pass-ont#hasModelComponentID> ?o }")
-				for result in tripleQuery.execute(model):
-					self._convertTriples(result, ownClasses, "http://www.imi.kit.edu/abstract-pass-ont#hasModelComponentID")
-				#Go through all triples and include them - Eventually generate additional class instances or literals if this object has not been created yet
-				tripleQuery = RDF.Query("SELECT ?s ?a ?o WHERE { ?s ?a ?o }")
-				for result in tripleQuery.execute(model):
-					self._convertTriples(result, ownClasses)
-				#Finished loading
-				self._currentlyLoading = False
-				#ToDo: Validity check at the end
+					raise Exception("Received a RDFNode that is a subject and neither of type normal nor blank!")
+				#Now insert it into dict and append type
+				if (not (subjectString in classTypes)):
+					classTypes[subjectString] = []
+				classTypes[subjectString].append(str(result["o"]))
+			#Now generate the instances depending on their rdf:type links stored in the classTypes dict
+			ownClasses = {}
+			for (key, value) in list(classTypes.items()):
+				className = self._classMapper.getClassName(value)
+				#Do a dynamic import of the missing class
+				exec(str("from " + className + " import *"), globals())
+				classConstructor = globals()[className]
+				if(key.startswith("http://")):
+					newClass = classConstructor(self, uri = key)
+				else:
+					newClass = classConstructor(self, isBlank = True, blankNodeId = key)
+				#Set the PASSProcessModel-Reference
+				if(className == "PASSProcessModel"):
+					if(self._model is not None):
+						print("WARNING! Two Process Models were read from the file while only one can be instanciated!")
+					self._model = newClass
+				ownClasses[key] = newClass
+			#Go through all triples with the component id and perform them before the others to set the right ids on the PASSProcessModelElements
+			tripleQuery = RDF.Query("SELECT ?s ?o WHERE { ?s <http://www.imi.kit.edu/abstract-pass-ont#hasModelComponentID> ?o }")
+			for result in tripleQuery.execute(model):
+				self._convertTriples(result, ownClasses, "http://www.imi.kit.edu/abstract-pass-ont#hasModelComponentID")
+			#Go through all triples and include them - Eventually generate additional class instances or literals if this object has not been created yet
+			tripleQuery = RDF.Query("SELECT ?s ?a ?o WHERE { ?s ?a ?o }")
+			for result in tripleQuery.execute(model):
+				self._convertTriples(result, ownClasses)
+			#Finished loading
+			self._currentlyLoading = False
 
 	def _convertTriples(self, result, ownClasses, alternativeAttrUri = None):
+		"""
+		Internal method to make loading from file easier!
+		
+		@return  :
+		@author
+		"""
 		#Rest subject string
 		subjectString = None
 		
@@ -246,7 +252,7 @@ class ModelManager(object):
 			else:
 				dt = None
 			objectClass = Resource.castLiteralToType(literalValues["string"], dt)
-		#No go on depending the object type
+		#Now go on depending the object type
 		if(not objectIsLiteral):
 			#Insert the object if not already in class list
 			if (not (objectString in ownClasses)):
@@ -264,7 +270,7 @@ class ModelManager(object):
 		multiplicity = subjectClass.getAttrMultiplicity(attrName)
 		if(multiplicity == AttributeMultiplicity.UNKNOWN):
 			if (not hasattr(subjectClass, attrName)):
-				setattr(subjectClass, attrName, [])
+				setattr(subjectClass, attrName, ListenerList([], subjectClass))
 			getattr(subjectClass, attrName).append(objectClass)
 		elif(multiplicity == AttributeMultiplicity.UNIQUE):
 			setattr(subjectClass, attrName, objectClass)
@@ -345,8 +351,8 @@ class ModelManager(object):
 			else:
 				#By default use the default serialize
 				pass
+			#Now serialize
 			serializer = RDF.Serializer(name=name, mime_type=mimeType)
-			#ToDo: Maybe use namespaces?
 			serializer.serialize_model_to_file(self.filePath, model)
 			print(("INFO! Saving model to file \"" + self.filePath + "\" was successfull!"))
 		else:
@@ -407,7 +413,6 @@ class ModelManager(object):
 		@author
 		"""
 		if(isinstance(resource, Resource)):
-			#ToDo: Check if that works...
 			#Check whether resource is stored as a weak ref
 			for value in self._resources:
 				if((type(value) is weakref.ref) and ((value() is resource))):
@@ -475,6 +480,16 @@ class ModelManager(object):
 				func(changedElement)
 			
 	def getParent(self, childElement, classType = None, recursionDepth = 5):
+		"""
+		 Returns the parent for a given Resource instance or None if none could be found.
+		 The parent is thereby defined as the first class found that points to the childElement
+		 instance. If classType is specified with a certain class type it can be searched for parents
+		 that are of a specified type.
+
+		@param PASSProcessModelElement changedElement : The element that has changed.
+		@return  :
+		@author
+		"""
 		#Iterate over all avaiable resources
 		for resource in self.resources:
 			if(resource is not None):

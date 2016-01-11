@@ -4,10 +4,10 @@ from AttributeMultiplicity import *
 class Actor(ActiveProcessComponent):
 
 	"""
-
-
+	This class represents a PASS Actor that is the suberclass to Subjects of the PASS model.
+	
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES

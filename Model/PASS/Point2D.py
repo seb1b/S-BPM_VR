@@ -5,7 +5,7 @@ from AttributeMultiplicity import *
 class Point2D(Resource):
 
 	"""
-
+	A point in 2D space.
 
 	:version: 2015-12-04
 	:author: Lukas Block
@@ -31,7 +31,8 @@ class Point2D(Resource):
 		@author
 		"""
 		Resource.__init__(self, manager, isBlank = True, blankNodeId = str(randomXMLName()))
-		
+		x = float(x)
+		y = float(y)
 		self.hasXValue = x
 		self.hasYValue = y
 		

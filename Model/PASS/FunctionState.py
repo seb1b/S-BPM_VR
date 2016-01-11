@@ -3,10 +3,10 @@ from State import *
 class FunctionState(State):
 
 	"""
-
+	A function state is a 'normal' state.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None):

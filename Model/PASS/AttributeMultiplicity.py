@@ -7,7 +7,8 @@ class AttributeMultiplicity():
 
 	""" Enum Literals
 	
-	The information about multiplicity is not given in the ontology. This is resolved by representing the attribute as an array that might also be empty.
+	The information about multiplicity is not given in the ontology. This is resolved by representing the
+	attribute as an array that might also be empty.
 	UNKNOW
 	
 	Exactly one instance is allowed.

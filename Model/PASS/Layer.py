@@ -8,14 +8,15 @@ from Actor import *
 from MessageType import *
 from PASSProcessModel import *
 from AttributeMultiplicity import *
+from ListenerList import *
 
 class Layer(PASSProcessModelElement):
 
 	"""
-
+	A superclass for all layers in a PASS process model. A layer is an abstract definition of a model.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES
@@ -43,11 +44,6 @@ class Layer(PASSProcessModelElement):
 	 via hasModelComponent. For further information see the Behavior documentation.
 
 	behaviors  (public)
-
-	 Is a property - Returns all Model View instances that are assigned to this
-	 layer. See ModelView documentation for further information.
-
-	modelViews  (public)
 
 	 Is a property - Returns all Subjects that are assigned to this layer by
 	 hasModelComponent. See Subject documentation for further information.
@@ -77,7 +73,7 @@ class Layer(PASSProcessModelElement):
 		if((parentModel is not None) and (not isinstance(parentModel, PASSProcessModel))):
 			raise Exception("ParentModel parameter must be of type PASSProcessModel!")
 		self.belongsTo = parentModel
-		self.hasModelComponent = []
+		self.hasModelComponent = ListenerList([], self)
 		
 	def getAttrMultiplicity(self, attributeName):
 		if(attributeName == "belongsTo"):
@@ -134,7 +130,7 @@ class Layer(PASSProcessModelElement):
 		@author
 		"""
 		if((behaviorToAssign is not None) and (not isinstance(behaviorToAssign, Behavior))):
-			raise Exception("BehaviorToAssign must be of type Behavior!")
+			raise Exception("'BehaviorToAssign' must be of type Behavior!")
 		if(behaviorToAssign is None):
 			behaviorToAssign = self.addBehavior()
 		newSubject = Subject(self.modelManager, behavior=behaviorToAssign)
@@ -150,7 +146,7 @@ class Layer(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(uri, str)):
-			raise Exception("Uri must be of type string!")
+			raise Exception("'Uri' must be of type string!")
 		newExSub = ExternalSubject(self.modelManager, referenceUri = uri)
 		self.hasModelComponent.append(newExSub)
 		return newExSub
@@ -165,9 +161,9 @@ class Layer(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(componentToRemove, ActiveProcessComponent)):
-			raise Exception("Uri must be of type Behavior!")	
+			raise Exception("'Uri' must be of type Behavior!")	
 		if(not isinstance(removeBehavior, bool)):
-			raise Exception("removeBehavior must be of type bool!")
+			raise Exception("'removeBehavior' must be of type bool!")
 		#Remove incident message exchanges
 		for e in self.messageExchanges:
 			if((e.sender is componentToRemove) or (e.receiver is componentToRemove)):
@@ -190,11 +186,11 @@ class Layer(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(sender, ActiveProcessComponent)):
-			raise Exception("Sender must be of type Actor!")	
+			raise Exception("'Sender' must be of type Actor!")	
 		if(not isinstance(receiver, ActiveProcessComponent)):
-			raise Exception("Receiver must be of type Actor!")	
+			raise Exception("'Receiver' must be of type Actor!")	
 		if((messageType is not None) and (not isinstance(messageType, MessageType))):
-			raise Exception("MessageType must be of type MessageType!")	
+			raise Exception("'MessageType' must be of type MessageType!")	
 		if(messageType is None):
 			messageType = MessageType(self.modelManager)
 		newExchange = MessageExchange(self.modelManager, sender = sender, receiver = receiver, messageType = messageType)
@@ -211,7 +207,7 @@ class Layer(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(messageExchange, MessageExchange)):
-			raise Exception("MessageExchange must be of type MessageExchange!")	
+			raise Exception("'MessageExchange' must be of type MessageExchange!")	
 		self.hasModelComponent.remove(messageExchange)
 
 	def addBehavior(self):

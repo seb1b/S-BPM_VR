@@ -5,21 +5,21 @@ from MessageType import *
 class MessageExchange(PASSProcessModelElement):
 
 	"""
-
+	This is a class that describes a message exchange between two active process components.
 
 	:version: 2015-12-07
-	:author: Kai Hartung
+	:author: Kai Hartung & Lukas Block
 	"""
 
 	""" ATTRIBUTES
 
 	 The receiver of this message exchange. Defined by the ontology.
 
-	hasReceiver  (public)
+	receiver  (public)
 
 	 The sender of this message exchange. Defined by the ontology.
 
-	hasSender  (public)
+	sender  (public)
 
 	 The type this message has.
 
