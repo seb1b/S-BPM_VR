@@ -95,10 +95,47 @@ class Controller:
 		if self.current_view is not None:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
+				# CASE: some object was released -> drag or select?
 				assert self.pressed_object in self.selected_objects
 				self.released_object = self.pressed_object
 				self.pressed_object = None
-				self.current_view.set_highlight(self.released_object, False)
+				if isinstance(self.released_object, View.MenuBarItem):
+					# CASE: menu bar item was released on field
+					new_obj = None
+					if self.released_object.type_name == "subject":
+						new_obj = self.current_model.hasModelComponent[0].addSubject()
+						new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
+						new_obj.label.append("New Subject")
+					if self.released_object.type_name == "message":
+						# TODO: implement
+						pass
+					else:
+						assert(False, "Invalid MenuBarItem type")
+					self.current_view.set_highlight(self.released_object, False)
+					self.selected_objects.remove(self.released_object)
+					assert self.released_object not in seef.selected_objects
+					if new_obj is not None:
+						self.selected_objects.append(new_obj)
+					self.released_object = new_obj
+				elif sum(map(lambda x : x ** 2, [a - b for a, b in zip(self.press_position, pos)])) < 1.0:
+					# TODO: tweak squared distance threshold value
+					# CASE: some field object was selected
+					# nothing to do
+					pass
+				else:
+					# CASE: some field object was dragged/moved
+					# nothing to do
+					pass
+				if self.released_object is not None:
+					self.current_view.set_highlight(self.released_object, True)
+			elif self.pressed_object is None and self.pressed_is_left == is_left:
+				# CASE: release on field without object -> deselect everything
+				for obj in self.selected_objects:
+					self.current_view.set_highlight(self.released_object, False)
+				self.selected_objects = []
+				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
+			else:
+				print("RELEASE without previous PRESS - WTF???")
 		self.release_position = pos
 
 		return None
@@ -257,12 +294,13 @@ class Controller:
 
 	def init_debug_setup(self):
 		print("Initializing debug/testing model and view")
-		file_path = "/var/temp/temp_model"
-		self.models[file_path] = ModelManager(None)
-		# TODO: init model
+		file_path = "/tmp/temp_model.owl"
+		self.models[file_path] = ModelManager()
 		self.views[file_path] = View()
 		self.current_model = self.models[file_path]
 		self.current_view = self.views[file_path]
+		#self.current_model.addChangeListener(self.views[file_path].on_change)
+		# TODO: init model
 
 
 if __name__ == "__main__":
