@@ -51,20 +51,28 @@
     </Script>
     <Script name_suffix="0" base_name="init" name_space="__script__" type="Python" mobile="">
       <core>
+	import sys
+	sys.path.append("../../Controller")
+	sys.path.append("../../Model")
+	sys.path.append("../../View")
+	sys.path.append("../../HardwareInterface/hardware_main")
+
 	import VR
-	from PASS import ModelManager
-	# from view import View
 	from controller import Controller
 	
+	#reload(Controller)
+	#reload(PASS)
+	#reload(View)
+	#reload(hardware_interface)
+
 	#assert hasattr(VR, "controller") == False
 	VR.controller = Controller()
 
 	print("S-BPM VR init done")
-	
-	temp = ModelManager(None)
 
-	VR.controller.test()
-	VR.controller.init_debug_setup()
+	#VR.controller.test()
+	#VR.controller.init_debug_setup()
+	VR.controller.test_bsp_prozess()
 </core>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
     </Script>
