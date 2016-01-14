@@ -36,9 +36,9 @@ class View():
 
 		# setup offset
 		win_size = VR.getSetup().getWindow('screen').getSize()
-		assert len(win_size == 2)
-		self.offset_x = w.getSize()[0]
-		self.offset_y = w.getSize()[1]
+		assert len(win_size) == 2
+		self.offset_x = win_size.getSize()[0]
+		self.offset_y = win_size.getSize()[1]
 	
 		# set colors
 		self.colors = {}
