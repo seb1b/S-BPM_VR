@@ -320,6 +320,8 @@ class Controller:
 		self.current_view = self.views[file_path]
 		self.current_model.addChangeListener(self.views[file_path].on_change)
 		self.views[file_path].on_change(self.current_model.model.hasModelComponent[0].subjects[0])
+		self.views[file_path].on_change(self.current_model.model.hasModelComponent[0].subjects[1])
+		self.current_model.model.hasModelComponent[0].addMessageExchange(self.current_model.model.hasModelComponent[0].subjects[0], self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"

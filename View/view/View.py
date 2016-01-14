@@ -54,6 +54,7 @@ class View():
 		
 		#HACK create 3 clickable and movable objects
 		self.poly_objects = []
+		"""
 		obj1 = VR.Geometry('cube')
 		obj1.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
 		obj1.setMaterial(VR.Material('sample material'))
@@ -87,6 +88,7 @@ class View():
 		obj3.addTag('subject')
 		VR.view_root.addChild(obj3)
 		self.poly_objects.append(obj3)
+		"""
 	
 		# setup menu bar
 		# add subject
@@ -260,17 +262,19 @@ class View():
 
 	def on_change(self, object):
 		#TODO Hack
-		if isinstance(object, PASS.Subject):
+		if isinstance(object, PASS.Subject) or isinstance(object, PASS.MessageExchange):
 			pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 			pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 			
+			print pos_x, pos_y
+			"""
 			bb_min_x = object.getParent(PASS.Layer).getBoundingBox2D()[0][0]
 			bb_min_y = object.getParent(PASS.Layer).getBoundingBox2D()[0][1]
 			bb_max_x = object.getParent(PASS.Layer).getBoundingBox2D()[1][0]
 			bb_max_y = object.getParent(PASS.Layer).getBoundingBox2D()[1][1]
 			bb_x_dist = bb_max_x - bb_min_x
 			bb_y_dist = bb_max_y - bb_min_y
-		
+			"""
 		
 			rel_size = 1 #TODO getRelativeSize()
 			# find given object
@@ -278,36 +282,40 @@ class View():
 				self.objects.append(object)
 				#create polyVR object and add it to scene #TODO
 				poly_obj = VR.Geometry('cube') #TODO replace with blender model
-				primitive_str = 'box'
+				primitive_str = 'Box'
 				#primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
 				primitive_str += (' 0.2') * 3
 				primitive_str += ' 1' * 3
 				poly_obj.setPrimitive(primitive_str)
 				poly_obj.setMaterial(VR.Material('sample material'))
 				if isinstance(object, PASS.Subject):
-					poly_obj.setColor(self.colors['subject'])
+					poly_obj.setColors(self.colors['subject'])
 					poly_obj.addTag('subject')
 				elif isinstance(object, PASS.MessageExchange):
-					poly_obj.setColor(self.colors['message'])
+					poly_obj.setColors(self.colors['message'])
 					poly_obj.addTag('message')
 					self.draw_line(object)
 				elif isinstance(object, PASS.SendState):
-					poly_obj.setColor(self.colors['send_state'])
+					poly_obj.setColors(self.colors['send_state'])
 					poly_obj.addTag('send_state')
 				elif isinstance(object, PASS.ReceiveState):
-					poly_obj.setColor(self.colors['receive_state'])
+					poly_obj.setColors(self.colors['receive_state'])
 					poly_obj.addTag('receive_state')
 				elif isinstance(object, PASS.FunctionState):
-					poly_obj.setColor(self.colors['function_state'])
+					poly_obj.setColors(self.colors['function_state'])
 					poly_obj.addTag('function_state')
 				elif isinstance(object, PASS.TransitionEdge):
-					poly_obj.setColor(self.colors['state_message'])
+					poly_obj.setColors(self.colors['state_message'])
 					poly_obj.addTag('state_message')
 					self.draw_line(object)
-				poly_obj.setFrom((pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0, (pos_y / bb_y_dist) * self.offset_y - self.offset_y / 2.0, 0.0 )
+				#poly_obj.setFrom((pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0, (pos_y / bb_y_dist) * self.offset_y - self.offset_y / 2.0, 0.0 )
+				#print (pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0
+				print self.offset_x
+				poly_obj.setFrom(pos_x, pos_y, 0.0)
 				poly_obj.setPickable(True)
 				poly_obj.setPlaneConstraints([0, 0, 1])
 				poly_obj.setRotationConstraints([1, 1, 1])
+						
 				VR.view_root.addChild(poly_obj)
 				self.poly_objects.append(poly_obj)
 			else: #update given object
@@ -342,45 +350,45 @@ class View():
 			start_dir = [0.0, 0.0]
 			mid_dir = [1.0, 0.0]
 			end_dir = [0.0, 0.0]
-			if start_pos[1] > mid_pos[1]:
+			if start_pos.hasXValue > mid_pos.hasYValue:
 				start_dir[1] = -1.0
-			elif start_pos[1] < mid_pos[1]:
+			elif start_pos.hasYValue < mid_pos.hasYValue:
 				start_dir[1] = 1.0
 			else:
-				if start_pos[0] > mid_pos[0]:
+				if start_pos.hasXValue > mid_pos.hasXValue:
 					start_dir[0] = 1.0
 				else:
 					start_dir[0] = -1.0
 
-			if mid_pos[1] > end_pos[1]:
+			if mid_pos.hasYValue > end_pos.hasYValue:
 				end_dir[1] = 1.0
-			elif mid_pos[1] < mid_pos[1]:
+			elif mid_pos.hasYValue < mid_pos.hasYValue:
 				end_dir[1] = -1.0
 			else:
-				if end_pos[0] > mid_pos[0]:
+				if end_pos.hasXValue > mid_pos.hasXValue:
 					end_dir[0] = -1.0
 				else:
 					end_dir[0] = 1.0
 
-			if mid_pos[0] == start_pos[0] or mid_pos[0] == end_pos[0]:
-				if mid_pos[1] < start_pos[1]:
+			if mid_pos.hasXValue == start_pos.hasXValue or mid_pos.hasXValue == end_pos.hasXValue:
+				if mid_pos.hasYValue < start_pos.hasYValue:
 					mid_dir[1] = -1.0
 				else:
 					mid_dir[1] = 1.0
-			elif mid_pos[0] > start_pos[0]:
+			elif mid_pos.hasXValue > start_pos.hasXValue:
 				mid_dir[0] = 1.0
 			else:
 				mid_dir[0] = -1.0
 
 			ptool = VR.Pathtool()
-			ptool.extrude(None, self.paths[-1])
 			self.paths.append(ptool.newPath(None, VR.getRoot().find('Headlight')))
+			ptool.extrude(None, self.paths[-1])
 			handles = ptool.getHandles(self.paths[-1])
-			handles[0].setFrom(start_pos[0], start_pos[1], 0.0)
+			handles[0].setFrom(start_pos.hasXValue, start_pos.hasYValue, 0.0)
 			handles[0].setDir(start_dir[0], start_dir[1], 0.0)
-			handles[1].setFrom(mid_pos[0], mid_pos[1], 0.0)
+			handles[1].setFrom(mid_pos.hasXValue, mid_pos.hasYValue, 0.0)
 			handles[1].setDir(1.0, 0.0, 0.0)
-			handles[2].setFrom(end_pos[0], end_pos[1], 0.0)
+			handles[2].setFrom(end_pos.hasXValue, end_pos.hasYValue, 0.0)
 			handles[2].setDir(end_dir[0], end_dir[1], 0.0)
 			ptool.update()
 		else:
