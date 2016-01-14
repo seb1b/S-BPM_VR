@@ -1,0 +1,13 @@
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\Kinect.exe
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\Kinect.pdb
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\GestureDetector.dll
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\Microsoft.Kinect.VisualGestureBuilder.dll
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\protobuf-net.dll
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\RabbitMQ.Client.dll
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\RabbitMQ.Client.xml
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\protobuf-net.pdb
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\protobuf-net.xml
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Debug\Microsoft.Kinect.VisualGestureBuilder.xml
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\obj\x86\Debug\Send.csprojResolveAssemblyReference.cache
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\obj\x86\Debug\Kinect.exe
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\obj\x86\Debug\Kinect.pdb

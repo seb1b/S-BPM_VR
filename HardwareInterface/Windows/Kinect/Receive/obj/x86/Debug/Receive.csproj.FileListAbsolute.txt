@@ -1,0 +1,7 @@
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\bin\Debug\Receive.exe
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\bin\Debug\Receive.pdb
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\bin\Debug\RabbitMQ.Client.dll
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\bin\Debug\RabbitMQ.Client.xml
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\obj\x86\Debug\Receive.csprojResolveAssemblyReference.cache
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\obj\x86\Debug\Receive.exe
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Kinect\Receive\obj\x86\Debug\Receive.pdb
