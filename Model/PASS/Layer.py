@@ -252,6 +252,12 @@ class Layer(PASSProcessModelElement):
 		self.hasModelComponent.remove(behaviorToRemove)
 		
 	def getBoundingBox2D(self):
+		"""
+		 Returns the bounding box of all active process elements in their 2D coordinate system.
+
+		@return  :
+		@author
+		"""
 		#Helper variables
 		maxX = float("-inf")
 		maxY = float("-inf")
@@ -281,6 +287,12 @@ class Layer(PASSProcessModelElement):
 		return [[minX, minY], [maxX, maxY]]
 					
 	def getBoundingBox3D(self):
+		"""
+		 Returns the bounding box of all active process elements in their 3D coordinate system.
+
+		@return  :
+		@author
+		"""
 		#Helper variables
 		maxX = float("-inf")
 		maxY = float("-inf")
