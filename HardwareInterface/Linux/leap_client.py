@@ -7,14 +7,14 @@ import Leap
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture, Vector, Bone, Finger
 
 class SampleListener(Leap.Listener):
-    finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
-    bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
-
     # ID
     # 10: Leap1, 11: Leap2
     # 20: Myo1, 21: Myo2
     # 30: Kinect1, 31: Kinect2
     # 40: Tablet1
+
+    finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
+    bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
 
     # Connection init 
     def on_init(self, controller):
@@ -41,89 +41,146 @@ class SampleListener(Leap.Listener):
         # Each Frame object representing a frame contains lists of tracked entities, such as hands, fingers, and tools, as well as recognized gestures and factors describing the overall motion in the scene.
         frame = controller.frame()
 
-        # The current InteractionBox for the frame.
+        # Coordinates from the Leap Motion frame of reference (millimeters) are converted to a range of [0..1] such that
+        # the minimum value of the InteractionBox maps to 0 and the maximum value of the InteractionBox maps to 1.
+        # The coordinates for normalized points outside the InteractionBox boundaries can be negative or greater than one
+        # (unless the clamp parameter is True, which is the default).
+        # normalized_point = box.normalize_point(vector, True)
+
+        # The current InteractionBox for the frame
         box = frame.interaction_box
 
-        # ID:current_handpalm_position_x,current_handpalm_position_y,current_handpalm_position_z:hand_type:current_gesture
-        string_to_send = ""
+        # HANDS_ALIGNED
+        if len(frame.hands) == 2 and self.is_hands_aligned(frame.hands):
 
-        ID = 10
-        current_gesture = ""
-        current_handpalm_position_x = ""
-        current_handpalm_position_y = ""
-        current_handpalm_position_z = ""
-        hand_type = ""
+            # ID:current_handpalm_position_x,current_handpalm_position_y,current_handpalm_position_z:handtype:current_gesture
+            string_to_send = ""
 
+            ID = 10
+            current_gesture = ""
+            current_handpalm_position_x = ""
+            current_handpalm_position_y = ""
+            current_handpalm_position_z = ""
+            handtype = "None"
+
+            current_gesture = "hands_aligned"
+
+            # Use middle of both handpalms
+            current_handpalm_position_x = str((frame.hands[0].palm_position.x + frame.hands[1].palm_position.x) / 2)
+            current_handpalm_position_y = str((frame.hands[0].palm_position.y + frame.hands[1].palm_position.y) / 2)
+            current_handpalm_position_z = str((frame.hands[0].palm_position.z + frame.hands[1].palm_position.z) / 2)
+
+            string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + handtype + ":" + current_gesture
+            print(string_to_send)
+            
+            if current_handpalm_position_x:
+                channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
+
+        # All other actions
+        else: 
+            for hand in frame.hands:
+
+                # ID:current_handpalm_position_x,current_handpalm_position_y,current_handpalm_position_z:handtype:current_gesture
+                string_to_send = ""
+
+                ID = 10
+                current_gesture = ""
+                current_handpalm_position_x = ""
+                current_handpalm_position_y = ""
+                current_handpalm_position_z = ""
+
+                handtype = "L" if hand.is_left else "R"
+
+                # Use handpalm
+                current_handpalm_position_x = str(hand.palm_position.x)
+                current_handpalm_position_y = str(hand.palm_position.y)
+                current_handpalm_position_z = str(hand.palm_position.z)
+
+                # Use frontmost finger
+                # current_handpalm_position_x = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
+                # current_handpalm_position_y = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).y)
+                # current_handpalm_position_z = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)      
+
+                if self.is_grab(hand):
+                    current_gesture = "grab"
+
+                # Get gestures
+                for gesture in frame.gestures():
+
+                    # True if gesture is associated with hand of type handtype, False else
+                    if self.is_associated_with_handtype(gesture, handtype):
+
+                        if gesture.type == Leap.Gesture.TYPE_CIRCLE:
+                            circle = CircleGesture(gesture)
+                            
+                            # Determine clock direction using the angle between the pointable and the circle normal
+                            if circle.pointable.direction.angle_to(circle.normal) <= Leap.PI/2:
+                                clockwiseness = "clockwise"
+                            else:
+                                clockwiseness = "counterclockwise"
+                            
+                            current_gesture = "circle_" + clockwiseness
+
+                        elif gesture.type == Leap.Gesture.TYPE_SWIPE:
+                            current_gesture = "swipe"
+
+                        elif gesture.type == Leap.Gesture.TYPE_KEY_TAP:
+                            current_gesture = "keytap"
+
+                        elif gesture.type == Leap.Gesture.TYPE_SCREEN_TAP:
+                            current_gesture = "screentap"
+
+                string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + handtype + ":" + current_gesture
+                print(string_to_send)
+        		
+                if current_handpalm_position_x:
+                    channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
+
+    # Returns True if grab is detected and False else
+    def is_grab(self, hand):
         positions_fingertips = [Vector]*5
-        distance_fingers = 0.0
         positions_distal_phalanges = [Vector]*5
-        distance_distal_phalanges = 0.0
+        distance_fingers_to_thumb = 0.0
+        distance_distal_phalanges_to_thumb = 0.0
 
+        fingers = hand.fingers
 
-        # Get hands
-        for hand in frame.hands:
+        for finger in fingers:
+            if finger.is_valid:
+                positions_fingertips[finger.type] = finger.joint_position(Finger.JOINT_TIP)
+                positions_distal_phalanges[finger.type] = finger.bone(Bone.TYPE_DISTAL).next_joint
 
-            hand_type = "L" if hand.is_left else "R"
+        # pinky and ring finger out
+        for i in range(Finger.TYPE_INDEX, Finger.TYPE_MIDDLE + 1):
+            distance_fingers_to_thumb += positions_fingertips[0].distance_to(positions_fingertips[i])
+            distance_distal_phalanges_to_thumb += positions_distal_phalanges[0].distance_to(positions_distal_phalanges[i])
 
-            # Coordinates from the Leap Motion frame of reference (millimeters) are converted to a range of [0..1] such that
-            # the minimum value of the InteractionBox maps to 0 and the maximum value of the InteractionBox maps to 1.
-            # The coordinates for normalized points outside the InteractionBox boundaries can be negative or greater than one
-            # (unless the clamp parameter is True, which is the default).
-            # normalized_point = box.normalize_point(vector, True)
+        # An open hand has a grab strength of zero. As a hand closes into a fist, its grab strength increases to one.
+        # print('distance_fingers_to_thumb =', distance_fingers_to_thumb, 'distance_distal_phalanges_to_thumb =', distance_distal_phalanges_to_thumb, 'grab_strength =', hand.grab_strength)
+        if distance_fingers_to_thumb <= 100 and distance_distal_phalanges_to_thumb <= 100 and hand.grab_strength >= 0.5:
+            return True
+        else:
+            return False
 
-            # Use handpalm
-            # current_handpalm_position_x += str(hand.palm_position.x)
-            # current_handpalm_position_y += str(hand.palm_position.y)
-            # current_handpalm_position_z += str(hand.palm_position.z)
+    def is_hands_aligned(self, hands):
+        # Calculate the distance of the handpalm positions
+        distance_handpalms = hands[0].palm_position.distance_to(hands[1].palm_position)
+        
+        # print('distance_handpalms =', distance_handpalms)
 
-            # Use frontmost finger
-            current_handpalm_position_x = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
-            current_handpalm_position_y = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).y)
-            current_handpalm_position_z = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)
+        if distance_handpalms <= 100:
+            return True
+        else:
+            return False
 
-            fingers = hand.fingers
-            for finger in fingers:
-                if finger.is_valid:
-                    positions_fingertips[finger.type] = finger.joint_position(Finger.JOINT_TIP)
-                    positions_distal_phalanges[finger.type] = finger.bone(Bone.TYPE_DISTAL).next_joint
-
-            # Leave pinky and ring finger out
-            for i in range(1, Finger.TYPE_MIDDLE + 1):
-                distance_fingers += positions_fingertips[0].distance_to(positions_fingertips[i])
-                distance_distal_phalanges += positions_distal_phalanges[0].distance_to(positions_distal_phalanges[i])
-
-            # An open hand has a grab strength of zero. As a hand closes into a fist, its grab strength increases to one.
-            # if hand.grab_strength >= 0.8 and 
-            if distance_fingers <= 100 and distance_distal_phalanges <= 100:
-                current_gesture = "grab"       
-
-        # Get gestures
-        for gesture in frame.gestures():
-            if gesture.type == Leap.Gesture.TYPE_CIRCLE:
-                circle = CircleGesture(gesture)
-                # Determine clock direction using the angle between the pointable and the circle normal
-                if circle.pointable.direction.angle_to(circle.normal) <= Leap.PI/2:
-                    clockwiseness = "clockwise"
-                else:
-                    clockwiseness = "counterclockwise"
-                current_gesture = "circle_" + clockwiseness
-
-            if gesture.type == Leap.Gesture.TYPE_SWIPE:
-                current_gesture = "swipe"
-
-            if gesture.type == Leap.Gesture.TYPE_KEY_TAP:
-                current_gesture = "keytap"
-
-            if gesture.type == Leap.Gesture.TYPE_SCREEN_TAP:
-                current_gesture = "screentap"
-
-            # Recognized movements occur over time and have a beginning, a middle, and an end. The state attribute reports where in that sequence this Gesture object falls.
-
-        string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + hand_type + ":" + current_gesture
-        print "string_to_send: " + string_to_send
-		
-        if current_handpalm_position_x:
-            channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
+    def is_associated_with_handtype(self, gesture, handtype):
+        for hand in gesture.hands:
+            if hand.is_left and handtype == "L":
+                return True
+            elif hand.is_right and handtype == "R":
+                return True
+            else:
+                return False
 
 def main():
     # Create a sample listener and controller
