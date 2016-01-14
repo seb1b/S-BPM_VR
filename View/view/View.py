@@ -269,7 +269,7 @@ class View():
 			bb_max_x = object.getParent(PASS.Layer).getBoundingBox2D()[1][0]
 			bb_max_y = object.getParent(PASS.Layer).getBoundingBox2D()[1][1]
 			bb_x_dist = bb_max_x - bb_min_x
-			bb_y_dist = bb_max_y - bb_min y
+			bb_y_dist = bb_max_y - bb_min_y
 		
 		
 			rel_size = 1 #TODO getRelativeSize()
@@ -279,7 +279,8 @@ class View():
 				#create polyVR object and add it to scene #TODO
 				poly_obj = VR.Geometry('cube') #TODO replace with blender model
 				primitive_str = 'box'
-				primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
+				#primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
+				primitive_str += (' 0.2') * 3
 				primitive_str += ' 1' * 3
 				poly_obj.setPrimitive(primitive_str)
 				poly_obj.setMaterial(VR.Material('sample material'))
