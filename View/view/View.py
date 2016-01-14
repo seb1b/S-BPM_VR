@@ -259,57 +259,68 @@ class View():
 		return None
 
 	def on_change(self, object):
-		pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
-		pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
-		rel_size = object.hasAbstractVisualRepresentation.hasRelativeSize
-		# find given object
-		if not object in self.objects: #add given object to scene
-			self.objects.append(object)
-			#create polyVR object and add it to scene #TODO
-			poly_obj = VR.Geometry('cube') #TODO replace with blender model
-			primitive_str = 'box'
-			primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
-			primitive_str += ' 1' * 3
-			poly_obj.setPrimitive(primitive_str)
-			poly_obj.setMaterial(VR.Material('sample material'))
-			if isinstance(object, PASS.Subject):
-				poly_obj.setColor(self.colors['subject'])
-				poly_obj.addTag('subject')
-			elif isinstance(object, PASS.MessageExchange):
-				poly_obj.setColor(self.colors['message'])
-				poly_obj.addTag('message')
-				self.draw_line(object)
-			elif isinstance(object, PASS.SendState):
-				poly_obj.setColor(self.colors['send_state'])
-				poly_obj.addTag('send_state')
-			elif isinstance(object, PASS.ReceiveState):
-				poly_obj.setColor(self.colors['receive_state'])
-				poly_obj.addTag('receive_state')
-			elif isinstance(object, PASS.FunctionState):
-				poly_obj.setColor(self.colors['function_state'])
-				poly_obj.addTag('function_state')
-			elif isinstance(object, PASS.TransitionEdge):
-				poly_obj.setColor(self.colors['state_message'])
-				poly_obj.addTag('state_message')
-				self.draw_line(object)
-			poly_obj.setFrom(pos_x * self.offset_x - self.offset_x / 2.0, pos_y * self.offset_y - self.offset_y / 2.0, 0.0 )
-			poly_obj.setPickable(True)
-			poly_obj.setPlaneConstraints([0, 0, 1])
-			poly_obj.setRotationConstraints([1, 1, 1])
-			VR.view_root.addChild(poly_obj)
-			self.poly_objects.append(poly_obj)
-		else: #update given object
-			#TODO if object is of type *message: change line
-			idx = self.objects.index(object)
-			obj = self.poly_objects[idx] #poly_objects should have the same idx as objects
+		#TODO Hack
+		if isinstance(object, PASS.Subject):
+			pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+			pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+			
+			bb_min_x = object.getParent(PASS.Layer).getBoundingBox2D()[0][0]
+			bb_min_y = object.getParent(PASS.Layer).getBoundingBox2D()[0][1]
+			bb_max_x = object.getParent(PASS.Layer).getBoundingBox2D()[1][0]
+			bb_max_y = object.getParent(PASS.Layer).getBoundingBox2D()[1][1]
+			bb_x_dist = bb_max_x - bb_min_x
+			bb_y_dist = bb_max_y - bb_min y
+		
+		
+			rel_size = 1 #TODO getRelativeSize()
+			# find given object
+			if not object in self.objects: #add given object to scene
+				self.objects.append(object)
+				#create polyVR object and add it to scene #TODO
+				poly_obj = VR.Geometry('cube') #TODO replace with blender model
+				primitive_str = 'box'
+				primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
+				primitive_str += ' 1' * 3
+				poly_obj.setPrimitive(primitive_str)
+				poly_obj.setMaterial(VR.Material('sample material'))
+				if isinstance(object, PASS.Subject):
+					poly_obj.setColor(self.colors['subject'])
+					poly_obj.addTag('subject')
+				elif isinstance(object, PASS.MessageExchange):
+					poly_obj.setColor(self.colors['message'])
+					poly_obj.addTag('message')
+					self.draw_line(object)
+				elif isinstance(object, PASS.SendState):
+					poly_obj.setColor(self.colors['send_state'])
+					poly_obj.addTag('send_state')
+				elif isinstance(object, PASS.ReceiveState):
+					poly_obj.setColor(self.colors['receive_state'])
+					poly_obj.addTag('receive_state')
+				elif isinstance(object, PASS.FunctionState):
+					poly_obj.setColor(self.colors['function_state'])
+					poly_obj.addTag('function_state')
+				elif isinstance(object, PASS.TransitionEdge):
+					poly_obj.setColor(self.colors['state_message'])
+					poly_obj.addTag('state_message')
+					self.draw_line(object)
+				poly_obj.setFrom((pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0, (pos_y / bb_y_dist) * self.offset_y - self.offset_y / 2.0, 0.0 )
+				poly_obj.setPickable(True)
+				poly_obj.setPlaneConstraints([0, 0, 1])
+				poly_obj.setRotationConstraints([1, 1, 1])
+				VR.view_root.addChild(poly_obj)
+				self.poly_objects.append(poly_obj)
+			else: #update given object
+				#TODO if object is of type *message: change line
+				idx = self.objects.index(object)
+				obj = self.poly_objects[idx] #poly_objects should have the same idx as objects
 
-			#set position and size
-			primitive_str = 'box'
-			primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
-			primitive_str += ' 1' * 3
-			obj.setPrimitive(primitive_str)
-			self.move_object(obj, [pos_x, pos_y])
-			#TODO label, parent, hasMetaContent
+				#set position and size
+				primitive_str = 'box'
+				primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
+				primitive_str += ' 1' * 3
+				obj.setPrimitive(primitive_str)
+				self.move_object(obj, [pos_x, pos_y])
+				#TODO label, parent, hasMetaContent
 
 	def draw_line(self, object):
 		assert isinstance(object, PASS.MessageExchange) or isinstance(object, PASS.TransitionEdge)
