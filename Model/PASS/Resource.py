@@ -336,6 +336,16 @@ class Resource(object):
 					results.append(value)
 					
 		return results
+		
+	def getParent(self, classType = None, recursionDepth = 5):
+		"""
+		Returns the parent of this Resource by using ModelManager.getParent(...). Refer to this function for further information.
+		
+		@return  :
+		@author
+		"""
+		
+		return self.modelManager.getParent(self, classType, recursionDepth)
 
 
 

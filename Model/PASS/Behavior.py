@@ -10,6 +10,8 @@ from SendState import *
 from TransitionEdge import *
 from ListenerList import *
 
+import math
+
 class Behavior(PASSProcessModelElement):
 
 	"""
@@ -201,6 +203,85 @@ class Behavior(PASSProcessModelElement):
 			if(eState is state):
 				#Set to initial state
 				eState.type.append(initState)
+				
+	def getBoundingBox2D(self):
+		"""
+		 Returns the bounding box of all state elements in their 2D coordinate system.
+
+		@return  :
+		@author
+		"""
+		#Helper variables
+		maxX = float("-inf")
+		maxY = float("-inf")
+		minX = float("inf")
+		minY = float("inf")
+		#Now iterate over all active process components
+		for active in self.hasState:
+			if(hasattr(active, "hasAbstractVisualRepresentation")):
+				point = active.hasAbstractVisualRepresentation.getPoint2D()
+				#Max tests
+				if(maxX < point[0]):
+					maxX = point[0]
+				if(maxY < point[1]):
+					maxY = point[1]
+				#Min tests
+				if(minX > point[0]):
+					minX = point[0]
+				if(minY > point[1]):
+					minY = point[1]
+		#inf tests
+		if(math.isinf(maxX)):
+			maxX = 0
+			minX = 0
+		if(math.isinf(maxY)):
+			maxY = 0
+			minY = 0
+		return [[minX, minY], [maxX, maxY]]
+					
+	def getBoundingBox3D(self):
+		"""
+		 Returns the bounding box of all state elements in their 3D coordinate system.
+
+		@return  :
+		@author
+		"""
+		#Helper variables
+		maxX = float("-inf")
+		maxY = float("-inf")
+		maxZ = float("-inf")
+		minX = float("inf")
+		minY = float("inf")
+		minZ = float("inf")
+		#Now iterate over all active process components
+		for active in self.hasState:
+			if(hasattr(active, "hasAbstractVisualRepresentation")):
+				point = active.hasAbstractVisualRepresentation.getPoint3D()
+				#Max tests
+				if(maxX < point[0]):
+					maxX = point[0]
+				if(maxY < point[1]):
+					maxY = point[1]
+				if(maxZ < point[2]):
+					maxZ = point[2]
+				#Min tests
+				if(minX > point[0]):
+					minX = point[0]
+				if(minY > point[1]):
+					minY = point[1]
+				if(minZ > point[2]):
+					minZ = point[2]
+		#inf tests
+		if(math.isinf(maxX)):
+			maxX = 0
+			minX = 0
+		if(math.isinf(maxY)):
+			maxY = 0
+			minY = 0
+		if(math.isinf(maxZ)):
+			maxZ = 0
+			minZ = 0
+		return [[minX, minY, minZ], [maxX, maxY, maxZ]]
 
 
 
