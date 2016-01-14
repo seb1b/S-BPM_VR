@@ -455,6 +455,7 @@ class ModelManager(object):
 		@author
 		"""
 		self._changeListeners.append(listenerFunction)
+		listenerFunction(self.model)
 
 	def removeChangeListener(self, listenerFunction):
 		"""
@@ -493,14 +494,14 @@ class ModelManager(object):
 		#Iterate over all avaiable resources
 		for resource in self.resources:
 			if(resource is not None):
-					#Check if it is in the child resource
-					if (childElement in resource.childResources):
-						#Check if resource if of right type
-						if((classType is None) or isinstance(resource, classType)):
-							return resource
-						elif(recursionDepth > 0):
-							#Otherwise search for the parent of this resource to receive the variable
-							self.getParent(resource, classType, recursionDepth-1)
+				#Check if it is in the child resource
+				if (childElement in resource.childResources):
+					#Check if resource if of right type
+					if((classType is None) or isinstance(resource, classType)):
+						return resource
+					elif(recursionDepth > 0):
+						#Otherwise search for the parent of this resource to receive the variable
+						self.getParent(resource, classType, recursionDepth-1)
 		#We reached here we are not able to find anything
 		return None
 

@@ -8,7 +8,9 @@ class AbstractVisualRepresentation(Resource):
 
 	"""
 	This class represents the position of a PASSProcessModelElement in 2D and 3D space. As it does only
-	provide some coordinates and no real visual representation it is called an abstract visual representation.
+	provide some coordinates and no real visual representation it is called an abstract visual representation. The
+	coordinate system of the abstract visual representation is a kartesian coordinate system mit y up, x right and z
+	to front. The coordinate system is infinite in positive and negative direction.
 	
 	:version: 2012-12-04
 	:author: Lukas Block
@@ -34,7 +36,7 @@ class AbstractVisualRepresentation(Resource):
 
 	"""
 
-	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None, relativeSize = 1):
+	def __init__(self, manager, uri = None, isBlank = False, blankNodeId = None):
 		"""
 		 Constructor
 
@@ -44,7 +46,6 @@ class AbstractVisualRepresentation(Resource):
 		"""
 		Resource.__init__(self, manager, isBlank = True, blankNodeId = str(randomXMLName()))
 		
-		self.hasRelativeSize = relativeSize
 		self.hasPoint2D = Point2D(manager)
 		self.hasPoint3D = Point3D(manager)
 		

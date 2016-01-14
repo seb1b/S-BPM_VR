@@ -180,16 +180,5 @@ class PASSProcessModelElement(Resource):
 		#Now fire a change event because we removed a meta content - Important: This time it is fired by the element itself
 		self.fireChangeEvent()
 
-		
-	def getParent(self, classType = None, recursionDepth = 5):
-		"""
-		Returns the parent of this PASSProcessModelElement by using ModelManager.getParent(...). Refer to this function for further information.
-		
-		@return  :
-		@author
-		"""
-		
-		return self.modelManager.getParent(self, classType, recursionDepth)
-
 
 

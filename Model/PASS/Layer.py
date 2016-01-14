@@ -9,6 +9,9 @@ from MessageType import *
 from PASSProcessModel import *
 from AttributeMultiplicity import *
 from ListenerList import *
+from ActiveProcessComponent import *
+
+import math
 
 class Layer(PASSProcessModelElement):
 
@@ -118,6 +121,14 @@ class Layer(PASSProcessModelElement):
 		result = []
 		for c in self.hasModelComponent:
 			if (isinstance(c, ExternalSubject)):
+				result.append(c)
+		return result
+		
+	@property
+	def activeProcessComponents(self):
+		result = []
+		for c in self.hasModelComponent:
+			if (isinstance(c, ActiveProcessComponent)):
 				result.append(c)
 		return result
 
@@ -239,6 +250,73 @@ class Layer(PASSProcessModelElement):
 				a.hasBehavior = None
 				print("WARNING! Behavior was removed that belonged to a subject!")
 		self.hasModelComponent.remove(behaviorToRemove)
+		
+	def getBoundingBox2D(self):
+		#Helper variables
+		maxX = float("-inf")
+		maxY = float("-inf")
+		minX = float("inf")
+		minY = float("inf")
+		#Now iterate over all active process components
+		for active in self.activeProcessComponents:
+			if(hasattr(active, "hasAbstractVisualRepresentation")):
+				point = active.hasAbstractVisualRepresentation.getPoint2D()
+				#Max tests
+				if(maxX < point[0]):
+					maxX = point[0]
+				if(maxY < point[1]):
+					maxY = point[1]
+				#Min tests
+				if(minX > point[0]):
+					minX = point[0]
+				if(minY > point[1]):
+					minY = point[1]
+		#inf tests
+		if(math.isinf(maxX)):
+			maxX = 0
+			minX = 0
+		if(math.isinf(maxY)):
+			maxY = 0
+			minY = 0
+		return [[minX, minY], [maxX, maxY]]
+					
+	def getBoundingBox3D(self):
+		#Helper variables
+		maxX = float("-inf")
+		maxY = float("-inf")
+		maxZ = float("-inf")
+		minX = float("inf")
+		minY = float("inf")
+		minZ = float("inf")
+		#Now iterate over all active process components
+		for active in self.activeProcessComponents:
+			if(hasattr(active, "hasAbstractVisualRepresentation")):
+				point = active.hasAbstractVisualRepresentation.getPoint3D()
+				#Max tests
+				if(maxX < point[0]):
+					maxX = point[0]
+				if(maxY < point[1]):
+					maxY = point[1]
+				if(maxZ < point[2]):
+					maxZ = point[2]
+				#Min tests
+				if(minX > point[0]):
+					minX = point[0]
+				if(minY > point[1]):
+					minY = point[1]
+				if(minZ > point[2]):
+					minZ = point[2]
+		#inf tests
+		if(math.isinf(maxX)):
+			maxX = 0
+			minX = 0
+		if(math.isinf(maxY)):
+			maxY = 0
+			minY = 0
+		if(math.isinf(maxZ)):
+			maxZ = 0
+			minZ = 0
+		return [[minX, minY, minZ], [maxX, maxY, maxZ]]
 
 
 

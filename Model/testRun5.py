@@ -11,6 +11,9 @@ def buildHelper(manager, model):
 	behavior1 = layer.addBehavior()
 	subject1 = layer.addSubject(behavior1)
 	subject2 = layer.addSubject()
+	subject1.hasAbstractVisualRepresentation.setPoint2D(0, 1)
+	subject2.hasAbstractVisualRepresentation.setPoint3D(1, 2, 3)
+	subject2.hasAbstractVisualRepresentation.setPoint2D(-13, 5)
 	messageExchange = layer.addMessageExchange(subject1, subject2)
 	#SBD
 	behavior2 = subject2.hasBehavior
@@ -23,6 +26,16 @@ def buildHelper(manager, model):
 	newState3 = behavior2.addReceiveState()
 	behavior2.addSendTransition(newState2, newState3, messageExchange)
 	behavior2.addReceiveTransition(newState3, newState1, messageExchange)
+
+	newState3.hasAbstractVisualRepresentation.setPoint2D(13, 15)
+
+	print behavior2.getBoundingBox2D()
+	print behavior2.getBoundingBox3D()
+	print behavior1.getBoundingBox2D()
+	print behavior1.getBoundingBox3D()
+
+	print layer.getBoundingBox2D()
+	print layer.getBoundingBox3D()
 
 
 def changeListener(object):

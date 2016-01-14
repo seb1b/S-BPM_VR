@@ -44,6 +44,15 @@ class Point2D(Resource):
 			return AttributeMultiplicity.UNIQUE
 		else:
 			return Resource.getAttrMultiplicity(self, attributeName)
+			
+	def fireChangeEvent(self):
+		#Also fire a change event for the class that owns the abstract visual representation to make the use for the view more easy
+		abstractVisualRepresentation = self.getParent(None, 1)
+		if(abstractVisualRepresentation is not None):
+			owner = abstractVisualRepresentation.getParent(None, 1)
+			if(owner is not None):
+				owner.fireChangeEvent()
+		Resource.fireChangeEvent(self)
 
 
 
