@@ -480,7 +480,7 @@ class ModelManager(object):
 			for func in self._changeListeners:
 				func(changedElement)
 			
-	def getParent(self, childElement, classType = None, recursionDepth = 5):
+	def getParent(self, childElement, classType = None, recursionDepth = 1):
 		"""
 		 Returns the parent for a given Resource instance or None if none could be found.
 		 The parent is thereby defined as the first class found that points to the childElement

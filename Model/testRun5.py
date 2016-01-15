@@ -41,6 +41,7 @@ def buildHelper(manager, model):
 def changeListener(object):
 	global i
 	print(("==> Object changed: " + str(object) + "!"))
+	print(("==> Parent: " + str(object.getParent(PASS.BaseLayer)) + "!"))
 	i += 1
 
 

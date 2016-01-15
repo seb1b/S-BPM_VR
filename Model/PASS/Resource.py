@@ -337,7 +337,7 @@ class Resource(object):
 					
 		return results
 		
-	def getParent(self, classType = None, recursionDepth = 5):
+	def getParent(self, classType = None, recursionDepth = 1):
 		"""
 		Returns the parent of this Resource by using ModelManager.getParent(...). Refer to this function for further information.
 		
