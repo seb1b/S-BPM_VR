@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<node>
+<inputMethods>
+  <leap id="10"/>
+  <myo id="20"/>
+  <kinect id="30"/>
+  <tablet id="40"/>
+</inputMethods>
+
+
+<leapGestures>
+  <zoom_in id="circle_clockwise"/>
+  <zoom_out id="circle_counterclockwise"/>
+  <move id="hands_aligned"/>
+  <press id="grab"/>
+</leapGestures>
+
+
+<myoGestures>
+  <zoom id="fingersSpread"/>
+  <release id="rest"/>
+  <press id="fist"/>
+
+</myoGestures>
+
+
+<kinectGestures>
+
+</kinectGestures>
+
+<rabbitMq>
+    <host_name id="localhost"/>
+    <queue_name id="hello"/>
+</rabbitMq>
+
+
+ </node>
