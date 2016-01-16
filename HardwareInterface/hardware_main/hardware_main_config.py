@@ -57,7 +57,7 @@ class VRHardware():
 		self.KINECT_ID = config.node.inputMethods.kinect['id']
 		self.TABLET_ID = config.node.inputMethods.tablet['id']
 
-		print self.LEAP_ID + " " + self.MYO_ID + " " + self.KINECT_ID + " " + self.TABLET_ID
+
 
 		# set leap control
 		self.leap_press = config.node.leapGestures.press['id']
@@ -66,12 +66,19 @@ class VRHardware():
 		self.leap_zoom_out = config.node.leapGestures.zoom_out['id']
 
 		# set myo control
-		self.leap_press = config.node.leapGestures.press['id']
-		self.leap_move = config.node.leapGestures.move['id']
-		self.leap_zoom_in = config.node.leapGestures.zoom_in['id']
-		self.leap_zoom_out = config.node.leapGestures.zoom_out['id']
+		self.myo_press = config.node.myoGestures.press['id']
+		self.myo_release = config.node.myoGestures.release['id']
+		self.myo_zoom = config.node.myoGestures.zoom['id']
+
 
 		#set kinect control
+
+
+		#set rabbitMq
+		self.host_name = config.node.rabbitMq.host_name["id"]
+		self.queue_name = config.node.rabbitMq.queue_name["id"]
+
+
 
 		# Variables used for Leap control
 		self.cache_left = collections.deque(list(), 200)
@@ -83,13 +90,14 @@ class VRHardware():
 		self.called_press_myo = False
 
 		# Initialize RabbitMq communication
-		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=config.node.rabbitMq.host_name["id"]))
+		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.host_name))
 		self.channel = self.connection.channel()
-		self.channel.queue_declare(queue=config.node.rabbitMq.queue_name["id"])
+		self.channel.queue_declare(queue=self.queue_name)
 
-		self.channel.basic_consume(self.callback, queue=config.node.rabbitMq.queue_name["id"], no_ack=True)
+		self.channel.basic_consume(self.callback, queue=self.queue_name, no_ack=True)
 
-		print 'VRHardware init done'
+		self.print_settings()
+
 
 	def process(self):
 		self.connection.process_data_events()
@@ -112,7 +120,7 @@ class VRHardware():
 				xyz = [float(x) for x in pos.split(",")]
 
 				# MOVE_MODEL
-				if gesture == "hands_aligned":
+				if gesture == self.leap_move:
 					self.controller.move_model(xyz, user_id)
 
 				# All other actions
@@ -135,32 +143,32 @@ class VRHardware():
 						self.controller.release(xyz, user_id, is_left)
 						self.called_press_right_leap = False
 
-					# GRAB
-					if gesture == "grab":
+					# Press
+					if gesture == self.leap_press:
 
 						# n = 25
-						if is_left and self.last_gestures(25, "grab", is_left):
+						if is_left and self.last_gestures(25, self.leap_press, is_left):
 							self.controller.press(xyz, user_id, is_left)
 							self.called_press_left_leap = True
 
-						if not is_left and self.last_gestures(25, "grab", is_left):
+						if not is_left and self.last_gestures(25, self.leap_press, is_left):
 							self.controller.press(xyz, user_id, is_left)
 							self.called_press_right_leap = True
 
 					# ZOOM
-					elif gesture == "circle_clockwise" or gesture == "circle_counterclockwise":
+					elif gesture == self.leap_zoom_in or gesture == self.leap_zoom_out:
 
 						# n = 15
 						if is_left:
-							if self.last_gestures(15, "circle_clockwise", is_left):
+							if self.last_gestures(15, self.leap_zoom_in, is_left):
 								self.controller.zoom(1)
-							elif self.last_gestures(15, "circle_counterclockwise", is_left):
+							elif self.last_gestures(15, self.leap_zoom_out, is_left):
 								self.controller.zoom(-1)
 
 						else:
-							if self.last_gestures(15, "circle_clockwise", is_left):
+							if self.last_gestures(15, self.leap_zoom_in, is_left):
 								self.controller.zoom(1)
-							elif self.last_gestures(15, "circle_counterclockwise", is_left):
+							elif self.last_gestures(15, self.leap_zoom_out, is_left):
 								self.controller.zoom(-1)
 
 			# MYO
@@ -178,18 +186,18 @@ class VRHardware():
 				self.controller.move(xyz, user_id, is_left)
 
 				# PRESS
-				if gesture == "fist":
+				if gesture == self.myo_press:
 					self.called_press_myo = True
-					print("Myo press")
+					#print("Myo press")
 					self.controller.press(xyz, user_id, is_left)
-
-				elif gesture == "rest" and self.called_press_myo == True:
-					print("Myo release")
+				#RELEASE
+				elif gesture == self.myo_release and self.called_press_myo == True:
+					#print("Myo release")
 					self.controller.release(xyz, user_id, is_left)
 					self.called_press_myo = False
 
 				# ZOOM
-				elif gesture == "fingersSpread":
+				elif gesture == self.myo_zoom:
 					print("Myo zoom: " + str(rot[0]))
 					# TODO For left arm different
 					if rot[0] > 0.2:
@@ -223,6 +231,19 @@ class VRHardware():
 					return True
 				else:
 					return False
+
+	def print_settings(self):
+		print "______ID Setup________"
+		print "Leap: " + self.LEAP_ID + ", Myo: " + self.MYO_ID + ", Kinect: "+self.KINECT_ID
+		print "______Gesture Setting_______"
+		print "Leap: press: "+ self.leap_press +" ,zoom in: "+self.leap_zoom_in+" ,zoom out: "+ self.leap_zoom_out \
+			  + " ,move: "+self.leap_move
+		print "Myo: press: "+ self.myo_press +" ,release: "+self.myo_release+" ,zoom: "+ self.myo_zoom
+		print "______Connection______"
+		print "RabbitMq: Host: " + self.host_name + " Queue: " + self.queue_name
+		print "______________________"
+		print 'VRHardware init done'
+
 
 def test():
 	c = Controller()
