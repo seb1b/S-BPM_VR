@@ -1,4 +1,6 @@
 #!/usr/bin/env python2
+import math
+import map
 
 from PASS import ModelManager
 from view import View
@@ -108,12 +110,17 @@ class Controller:
 					# CASE: menu bar item was released on field
 					new_obj = None
 					if self.released_object.type_name == "subject":
+                        # CASE: add subject was released on field
 						new_obj = self.current_model.hasModelComponent[0].addSubject()
 						new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
 						new_obj.label.append("New Subject")
+                    # Case
 					if self.released_object.type_name == "message":
-						# TODO: implement
-						pass
+                        # CASE: add message was released on field
+                        if len(selected_objects) == 2:
+                            # CASE: adding message only possible if two subjects are selected
+                            new_obj = self.current_model.hasModelComponent[0].addMessageExchange(selected_objects[0], selected_objects[1])
+                            new_obj.label.append("New Message");
 					else:
 						assert(False, "Invalid MenuBarItem type")
 					self.current_view.set_highlight(self.released_object, False)
@@ -122,8 +129,7 @@ class Controller:
 					if new_obj is not None:
 						self.selected_objects.append(new_obj)
 					self.released_object = new_obj
-				elif sum(map(lambda x : x ** 2, [a - b for a, b in zip(self.press_position[user_id], pos)])) < 1.0:
-					# TODO: tweak squared distance threshold value
+				elif math.sqrtsum(map(lambda x : x ** 2, [a - b for a, b in zip(self.press_position[user_id], pos)]))) < 1.0:
 					# CASE: some field object was selected
 					# nothing to do
 					pass
@@ -139,6 +145,7 @@ class Controller:
 					self.current_view.set_highlight(self.released_object, False)
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
+                # self.current_view.set_highlight_point(pos)
 			else:
 				print("case: x")
 		self.release_position[user_id] = pos
@@ -174,15 +181,17 @@ class Controller:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
-				# TODO: self.pressed_object.hasVisualPresentation().setPoint3D(pos[0], pos[1], pos[2])
-				# TODO: check and fix quick and dirty implementation
+				self.pressed_object.hasVisualPresentation().setPoint3D(pos[0], pos[1], pos[2])
 				self.current_view.move_object(self.pressed_object, pos[:2])
 			self.current_view.move_cursor(pos, user_id, is_left)
 
 		return None
 
 	def zoom(self, level):
-		"""TODO
+		"""This function handles a zoom event
+        
+        This function zooms the view by the giving parameter level, zooms out if -1,
+        zooms in if 1, changes s-bpm level if the current level is 0
 
 		:param level: the relative zoom level: -1 zoom out, +1 zoom in
 		:type level: integer or float
@@ -193,14 +202,13 @@ class Controller:
 		if self.current_view is not None:
 			assert self.current_model is not None
 			if level < 0:
-				# TODO: if self.current_view.get_current_zoom_level() == 0:
+				if self.current_view.get_current_zoom_level() == 0:
 					# TODO: go back one s-bpm level
-					# pass
-				# else:
+                    # self.current_model.belongsTo?
+				else:
 				self.current_view.zoom(-1)
 			elif level > 0:
 				self.current_view.zoom(+1)
-
 		print("zoom({})".format(level))
 		return None
 
@@ -213,6 +221,9 @@ class Controller:
 
 		:return: None
 		"""
+        if self.current_view is not None:
+            assert self.current_model is not None:
+                #TODO: self.current_view.zoom()
 		print("fade_away()")
 		return None
 		
@@ -229,19 +240,6 @@ class Controller:
 		:return: None
 		"""
 		print("fade_in({})".format(pos))
-		return None
-
-	def rotate(self, degrees):
-		"""This function rotates the entire scene for the given number of degrees
-
-		:param degrees: The number of degrees to rotate
-		:type degrees: integer or float
-
-		:return: None
-		"""
-		assert isinstance(degrees, (float, int)), "Degrees must be a number"
-
-		print("rotate({})".format(degrees))
 		return None
 
 	def move_model(self, pos, user_id):
@@ -273,7 +271,20 @@ class Controller:
 
 		return None
 
-	def move_head(self, pos, degrees, user_id):
+def rotate(self, degrees):
+    """This function rotates the entire scene for the given number of degrees
+        
+        :param degrees: The number of degrees to rotate
+        :type degrees: integer or float
+        
+        :return: None
+        """
+            assert isinstance(degrees, (float, int)), "Degrees must be a number"
+                
+                print("rotate({})".format(degrees))
+                return None
+
+def move_head(self, pos, degrees, user_id):
 		"""This function updates a user's head position for head tracking
 
 		Updates the given user's head position and rotation. This function should
