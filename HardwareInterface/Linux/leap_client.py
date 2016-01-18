@@ -66,9 +66,11 @@ class SampleListener(Leap.Listener):
             current_gesture = "hands_aligned"
 
             # Use middle of both handpalms
-            current_handpalm_position_x = str((frame.hands[0].palm_position.x + frame.hands[1].palm_position.x) / 2)
-            current_handpalm_position_y = str((frame.hands[0].palm_position.y + frame.hands[1].palm_position.y) / 2)
-            current_handpalm_position_z = str((frame.hands[0].palm_position.z + frame.hands[1].palm_position.z) / 2)
+            mean_position_hands = Leap.Vector(frame.hands[0].palm_position.x + frame.hands[1].palm_position.x) / 2, frame.hands[0].palm_position.y + frame.hands[1].palm_position.y) / 2, frame.hands[0].palm_position.z + frame.hands[1].palm_position.z) / 2)
+
+            current_handpalm_position_x = str(box.normalize_point(mean_position_hands).x)
+            current_handpalm_position_y = str(box.normalize_point(mean_position_hands).y)
+            current_handpalm_position_z = str(box.normalize_point(mean_position_hands).z)
 
             string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + handtype + ":" + current_gesture
             print(string_to_send)
@@ -92,9 +94,9 @@ class SampleListener(Leap.Listener):
                 handtype = "L" if hand.is_left else "R"
 
                 # Use handpalm
-                current_handpalm_position_x = str(hand.palm_position.x)
-                current_handpalm_position_y = str(hand.palm_position.y)
-                current_handpalm_position_z = str(hand.palm_position.z)
+                current_handpalm_position_x = str(box.normalize_point(hand.palm_position).x)
+                current_handpalm_position_y = str(box.normalize_point(hand.palm_position).y)
+                current_handpalm_position_z = str(box.normalize_point(hand.palm_position).z)
 
                 # Use frontmost finger
                 # current_handpalm_position_x = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
