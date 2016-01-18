@@ -8,6 +8,5 @@ D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Release\RabbitMQ.Clien
 D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Release\protobuf-net.pdb
 D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Release\protobuf-net.xml
 D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\bin\Release\Microsoft.Kinect.VisualGestureBuilder.xml
-D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\obj\x86\Release\Send.csprojResolveAssemblyReference.cache
 D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\obj\x86\Release\Kinect.exe
 D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Send\obj\x86\Release\Kinect.pdb

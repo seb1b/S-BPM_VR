@@ -75,7 +75,11 @@ class Send {
 	private void inizialiseRabbitMQ () {
 		Console.WriteLine ("Inizialising RabbitMQ"); // TODO 
 		// Rabbit MQ Connection
-		factory = new ConnectionFactory () { HostName = "localhost" };
+		factory = new ConnectionFactory ();
+		factory.VirtualHost = "/";
+		factory.UserName = "vrp";
+		factory.Password = "virtual.reality";
+		factory.HostName = "192.168.0.103";
 		connection = factory.CreateConnection ();
 		_channel = connection.CreateModel ();
 		_channel.QueueDeclare (queue: "hello",
