@@ -48,14 +48,14 @@ namespace Kinect {
 
 			if (currentLeft != HandState.NotTracked) {
 					if (currentLeft == HandState.Closed) {
-						message [0] = ":leftHandClosed" + ":" + getPosition (leftHand);
+					message [0] = ":" + getPosition (leftHand)+ ":L:closed";
 						leftHandState = HandState.Closed;
 					} else if (currentLeft == HandState.Open) {
-						message [0] = ":leftHandOpen" + ":" + getPosition (leftHand);
+						message [0] = ":" + getPosition (leftHand) + ":L:open";
 						leftHandState = HandState.Open;
 					} else {
 						leftHandState = body.HandLeftState;
-						message [0] = ":unkonwn" + ":" + getPosition (leftHand);
+						message [0] = ":" + getPosition (leftHand) + ":L:unknown";
 					}
 					if (message [0] != "") {
 						instance.sendData (kinectID + "" + id + message [0]);
@@ -64,14 +64,14 @@ namespace Kinect {
 
 			if (currentRight != HandState.NotTracked) {
 					if (currentRight == HandState.Closed) {
-						message [1] = ":rightHandClosed" + ":" + getPosition (rightHand);
+						message [1] = ":" + getPosition (rightHand) + ":R:closed";
 						rightHandState = HandState.Closed;
 					} else if (currentRight == HandState.Open) {
-						message [1] = ":rightHandOpen" + ":" + getPosition (rightHand);
+						message [1] = ":" + getPosition (rightHand) + ":R:open";
 						rightHandState = HandState.Open;
 					} else {
 						rightHandState = body.HandRightState;
-						message [1] = ":unkonwn" + ":" + getPosition (rightHand);
+						message [1] = ":" + getPosition (rightHand) + ":R:unknown";
 					} 
 					if (message [1] != "") {
 						instance.sendData (kinectID + "" + id + message [1]);
@@ -84,7 +84,7 @@ namespace Kinect {
 			float y = joint.Position.Y;
 			float z = joint.Position.Z;
 
-			string pos = x + "," + y + "," + z;
+			string pos = x + ";" + y + ";" + z;
 			return pos;
 		}
 
