@@ -16,7 +16,7 @@ class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
 
-    # Connection init 
+    # Connection init
     def on_init(self, controller):
         print "Initialized"
 
@@ -40,6 +40,7 @@ class SampleListener(Leap.Listener):
         # Get the most recent frame and report some basic information
         # Each Frame object representing a frame contains lists of tracked entities, such as hands, fingers, and tools, as well as recognized gestures and factors describing the overall motion in the scene.
         frame = controller.frame()
+        box = frame.interaction_box
 
         # Coordinates from the Leap Motion frame of reference (millimeters) are converted to a range of [0..1] such that
         # the minimum value of the InteractionBox maps to 0 and the maximum value of the InteractionBox maps to 1.
@@ -48,7 +49,7 @@ class SampleListener(Leap.Listener):
         # normalized_point = box.normalize_point(vector, True)
 
         # The current InteractionBox for the frame
-        box = frame.interaction_box
+
 
         # HANDS_ALIGNED
         if len(frame.hands) == 2 and self.is_hands_aligned(frame.hands):
@@ -66,7 +67,9 @@ class SampleListener(Leap.Listener):
             current_gesture = "hands_aligned"
 
             # Use middle of both handpalms
-            mean_position_hands = Leap.Vector(frame.hands[0].palm_position.x + frame.hands[1].palm_position.x) / 2, frame.hands[0].palm_position.y + frame.hands[1].palm_position.y) / 2, frame.hands[0].palm_position.z + frame.hands[1].palm_position.z) / 2)
+
+            mean_position_hands = Leap.Vector((frame.hands[0].palm_position.x + frame.hands[1].palm_position.x) / 2, (frame.hands[0].palm_position.y + frame.hands[1].palm_position.y) / 2, (frame.hands[0].palm_position.z + frame.hands[1].palm_position.z) / 2)
+
 
             current_handpalm_position_x = str(box.normalize_point(mean_position_hands).x)
             current_handpalm_position_y = str(box.normalize_point(mean_position_hands).y)
@@ -74,12 +77,12 @@ class SampleListener(Leap.Listener):
 
             string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + handtype + ":" + current_gesture
             print(string_to_send)
-            
+
             if current_handpalm_position_x:
                 channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
 
         # All other actions
-        else: 
+        else:
             for hand in frame.hands:
 
                 # ID:current_handpalm_position_x,current_handpalm_position_y,current_handpalm_position_z:handtype:current_gesture
@@ -101,7 +104,7 @@ class SampleListener(Leap.Listener):
                 # Use frontmost finger
                 # current_handpalm_position_x = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).x)
                 # current_handpalm_position_y = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).y)
-                # current_handpalm_position_z = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)      
+                # current_handpalm_position_z = str(box.normalize_point(frame.fingers.frontmost.joint_position(Finger.JOINT_TIP)).z)
 
                 if self.is_grab(hand):
                     current_gesture = "grab"
@@ -114,13 +117,13 @@ class SampleListener(Leap.Listener):
 
                         if gesture.type == Leap.Gesture.TYPE_CIRCLE:
                             circle = CircleGesture(gesture)
-                            
+
                             # Determine clock direction using the angle between the pointable and the circle normal
                             if circle.pointable.direction.angle_to(circle.normal) <= Leap.PI/2:
                                 clockwiseness = "clockwise"
                             else:
                                 clockwiseness = "counterclockwise"
-                            
+
                             current_gesture = "circle_" + clockwiseness
 
                         elif gesture.type == Leap.Gesture.TYPE_SWIPE:
@@ -134,7 +137,7 @@ class SampleListener(Leap.Listener):
 
                 string_to_send += str(ID) + ":" + str(current_handpalm_position_x) + "," + str(current_handpalm_position_y) + "," + str(current_handpalm_position_z) + ":" + handtype + ":" + current_gesture
                 print(string_to_send)
-        		
+
                 if current_handpalm_position_x:
                     channel.basic_publish(exchange='',routing_key='hello',body=string_to_send)
 
@@ -167,7 +170,7 @@ class SampleListener(Leap.Listener):
     def is_hands_aligned(self, hands):
         # Calculate the distance of the handpalm positions
         distance_handpalms = hands[0].palm_position.distance_to(hands[1].palm_position)
-        
+
         # print('distance_handpalms =', distance_handpalms)
 
         if distance_handpalms <= 100:
