@@ -70,9 +70,9 @@ class VRHardware():
 		self.myo_release = config.node.myoGestures.release['id']
 		self.myo_zoom = config.node.myoGestures.zoom['id']
 
-
 		#set kinect control
-
+		self.kinect_press = config.node.kinectGestures.press['id']
+		self.kinect_press = config.node.kinectGestures.release['id']
 
 		#set rabbitMq
 		self.host_name = config.node.rabbitMq.host_name["id"]
@@ -88,6 +88,10 @@ class VRHardware():
 
 		# Variables used for Myo control
 		self.called_press_myo = False
+
+		# Variables used for Kinect
+		self.called_press_left_kinect = False
+		self.called_press_right_kinect = False
 
 		# Initialize RabbitMq communication
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.host_name))
@@ -204,6 +208,24 @@ class VRHardware():
 						self.controller.zoom(1)
 					elif rot[0] < -0.5:
 						self.controller.zoom(-1)
+			elif user_id >= self.KINECT_ID and user_id < self.TABLET_ID:
+				xyz = [float(x) for x in pos.split(";")]
+				self.controller.move(xyz, user_id, is_left)
+				#print xyz
+				# if gesture == self.kinect_press:
+				# 	self.called_press_myo = True
+				# 	#print("Myo press")
+				# 	self.controller.press(xyz, user_id, is_left)
+				# #RELEASE
+				# elif gesture == self.kinect_release and self.called_press_myo == True:
+				# 	#print("Myo release")
+				# 	self.controller.release(xyz, user_id, is_left)
+				# 	self.called_press_myo = False
+
+
+
+
+
 
 	# Returns true if the last n elements in cache_left equal gesture, and False else
 	# Also returns false, if cache is too small
