@@ -26,7 +26,8 @@
 
 
 <kinectGestures>
-
+    <press id="close"/>
+    <release id="open"/>
 </kinectGestures>
 
 <rabbitMq>
