@@ -211,7 +211,7 @@ class VRHardware():
 			elif user_id >= self.KINECT_ID and user_id < self.TABLET_ID:
 				xyz = [float(x) for x in pos.split(";")]
 				self.controller.move(xyz, user_id, is_left)
-				#print xyz
+				print xyz
 				# if gesture == self.kinect_press:
 				# 	self.called_press_myo = True
 				# 	#print("Myo press")
