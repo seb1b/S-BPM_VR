@@ -3,7 +3,7 @@
   <Objects>
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="1 0.5 -2" at="1 0.5 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="1 0.5 -1.44013" at="1 0.5 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
       </Object>
@@ -112,22 +112,27 @@
 				oldValue = targetElement.textContent.trim() || targetElement.innerText.trim();
 			}, false);
 			
-			// Trim all new lines
-			cells[i].addEventListener('keyup', function(event) {
+			// TODO: Trim all new lines after keyup
+			/*cells[i].addEventListener('keyup', function(event) {
 				targetElement = event.target || event.srcElement;
 				newValue = targetElement.textContent || targetElement.innerText;
-				while (targetElement.hasChildNodes()) {   
-					targetElement.removeChild(targetElement.firstChild);
+				// In case of a line break, a new &lt;br&gt; tag is added and extends the childNode list
+				if(targetElement.childNodes.length &gt; 2) {
+					while(targetElement.hasChildNodes()) {
+						targetElement.removeChild(targetElement.firstChild);					
+					}	
+					targetElement.appendChild(document.createTextNode(newValue));		
 				}
-				targetElement.appendChild(document.createTextNode(newValue));
-			}, false);
+			}, false);*/
 
 			// Get new value and send change if necessary
 			cells[i].addEventListener('blur', function(event) {
 				targetElement = event.target || event.srcElement;
 				key = targetElement.previousSibling.textContent || targetElement.previousSibling.innerText;
 				newValue = targetElement.textContent.trim() || targetElement.innerText.trim(); 
-				targetElement.removeChild(targetElement.firstChild);
+				while(targetElement.hasChildNodes()) {
+						targetElement.removeChild(targetElement.firstChild);					
+					}
 				targetElement.appendChild(document.createTextNode(newValue));
 				if(oldValue != newValue) {
 					websocket.send("metaContent[" + "id" + "] -&gt; " + targetElement.id + ": '" + oldValue + "' -&gt; '" + newValue + "'");
@@ -262,8 +267,9 @@
 	dataSite = VR.CEF()
 	dataSite.setMaterial(dataPlane.getMaterial())
 	# refresh URI with new params depending on highlighted component
-	dataSite.open('http://localhost:5500/data?m1_k=key1&amp;m1_v=value1&amp;m2_k=key2&amp;m2_v=value2')	
-	#http://localhost:5500/data?m1_k=key1&amp;m1_v=value1&amp;m2_k=key2&amp;m2_v=value2
+	# TODO: create method to convert metacontent array from selected object into URI params
+	params = '?' + 'm1_k=key1&amp;m1_v=value1&amp;m2_k=key2&amp;m2_v=value2'
+	dataSite.open('http://localhost:5500/data' + params)
 	
 	VR.view_root.addChild(dataPlane)
 	dataSite.addMouse(mouse, dataPlane, 0, 2, 3, 4)
