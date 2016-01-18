@@ -80,9 +80,10 @@ namespace Kinect {
 		}
 
 		private string getPosition (Joint joint) {
-			float x = joint.Position.X;
-			float y = joint.Position.Y;
-			float z = joint.Position.Z;
+			// dividing as we need an normalized result
+			float x = joint.Position.X/5;
+			float y = joint.Position.Y/5;
+			float z = joint.Position.Z/5;
 
 			string pos = x + ";" + y + ";" + z;
 			return pos;
