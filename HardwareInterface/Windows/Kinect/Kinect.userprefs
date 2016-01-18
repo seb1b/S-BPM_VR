@@ -1,11 +1,6 @@
 ﻿<Properties StartupItem="Receive\Receive.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Kinect\Send.cs">
-    <Files>
-      <File FileName="Kinect\Send.cs" Line="36" Column="22" />
-      <File FileName="Kinect\Person.cs" Line="56" Column="43" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

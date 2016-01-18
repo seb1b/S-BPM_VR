@@ -1,0 +1,6 @@
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Receive\bin\Release\Receive.exe
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Receive\bin\Release\Receive.pdb
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Receive\bin\Release\RabbitMQ.Client.dll
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Receive\bin\Release\RabbitMQ.Client.xml
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Receive\obj\x86\Release\Receive.exe
+D:\Projekte\VRP\HardwareInterface\Windows\Kinect\Receive\obj\x86\Release\Receive.pdb
