@@ -69,7 +69,7 @@ class Send {
 			routingKey: "hello",
 			basicProperties: null,
 			body: body);
-		Console.WriteLine (" [x] Sent {0}", message);
+		//Console.WriteLine (" [x] Sent {0}", message);
 	}
 
 	private void inizialiseRabbitMQ () {
