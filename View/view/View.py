@@ -2,6 +2,7 @@ import VR
 import math
 import PASS
 
+
 class View():
 
 	def __init__(self):
@@ -14,8 +15,8 @@ class View():
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])
 		self.VALID_USER_COLORS.append([0.81, 0.77, 0.66])
 		self.VALID_USER_COLORS.append([0.25, 0.19, 0.47])
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49]) #TODO
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49]) #TODO
+		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
+		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
 
 		self.BLENDER_PATHS = {}
 		self.BLENDER_PATHS['subject'] = '../../View/Blender/Archiv/Subjekt.dae'
@@ -23,41 +24,46 @@ class View():
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
-		
-		self.camera_from = [1, 0.5, 2]
-		self.camera_at = [1, 0.5, -1.0]
-		self.camera_dir =[0, 0, -1]
 
-		self.objects = [] #list of objects : PASSProcessModelElement
-		self.paths = [] #list of paths
+		self.camera_from = [0, 0, 10]
+		self.camera_at = [0, 0, -1.0]
+		self.camera_dir = [0, 0, -1]
+		self.camera_fov = 0.2
+
+		self.objects = []  # list of objects : PASSProcessModelElement
+		self.paths = []  # list of paths
 
 		self.cur_scene = None
-		
+
 		# setup root
 		VR.view_root = VR.getRoot().find('Headlight')
 		VR.cam = VR.getRoot().find('Default')
 		VR.cam.setFrom(self.camera_from)
 		VR.cam.setAt(self.camera_at)
 		VR.cam.setDir(self.camera_dir)
+		VR.cam.setFov(self.camera_fov)
 
 		# setup offset
 		win_size = VR.getSetup().getWindow('screen').getSize()
 		assert len(win_size) == 2
-		self.offset_x = win_size[0]
-		self.offset_y = win_size[1]
-	
+		self.offset_x = win_size[0]  #TODO delete
+		self.offset_y = win_size[1]  #TODO delete
+		self.scale_y = 2 * 10 * math.tan(self.camera_fov - 0.5)
+		self.scale_x = self.scale_y * win_size[0] / win_size[1]
+		
+
 		# set colors
 		self.colors = {}
-		self.colors['menu_subject'] = [[0.56, 0.78, 0.95]] #not needed?
-		self.colors['menu_message'] = [[0.95, 0.85, 0.56]] #not needed?
-		self.colors['subject'] = [[0.56, 0.78, 0.95]] #blue
-		self.colors['message'] = [[0.95, 0.85, 0.56]] #orange
-		self.colors['send_state'] = [[0.98, 0.69, 0.81]] #green
-		self.colors['receive_state'] = [[0.85, 0.59, 0.98]] #purple
-		self.colors['function_state'] = [[0.74, 0.95, 0.80]] #rose
-		self.colors['state_message'] = [[0.98, 0.98, 0.62]] #yellow
+		self.colors['menu_subject'] = [[0.56, 0.78, 0.95]]  # not needed?
+		self.colors['menu_message'] = [[0.95, 0.85, 0.56]]  # not needed?
+		self.colors['subject'] = [[0.56, 0.78, 0.95]]  # blue
+		self.colors['message'] = [[0.95, 0.85, 0.56]]  # orange
+		self.colors['send_state'] = [[0.98, 0.69, 0.81]]  # green
+		self.colors['receive_state'] = [[0.85, 0.59, 0.98]]  # purple
+		self.colors['function_state'] = [[0.74, 0.95, 0.80]]  # rose
+		self.colors['state_message'] = [[0.98, 0.98, 0.62]]  # yellow
 		self.colors['highlight'] = [[1, 0, 0]]
-		
+
 		#HACK create 3 clickable and movable objects
 		self.poly_objects = []
 		"""
@@ -95,7 +101,7 @@ class View():
 		VR.view_root.addChild(obj3)
 		self.poly_objects.append(obj3)
 		"""
-	
+
 		# setup menu bar
 		# add subject
 		#menu_subject = VR.Geometry('cube')
@@ -156,7 +162,8 @@ class View():
 	def update_all(self):
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
-		for child in scene_children: VR.view_root.remChild(child)
+		for child in scene_children:
+			VR.view_root.remChild(child)
 		self.poly_objects.clear()
 		#todo positions and sizes
 		#todo replace with blender models
@@ -327,7 +334,7 @@ class View():
 				obj.setColors(self.colors['message'])
 				return True
 			elif isinstance(object, PASS.SendState):
-				pobj.setColors(self.colors['send_state'])
+				obj.setColors(self.colors['send_state'])
 				return True
 			elif isinstance(object, PASS.ReceiveState):
 				obj.setColors(self.colors['receive_state'])
@@ -380,7 +387,7 @@ class View():
 		return None
 
 	def on_change(self, object):
-		#TODO Hack
+		#  TODO Hack
 		if isinstance(object, PASS.Subject) or isinstance(object, PASS.MessageExchange):
 			pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 			pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
@@ -394,15 +401,15 @@ class View():
 			bb_x_dist = bb_max_x - bb_min_x
 			bb_y_dist = bb_max_y - bb_min_y
 			"""
-		
-			rel_size = 1 #TODO getRelativeSize()
+
+			rel_size = 1  # TODO getRelativeSize()
 			# find given object
-			if not object in self.objects: #add given object to scene
+			if not object in self.objects:  # add given object to scene
 				self.objects.append(object)
 				#create polyVR object and add it to scene #TODO
-				poly_obj = VR.Geometry('cube') #TODO replace with blender model
+				poly_obj = VR.Geometry('cube')  #TODO replace with blender model
 				primitive_str = 'Box'
-				#primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
+				#  primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
 				primitive_str += (' 0.2') * 3
 				primitive_str += ' 1' * 3
 				poly_obj.setPrimitive(primitive_str)
@@ -434,13 +441,13 @@ class View():
 				poly_obj.setPickable(True)
 				poly_obj.setPlaneConstraints([0, 0, 1])
 				poly_obj.setRotationConstraints([1, 1, 1])
-						
+
 				VR.view_root.addChild(poly_obj)
 				self.poly_objects.append(poly_obj)
-			else: #update given object
+			else:  # update given object
 				#TODO if object is of type *message: change line
 				idx = self.objects.index(object)
-				obj = self.poly_objects[idx] #poly_objects should have the same idx as objects
+				obj = self.poly_objects[idx]  # poly_objects should have the same idx as objects
 
 				#set position and size
 				primitive_str = 'box'
