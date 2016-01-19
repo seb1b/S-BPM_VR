@@ -5,6 +5,7 @@ from PASS import ModelManager
 from view import View
 from hardware_main_neu import VRHardware
 
+
 class Controller:
 
 	def __init__(self):
@@ -242,7 +243,8 @@ class Controller:
 		"""
 		if self.current_view is not None:
 			assert self.current_model is not None
-				#TODO: self.current_view.zoom()
+			while self.current_view.get_current_zoom_level() > 0:
+				self.current_view.zoom(-1)
 		print("fade_away()")
 		return None
 
@@ -345,19 +347,22 @@ class Controller:
 		self.move_head([1.4, 0.0, -1.2], 180.2, 4)
 
 	def test_bsp_prozess(self):
-		file_path = "/home/ksiks/Workspace/S-BPM_VR/Model/tests/Beispielprozess.owl"
+		file_path = "/home/vrp/Projects/S-BPM_VR-SW/Model/tests/Beispielprozess.owl"
 		self.models[file_path] = ModelManager(file_path)
 		self.views[file_path] = View()
 		self.current_model = self.models[file_path]
 		self.current_view = self.views[file_path]
 		self.current_model.addChangeListener(self.views[file_path].on_change)
-		self.views[file_path].on_change(
-			self.current_model.model.hasModelComponent[0].subjects[0])
-		self.views[file_path].on_change(
-			self.current_model.model.hasModelComponent[0].subjects[1])
-		self.current_model.model.hasModelComponent[0].addMessageExchange(
-			self.current_model.model.hasModelComponent[0].subjects[0],
-			self.current_model.model.hasModelComponent[0].subjects[1])
+		self.views[file_path].set_cur_scene(self.current_model.model.hasModelComponent[0])
+		self.views[file_path].update_all()
+		#self.views[file_path].on_change(self.current_model.model.hasModelComponent[0])
+		#self.views[file_path].on_change(
+			#self.current_model.model.hasModelComponent[0].subjects[0])
+		#self.views[file_path].on_change(
+			#self.current_model.model.hasModelComponent[0].subjects[1])
+		#self.current_model.model.hasModelComponent[0].addMessageExchange(
+			#self.current_model.model.hasModelComponent[0].subjects[0],
+			#self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"
