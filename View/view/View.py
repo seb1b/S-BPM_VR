@@ -34,9 +34,13 @@ class View():
 		self.BLENDER_PATHS['subject'] = '../../View/Blender/Archiv/Subjekt.dae'
 		#TODO add path for missing elements
 
+		#stores polyVR objects and related PASS objects and vise versa
+		self.object_dic = {}
+
 		#stores user_id and corresponding color
 		self.user_colors = {}
 
+		#setup camera parameter
 		self.camera_from = [0, 0, 10]
 		self.camera_at = [0, 0, -1.0]
 		self.camera_dir = [0, 0, -1]
@@ -178,7 +182,7 @@ class View():
 			print child
 			#VR.view_root.remChild(child)
 			child.destroy()
-		self.poly_objects = []
+		self.object_dic.clear()
 		#todo positions and sizes
 		#todo replace with blender models
 		if isinstance(self.cur_scene, PASS.Layer):
@@ -200,6 +204,8 @@ class View():
 				poly_sub.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_sub)
 				self.poly_objects.append(poly_sub)
+				self.object_dic[subject] = poly_sub
+				self.object_dic[poly_sub] = subject
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
 				pos = message.hasAbstractVisualRepresentation.hasPoint2D
@@ -215,6 +221,8 @@ class View():
 				VR.view_root.addChild(poly_mes)
 				self.poly_objects.append(poly_mes)
 				self.draw_line(message)
+				self.object_dic[message] = poly_mes
+				self.object_dic[poly_mes] = message
 
 		elif isinstance(self.cur_scene, PASS.Behavior):
 			states = self.cur_scene.hasState
@@ -243,6 +251,8 @@ class View():
 				poly_state.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_state)
 				self.poly_objects.append(poly_state)
+				self.object_dic[state] = poly_state
+				self.object_dic[poly_state] = state
 
 			for edge in edges:
 				assert isinstance(edge, PASS.TransitionEdge)
@@ -259,16 +269,17 @@ class View():
 				VR.view_root.addChild(poly_edge)
 				self.poly_objects.append(poly_edge)
 				self.draw_line(edge)
+				self.object_dic[edge] = poly_edge
+				self.object_dic[poly_edge] = edge
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
-
 	def zoom(self, level):
-		new_cam_pos = [p + d * self.ZOOM_STEP * level for p,d in zip(VR.cam.getFrom(), VR.cam.getDir())]
+		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] > 2:
 			VR.cam.setFrom(new_cam_pos)
 		#TODO add image
-		
+
 	def move_cursor(self, pos_ws, user_id, is_left):
 		colors = [1]
 
@@ -327,44 +338,46 @@ class View():
 		cursor.setFrom(pos_ws)
 		VR.view_user_positions[user_id][is_left] = pos_ws
 		#print 'done'
-		
+
 	def move_scene(self, translation):
 		cam_pos = VR.cam.getFrom()
 		assert len(cam_pos) == 3
 		assert len(translation) == 2
 		new_cam_pos = [cam_pos[0] + translation[0], cam_pos[1] + translation[1], cam_pos[2]]
 		VR.cam.setFrom(new_cam_pos)
-		
+
 	def set_highlight(self, obj, highlight):
 		assert isinstance(highlight, bool)
+		o = self.object_dic[obj]
+		assert isinstance(o, VR.Object)
 		if highlight:
-			obj.setColors([[1, 0 , 0]])
+			o.setColors([[1, 0, 0]])
 			return True
 		else:
-			if isinstance(object, PASS.Subject):
-				obj.setColors(self.colors['subject'])
+			if isinstance(o, PASS.Subject):
+				o.setColors(self.colors['subject'])
 				return True
-			elif isinstance(object, PASS.MessageExchange):
-				obj.setColors(self.colors['message'])
+			elif isinstance(o, PASS.MessageExchange):
+				o.setColors(self.colors['message'])
 				return True
-			elif isinstance(object, PASS.SendState):
-				obj.setColors(self.colors['send_state'])
+			elif isinstance(o, PASS.SendState):
+				o.setColors(self.colors['send_state'])
 				return True
-			elif isinstance(object, PASS.ReceiveState):
-				obj.setColors(self.colors['receive_state'])
+			elif isinstance(o, PASS.ReceiveState):
+				o.setColors(self.colors['receive_state'])
 				return True
-			elif isinstance(object, PASS.FunctionState):
-				obj.setColors(self.colors['function_state'])
+			elif isinstance(o, PASS.FunctionState):
+				o.setColors(self.colors['function_state'])
 				return True
-			elif isinstance(object, PASS.TransitionEdge):
-				obj.setColors(self.colors['state_message'])
+			elif isinstance(o, PASS.TransitionEdge):
+				o.setColors(self.colors['state_message'])
 				return True
 			else:
 				print "Error: no valid object tag"
 				return False
 		return False
 
-	def highlight_pos(self, pos): #returns the added highlight
+	def highlight_pos(self, pos):  # returns the added highlight
 		assert len(pos) == 2
 
 		highlighted_point = VR.Geometry('sphere')
@@ -380,24 +393,24 @@ class View():
 
 		return highlighted_point
 
-	def remove_highlight_pos(self, highlight_pos): #remove the given highlighted object from scene
+	def remove_highlight_pos(self, highlight_pos):  # remove the given highlighted object from scene
 		VR.view_root.remChild(highlight_pos)
-	
+
 	def get_object(self, pos_ws):
 		vr_pos = [(p - 0.5) for p in pos_ws]
 		print(("View: intersect at {}".format(vr_pos)))
 		obj = self.get_intersected_obj(vr_pos)
 		if isinstance(obj, VR.Object):
 			print("View: VR object")
-			return obj # TODO: return PASS object
+			return self.object_dic[obj]  # TODO: return PASS object
 		elif obj is not None:
 			# MenuBarItem?!
 			print("View: MenuBarItem")
-			return menubar_entries["subject"] # TODO: return correct item!
+			return self.menubar_entries["subject"]  # TODO: return correct item!
 		print(("View: No object at {}".format(pos_ws)))
 		return None
 		#TODO update when victor finished implementing missing function
-		
+
 	def rotate(self, degrees):
 		pass
 
@@ -469,6 +482,8 @@ class View():
 
 				VR.view_root.addChild(poly_obj)
 				self.poly_objects.append(poly_obj)
+				self.object_dic[poly_obj] = object
+				self.object_dic[object] = poly_obj
 			else:  # update given object
 				#TODO if object is of type *message: change line
 				idx = self.objects.index(object)
@@ -555,4 +570,6 @@ class View():
 		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
 		#obj.animate(path, 2, 0, False)
 		#obj.setFrom(pos_ws)
-		obj.setFrom(pos_ws[0] * self.offset_x - self.offset_x / 2.0, pos_ws[1] * self.offset_y - self.offset_y / 2.0, 0.0)
+		o = self.object_dic[obj]
+		assert isinstance(o, VR.Object)
+		o.setFrom(pos_ws[0] * self.offset_x - self.offset_x / 2.0, pos_ws[1] * self.offset_y - self.offset_y / 2.0, 0.0)

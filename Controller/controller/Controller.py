@@ -66,15 +66,19 @@ class Controller:
 				print("press(): got object")
 				if isinstance(obj, Subject):
 					# CASE: click on Subject
+					print("press(): got Subject")
 					pass
 				elif isinstance(obj, MessageExchange):
 					# CASE: click on MessageExchange
+					print("press(): got MessageExchange")
 					pass
 				elif isinstance(obj, State):
 					# CASE: click on State
+					print("press(): got State")
 					pass
 				elif isinstance(obj, TransitionEdge):
 					# CASE: click on TransitionEdge
+					print("press(): got TransitionEdge")
 					pass
 				elif isinstance(obj, View.MenuBarItem):
 					# CASE: should be MenuBarItem
@@ -210,13 +214,14 @@ class Controller:
 		assert isinstance(is_left, bool), \
 			"Left/Right hand parameter must be a boolean value"
 
-		print("move({}, {}, {})".format(pos, user_id, is_left))
+		print(("move({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
-				self.pressed_object.hasVisualPresentation().setPoint3D(
+				assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
+				self.pressed_object.hasAbstractVisualRepresentation.setPoint3D(
 					pos[0], pos[1], pos[2])
 				self.view.move_object(self.pressed_object, pos[:2])
 			self.view.move_cursor(pos, user_id, is_left)
@@ -235,6 +240,8 @@ class Controller:
 		:return: None
 		"""
 		assert isinstance(level, (float, int)), "Level must be a number"
+		print(("zoom({})".format(level)))
+
 		if self.view is not None:
 			assert self.current_model is not None
 			if level < 0:
@@ -248,7 +255,6 @@ class Controller:
 					self.view.zoom(-1)
 			elif level > 0:
 				self.view.zoom(+1)
-		print(("zoom({})".format(level)))
 		return None
 
 	def fade_away(self):
@@ -260,11 +266,12 @@ class Controller:
 
 		:return: None
 		"""
+		print("fade_away()")
+
 		if self.view is not None:
 			assert self.current_model is not None
 			while self.view.get_current_zoom_level() > 0:
 				self.view.zoom(-1)
-		print("fade_away()")
 		return None
 
 	def fade_in(self, pos):
