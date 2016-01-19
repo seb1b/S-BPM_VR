@@ -1,6 +1,5 @@
 #!/usr/bin/env python2
 import math
-#import map
 
 from PASS import ModelManager
 from view import View
@@ -41,19 +40,23 @@ class Controller:
 		:type pos: float array of length 3
 		:param user_id: the id of the user causing this event
 		:type user_id: integer
-		:param is_left: Whether or not this event was caused by the left hand(default: false)
+		:param is_left: Whether or not this event was caused by the left
+			hand(default: false)
 		:type is_left: boolean
 
 		:return: None
 		"""
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
-			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-			assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
+			assert isinstance(p, (float, int)), \
+				"Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), \
+				"Position must be in normalized screen space coordinates [0.0,1.0]"
 		assert isinstance(user_id, int), "User ID must be an integer"
-		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
+		assert isinstance(is_left, bool), \
+			"Left/Right hand parameter must be a boolean value"
 
-		print("press({}, {}, {})".format(pos, user_id, is_left))
+		print(("press({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.current_view is not None:
 			assert self.current_model is not None
@@ -85,23 +88,30 @@ class Controller:
 		:type pos: float array of length 3
 		:param user_id: the id of the user causing this event
 		:type user_id: integer
-		:param is_left: Whether or not this event was caused by the left hand (default: false)
+		:param is_left: Whether or not this event was caused by the left
+			hand (default: false)
 		:type is_left: boolean
 
 		:return: None
 		"""
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
-			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-			assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
-		assert isinstance(user_id, int), "User ID must be an integer"
-		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
+			assert isinstance(p, (float, int)), \
+				"Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), \
+				"Position must be in normalized screen space coordinates [0.0,1.0]"
+		assert isinstance(user_id, int), \
+			"User ID must be an integer"
+		assert isinstance(is_left, bool), \
+			"Left/Right hand parameter must be a boolean value"
 
-		print("release({}, {}, {})".format(pos, user_id, is_left))
+		print(("release({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.current_view is not None:
 			assert self.current_model is not None
-			if self.pressed_object is not None and self.pressed_is_left == is_left and self.pressed_user_id == user_id:
+			if self.pressed_object is not None \
+				and self.pressed_is_left == is_left \
+				and self.pressed_user_id == user_id:
 				# CASE: some object was released -> drag or select?
 				assert self.pressed_object in self.selected_objects
 				self.released_object = self.pressed_object
@@ -117,19 +127,21 @@ class Controller:
 					# Case
 					if self.released_object.type_name == "message":
 						# CASE: add message was released on field
-						if len(selected_objects) == 2:
+						if len(self.selected_objects) == 2:
 							# CASE: adding message only possible if two subjects are selected
-							new_obj = self.current_model.hasModelComponent[0].addMessageExchange(selected_objects[0], selected_objects[1])
-							new_obj.label.append("New Message");
+							new_obj = self.current_model.hasModelComponent[0].addMessageExchange(
+								self.selected_objects[0], self.selected_objects[1])
+							new_obj.label.append("New Message")
 					else:
 						assert(False, "Invalid MenuBarItem type")
 					self.current_view.set_highlight(self.released_object, False)
 					self.selected_objects.remove(self.released_object)
-					assert self.released_object not in seef.selected_objects
+					assert self.released_object not in self.selected_objects
 					if new_obj is not None:
 						self.selected_objects.append(new_obj)
 					self.released_object = new_obj
-				elif math.sqrtsum(map(lambda x : x ** 2, [a - b for a, b in zip(self.press_position[user_id], pos)])) < 1.0:
+				elif math.sqrtsum([x ** 2 for x in [a - b for a, b in zip(
+					self.press_position[user_id], pos)]]) < 1.0:
 					# CASE: some field object was selected
 					# nothing to do
 					pass
@@ -163,17 +175,21 @@ class Controller:
 		:type pos: float array of length 3
 		:param user_id: the id of the user causing this event
 		:type user_id: integer
-		:param is_left: Whether or not this event was caused by the left hand (default: false)
+		:param is_left: Whether or not this event was caused by the left hand
+			(default: false)
 		:type is_left: boolean
 
 		:return: None
 		"""
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
-			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
-			assert (p >= 0.0 and p <= 1.0), "Position must be in normalized screen space coordinates [0.0,1.0]"
+			assert isinstance(p, (float, int)), \
+				"Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), \
+				"Position must be in normalized screen space coordinates [0.0,1.0]"
 		assert isinstance(user_id, int), "User ID must be an integer"
-		assert isinstance(is_left, bool), "Left/Right hand parameter must be a boolean value"
+		assert isinstance(is_left, bool), \
+			"Left/Right hand parameter must be a boolean value"
 
 		print("move({}, {}, {})".format(pos, user_id, is_left))
 
@@ -181,7 +197,8 @@ class Controller:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
-				self.pressed_object.hasVisualPresentation().setPoint3D(pos[0], pos[1], pos[2])
+				self.pressed_object.hasVisualPresentation().setPoint3D(
+					pos[0], pos[1], pos[2])
 				self.current_view.move_object(self.pressed_object, pos[:2])
 			self.current_view.move_cursor(pos, user_id, is_left)
 
@@ -189,7 +206,7 @@ class Controller:
 
 	def zoom(self, level):
 		"""This function handles a zoom event
-		
+
 		This function zooms the view by the giving parameter level, zooms out if -1,
 		zooms in if 1, changes s-bpm level if the current level is 0
 
@@ -211,7 +228,7 @@ class Controller:
 				self.current_view.zoom(-1)
 			elif level > 0:
 				self.current_view.zoom(+1)
-		print("zoom({})".format(level))
+		print(("zoom({})".format(level)))
 		return None
 
 	def fade_away(self):
@@ -228,20 +245,20 @@ class Controller:
 				#TODO: self.current_view.zoom()
 		print("fade_away()")
 		return None
-		
+
 	def fade_in(self, pos):
-		"""This function enters the inner sub-level of the object at the given 
+		"""This function enters the inner sub-level of the object at the given
 		position
-		
-		This function enters the inner sub-level of the object at the given 
-		position. 
-		
+
+		This function enters the inner sub-level of the object at the given
+		position.
+
 		:param pos: the 3D position in normalized screen space coordinates
 		:type pos: float array of length 3
-		
+
 		:return: None
 		"""
-		print("fade_in({})".format(pos))
+		print(("fade_in({})".format(pos)))
 		return None
 
 	def move_model(self, pos, user_id):
@@ -262,10 +279,11 @@ class Controller:
 		"""
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
-			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+			assert isinstance(p, (float, int)), \
+				"Position must contain three floating point numbers"
 		assert isinstance(user_id, int), "User ID must be an integer"
 
-		print("move_model({}, {})".format(pos, user_id))
+		print(("move_model({}, {})".format(pos, user_id)))
 
 		if self.current_view is not None:
 			assert self.current_model is not None
@@ -275,15 +293,15 @@ class Controller:
 
 	def rotate(self, degrees):
 		"""This function rotates the entire scene for the given number of degrees
-		
+
 		:param degrees: The number of degrees to rotate
 		:type degrees: integer or float
-		
+
 		:return: None
 		"""
 		assert isinstance(degrees, (float, int)), "Degrees must be a number"
-				
-		print("rotate({})".format(degrees))
+
+		print(("rotate({})".format(degrees)))
 		return None
 
 	def move_head(self, pos, degrees, user_id):
@@ -306,11 +324,12 @@ class Controller:
 		"""
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
-			assert isinstance(p, (float, int)), "Position must contain three floating point numbers"
+			assert isinstance(p, (float, int)), \
+				"Position must contain three floating point numbers"
 		assert isinstance(degrees, (float, int)), "Degrees must be a number"
 		assert isinstance(user_id, int), "User ID must be an integer"
 
-		print("move_head({}, {}, {})".format(pos, degrees, user_id))
+		print(("move_head({}, {}, {})".format(pos, degrees, user_id)))
 		return None
 
 	def test(self):
@@ -324,17 +343,21 @@ class Controller:
 		self.rotate(90)
 		self.move_model([4.3, 0.4, 0.5], 33)
 		self.move_head([1.4, 0.0, -1.2], 180.2, 4)
-		
+
 	def test_bsp_prozess(self):
-		file_path = "/home/vrpraktikum/Projects/S-BPM_VR/Model/tests/Beispielprozess.owl"
+		file_path = "/home/ksiks/Workspace/S-BPM_VR/Model/tests/Beispielprozess.owl"
 		self.models[file_path] = ModelManager(file_path)
 		self.views[file_path] = View()
 		self.current_model = self.models[file_path]
 		self.current_view = self.views[file_path]
 		self.current_model.addChangeListener(self.views[file_path].on_change)
-		self.views[file_path].on_change(self.current_model.model.hasModelComponent[0].subjects[0])
-		self.views[file_path].on_change(self.current_model.model.hasModelComponent[0].subjects[1])
-		self.current_model.model.hasModelComponent[0].addMessageExchange(self.current_model.model.hasModelComponent[0].subjects[0], self.current_model.model.hasModelComponent[0].subjects[1])
+		self.views[file_path].on_change(
+			self.current_model.model.hasModelComponent[0].subjects[0])
+		self.views[file_path].on_change(
+			self.current_model.model.hasModelComponent[0].subjects[1])
+		self.current_model.model.hasModelComponent[0].addMessageExchange(
+			self.current_model.model.hasModelComponent[0].subjects[0],
+			self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"
