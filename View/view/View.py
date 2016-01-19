@@ -17,6 +17,10 @@ class View():
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49]) #TODO
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49]) #TODO
 
+		self.BLENDER_PATHS = {}
+		self.BLENDER_PATHS['subject'] = '../../View/Blender/Archiv/Subjekt.dae'
+		#TODO add path for missing elements
+
 		#stores user_id and corresponding color
 		self.user_colors = {}
 		
@@ -26,6 +30,8 @@ class View():
 
 		self.objects = [] #list of objects : PASSProcessModelElement
 		self.paths = [] #list of paths
+
+		self.cur_scene = None
 		
 		# setup root
 		VR.view_root = VR.getRoot().find('Headlight')
@@ -142,6 +148,100 @@ class View():
 		# lu.setPickable(False)
 		# VR.view_root.addChild(lu)
 
+	def set_cur_scene(self, cur_scene):
+		self.cur_scene = cur_scene
+		self.update_all()
+
+	# update entire scene based on given scene self.cur_scene
+	def update_all(self):
+		#delete current scene
+		scene_children = VR.view_root.getChildren()
+		for child in scene_children: VR.view_root.remChild(child)
+		self.poly_objects.clear()
+		#todo positions and sizes
+		#todo replace with blender models
+		if isinstance(self.cur_scene, PASS.Level):
+			subjects = self.cur_scene.subjects
+			message_exchanges = self.cur_scene.messageExchanges
+
+			for subject in subjects:
+				assert isinstance(subject, PASS.Subject)
+				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
+				poly_sub = VR.loadGemoetry(self.BLENDER_PATHS('subject'))
+				#poly_sub = VR.Geometry('cube')
+				#poly_sub.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+				#poly_sub.setMaterial(VR.Material('sample material'))
+				poly_sub.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				poly_sub.setPickable(True)
+				poly_sub.addTag('subject')
+				#poly_sub.setColors(self.colors['subject'])
+				poly_sub.setPlaneConstraints([0, 0, 1])
+				poly_sub.setRotationConstraints([1, 1, 1])
+				VR.view_root.addChild(poly_sub)
+				self.poly_objects.append(poly_sub)
+			for message in message_exchanges:
+				assert isinstance(message, PASS.MessageExchange)
+				pos = message.hasAbstractVisualRepresentation.hasPoint2D
+				poly_mes = VR.Geometry('cube')
+				poly_mes.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+				poly_mes.setMaterial(VR.Material('sample material'))
+				poly_mes.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				poly_mes.setPickable(True)
+				poly_mes.addTag('message')
+				poly_mes.setColors(self.colors['message'])
+				poly_mes.setPlaneConstraints([0, 0, 1])
+				poly_mes.setRotationConstraints([1, 1, 1])
+				VR.view_root.addChild(poly_mes)
+				self.poly_objects.append(poly_mes)
+				self.draw_line(message)
+
+		elif isinstance(self.cur_scene, PASS.Behavior):
+			states = self.cur_scene.hasState
+			edges = self.cur_scene.hasEdge
+
+			for state in states:
+				assert isinstance(state, PASS.State)
+				pos = state.hasAbstractVisualRepresentation.hasPoint2D
+				poly_state = VR.Geometry('cube')
+				poly_state.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+				poly_state.setMaterial(VR.Material('sample material'))
+				poly_state.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				poly_state.setPickable(True)
+				if isinstance(state, PASS.FunctionState):
+					poly_state.addTag('function_state')
+					poly_state.setColors(self.colors['function_state'])
+				elif isinstance(state, PASS.SendState):
+					poly_state.addTag('send_state')
+					poly_state.setColors(self.colors['send_state'])
+				elif isinstance(state, PASS.ReceiveState):
+					poly_state.addTag('receive_state')
+					poly_state.setColors(self.colors['receive_state'])
+				else:
+					print 'Failed setting state color.'
+				poly_state.setPlaneConstraints([0, 0, 1])
+				poly_state.setRotationConstraints([1, 1, 1])
+				VR.view_root.addChild(poly_state)
+				self.poly_objects.append(poly_state)
+
+			for edge in edges:
+				assert isinstance(edge, PASS.TransitionEdge)
+				pos = edge.hasAbstractVisualRepresentation.hasPoint2D
+				poly_edge = VR.Geometry('cube')
+				poly_edge.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
+				poly_edge.setMaterial(VR.Material('sample material'))
+				poly_edge.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				poly_edge.setPickable(True)
+				poly_edge.addTag('state_message')
+				poly_edge.setColors(self.colors['state_message'])
+				poly_edge.setPlaneConstraints([0, 0, 1])
+				poly_edge.setRotationConstraints([1, 1, 1])
+				VR.view_root.addChild(poly_edge)
+				self.poly_objects.append(poly_edge)
+				self.draw_line(edge)
+		else:
+			print 'Failed to load current scene: has to be level or behavior'
+
+
 	def zoom(self, level):
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p,d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] > 2:
@@ -242,6 +342,25 @@ class View():
 				print "Error: no valid object tag"
 				return False
 		return False
+
+	def highlight_pos(self, pos): #returns the added highlight
+		assert len(pos) == 2
+
+		highlighted_point = VR.Geometry('sphere')
+		highlighted_point.setPrimitive('Sphere 0.05 5')
+		highlighted_point.setMaterial(VR.Material('sample material'))
+		highlighted_point.setFrom(pos[0], pos[1], 0.0) #TODO scaling factor
+		highlighted_point.setPlaneConstraints([0, 0, 1])
+		highlighted_point.setRotationConstraints([1, 1, 1])
+		highlighted_point.setColors([1, 0, 0]) #TODO change color?!
+		highlighted_point.setPickable(False)
+		highlighted_point.addTag('highlight')
+		VR.view_root.addChild(highlighted_point)
+
+		return highlighted_point
+
+	def remove_highlight_pos(self, highlight_pos): #remove the given highlighted object from scene
+		VR.view_root.remChild(highlight_pos)
 	
 	def get_object(self, pos_ws):
 		return self.get_intersected_obj(pos_ws)
