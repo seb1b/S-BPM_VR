@@ -384,12 +384,17 @@ class View():
 		VR.view_root.remChild(highlight_pos)
 	
 	def get_object(self, pos_ws):
-		obj = self.get_intersected_obj(pos_ws)
-		if instanceof(obj, VR.Object):
+		vr_pos = [(p - 0.5) for p in pos_ws]
+		print(("View: intersect at {}".format(vr_pos)))
+		obj = self.get_intersected_obj(vr_pos)
+		if isinstance(obj, VR.Object):
+			print("View: VR object")
 			return obj # TODO: return PASS object
 		elif obj is not None:
 			# MenuBarItem?!
+			print("View: MenuBarItem")
 			return menubar_entries["subject"] # TODO: return correct item!
+		print(("View: No object at {}".format(pos_ws)))
 		return None
 		#TODO update when victor finished implementing missing function
 		

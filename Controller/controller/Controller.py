@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 import math
 
-from PASS import ModelManager
+from PASS import *
 from view import View
 from hardware_main_neu import VRHardware
 
@@ -63,16 +63,17 @@ class Controller:
 			obj = self.view.get_object(pos[:2])
 			if obj is not None and self.pressed_user_id is None:
 				# CASE: press on existing obj(subject/message/menu bar item)
-				if isinstance(obj, PASS.Subject):
+				print("press(): got object")
+				if isinstance(obj, Subject):
 					# CASE: click on Subject
 					pass
-				elif isinstance(obj, PASS.MessageExchange):
+				elif isinstance(obj, MessageExchange):
 					# CASE: click on MessageExchange
 					pass
-				elif isinstance(obj, PASS.State):
+				elif isinstance(obj, State):
 					# CASE: click on State
 					pass
-				elif isinstance(obj, PASS.TransitionEdge):
+				elif isinstance(obj, TransitionEdge):
 					# CASE: click on TransitionEdge
 					pass
 				elif isinstance(obj, View.MenuBarItem):
@@ -376,15 +377,14 @@ class Controller:
 		print "subjects: ", self.current_model.model.hasModelComponent[0].subjects
 		print "behaviors: ", self.current_model.model.hasModelComponent[0].behaviors
 
-		#self.view.update_all()
-		#self.view.on_change(self.current_model.model.hasModelComponent[0])
-		#self.view.on_change(
-			#self.current_model.model.hasModelComponent[0].subjects[0])
-		#self.view.on_change(
-			#self.current_model.model.hasModelComponent[0].subjects[1])
-		#self.current_model.model.hasModelComponent[0].addMessageExchange(
-			#self.current_model.model.hasModelComponent[0].subjects[0],
-			#self.current_model.model.hasModelComponent[0].subjects[1])
+		self.view.on_change(self.current_model.model.hasModelComponent[0])
+		self.view.on_change(
+			self.current_model.model.hasModelComponent[0].subjects[0])
+		self.view.on_change(
+			self.current_model.model.hasModelComponent[0].subjects[1])
+		self.current_model.model.hasModelComponent[0].addMessageExchange(
+			self.current_model.model.hasModelComponent[0].subjects[0],
+			self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"
