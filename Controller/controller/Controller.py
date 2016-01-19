@@ -239,13 +239,13 @@ class Controller:
 			assert self.current_model is not None
 			if level < 0:
 				if self.view.get_current_zoom_level() == 0:
-					# TODO: go back one s-bpm level
-					if self.current_model is not none:
-						self.current_model = self.current_model.belongsTo
-					pass
+					scene = self.view.get_cur_scene()
+					if scene is not None:
+						parent = self.current_model.getParent(scene)
+						if parent is not None:
+							self.view.set_cur_scene(parent)
 				else:
-					pass
-				self.view.zoom(-1)
+					self.view.zoom(-1)
 			elif level > 0:
 				self.view.zoom(+1)
 		print(("zoom({})".format(level)))
