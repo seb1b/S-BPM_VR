@@ -5,6 +5,18 @@ import PASS
 
 class View():
 
+	class MenuBarItem():
+		def __init__(self, name):
+			self.name = name
+
+	menubar_entries = {
+		"subject": MenuBarItem("subject"),
+		"message": MenuBarItem("message"),
+		"copy": MenuBarItem("copy"),
+		"edit": MenuBarItem("edit")
+		# TODO: finish
+	}
+
 	def __init__(self):
 		self.ZOOM_STEP = 0.01
 		self.MAX_USERS = 5
@@ -372,7 +384,13 @@ class View():
 		VR.view_root.remChild(highlight_pos)
 	
 	def get_object(self, pos_ws):
-		return self.get_intersected_obj(pos_ws)
+		obj = self.get_intersected_obj(pos_ws)
+		if instanceof(obj, VR.Object):
+			return obj # TODO: return PASS object
+		elif obj is not None:
+			# MenuBarItem?!
+			return menubar_entries["subject"] # TODO: return correct item!
+		return None
 		#TODO update when victor finished implementing missing function
 		
 	def rotate(self, degrees):

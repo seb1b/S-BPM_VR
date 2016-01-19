@@ -11,9 +11,8 @@ class Controller:
 	def __init__(self):
 		# dictionaries of model and view, file path is key
 		self.models = {}
-		self.views = {}
 		self.current_model = None
-		self.current_view = None
+		self.view = None
 
 		self.press_position = {}
 		self.drag_position = None
@@ -59,18 +58,36 @@ class Controller:
 
 		print(("press({}, {}, {})".format(pos, user_id, is_left)))
 
-		if self.current_view is not None:
+		if self.view is not None:
 			assert self.current_model is not None
-			obj = self.current_view.get_object(pos[:2])
+			obj = self.view.get_object(pos[:2])
 			if obj is not None and self.pressed_user_id is None:
 				# CASE: press on existing obj(subject/message/menu bar item)
+				if isinstance(obj, PASS.Subject):
+					# CASE: click on Subject
+					pass
+				elif isinstance(obj, PASS.MessageExchange):
+					# CASE: click on MessageExchange
+					pass
+				elif isinstance(obj, PASS.State):
+					# CASE: click on State
+					pass
+				elif isinstance(obj, PASS.TransitionEdge):
+					# CASE: click on TransitionEdge
+					pass
+				elif isinstance(obj, View.MenuBarItem):
+					# CASE: should be MenuBarItem
+					print(("Press on MenuBarItem: {}".format(obj.name)))
+				else:
+					print("Unknown object returned on press()")
+
 				if obj not in self.selected_objects:
 					self.selected_objects.append(obj)
 				self.pressed_object = obj
 				self.pressed_is_left = is_left
 				self.pressed_user_id = user_id
 				self.drag_position = pos
-				self.current_view.set_highlight(obj, True)
+				self.view.set_highlight(obj, True)
 			else:
 				# CASE: press on empty field or empty menu bar
 				pass
@@ -108,7 +125,7 @@ class Controller:
 
 		print(("release({}, {}, {})".format(pos, user_id, is_left)))
 
-		if self.current_view is not None:
+		if self.view is not None:
 			assert self.current_model is not None
 			if self.pressed_object is not None \
 				and self.pressed_is_left == is_left \
@@ -135,7 +152,7 @@ class Controller:
 							new_obj.label.append("New Message")
 					else:
 						assert(False, "Invalid MenuBarItem type")
-					self.current_view.set_highlight(self.released_object, False)
+					self.view.set_highlight(self.released_object, False)
 					self.selected_objects.remove(self.released_object)
 					assert self.released_object not in self.selected_objects
 					if new_obj is not None:
@@ -151,14 +168,14 @@ class Controller:
 					# nothing to do
 					pass
 				if self.released_object is not None:
-					self.current_view.set_highlight(self.released_object, True)
+					self.view.set_highlight(self.released_object, True)
 			elif self.pressed_object is None and self.pressed_is_left == is_left:
 				# CASE: release on field without object -> deselect everything
 				for obj in self.selected_objects:
-					self.current_view.set_highlight(self.released_object, False)
+					self.view.set_highlight(self.released_object, False)
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
-				# self.current_view.set_highlight_point(pos)
+				# self.view.highlight_pos(pos)
 			else:
 				print("case: x")
 		self.release_position[user_id] = pos
@@ -194,14 +211,14 @@ class Controller:
 
 		print("move({}, {}, {})".format(pos, user_id, is_left))
 
-		if self.current_view is not None:
+		if self.view is not None:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
 				self.pressed_object.hasVisualPresentation().setPoint3D(
 					pos[0], pos[1], pos[2])
-				self.current_view.move_object(self.pressed_object, pos[:2])
-			self.current_view.move_cursor(pos, user_id, is_left)
+				self.view.move_object(self.pressed_object, pos[:2])
+			self.view.move_cursor(pos, user_id, is_left)
 
 		return None
 
@@ -217,18 +234,19 @@ class Controller:
 		:return: None
 		"""
 		assert isinstance(level, (float, int)), "Level must be a number"
-		if self.current_view is not None:
+		if self.view is not None:
 			assert self.current_model is not None
 			if level < 0:
-				if self.current_view.get_current_zoom_level() == 0:
+				if self.view.get_current_zoom_level() == 0:
 					# TODO: go back one s-bpm level
-					# self.current_model.belongsTo?
+					if self.current_model is not none:
+						self.current_model = self.current_model.belongsTo
 					pass
 				else:
 					pass
-				self.current_view.zoom(-1)
+				self.view.zoom(-1)
 			elif level > 0:
-				self.current_view.zoom(+1)
+				self.view.zoom(+1)
 		print(("zoom({})".format(level)))
 		return None
 
@@ -241,10 +259,10 @@ class Controller:
 
 		:return: None
 		"""
-		if self.current_view is not None:
+		if self.view is not None:
 			assert self.current_model is not None
-			while self.current_view.get_current_zoom_level() > 0:
-				self.current_view.zoom(-1)
+			while self.view.get_current_zoom_level() > 0:
+				self.view.zoom(-1)
 		print("fade_away()")
 		return None
 
@@ -287,9 +305,9 @@ class Controller:
 
 		print(("move_model({}, {})".format(pos, user_id)))
 
-		if self.current_view is not None:
+		if self.view is not None:
 			assert self.current_model is not None
-			self.current_view.move_scene(pos[:2])
+			self.view.move_scene(pos[:2])
 
 		return None
 
@@ -347,18 +365,22 @@ class Controller:
 		self.move_head([1.4, 0.0, -1.2], 180.2, 4)
 
 	def test_bsp_prozess(self):
-		file_path = "/home/vrp/Projects/S-BPM_VR-SW/Model/tests/Beispielprozess.owl"
+		file_path = "/home/vrpraktikum/Projects/S-BPM_VR/Model/tests/Beispielprozess.owl"
 		self.models[file_path] = ModelManager(file_path)
-		self.views[file_path] = View()
+		self.view = View()
 		self.current_model = self.models[file_path]
-		self.current_view = self.views[file_path]
-		self.current_model.addChangeListener(self.views[file_path].on_change)
-		self.views[file_path].set_cur_scene(self.current_model.model.hasModelComponent[0])
-		self.views[file_path].update_all()
-		#self.views[file_path].on_change(self.current_model.model.hasModelComponent[0])
-		#self.views[file_path].on_change(
+		self.current_model.addChangeListener(self.view.on_change)
+		#self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
+
+		print "length: ", len(self.current_model.model.hasModelComponent)
+		print "subjects: ", self.current_model.model.hasModelComponent[0].subjects
+		print "behaviors: ", self.current_model.model.hasModelComponent[0].behaviors
+
+		#self.view.update_all()
+		#self.view.on_change(self.current_model.model.hasModelComponent[0])
+		#self.view.on_change(
 			#self.current_model.model.hasModelComponent[0].subjects[0])
-		#self.views[file_path].on_change(
+		#self.view.on_change(
 			#self.current_model.model.hasModelComponent[0].subjects[1])
 		#self.current_model.model.hasModelComponent[0].addMessageExchange(
 			#self.current_model.model.hasModelComponent[0].subjects[0],
@@ -367,10 +389,9 @@ class Controller:
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"
 		self.models[file_path] = ModelManager()
-		self.views[file_path] = View()
+		self.view = View()
 		self.current_model = self.models[file_path]
-		self.current_view = self.views[file_path]
-		self.current_model.addChangeListener(self.views[file_path].on_change)
+		self.current_model.addChangeListener(self.view.on_change)
 		# TODO: init model
 
 
