@@ -163,18 +163,20 @@ class View():
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
 		for child in scene_children:
-			VR.view_root.remChild(child)
-		self.poly_objects.clear()
+			print child
+			#VR.view_root.remChild(child)
+			child.destroy()
+		self.poly_objects = []
 		#todo positions and sizes
 		#todo replace with blender models
-		if isinstance(self.cur_scene, PASS.Level):
+		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
 			message_exchanges = self.cur_scene.messageExchanges
 
 			for subject in subjects:
 				assert isinstance(subject, PASS.Subject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
-				poly_sub = VR.loadGemoetry(self.BLENDER_PATHS('subject'))
+				poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject'])
 				#poly_sub = VR.Geometry('cube')
 				#poly_sub.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
 				#poly_sub.setMaterial(VR.Material('sample material'))
