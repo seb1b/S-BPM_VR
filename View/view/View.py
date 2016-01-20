@@ -353,26 +353,26 @@ class View():
 			o.setColors([[1, 0, 0]])
 			return True
 		else:
-			if isinstance(o, PASS.Subject):
+			if isinstance(obj, PASS.Subject):
 				o.setColors(self.colors['subject'])
 				return True
-			elif isinstance(o, PASS.MessageExchange):
+			elif isinstance(obj, PASS.MessageExchange):
 				o.setColors(self.colors['message'])
 				return True
-			elif isinstance(o, PASS.SendState):
+			elif isinstance(obj, PASS.SendState):
 				o.setColors(self.colors['send_state'])
 				return True
-			elif isinstance(o, PASS.ReceiveState):
+			elif isinstance(obj, PASS.ReceiveState):
 				o.setColors(self.colors['receive_state'])
 				return True
-			elif isinstance(o, PASS.FunctionState):
+			elif isinstance(obj, PASS.FunctionState):
 				o.setColors(self.colors['function_state'])
 				return True
-			elif isinstance(o, PASS.TransitionEdge):
+			elif isinstance(obj, PASS.TransitionEdge):
 				o.setColors(self.colors['state_message'])
 				return True
 			else:
-				print "Error: no valid object tag"
+				print "View Error: no valid object tag"
 				return False
 		return False
 
