@@ -204,7 +204,7 @@ class View():
 		editSite.open('http://localhost:5500/edit')	
 	
 		VR.view_root.addChild(editPlane)
-		#editSite.addMouse(mouse, editPlane, 0, 2, 3, 4)
+		editSite.addMouse(VR.mydev, editPlane, 0, 2, 3, 4)
 		#editSite.addKeyboard(keyboard)
 		VR.site = editSite	
 	
@@ -384,8 +384,16 @@ class View():
 			cursor_right.addTag(str([user_id, False]))
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
-			VR.view_user_cursors[user_id][True] = cursor_left
-			VR.view_user_cursors[user_id][False] = cursor_right
+			#VR.view_user_cursors[user_id][True] = cursor_left
+			#VR.view_user_cursors[user_id][False] = cursor_right
+			mydev_l = VR.Device('mydev')
+			mydev_l.setBeacon(cursor_left)
+			mydev_l.addIntersection(VR.view_root)
+			mydev_r = VR.Device('mydev')
+			mydev_r.setBeacon(cursor_right)
+			mydev_r.addIntersection(VR.view_root)
+			VR.view_user_cursors[user_id][True] = mydev_l
+			VR.view_user_cursors[user_id][False] = mydev_r		
 			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
 			VR.view_user_positions[user_id] = {}
 			VR.view_user_positions[user_id][True] = [0, 0, 0]
@@ -466,7 +474,7 @@ class View():
 	def remove_highlight_pos(self, highlight_pos):  # remove the given highlighted object from scene
 		VR.view_root.remChild(highlight_pos)
 
-	def get_object(self, pos_ws):
+	def get_scene_object(self, pos_ws):
 		vr_pos = [(p - 0.5) for p in pos_ws]
 		#print(("View: intersect at {}".format(vr_pos)))
 		obj = self.get_intersected_obj(vr_pos)
@@ -480,7 +488,22 @@ class View():
 		#print(("View: No object at {}".format(pos_ws)))
 		return None
 		#TODO update when victor finished implementing missing function
-
+		
+	def get_object(self, user_id, is_left):
+		mydev = VR.view_user_cursors[user_id][is_left].trigger(0, 1)
+		if VR.mydev.intersect():
+			i = VR.mydev.getIntersected()
+			print i, i.getName()
+			print i, i.getTags()
+			#print VR.mydev.getIntersected().getTags()
+			#print VR.mydev.getIntersected().getName()
+			#print VR.mydev.getIntersected().getID()
+			return i
+			VR.mydev.trigger(0,dev.getState())
+		else:
+			print 'leer'
+		
+		
 	def rotate(self, degrees):
 		pass
 
