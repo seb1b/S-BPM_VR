@@ -11,6 +11,30 @@
   </Objects>
   <Rendering deferred_rendering="0" frustum_culling="1" occlusion_culling="0" ssao="0" ssao_kernel="4" ssao_noise="4" ssao_radius="0.02" two_sided="1"/>
   <Scripts>
+    <Script name_suffix="0" base_name="Script" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	def beispiel1():
+		cam = VR.getRoot().find('Default')
+	
+		path = VR.Path()
+		path.set([0,0,20],[0,0,1],[0,1,0], [0,0,30],[0,0,1],[0,1,0], 80)
+	
+		cam.animate(path, 2, 0, False)
+		
+	def fly(t):
+		cam = VR.getRoot().find('Default')
+		p = [0,0,20+t*10]
+		cam.setFrom(p)
+		
+	a = VR.Animation('fly')
+	a.setCallback(fly)
+	a.setDuration(2)
+	
+	a.start()
+</core>
+    </Script>
     <Script name_suffix="0" base_name="debug_keyboard" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
@@ -26,6 +50,8 @@
 		VR.controller.move_model([-0.1, 0.0, 0.0], 0)
 	if k == 65364:  # down arrow
 		VR.controller.move_model([0.0, 0.1, 0.0], 0)
+	if k == 102:  # F
+		VR.controller.fade_away()
 </core>
       <trig type="on_device" dev="keyboard" state="Pressed" param="" key="-1" name_suffix="2" base_name="trigger" name_space="__global__"/>
     </Script>
