@@ -80,6 +80,8 @@ class View():
 		self.colors['function_state'] = [[0.74, 0.95, 0.80]]  # rose
 		self.colors['state_message'] = [[0.98, 0.98, 0.62]]  # yellow
 		self.colors['highlight'] = [[1, 0, 0]]
+		
+		self.setup_menu_bar()
 
 		#HACK create 3 clickable and movable objects
 		self.poly_objects = []
@@ -175,8 +177,66 @@ class View():
 		self.cur_scene = cur_scene
 		self.update_all()
 
-	def cur_scene(self):
+	def get_cur_scene(self):
 		return self.cur_scene
+		
+	def setup_menu_bar(self):
+		# setup menu bar edit	
+		editPlane = VR.Geometry('edit')
+		s = 'Plane '
+		s += str(self.scale_x)
+		s += ' 0.4 1 1'
+		editPlane.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		editPlane.setMaterial(material)
+		#editPlane.setFrom(1.1, 1, 0)
+		editPlane.setFrom(0, -0.5 * self.scale_y + 0.2, 0)
+	
+		editPlane.setUp(0, -1, 0)
+		editPlane.setAt(0, 0, 1)
+		editPlane.setDir(0, 0, 1)
+		editPlane.setPickable(False)
+		editPlane.addTag('edit')	
+	
+		editSite = VR.CEF()
+		editSite.setMaterial(editPlane.getMaterial())
+		editSite.open('http://localhost:5500/edit')	
+	
+		VR.view_root.addChild(editPlane)
+		#editSite.addMouse(mouse, editPlane, 0, 2, 3, 4)
+		#editSite.addKeyboard(keyboard)
+		VR.site = editSite	
+	
+		# setup menu bar metadata
+		dataPlane = VR.Geometry('data')
+		s = 'Plane '
+		s += '0.4 '
+		s += str(self.scale_y)
+		s += ' 1 1'
+		dataPlane.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		dataPlane.setMaterial(material)
+		dataPlane.setFrom(0.5 * self.scale_x - 0.2, 0, 0)
+		dataPlane.setUp(0, -1, 0)
+		dataPlane.setAt(0, 0, 1)
+		dataPlane.setDir(0, 0, 1)
+		dataPlane.setPickable(False)
+		dataPlane.addTag('data')	
+	
+		dataSite = VR.CEF()
+		dataSite.setMaterial(dataPlane.getMaterial())
+		# refresh URI with new params depending on highlighted component
+		# TODO: create method to convert metacontent array from selected object into URI params
+		params = '?' + 'm1_k=key1&m1_v=value1&m2_k=key2&m2_v=value2'
+		dataSite.open('http://localhost:5500/meta' + params)
+	
+		VR.view_root.addChild(dataPlane)
+		#dataSite.addMouse(mouse, dataPlane, 0, 2, 3, 4)
+		#dataSite.addKeyboard(keyboard)
+	
+		VR.site = {editSite, dataSite}
 
 	# update entire scene based on given scene self.cur_scene
 	def update_all(self):
