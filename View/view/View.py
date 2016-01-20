@@ -20,6 +20,8 @@ class View():
 	def __init__(self):
 		self.ZOOM_STEP = 0.01
 		self.MAX_USERS = 5
+		self.MAX_DIST = 10
+		self.MIN_DIST = 2
 		self.offset_x = 0
 		self.offset_y = 0
 		self.VALID_USER_COLORS = []
@@ -41,7 +43,7 @@ class View():
 		self.user_colors = {}
 
 		#setup camera parameter
-		self.camera_from = [0, 0, 10]
+		self.camera_from = [0, 0, self.MAX_DIST]
 		self.camera_at = [0, 0, -1.0]
 		self.camera_dir = [0, 0, -1]
 		self.camera_fov = 0.2
@@ -173,6 +175,9 @@ class View():
 		self.cur_scene = cur_scene
 		self.update_all()
 
+	def cur_scene(self):
+		return self.cur_scene
+
 	# update entire scene based on given scene self.cur_scene
 	def update_all(self):
 		#delete current scene
@@ -274,10 +279,16 @@ class View():
 			print 'Failed to load current scene: has to be level or behavior'
 
 	def zoom(self, level):
+		print(("Zoom level: {}".format(self.current_zoom_level())))
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
-		if not new_cam_pos[2] > 2:
+		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
 			VR.cam.setFrom(new_cam_pos)
 		#TODO add image
+
+	def current_zoom_level(self):
+		level = int(float(self.MAX_DIST - VR.cam.getFrom()[2]) / self.ZOOM_STEP)
+		assert(level >= 0)
+		return level
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		colors = [1]
@@ -397,16 +408,16 @@ class View():
 
 	def get_object(self, pos_ws):
 		vr_pos = [(p - 0.5) for p in pos_ws]
-		print(("View: intersect at {}".format(vr_pos)))
+		#print(("View: intersect at {}".format(vr_pos)))
 		obj = self.get_intersected_obj(vr_pos)
 		if isinstance(obj, VR.Object):
-			print("View: VR object")
+			#print("View: VR object")
 			return self.object_dic[obj]  # TODO: return PASS object
 		elif obj is not None:
 			# MenuBarItem?!
 			print("View: MenuBarItem")
 			return self.menubar_entries["subject"]  # TODO: return correct item!
-		print(("View: No object at {}".format(pos_ws)))
+		#print(("View: No object at {}".format(pos_ws)))
 		return None
 		#TODO update when victor finished implementing missing function
 

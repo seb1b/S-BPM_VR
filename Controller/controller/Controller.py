@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 import math
+import logging
 
 from PASS import *
 from view import View
@@ -56,47 +57,47 @@ class Controller:
 		assert isinstance(is_left, bool), \
 			"Left/Right hand parameter must be a boolean value"
 
-		print(("press({}, {}, {})".format(pos, user_id, is_left)))
+		logging.info(("press({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
 			assert self.current_model is not None
 			obj = self.view.get_object(pos[:2])
 			if obj is not None and self.pressed_user_id is None:
 				# CASE: press on existing obj(subject/message/menu bar item)
-				print("press(): got object")
+				logging.info("press(): got object")
 				if isinstance(obj, Subject):
 					# CASE: click on Subject
-					print("press(): got Subject")
+					logging.info("press(): got Subject")
 					pass
 				elif isinstance(obj, MessageExchange):
 					# CASE: click on MessageExchange
-					print("press(): got MessageExchange")
+					logging.info("press(): got MessageExchange")
 					pass
 				elif isinstance(obj, State):
 					# CASE: click on State
-					print("press(): got State")
+					logging.info("press(): got State")
 					pass
 				elif isinstance(obj, TransitionEdge):
 					# CASE: click on TransitionEdge
-					print("press(): got TransitionEdge")
+					logging.info("press(): got TransitionEdge")
 					pass
 				elif isinstance(obj, View.MenuBarItem):
 					# CASE: should be MenuBarItem
-					print(("Press on MenuBarItem: {}".format(obj.name)))
+					logging.info(("Press on MenuBarItem: {}".format(obj.name)))
 				else:
-					print("Unknown object returned on press()")
+					logging.info("Unknown object returned on press()")
 
 				if obj not in self.selected_objects:
 					self.selected_objects.append(obj)
 				self.pressed_object = obj
-				self.pressed_is_left = is_left
-				self.pressed_user_id = user_id
 				self.drag_position = pos
 				self.view.set_highlight(obj, True)
 			else:
 				# CASE: press on empty field or empty menu bar
 				pass
 		self.press_position[user_id] = pos
+		self.pressed_is_left = is_left
+		self.pressed_user_id = user_id
 
 		return None
 
@@ -128,7 +129,7 @@ class Controller:
 		assert isinstance(is_left, bool), \
 			"Left/Right hand parameter must be a boolean value"
 
-		print(("release({}, {}, {})".format(pos, user_id, is_left)))
+		logging.info(("release({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
 			assert self.current_model is not None
@@ -147,7 +148,6 @@ class Controller:
 						new_obj = self.current_model.hasModelComponent[0].addSubject()
 						new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
 						new_obj.label.append("New Subject")
-					# Case
 					if self.released_object.type_name == "message":
 						# CASE: add message was released on field
 						if len(self.selected_objects) == 2:
@@ -163,8 +163,8 @@ class Controller:
 					if new_obj is not None:
 						self.selected_objects.append(new_obj)
 					self.released_object = new_obj
-				elif math.sqrtsum([x ** 2 for x in [a - b for a, b in zip(
-					self.press_position[user_id], pos)]]) < 1.0:
+				elif sum([x ** 2 for x in [a - b for a, b in zip(
+					self.press_position[user_id], pos)]]) < 10.0:
 					# CASE: some field object was selected
 					# nothing to do
 					pass
@@ -172,18 +172,19 @@ class Controller:
 					# CASE: some field object was dragged/moved
 					# nothing to do
 					pass
-				if self.released_object is not None:
-					self.view.set_highlight(self.released_object, True)
 			elif self.pressed_object is None and self.pressed_is_left == is_left:
 				# CASE: release on field without object -> deselect everything
 				for obj in self.selected_objects:
-					self.view.set_highlight(self.released_object, False)
+					re = self.view.set_highlight(obj, False)
+					assert(re, "set_highlight failed")
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
 				# self.view.highlight_pos(pos)
+				logging.info("deselect")
 			else:
-				print("case: x")
+				logging.info("case: x")
 		self.release_position[user_id] = pos
+		self.pressed_user_id = None
 
 		return None
 
@@ -214,7 +215,7 @@ class Controller:
 		assert isinstance(is_left, bool), \
 			"Left/Right hand parameter must be a boolean value"
 
-		print(("move({}, {}, {})".format(pos, user_id, is_left)))
+		logging.info(("move({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
 			assert self.current_model is not None
@@ -240,21 +241,21 @@ class Controller:
 		:return: None
 		"""
 		assert isinstance(level, (float, int)), "Level must be a number"
-		print(("zoom({})".format(level)))
+		logging.info(("zoom({})".format(level)))
 
 		if self.view is not None:
 			assert self.current_model is not None
 			if level < 0:
-				if self.view.get_current_zoom_level() == 0:
-					scene = self.view.get_cur_scene()
-					if scene is not None:
-						parent = self.current_model.getParent(scene)
-						if parent is not None:
-							self.view.set_cur_scene(parent)
+				if self.view.current_zoom_level() == 0:
+					layer = self.view.cur_scene()
+					if layer is not None:
+						parent_layer = self.current_model.getParent(layer)
+						if parent_layer is not None:
+							self.view.set_cur_scene(parent_layer)
 				else:
 					self.view.zoom(-1)
 			elif level > 0:
-				self.view.zoom(+1)
+				self.view.zoom(1)
 		return None
 
 	def fade_away(self):
@@ -266,7 +267,7 @@ class Controller:
 
 		:return: None
 		"""
-		print("fade_away()")
+		logging.info("fade_away()")
 
 		if self.view is not None:
 			assert self.current_model is not None
@@ -286,7 +287,7 @@ class Controller:
 
 		:return: None
 		"""
-		print(("fade_in({})".format(pos)))
+		logging.info(("fade_in({})".format(pos)))
 		return None
 
 	def move_model(self, pos, user_id):
@@ -311,7 +312,7 @@ class Controller:
 				"Position must contain three floating point numbers"
 		assert isinstance(user_id, int), "User ID must be an integer"
 
-		print(("move_model({}, {})".format(pos, user_id)))
+		logging.info(("move_model({}, {})".format(pos, user_id)))
 
 		if self.view is not None:
 			assert self.current_model is not None
@@ -329,7 +330,7 @@ class Controller:
 		"""
 		assert isinstance(degrees, (float, int)), "Degrees must be a number"
 
-		print(("rotate({})".format(degrees)))
+		logging.info(("rotate({})".format(degrees)))
 		return None
 
 	def move_head(self, pos, degrees, user_id):
@@ -357,11 +358,11 @@ class Controller:
 		assert isinstance(degrees, (float, int)), "Degrees must be a number"
 		assert isinstance(user_id, int), "User ID must be an integer"
 
-		print(("move_head({}, {}, {})".format(pos, degrees, user_id)))
+		logging.info(("move_head({}, {}, {})".format(pos, degrees, user_id)))
 		return None
 
 	def test(self):
-		print("Test run")
+		logging.info("Test run")
 		self.press([1, 1, 0], 2, True)
 		self.move([0.3, 0.2, 0.9], 123, False)
 		self.move([0.3, 0.2, 0.8], 123, False)
@@ -379,10 +380,6 @@ class Controller:
 		self.current_model = self.models[file_path]
 		self.current_model.addChangeListener(self.view.on_change)
 		#self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
-
-		print "length: ", len(self.current_model.model.hasModelComponent)
-		print "subjects: ", self.current_model.model.hasModelComponent[0].subjects
-		print "behaviors: ", self.current_model.model.hasModelComponent[0].behaviors
 
 		self.view.on_change(self.current_model.model.hasModelComponent[0])
 		self.view.on_change(
