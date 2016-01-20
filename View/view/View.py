@@ -64,9 +64,8 @@ class View():
 		assert len(win_size) == 2
 		self.offset_x = win_size[0]  #TODO delete
 		self.offset_y = win_size[1]  #TODO delete
-		self.scale_y = 2 * 10 * math.tan(self.camera_fov - 0.5)
+		self.scale_y = 2 * self.camera_from[2] * math.tan(self.camera_fov * 0.5)
 		self.scale_x = self.scale_y * win_size[0] / win_size[1]
-		
 
 		# set colors
 		self.colors = {}
@@ -285,7 +284,7 @@ class View():
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
-		pos_ws = [(pos_ws[0] - 0.5) * 2, pos_ws[1] - 0.5]
+		pos_ws = [(pos_ws[0] - 0.5) * self.scale_x, (pos_ws[1] - 0.5) * self.scale_y]
 		pos_ws.append(0)
 
 		if not hasattr(VR, 'view_user_cursors'):
@@ -298,15 +297,15 @@ class View():
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
 			cursor_left = VR.Geometry('sphere')
-			cursor_left.setPrimitive('Sphere 0.05 5')
+			cursor_left.setPrimitive('Sphere 0.03 5')
 			cursor_left.setMaterial(VR.Material('sample material'))
-			cursor_left.setFrom(0.5, 0, 0.3)
+			cursor_left.setFrom(0.3, 0, 0.3)
 			cursor_left.setPlaneConstraints([0, 0, 1])
 			cursor_left.setRotationConstraints([1, 1, 1])
 			cursor_left.addTag(str([user_id, True]))
 			VR.cam.addChild(cursor_left)
 			cursor_right = VR.Geometry('sphere')
-			cursor_right.setPrimitive('Sphere 0.05 5')
+			cursor_right.setPrimitive('Sphere 0.03 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, 0.3)
 			cursor_right.setPlaneConstraints([0, 0, 1])
@@ -417,7 +416,7 @@ class View():
 	#HACK
 	def get_intersected_obj(self, pos):
 		assert len(pos) == 2
-		pos = [pos[0] * 2, pos[1]]
+		pos = [pos[0] * self.scale_x, pos[1] * self.scale_y]
 		for o in self.poly_objects:
 			o_pos = o.getFrom()
 			if pos[0] < o_pos[0] + 0.2 and pos[0] > o_pos[0] - 0.2 and pos[1] < o_pos[1] + 0.2 and pos[1] > o_pos[1] - 0.2:
@@ -572,4 +571,4 @@ class View():
 		#obj.setFrom(pos_ws)
 		o = self.object_dic[obj]
 		assert isinstance(o, VR.Object)
-		o.setFrom(pos_ws[0] * self.offset_x - self.offset_x / 2.0, pos_ws[1] * self.offset_y - self.offset_y / 2.0, 0.0)
+		o.setFrom((pos_ws[0] - 0.5) * self.scale_x, (pos_ws[1] - 0.5) * self.scale_y, 0.0)
