@@ -3,7 +3,7 @@
   <Objects>
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="1 0.5 -1.44013" at="1 0.5 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="1 0.5 -2" at="1 0.5 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="1.0472">
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
       </Object>
@@ -11,6 +11,29 @@
   </Objects>
   <Rendering deferred_rendering="0" frustum_culling="1" occlusion_culling="0" ssao="0" ssao_kernel="4" ssao_noise="4" ssao_radius="0.02" two_sided="1"/>
   <Scripts>
+    <Script name_suffix="0" base_name="Script" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	print 'klick', dev.getState()
+	
+	VR.mydev.setBeacon(mouse.getBeacon())
+	if VR.mydev.intersect():
+		i = VR.mydev.getIntersected()
+		print i, i.getName(), dev.getIntersection()
+		print i, i.getTags()
+		#print VR.mydev.getIntersected().getTags()
+		#print VR.mydev.getIntersected().getName()
+		#print VR.mydev.getIntersected().getID()
+	
+		VR.mydev.trigger(0,dev.getState())
+	else:
+		print 'leer'
+</core>
+      <arg type="VRPyDeviceType" value="mouse" name_suffix="0" base_name="mouse" name_space="Script"/>
+      <trig type="on_device" dev="mouse" state="Released" param="" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
+      <trig type="on_device" dev="mouse" state="Pressed" param="" key="0" name_suffix="4" base_name="trigger" name_space="__global__"/>
+    </Script>
     <Script name_suffix="0" base_name="data" name_space="__script__" type="HTML" mobile="mobile">
       <core>
 &lt;!DOCTYPE HTML PUBLIC&gt;
@@ -222,6 +245,8 @@
       <core>
 	import VR
 	
+	
+	
 	camera_from = [1, 0.5, -2]
 	camera_at = [1, 0.5, -1.0]
 	camera_dir =[0, 0, 1]	
@@ -232,6 +257,9 @@
 	VR.cam.setFrom(camera_from)
 	VR.cam.setAt(camera_at)
 	VR.cam.setDir(camera_dir)
+	
+	VR.mydev = VR.Device('mydev')
+	VR.mydev.addIntersection(VR.view_root)
 	
 	# setup menu bar edit	
 	editPlane = VR.Geometry('edit')
@@ -249,7 +277,7 @@
 	editSite.open('http://localhost:5500/edit')	
 	
 	VR.view_root.addChild(editPlane)
-	editSite.addMouse(mouse, editPlane, 0, 2, 3, 4)
+	editSite.addMouse(VR.mydev, editPlane, 0, 2, 3, 4)
 	editSite.addKeyboard(keyboard)
 	VR.site = editSite	
 	

@@ -199,14 +199,14 @@ class View():
 		editPlane.setPickable(False)
 		editPlane.addTag('edit')	
 	
-		editSite = VR.CEF()
-		editSite.setMaterial(editPlane.getMaterial())
-		editSite.open('http://localhost:5500/edit')	
+		self.editSite = VR.CEF()
+		self.editSite.setMaterial(editPlane.getMaterial())
+		self.editSite.open('http://localhost:5500/edit')	
 	
 		VR.view_root.addChild(editPlane)
-		editSite.addMouse(VR.mydev, editPlane, 0, 2, 3, 4)
+		#editSite.addMouse(VR.mydev, editPlane, 0, 2, 3, 4)
 		#editSite.addKeyboard(keyboard)
-		VR.site = editSite	
+		VR.site = self.editSite	
 	
 		# setup menu bar metadata
 		dataPlane = VR.Geometry('data')
@@ -225,18 +225,18 @@ class View():
 		dataPlane.setPickable(False)
 		dataPlane.addTag('data')	
 	
-		dataSite = VR.CEF()
-		dataSite.setMaterial(dataPlane.getMaterial())
+		self.dataSite = VR.CEF() #TODO data-> meta
+		self.dataSite.setMaterial(dataPlane.getMaterial())
 		# refresh URI with new params depending on highlighted component
 		# TODO: create method to convert metacontent array from selected object into URI params
 		params = '?' + 'm1_k=key1&m1_v=value1&m2_k=key2&m2_v=value2'
-		dataSite.open('http://localhost:5500/meta' + params)
+		self.dataSite.open('http://localhost:5500/meta' + params)
 	
 		VR.view_root.addChild(dataPlane)
 		#dataSite.addMouse(mouse, dataPlane, 0, 2, 3, 4)
 		#dataSite.addKeyboard(keyboard)
 	
-		VR.site = {editSite, dataSite}
+		VR.site = {self.editSite, self.dataSite}
 
 	# update entire scene based on given scene self.cur_scene
 	def update_all(self):
@@ -392,6 +392,10 @@ class View():
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
 			mydev_r.addIntersection(VR.view_root)
+			self.editSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
+			self.editSite.addMouse(mydev_r, editPlane, 0, 2, 3, 4)
+			self.dataSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
+			self.dataSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
 			VR.view_user_cursors[user_id][True] = mydev_l
 			VR.view_user_cursors[user_id][False] = mydev_r		
 			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
