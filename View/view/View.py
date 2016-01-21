@@ -33,7 +33,7 @@ class View():
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
 
 		self.BLENDER_PATHS = {}
-		self.BLENDER_PATHS['subject'] = '../../View/Blender/Archiv/Subjekt.dae'
+		self.BLENDER_PATHS['subject'] = '../../View/Blender/Prozess/Subjekt.dae'
 		#TODO add path for missing elements
 
 		#stores polyVR objects and related PASS objects and vise versa
@@ -179,63 +179,63 @@ class View():
 
 	def get_cur_scene(self):
 		return self.cur_scene
-		
+
 	def setup_menu_bar(self):
-		# setup menu bar edit	
-		editPlane = VR.Geometry('edit')
+		#setup menu bar edit
+		self.editPlane = VR.Geometry('edit')
 		s = 'Plane '
 		s += str(self.scale_x)
 		s += ' 0.4 1 1'
-		editPlane.setPrimitive(s)
+		self.editPlane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
-		editPlane.setMaterial(material)
+		self.editPlane.setMaterial(material)
 		#editPlane.setFrom(1.1, 1, 0)
-		editPlane.setFrom(0, -0.5 * self.scale_y + 0.2, 0)
-	
-		editPlane.setUp(0, -1, 0)
-		editPlane.setAt(0, 0, 1)
-		editPlane.setDir(0, 0, 1)
-		editPlane.setPickable(False)
-		editPlane.addTag('edit')	
-	
+		self.editPlane.setFrom(0, -0.5 * self.scale_y + 0.2, 0)
+
+		self.editPlane.setUp(0, -1, 0)
+		self.editPlane.setAt(0, 0, 1)
+		self.editPlane.setDir(0, 0, 1)
+		self.editPlane.setPickable(False)
+		self.editPlane.addTag('edit')
+
 		self.editSite = VR.CEF()
-		self.editSite.setMaterial(editPlane.getMaterial())
-		self.editSite.open('http://localhost:5500/edit')	
-	
-		VR.view_root.addChild(editPlane)
+		self.editSite.setMaterial(self.editPlane.getMaterial())
+		self.editSite.open('http://localhost:5500/edit')
+
+		VR.view_root.addChild(self.editPlane)
 		#editSite.addMouse(VR.mydev, editPlane, 0, 2, 3, 4)
 		#editSite.addKeyboard(keyboard)
-		VR.site = self.editSite	
-	
+		VR.site = self.editSite
+
 		# setup menu bar metadata
-		dataPlane = VR.Geometry('data')
+		self.metaPlane = VR.Geometry('data')
 		s = 'Plane '
 		s += '0.4 '
-		s += str(self.scale_y)
+		s += str(self.scale_y - 0.4)
 		s += ' 1 1'
-		dataPlane.setPrimitive(s)
+		self.metaPlane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
-		dataPlane.setMaterial(material)
-		dataPlane.setFrom(0.5 * self.scale_x - 0.2, 0, 0)
-		dataPlane.setUp(0, -1, 0)
-		dataPlane.setAt(0, 0, 1)
-		dataPlane.setDir(0, 0, 1)
-		dataPlane.setPickable(False)
-		dataPlane.addTag('data')	
-	
+		self.metaPlane.setMaterial(material)
+		self.metaPlane.setFrom(0.5 * self.scale_x - 0.2, 0.2, 0)
+		self.metaPlane.setUp(0, -1, 0)
+		self.metaPlane.setAt(0, 0, 1)
+		self.metaPlane.setDir(0, 0, 1)
+		self.metaPlane.setPickable(False)
+		self.metaPlane.addTag('data')
+
 		self.metaSite = VR.CEF()
-		self.metaSite.setMaterial(dataPlane.getMaterial())
+		self.metaSite.setMaterial(self.metaPlane.getMaterial())
 		# refresh URI with new params depending on highlighted component
 		# TODO: create method to convert metacontent array from selected object into URI params
 		params = '?' + 'm1_k=key1&m1_v=value1&m2_k=key2&m2_v=value2'
 		self.metaSite.open('http://localhost:5500/meta' + params)
-	
-		VR.view_root.addChild(dataPlane)
+
+		VR.view_root.addChild(self.metaPlane)
 		#dataSite.addMouse(mouse, dataPlane, 0, 2, 3, 4)
 		#dataSite.addKeyboard(keyboard)
-	
+
 		VR.site = {self.editSite, self.metaSite}
 
 	# update entire scene based on given scene self.cur_scene
@@ -247,11 +247,12 @@ class View():
 			#VR.view_root.remChild(child)
 			child.destroy()
 		self.object_dic.clear()
-		#todo positions and sizes
+		#todo sizes
 		#todo replace with blender models
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
 			message_exchanges = self.cur_scene.messageExchanges
+			#TODO set right gui element
 
 			for subject in subjects:
 				assert isinstance(subject, PASS.Subject)
@@ -293,6 +294,7 @@ class View():
 		elif isinstance(self.cur_scene, PASS.Behavior):
 			states = self.cur_scene.hasState
 			edges = self.cur_scene.hasEdge
+			#TODO set right gui element
 
 			for state in states:
 				assert isinstance(state, PASS.State)
@@ -371,16 +373,20 @@ class View():
 
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
-			cursor_left = VR.Geometry('sphere')
-			cursor_left.setPrimitive('Sphere 0.03 5')
+			#cursor_left = VR.Geometry('sphere')
+			#cursor_left.setPrimitive('Sphere 0.03 5')
+			cursor_left = VR.Geometry('Plane')
+			cursor_left.setPrimitive('Plane 0.02 0.02 1 1')
 			cursor_left.setMaterial(VR.Material('sample material'))
 			cursor_left.setFrom(0.3, 0, 0.3)
 			cursor_left.setPlaneConstraints([0, 0, 1])
 			cursor_left.setRotationConstraints([1, 1, 1])
 			cursor_left.addTag(str([user_id, True]))
 			VR.cam.addChild(cursor_left)
-			cursor_right = VR.Geometry('sphere')
-			cursor_right.setPrimitive('Sphere 0.03 5')
+			#cursor_right = VR.Geometry('sphere')
+			#cursor_right.setPrimitive('Sphere 0.03 5')
+			cursor_right = VR.Geometry('Plane')
+			cursor_right.setPrimitive('Plane 0.02 0.02 1 1')
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, 0.3)
 			cursor_right.setPlaneConstraints([0, 0, 1])
@@ -396,12 +402,12 @@ class View():
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
 			mydev_r.addIntersection(VR.view_root)
-			self.editSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
-			self.editSite.addMouse(mydev_r, editPlane, 0, 2, 3, 4)
-			self.metaSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
-			self.metaSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
+			self.editSite.addMouse(mydev_l, self.editPlane, 0, 2, 3, 4)
+			self.editSite.addMouse(mydev_r, self.editPlane, 0, 2, 3, 4)
+			self.metaSite.addMouse(mydev_l, self.metaPlane, 0, 2, 3, 4)
+			self.metaSite.addMouse(mydev_l, self.metaPlane, 0, 2, 3, 4)
 			VR.view_user_cursors[user_id][True] = mydev_l
-			VR.view_user_cursors[user_id][False] = mydev_r		
+			VR.view_user_cursors[user_id][False] = mydev_r
 			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
 			VR.view_user_positions[user_id] = {}
 			VR.view_user_positions[user_id][True] = [0, 0, 0]
@@ -438,8 +444,19 @@ class View():
 		assert isinstance(o, VR.Object)
 		if highlight:
 			o.setColors([[1, 0, 0]])
+			#set gui element: edit
+			#TODO
 			return True
 		else:
+			if isinstance(self.cur_scene, PASS.Layer):
+				#TODO set gui element for layer (subject, message)
+				pass
+			elif isinstance(self.cur_scene, PASS.Behavior):
+				#TODO set gui element for layer (fstate, sstate, rstate, tedge)
+				pass
+			else:
+				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
+
 			if isinstance(obj, PASS.Subject):
 				o.setColors(self.colors['subject'])
 				return True
@@ -498,15 +515,18 @@ class View():
 		#TODO update when victor finished implementing missing function
 		
 	def get_object(self, user_id, is_left):
-		mydev = VR.view_user_cursors[user_id][is_left].trigger(0, 1)
-		if VR.mydev.intersect():
+		mydev = VR.view_user_cursors[user_id][is_left]
+		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
 			if 'edit' in tags:
-				mydev.trigger(0,dev.getState())
+				print 'view: edit'
+				mydev.trigger(0, 0)
 			elif 'data' in tags:
+				print 'view: data'
 				pass
 			elif 'obj' in tags:
+				print 'view: object'
 				pass
 			else:
 				print 'No valid intersected object in get_object'
@@ -561,7 +581,10 @@ class View():
 				poly_obj.setPrimitive(primitive_str)
 				poly_obj.setMaterial(VR.Material('sample material'))
 				if isinstance(object, PASS.Subject):
-					poly_obj.setColors(self.colors['subject'])
+					poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject'])
+					poly_obj.setScale(0.1, 0.1, 0.1)
+					#poly_obj.setPose([pos_x, pos_y, 0.0],[0,0,-1],[0,1,0])
+					#poly_obj.setColors(self.colors['subject'])
 					poly_obj.addTag('subject')
 				elif isinstance(object, PASS.MessageExchange):
 					poly_obj.setColors(self.colors['message'])
@@ -583,6 +606,7 @@ class View():
 				#poly_obj.setFrom((pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0, (pos_y / bb_y_dist) * self.offset_y - self.offset_y / 2.0, 0.0 )
 				#print (pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0
 				print self.offset_x
+				poly_obj.addTag('obj')
 				poly_obj.setFrom(pos_x, pos_y, 0.0)
 				poly_obj.setPickable(True)
 				poly_obj.setPlaneConstraints([0, 0, 1])
