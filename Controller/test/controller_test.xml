@@ -11,7 +11,7 @@
   </Objects>
   <Rendering deferred_rendering="0" frustum_culling="1" occlusion_culling="0" ssao="0" ssao_kernel="4" ssao_noise="4" ssao_radius="0.02" two_sided="1"/>
   <Scripts>
-    <Script name_suffix="0" base_name="addBehavior" name_space="__script__" type="Python" mobile="">
+    <Script name_suffix="0" base_name="Script" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
 	
@@ -33,6 +33,22 @@
 	a.setDuration(2)
 	
 	a.start()
+</core>
+    </Script>
+    <Script name_suffix="1" base_name="Script" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	print 'msg:', dev.getMessage()
+	dev.answer('blub')
+	
+#	VR.view. callback function in view aufrufen
+</core>
+      <trig type="on_device" dev="mobile" state="Released" param="" key="-1" name_suffix="6" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="addBehavior" name_space="__script__" type="HTML" mobile="mobile">
+      <core>
+	pass
 </core>
     </Script>
     <Script name_suffix="0" base_name="addProcess" name_space="__script__" type="HTML" mobile="mobile">
@@ -158,6 +174,8 @@
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
+		    body {margin:0;}
+		
 			.editDiv{
 				position: relative;
 				background: #ffffff;
@@ -218,8 +236,8 @@
 		// Create websocket for communication with python code
 		var websocket = new WebSocket('ws://localhost:5500');			
 
-		function clickFunction(element) {				
-			websocket.send(element.id);
+		function clickFunction(element) {
+			websocket.send('blaaa');
 			alert(element.id);
 		};
 	&lt;/script&gt;
@@ -388,6 +406,7 @@
     <Script name_suffix="0" base_name="pika_update" name_space="__script__" type="Python" mobile="">
       <core>
 	import VR
+	
 	if hasattr(VR, "controller"):
 		VR.controller.process()
 </core>

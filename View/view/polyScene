@@ -22,7 +22,7 @@
 		i = VR.mydev.getIntersected()
 		#print i, i.getName(), dev.getIntersection()
 		#print i, i.getTags()
-	
+		print dev.getState()
 		VR.mydev.trigger(0,dev.getState())
 	else:
 		print 'leer'

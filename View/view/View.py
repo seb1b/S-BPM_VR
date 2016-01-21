@@ -54,7 +54,9 @@ class View():
 		self.cur_scene = None
 
 		# setup root
-		VR.view_root = VR.getRoot().find('Headlight')
+		root = VR.getRoot().find('Headlight')
+		VR.view_root = VR.Transform('world')
+		root.addChild(VR.view_root)
 		VR.cam = VR.getRoot().find('Default')
 		VR.cam.setFrom(self.camera_from)
 		VR.cam.setAt(self.camera_at)
@@ -202,7 +204,7 @@ class View():
 		self.editSite = VR.CEF()
 		self.editSite.setMaterial(self.editPlane.getMaterial())
 		self.editSite.open('http://localhost:5500/edit')
-		self.editSite.setResolution(2000)
+		self.editSite.setResolution(512)
 		self.editSite.setAspectRatio(4)
 
 		VR.view_root.addChild(self.editPlane)
@@ -365,8 +367,7 @@ class View():
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
-		pos_ws = [(pos_ws[0] - 0.5) * self.scale_x, (pos_ws[1] - 0.5) * self.scale_y]
-		pos_ws.append(0)
+		pos_ws = [(pos_ws[0] - 0.5) * self.scale_x, (pos_ws[1] - 0.5) * self.scale_y, -2]
 
 		if not hasattr(VR, 'view_user_cursors'):
 			VR.view_user_cursors = {}
@@ -377,24 +378,26 @@ class View():
 
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
-			#cursor_left = VR.Geometry('sphere')
-			#cursor_left.setPrimitive('Sphere 0.03 5')
-			cursor_left = VR.Geometry('Plane')
-			cursor_left.setPrimitive('Plane 0.02 0.02 1 1')
+			cursor_left = VR.Geometry('dev_l')
+			cursor_left.setPrimitive('Sphere 0.01 5')
+			#cursor_left = VR.Geometry('Plane')
+			#cursor_left.setPrimitive('Plane 0.02 0.02 1 1')
+			cursor_left.setColors([0.6, 0, 0])
 			cursor_left.setMaterial(VR.Material('sample material'))
 			cursor_left.setFrom(0.3, 0, 0.3)
-			cursor_left.setPlaneConstraints([0, 0, 1])
-			cursor_left.setRotationConstraints([1, 1, 1])
+			#cursor_left.setPlaneConstraints([0, 0, 1])
+			#cursor_left.setRotationConstraints([1, 1, 1])
 			cursor_left.addTag(str([user_id, True]))
 			VR.cam.addChild(cursor_left)
-			#cursor_right = VR.Geometry('sphere')
-			#cursor_right.setPrimitive('Sphere 0.03 5')
-			cursor_right = VR.Geometry('Plane')
-			cursor_right.setPrimitive('Plane 0.02 0.02 1 1')
+			cursor_right = VR.Geometry('dev_r')
+			cursor_right.setPrimitive('Sphere 0.01 5')
+			#cursor_right = VR.Geometry('Plane')
+			#cursor_right.setPrimitive('Plane 0.02 0.02 1 1')
+			cursor_right.setColors([1,0,0])
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, 0.3)
-			cursor_right.setPlaneConstraints([0, 0, 1])
-			cursor_right.setRotationConstraints([1, 1, 1])
+			#cursor_right.setPlaneConstraints([0, 0, 1])
+			#cursor_right.setRotationConstraints([1, 1, 1])
 			cursor_right.addTag(str([user_id, False]))
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
@@ -427,11 +430,13 @@ class View():
 
 		cursor = next((c for c in VR.cam.getChildren() if c.hasTag(str([user_id, is_left]))), None)
 		assert cursor is not None
+		
 		#path = VR.Path()
 		#path.set(VR.view_user_positions[user_id][is_left], direction, pos_ws, direction, 2)
 		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
 		#cursor.animate(path, 0.01, 0, False)
 		cursor.setFrom(pos_ws)
+		cursor.setDir(pos_ws)
 		VR.view_user_positions[user_id][is_left] = pos_ws
 		#print 'done'
 
@@ -526,6 +531,9 @@ class View():
 			if 'edit' in tags:
 				print 'view: edit'
 				mydev.trigger(0, 0)
+				mydev.trigger(0, 1)
+				mes = mydev.getMessage()
+				print 'bla', mes
 			elif 'meta' in tags:
 				print 'view: meta'
 				pass
