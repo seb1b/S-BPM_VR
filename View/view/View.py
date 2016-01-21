@@ -532,8 +532,8 @@ class View():
 				print 'view: edit'
 				mydev.trigger(0, 0)
 				mydev.trigger(0, 1)
-				mes = mydev.getMessage()
-				print 'bla', mes
+				#mes = mydev.getMessage()
+				#print 'bla', mes
 			elif 'meta' in tags:
 				print 'view: meta'
 				pass
