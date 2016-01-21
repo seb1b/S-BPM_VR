@@ -202,14 +202,16 @@ class View():
 		self.editSite = VR.CEF()
 		self.editSite.setMaterial(self.editPlane.getMaterial())
 		self.editSite.open('http://localhost:5500/edit')
+		self.editSite.setResolution(2000)
+		self.editSite.setAspectRatio(4)
 
 		VR.view_root.addChild(self.editPlane)
-		#editSite.addMouse(VR.mydev, editPlane, 0, 2, 3, 4)
+		#self.editSite.addMouse(VR.mydev, self.editPlane, 0, 2, 3, 4)
 		#editSite.addKeyboard(keyboard)
 		VR.site = self.editSite
 
 		# setup menu bar metadata
-		self.metaPlane = VR.Geometry('data')
+		self.metaPlane = VR.Geometry('meta')
 		s = 'Plane '
 		s += '0.4 '
 		s += str(self.scale_y - 0.4)
@@ -223,7 +225,7 @@ class View():
 		self.metaPlane.setAt(0, 0, 1)
 		self.metaPlane.setDir(0, 0, 1)
 		self.metaPlane.setPickable(False)
-		self.metaPlane.addTag('data')
+		self.metaPlane.addTag('meta')
 
 		self.metaSite = VR.CEF()
 		self.metaSite.setMaterial(self.metaPlane.getMaterial())
@@ -231,10 +233,12 @@ class View():
 		# TODO: create method to convert metacontent array from selected object into URI params
 		params = '?' + 'm1_k=key1&m1_v=value1&m2_k=key2&m2_v=value2'
 		self.metaSite.open('http://localhost:5500/meta' + params)
+		self.metaSite.setResolution(200)
+		self.metaSite.setAspectRatio(0.4)
 
 		VR.view_root.addChild(self.metaPlane)
-		#dataSite.addMouse(mouse, dataPlane, 0, 2, 3, 4)
-		#dataSite.addKeyboard(keyboard)
+		#self.metaSite.addMouse(VR.mydev, self.metaPlane, 0, 2, 3, 4)
+		#metaSite.addKeyboard(keyboard)
 
 		VR.site = {self.editSite, self.metaSite}
 
@@ -522,8 +526,8 @@ class View():
 			if 'edit' in tags:
 				print 'view: edit'
 				mydev.trigger(0, 0)
-			elif 'data' in tags:
-				print 'view: data'
+			elif 'meta' in tags:
+				print 'view: meta'
 				pass
 			elif 'obj' in tags:
 				print 'view: object'
