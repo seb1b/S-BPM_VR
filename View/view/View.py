@@ -225,18 +225,18 @@ class View():
 		dataPlane.setPickable(False)
 		dataPlane.addTag('data')	
 	
-		self.dataSite = VR.CEF() #TODO data-> meta
-		self.dataSite.setMaterial(dataPlane.getMaterial())
+		self.metaSite = VR.CEF()
+		self.metaSite.setMaterial(dataPlane.getMaterial())
 		# refresh URI with new params depending on highlighted component
 		# TODO: create method to convert metacontent array from selected object into URI params
 		params = '?' + 'm1_k=key1&m1_v=value1&m2_k=key2&m2_v=value2'
-		self.dataSite.open('http://localhost:5500/meta' + params)
+		self.metaSite.open('http://localhost:5500/meta' + params)
 	
 		VR.view_root.addChild(dataPlane)
 		#dataSite.addMouse(mouse, dataPlane, 0, 2, 3, 4)
 		#dataSite.addKeyboard(keyboard)
 	
-		VR.site = {self.editSite, self.dataSite}
+		VR.site = {self.editSite, self.metaSite}
 
 	# update entire scene based on given scene self.cur_scene
 	def update_all(self):
@@ -263,6 +263,7 @@ class View():
 				poly_sub.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				poly_sub.setPickable(True)
 				poly_sub.addTag('subject')
+				poly_sub.addTag('obj')
 				#poly_sub.setColors(self.colors['subject'])
 				poly_sub.setPlaneConstraints([0, 0, 1])
 				poly_sub.setRotationConstraints([1, 1, 1])
@@ -279,6 +280,7 @@ class View():
 				poly_mes.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				poly_mes.setPickable(True)
 				poly_mes.addTag('message')
+				poly_mes.addTag('obj')
 				poly_mes.setColors(self.colors['message'])
 				poly_mes.setPlaneConstraints([0, 0, 1])
 				poly_mes.setRotationConstraints([1, 1, 1])
@@ -311,6 +313,7 @@ class View():
 					poly_state.setColors(self.colors['receive_state'])
 				else:
 					print 'Failed setting state color.'
+				poly_state.addTag('obj')
 				poly_state.setPlaneConstraints([0, 0, 1])
 				poly_state.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_state)
@@ -327,6 +330,7 @@ class View():
 				poly_edge.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				poly_edge.setPickable(True)
 				poly_edge.addTag('state_message')
+				poly_edge.addTag('obj')
 				poly_edge.setColors(self.colors['state_message'])
 				poly_edge.setPlaneConstraints([0, 0, 1])
 				poly_edge.setRotationConstraints([1, 1, 1])
@@ -394,8 +398,8 @@ class View():
 			mydev_r.addIntersection(VR.view_root)
 			self.editSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
 			self.editSite.addMouse(mydev_r, editPlane, 0, 2, 3, 4)
-			self.dataSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
-			self.dataSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
+			self.metaSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
+			self.metaSite.addMouse(mydev_l, editPlane, 0, 2, 3, 4)
 			VR.view_user_cursors[user_id][True] = mydev_l
 			VR.view_user_cursors[user_id][False] = mydev_r		
 			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
@@ -496,17 +500,24 @@ class View():
 	def get_object(self, user_id, is_left):
 		mydev = VR.view_user_cursors[user_id][is_left].trigger(0, 1)
 		if VR.mydev.intersect():
-			i = VR.mydev.getIntersected()
+			i = mydev.getIntersected()
+			tags = i.getTags()
+			if 'edit' in tags:
+				mydev.trigger(0,dev.getState())
+			elif 'data' in tags:
+				pass
+			elif 'obj' in tags:
+				pass
+			else:
+				print 'No valid intersected object in get_object'
 			print i, i.getName()
 			print i, i.getTags()
 			#print VR.mydev.getIntersected().getTags()
 			#print VR.mydev.getIntersected().getName()
 			#print VR.mydev.getIntersected().getID()
-			return i
-			VR.mydev.trigger(0,dev.getState())
 		else:
-			print 'leer'
-		
+			print 'No intersection. Empty space clicked.'
+		return None
 		
 	def rotate(self, degrees):
 		pass
