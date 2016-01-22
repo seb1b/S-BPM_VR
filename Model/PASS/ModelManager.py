@@ -280,6 +280,7 @@ class ModelManager(object):
 	@property
 	def model(self):
 		return self._model
+		
 
 	@property
 	def filePath(self):
