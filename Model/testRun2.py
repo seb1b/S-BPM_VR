@@ -7,7 +7,8 @@ def buildHelper(manager, model):
 	behavior1 = layer.addBehavior()
 	subject1 = layer.addSubject(behavior1)
 	subject2 = layer.addSubject()
-	messageExchange = layer.addMessageExchange(subject1, subject2)
+	messageExchange = layer.addMessageExchange(subject2, subject1)
+	messageExchange2 = layer.addMessageExchange(subject1, subject2)
 	#SBD
 	behavior2 = subject2.hasBehavior
 	newState1 = behavior2.addFunctionState()
@@ -18,7 +19,7 @@ def buildHelper(manager, model):
 	behavior2.addStandardTransition(newState1, newState2)
 	newState3 = behavior2.addReceiveState()
 	behavior2.addSendTransition(newState2, newState3, messageExchange)
-	behavior2.addReceiveTransition(newState3, newState1, messageExchange)
+	behavior2.addReceiveTransition(newState3, newState1, messageExchange2)
 
 
 #Create manager

@@ -122,7 +122,7 @@ class Resource(object):
 			if(not hasattr(self, "type")):
 				self.type = ListenerList([], self)
 			ownClassUri = self.modelManager.classMapper.getClassResource(type(self).__name__)
-			#ToDo: Does not work because they are of type resource
+			#Does not work because they are of type resource
 			found = False
 			for r in self.type:
 				try:

@@ -9,6 +9,7 @@ from SendTransition import *
 from SendState import *
 from TransitionEdge import *
 from ListenerList import *
+from ActiveProcessComponent import *
 
 import math
 
@@ -145,6 +146,8 @@ class Behavior(PASSProcessModelElement):
 			raise Exception("'To' must be of type State!")
 		if(not isinstance(refersTo, MessageExchange)):
 			raise Exception("'RefersTo' must be of type MessageExchange!")
+		if(self.getParent(ActiveProcessComponent) != refersTo.receiver):
+			raise Exception("The MessageExchange that should be done must be start at the subject assigned to this Behavior!")
 		#Now create the transition
 		newT = ReceiveTransition(self.modelManager, sourceState = from_, targetState = to, refersTo = refersTo)
 		self.hasEdge.append(newT)
@@ -166,6 +169,8 @@ class Behavior(PASSProcessModelElement):
 			raise Exception("'To' must be of type State!")
 		if(not isinstance(refersTo, MessageExchange)):
 			raise Exception("'RefersTos' must be of type MessageExchange!")
+		if(self.getParent(ActiveProcessComponent) != refersTo.sender):
+			raise Exception("The MessageExchange that should be done must be start at the subject assigned to this Behavior!")
 		#Now create the transition
 		newT = SendTransition(self.modelManager, sourceState = from_, targetState = to, refersTo = refersTo)
 		self.hasEdge.append(newT)
