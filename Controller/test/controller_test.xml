@@ -40,7 +40,7 @@
 	import VR
 	
 	print 'msg:', dev.getMessage()
-	dev.answer('blub')
+	#dev.answer('blub')
 	
 #	VR.view. callback function in view aufrufen
 </core>
