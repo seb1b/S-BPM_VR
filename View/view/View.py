@@ -99,6 +99,7 @@ class View():
 		self.object_dict['obj'] = poly_obj
 
 	def setup_menu_bar(self):
+		print 'setup_menu_bar'
 		self.edit_plane = None
 		self.edit_site = None
 		self.meta_plane = None
@@ -108,8 +109,8 @@ class View():
 		self.behavior_add_plane = None
 		self.behavior_add_site = None
 
-		#setup menu bar edit
-		self.layer_add_plane = VR.Geometry('edit')
+		#setup menu bar layerAdd
+		self.layer_add_plane = VR.Geometry('layerAdd')
 		s = 'Plane '
 		s += str(self.scale_x)
 		s += ' 0.4 1 1'
@@ -127,12 +128,36 @@ class View():
 
 		self.layer_add_site = VR.CEF()
 		self.layer_add_site.setMaterial(self.layer_add_plane.getMaterial())
-		self.layer_add_site.open('http://localhost:5500/add')
+		self.layer_add_site.open('http://localhost:5500/layerAdd')
 		self.layer_add_site.setResolution(512)
 		self.layer_add_site.setAspectRatio(4)
 
 		self.active_gui_element = self.layer_add_plane
-		#VR.cam.addChild(self.active_gui_element)
+
+		#setup menu bar behaviorAdd
+		self.behavior_add_plane = VR.Geometry('behaviorAdd')
+		s = 'Plane '
+		s += str(self.scale_x)
+		s += ' 0.4 1 1'
+		self.behavior_add_plane.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		self.behavior_add_plane.setMaterial(material)
+		self.behavior_add_plane.setFrom(0, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+
+		self.behavior_add_plane.setUp(0, -1, 0)
+		self.behavior_add_plane.setAt(0, 0, 1)
+		self.behavior_add_plane.setDir(0, 0, 1)
+		self.behavior_add_plane.setPickable(False)
+		self.behavior_add_plane.addTag('layer_add')
+
+		self.behavior_add_site = VR.CEF()
+		self.behavior_add_site.setMaterial(self.layer_add_plane.getMaterial())
+		self.behavior_add_site.open('http://localhost:5500/behaviorAdd')
+		self.behavior_add_site.setResolution(512)
+		self.behavior_add_site.setAspectRatio(4)
+
+		#self.active_gui_element = self.behavior_add_plane
 
 		#setup menu bar edit
 		self.edit_plane = VR.Geometry('edit')
@@ -156,8 +181,8 @@ class View():
 		self.edit_site.open('http://localhost:5500/edit')
 		self.edit_site.setResolution(512)
 		self.edit_site.setAspectRatio(4)
-
-		VR.cam.addChild(self.edit_plane)
+		
+		#self.active_gui_element = self.edit_plane
 
 		# setup menu bar metadata
 		self.meta_plane = VR.Geometry('meta')
@@ -186,14 +211,16 @@ class View():
 		VR.cam.addChild(self.meta_plane)
 
 		VR.site = {self.edit_site, self.meta_site, self.layer_add_site, self.behavior_add_site}
+		VR.cam.addChild(self.active_gui_element)
 
 	def set_cur_scene(self, cur_scene):
+		print 'set_cur_scene'
 		self.cur_scene = cur_scene
 		self.cam.remChild(self.active_gui_element)
 
 		if isinstance(cur_scene, PASS.Layer):
 			self.active_gui_element = self.layer_add_plane
-		elif isinstance(cur_scene, PASS.Layer):
+		elif isinstance(cur_scene, PASS.Behavior):
 			self.active_gui_element = self.behavior_add_plane
 		else:
 			print 'View: ERROR in set_cur_scene: no valid active scene'
