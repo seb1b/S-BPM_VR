@@ -156,7 +156,7 @@ class View():
 		self.edit_site.open('http://localhost:5500/edit')
 		self.edit_site.setResolution(512)
 		self.edit_site.setAspectRatio(4)
-		
+
 		VR.cam.addChild(self.edit_plane)
 
 		# setup menu bar metadata
@@ -235,7 +235,6 @@ class View():
 				poly_sub.setPlaneConstraints([0, 0, 1])
 				poly_sub.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_sub)
-				self.poly_objects.append(poly_sub)
 				self.object_dict[subject] = poly_sub
 				self.object_dict[poly_sub] = subject
 			for message in message_exchanges:
@@ -252,7 +251,6 @@ class View():
 				poly_mes.setPlaneConstraints([0, 0, 1])
 				poly_mes.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_mes)
-				self.poly_objects.append(poly_mes)
 				self.draw_line(message)
 				self.object_dict[message] = poly_mes
 				self.object_dict[poly_mes] = message
@@ -285,7 +283,6 @@ class View():
 				poly_state.setPlaneConstraints([0, 0, 1])
 				poly_state.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_state)
-				self.poly_objects.append(poly_state)
 				self.object_dict[state] = poly_state
 				self.object_dict[poly_state] = state
 
@@ -303,7 +300,6 @@ class View():
 				poly_edge.setPlaneConstraints([0, 0, 1])
 				poly_edge.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_edge)
-				self.poly_objects.append(poly_edge)
 				self.draw_line(edge)
 				self.object_dict[edge] = poly_edge
 				self.object_dict[poly_edge] = edge
@@ -521,22 +517,12 @@ class View():
 	def rotate(self, degrees):
 		pass
 
-	#HACK
-	def get_intersected_obj(self, pos):
-		assert len(pos) == 2
-		pos = [pos[0] * self.scale_x, pos[1] * self.scale_y]
-		for o in self.poly_objects:
-			o_pos = o.getFrom()
-			if pos[0] < o_pos[0] + 0.2 and pos[0] > o_pos[0] - 0.2 and pos[1] < o_pos[1] + 0.2 and pos[1] > o_pos[1] - 0.2:
-				return o
-		return None
-
 	def on_change(self, object):
 		#  TODO Hack
 		if isinstance(object, PASS.Subject) or isinstance(object, PASS.MessageExchange):
 			pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 			pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
-			
+
 			print pos_x, pos_y
 			"""
 			bb_min_x = object.getParent(PASS.Layer).getBoundingBox2D()[0][0]
@@ -617,20 +603,15 @@ class View():
 				poly_obj.setRotationConstraints([1, 1, 1])
 
 				VR.view_root.addChild(poly_obj)
-				self.poly_objects.append(poly_obj)
 				self.object_dict[poly_obj] = object
 				self.object_dict[object] = poly_obj
 			else:  # update given object
 				#TODO if object is of type *message: change line
-				idx = self.objects.index(object)
-				obj = self.poly_objects[idx]  # poly_objects should have the same idx as objects
 
 				#set position and size
 				primitive_str = 'box'
 				primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
 				primitive_str += ' 1' * 3
-				obj.setPrimitive(primitive_str)
-				self.move_object(obj, [pos_x, pos_y])
 				#TODO label, parent, hasMetaContent
 
 	def draw_line(self, object):
