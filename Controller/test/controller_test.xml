@@ -46,12 +46,7 @@
 </core>
       <trig type="on_device" dev="mobile" state="Released" param="" key="-1" name_suffix="6" base_name="trigger" name_space="__global__"/>
     </Script>
-    <Script name_suffix="0" base_name="addBehavior" name_space="__script__" type="HTML" mobile="mobile">
-      <core>
-	pass
-</core>
-    </Script>
-    <Script name_suffix="0" base_name="addProcess" name_space="__script__" type="HTML" mobile="mobile">
+    <Script name_suffix="0" base_name="behaviorAdd" name_space="__script__" type="HTML" mobile="mobile">
       <core>
 &lt;html lang="de"&gt;
 	&lt;head&gt;
@@ -72,7 +67,7 @@
 				height: 100%;
 				float: left;
 				background-repeat: no-repeat;
-				background-size: 90% auto;
+				background-size: auto 80%;
 				background-position: center;
 				display: table-cell;
 			}
@@ -270,6 +265,81 @@
 	VR.controller.test_bsp_prozess()
 </core>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="layerAdd" name_space="__script__" type="HTML" mobile="mobile">
+      <core>
+&lt;html lang="de"&gt;
+	&lt;head&gt;
+		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
+		&lt;style&gt;
+			.addDiv{
+				position: relative;
+				background: #ffffff;
+				width: 100%;
+				height: 100%;
+				min-height: 100px;
+				display: table;
+			}
+			
+			.addItemsDiv{
+				min-height: 100px;
+				min-width: 100px;
+				height: 100%;
+				float: left;
+				background-repeat: no-repeat;
+				background-size: auto 80%;
+				background-position: center;
+				display: table-cell;
+			}
+
+			div:first-child:nth-last-child(1) {
+				height: 100%;
+			}
+
+			/* two items */
+			.addItemsDiv:first-child:nth-last-child(2),
+			.addItemsDiv:first-child:nth-last-child(2) ~ .addItemsDiv {
+				width: 50%;
+			}
+
+			/* three items */
+			.addItemsDiv:first-child:nth-last-child(3),
+			.addItemsDiv:first-child:nth-last-child(3) ~ .addItemsDiv {
+				width: 33.3333%;
+			}
+
+			/* four items */
+			.addItemsDiv:first-child:nth-last-child(4),
+			.addItemsDiv:first-child:nth-last-child(4) ~ .addItemsDiv {
+				width: 25%;
+			}
+
+			/* Five items */
+			.addItemsDiv:first-child:nth-last-child(5),
+			.addItemsDiv:first-child:nth-last-child(5) ~ .addItemsDiv {
+				width: 20%;
+			}
+		&lt;/style&gt;
+		&lt;title&gt;Add&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;		
+		&lt;div class="addDiv"&gt;
+			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Subject&lt;/div&gt;
+			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Message&lt;/div&gt;
+			&lt;div id="object" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Object&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/body&gt;
+	&lt;script&gt;
+		// Create websocket for communication with python code
+		var websocket = new WebSocket('ws://localhost:5500');			
+
+		function clickFunction(element) {				
+			websocket.send(element.id);
+			alert(element.id);
+		};
+	&lt;/script&gt;
+&lt;/html&gt;
+</core>
     </Script>
     <Script name_suffix="0" base_name="meta" name_space="__script__" type="HTML" mobile="mobile">
       <core>
