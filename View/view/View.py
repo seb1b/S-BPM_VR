@@ -433,7 +433,10 @@ class View():
 		if highlight:
 			o.setColors([[1, 0, 0]])
 			#set gui element: edit
-			#TODO
+
+			#set metaContent on gui element meta
+			params = self.create_url_params_from_metacontent(o)
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)			
 			return True
 		else:
 			if isinstance(self.cur_scene, PASS.Layer):
@@ -466,7 +469,26 @@ class View():
 			else:
 				print "View Error: no valid object tag"
 				return False
+			#set metaContent on gui element meta to parent
+			params = self.create_url_params_from_metacontent(o.getParent())
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		return False
+
+	def create_url_params_from_metacontent(self, obj):
+		o = self.object_dict[obj]
+		assert isinstance(o, VR.Object)
+		
+		params = '';		
+		metaKeys = o.getMetaKeys()
+		i = 0
+		while i < len(metaKeys):
+			print o.getMetaContent(metaKeys[i])
+			params = params + 'k' + str(i) + '=' + str(metaKeys[i]) + '&' + 'v' + str(i) + '=' + str(o.getMetaContent(metaKeys[i]))
+			if(i != len(metaKeys)):
+				params = params + '&'
+			
+		return params
+
 
 	def highlight_pos(self, pos):  # returns the added highlight
 		assert len(pos) == 2
