@@ -791,6 +791,17 @@ class View():
 					self.object_dict[poly_obj] = object
 					self.object_dict[object] = poly_obj
 					VR.view_root.addChild(poly_obj)
+				#TODO set names
+				print 'on_change: Name tagging'
+				ae = VR.AnnotationEngine('ae_')
+				VR.view_root.addChild(ae)
+				ae.setColor([0,1,0,1])
+				ae.setBackground([1,0,0,0.5])
+				ae.setSize(5)
+				text = ''
+				for t in object.label:
+					text = str(text) + str(t)
+				ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
 				#poly_obj.setFrom((pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0, (pos_y / bb_y_dist) * self.offset_y - self.offset_y / 2.0, 0.0 )
 				#print (pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0
 				#self.log.addContainer(poly_obj)
