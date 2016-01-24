@@ -16,6 +16,14 @@
   <press id="grab"/>
 </leapGestures>
 
+<leapParameters>
+  <zoom_in_cache id="15"/>
+  <zoom_out_cache id="15"/>
+  <release_cache id="5"/>
+  <press_cache id="25"/>
+</leapParameters>
+
+
 
 <myoGestures>
   <zoom id="fingersSpread"/>
