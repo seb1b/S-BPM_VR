@@ -792,7 +792,7 @@ class View():
 					self.object_dict[object] = poly_obj
 					VR.view_root.addChild(poly_obj)
 				#TODO set names
-				print 'on_change: Name tagging'
+				print 'on_change: Name tagging '
 				ae = VR.AnnotationEngine('ae_')
 				VR.view_root.addChild(ae)
 				ae.setColor([0,1,0,1])
