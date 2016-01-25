@@ -156,7 +156,7 @@ class View():
 		self.behavior_add_plane.setAt(0, 0, 1)
 		self.behavior_add_plane.setDir(0, 0, 1)
 		self.behavior_add_plane.setPickable(False)
-		self.behavior_add_plane.addTag('layer_add')
+		self.behavior_add_plane.addTag('behavior_add')
 
 		self.behavior_add_site = VR.CEF()
 		self.behavior_add_site.setMaterial(self.layer_add_plane.getMaterial())
