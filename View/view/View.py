@@ -32,6 +32,10 @@ class View():
 		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag.dae'
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['f_state'] = '../../View/Blender/Behavior/FState.dae'
+		self.BLENDER_PATHS['f_state_meta'] = '../../View/Blender/Behavior/FState_Hashtag.dae'
+		self.BLENDER_PATHS['f_state_highlight'] = '../../View/Blender/Behavior/FState_Highlight.dae'
+		self.BLENDER_PATHS['f_state_meta_highlight'] = '../../View/Blender/Behavior/FState_Highlight_Hashtag.dae'
 
 		self.HANDLE = VR.Geometry('handle')
 		self.HANDLE.setPrimitive('Box 0.03 0.03 0.03 1 1 1')
@@ -45,10 +49,6 @@ class View():
 			'layer_add': self.MenuBarItem('layer_add'),
 			'behavior_add': self.MenuBarItem('behavior_add')
 		}
-
-		self.log = VR.Factory.Logistics()
-		self.lnet = self.log.addNetwork()
-		self.log_containers = []
 
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
@@ -77,6 +77,10 @@ class View():
 		VR.cam.setAt(self.camera_at)
 		VR.cam.setDir(self.camera_dir)
 		VR.cam.setFov(self.camera_fov)
+		
+		#setup pathtool
+		self.ptool = VR.Pathtool()
+		self.ptool.setHandleGeometry(self.HANDLE)
 
 		# setup offset
 		win_size = VR.getSetup().getWindow('screen').getSize()
@@ -378,14 +382,14 @@ class View():
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_left)
-			mydev_l.addIntersection(VR.view_root)
-			#mydev_l.addIntersection(self.meta_plane)
-			#mydev_l.addIntersection(self.edit_plane)  #TODO replace by layer_add_plane
+			#mydev_l.addIntersection(VR.view_root)
+			mydev_l.addIntersection(self.meta_plane)
+			mydev_l.addIntersection(self.edit_plane)  #TODO replace by layer_add_plane
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
-			mydev_r.addIntersection(VR.view_root)
-			#mydev_r.addIntersection(self.meta_plane)
-			#mydev_r.addIntersection(self.edit_plane)   #TODO replace by layer_add_plane
+			#mydev_r.addIntersection(VR.view_root)
+			mydev_r.addIntersection(self.meta_plane)
+			mydev_r.addIntersection(self.edit_plane)   #TODO replace by layer_add_plane
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
@@ -687,7 +691,6 @@ class View():
 		pass
 
 	def on_change(self, object):
-		#  TODO Hack
 		if isinstance(object, PASS.Subject) or isinstance(object, PASS.MessageExchange):
 			pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 			pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
@@ -701,7 +704,6 @@ class View():
 			bb_y_dist = bb_max_y - bb_min_y
 			"""
 
-			rel_size = 1  # TODO getRelativeSize()
 			# find given object
 			print 'on_change: ', object
 			if not object in self.object_dict:  # add given object to scene
@@ -733,7 +735,7 @@ class View():
 					self.object_dict[poly_obj] = object
 					self.message_dict[poly_obj] = [self.object_dict[object.sender], self.object_dict[object.receiver], None]
 					VR.view_root.addChild(poly_obj)
-					self.draw_line(poly_obj)
+					self.connect(poly_obj)
 				elif isinstance(object, PASS.SendState):
 					print "on_change: SendState"
 					poly_obj = VR.Geometry('cube')  #TODO replace with blender model
@@ -797,7 +799,7 @@ class View():
 				VR.view_root.addChild(ae)
 				ae.setColor([0,1,0,1])
 				ae.setBackground([1,0,0,0.5])
-				ae.setSize(5)
+				ae.setSize(0.02)
 				text = ''
 				for t in object.label:
 					text = str(text) + str(t)
@@ -816,40 +818,17 @@ class View():
 			print 'on_change: obj dict: ', self.object_dict
 			print 'on_change: message_dict: ', self.message_dict
 
-	def draw_line(self, message):
+	def connect(self, message):
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
-		#if isinstance(object, PASS.MessageExchange):
-			#start_pos = object.sender.hasAbstractVisualRepresentation.hasPoint2D
-			#mid_pos = object.hasAbstractVisualRepresentation.hasPoint2D
-			#end_pos = object.receiver.hasAbstractVisualRepresentation.hasPoint2D
-		#elif isinstance(object, PASS.TransitionEdge):
-			#start_pos = object.hasSourceState.hasAbstractVisualRepresentation.hasPoint2D
-			#mid_pos = object.hasAbstractVisualRepresentation.hasPoint2D
-			#end_pos = object.hasTargetState.hasAbstractVisualRepresentation.hasPoint2D
-		#else:
-			#print 'View: in draw_line no valid given object'
-			#return
 		s = self.message_dict[message][0]
 		s.setPickable(False)
 		r = self.message_dict[message][1]
 		r.setPickable(False)
 		message.setPickable(False)
-		print "draw_line: ", s, " => ", r
-		#c0 = None
-		#c1 = None
-		#c2 = None
-		#for c in self.log.getContainers():
-			#if c is s:
-				#c0 = c
-			#elif c is message:
-				#c1 = c
-			#elif c is r:
-				#c2 = c
 
-		#if c1 is None or c2 is None or c0 is None:
-			#print 'not all containers found'
+		print "draw_line: ", s, " => ", r
 
 		start_pos = s.getFrom()
 		mid_pos = message.getFrom()
@@ -891,53 +870,33 @@ class View():
 
 		print "draw_line: dirs: ", start_dir, mid_dir, end_dir
 
-		self.ptool = VR.Pathtool()
-		self.ptool.setHandleGeometry(self.HANDLE)
 		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		self.message_dict[message][2] = self.paths[-1]
 		self.ptool.extrude(None, self.paths[-1])
 		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 3, "invalid number of handles"
 		handles[0].setFrom(s.getFrom())
+		print 'handle 1 vor:', handles[0].getFrom()
+		handles[0].setAt(s.getAt())
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
+		handles[0].addChild(s)
+		s.setFrom(0, 0, 0)
+		print 'handle 1 nach:', handles[0].getFrom()
 		handles[1].setFrom(message.getFrom())
+		print 'handle 2 vor:', handles[1].getFrom()
+		handles[1].setAt(message.getAt())
 		handles[1].setDir(1.0, 0.0, 0.0)
+		handles[1].addChild(message)
+		message.setFrom(0, 0, 0)
+		print 'handle 2 nach:', handles[1].getFrom()
 		handles[2].setFrom(r.getFrom())
+		print 'handle 3 vor:', handles[2].getFrom()
+		handles[2].setAt(r.getAt())
 		handles[2].setDir(end_dir[0], end_dir[1], 0.0)
+		handles[2].addChild(r)
+		r.setFrom(0, 0, 0)
+		print 'handle 3 nach:', handles[2].getFrom()
 		self.ptool.update()
-
-		lp = self.log.addPath()
-		n0 = None
-		nodes = []
-		#p = self.paths[-1]
-		p = self.ptool.getPaths()[-1]
-		for h in self.ptool.getHandles(p):
-			n = self.lnet.addNodes(1, n0)
-			nodes.append(n)
-			n.setTransform(h)
-			n0 = n
-			lp.add(n)
-			nodes.append(n)
-
-		c0 = self.log.addContainer(s)
-		c1 = self.log.addContainer(message)
-		c2 = self.log.addContainer(r)
-		s.destroy()
-		message.destroy()
-		r.destroy()
-		nodes[0].set(c0)
-		nodes[2].set(c1)
-		nodes[5].set(c2)
-		self.log_containers.append([c0, c1])
-		self.log_containers.append([c1, c2])
-		#nodes[0].set(s)
-		#nodes[1].set(message)
-		#nodes[2].set(r)
-		#self.log_containers.append([s, message])
-		#self.log_containers.append([message, r])
-		#
-		#t = self.log.addTransporter('Product') #TODO check
-		#t.setPath(lp)
 
 	def move_object(self, obj, pos_ws):
 		assert len(pos_ws) == 2
