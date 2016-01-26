@@ -13,33 +13,33 @@ import itertools
 
 # Uncomment for standalone use
 
-class Controller:
-	def press(self, pos, user_id, is_left=False):
-		if is_left:
-			print("press with left at", pos)
-		else:
-			print("press with right at", pos)
-	def release(self, pos, user_id, is_left=False):
-		if is_left:
-			print("release with left at", pos)
-		else:
-			print("release with right at", pos)
-	def move(self, pos, user_id, is_left=False):
-		pass
-		# if is_left:
-		# 	print("move with left at", pos)
-		# else:
-		# 	print("move with right at", pos)
-	def zoom(self, level):
-		print "zoom"
-	def fade_away(self):
-		print "fade_away"
-	def rotate(self, degrees):
-		print "rotate"
-	def move_model(self, pos, user_id):
-		print("move_model at", pos)
-	def move_head(self, pos, degrees, user_id):
-		print "move_head"
+# class Controller:
+# 	def press(self, pos, user_id, is_left=False):
+# 		if is_left:
+# 			print("press with left at", pos)
+# 		else:
+# 			print("press with right at", pos)
+# 	def release(self, pos, user_id, is_left=False):
+# 		if is_left:
+# 			print("release with left at", pos)
+# 		else:
+# 			print("release with right at", pos)
+# 	def move(self, pos, user_id, is_left=False):
+# 		print("move", pos)
+# 		# if is_left:
+# 		# 	print("move with left at", pos)
+# 		# else:
+# 		# 	print("move with right at", pos)
+# 	def zoom(self, level):
+# 		print "zoom"
+# 	def fade_away(self):
+# 		print "fade_away"
+# 	def rotate(self, degrees):
+# 		print "rotate"
+# 	def move_model(self, pos, user_id):
+# 		print("move_model at", pos)
+# 	def move_head(self, pos, degrees, user_id):
+# 		print "move_head"
 
 
 class VRHardware():
@@ -52,10 +52,10 @@ class VRHardware():
 
 
 		# TODO Any way to make this constant?
-		self.LEAP_ID = config.node.inputMethods.leap['id']
-		self.MYO_ID = config.node.inputMethods.myo['id']
-		self.KINECT_ID = config.node.inputMethods.kinect['id']
-		self.TABLET_ID = config.node.inputMethods.tablet['id']
+		self.LEAP_ID = int(config.node.inputMethods.leap['id'])
+		self.MYO_ID = int(config.node.inputMethods.myo['id'])
+		self.KINECT_ID = int(config.node.inputMethods.kinect['id'])
+		self.TABLET_ID = int(config.node.inputMethods.tablet['id'])
 
 
 
@@ -66,10 +66,10 @@ class VRHardware():
 		self.leap_zoom_out = config.node.leapGestures.zoom_out['id']
 
 		# leap cache setup
-		self.leap_press_cache = config.node.leapParameters.press_cache['id']
-		self.leap_release_cache = config.node.leapParameters.release_cache['id']
-		self.leap_zoom_in_cache = config.node.leapParameters.zoom_in_cache['id']
-		self.leap_zoom_out_cache = config.node.leapParameters.zoom_out_cache['id']
+		self.leap_press_cache = int(config.node.leapParameters.press_cache['id'])
+		self.leap_release_cache = int(config.node.leapParameters.release_cache['id'])
+		self.leap_zoom_in_cache = int(config.node.leapParameters.zoom_in_cache['id'])
+		self.leap_zoom_out_cache = int(config.node.leapParameters.zoom_out_cache['id'])
 
 		# set myo control
 		self.myo_press = config.node.myoGestures.press['id']
@@ -102,8 +102,9 @@ class VRHardware():
 		# Initialize RabbitMq communication
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.host_name))
 		self.channel = self.connection.channel()
-		self.channel.queue_declare(queue=self.queue_name)
 
+		self.channel.queue_declare(queue=self.queue_name)
+		self.channel.queue_purge(queue=self.queue_name)
 		self.channel.basic_consume(self.callback, queue=self.queue_name, no_ack=True)
 
 		self.print_settings()
@@ -115,6 +116,7 @@ class VRHardware():
 	def callback(self, ch, method, properties, body):
 		if body:
 			# Split the body string
+			#print body
 			bodyParts = body.split(':')
 			user_id = int(bodyParts[0])
 			pos = bodyParts[1]
@@ -126,9 +128,10 @@ class VRHardware():
 				is_left = True
 
 			# LEAP
+		#	print "leap leap id " + self.LEAP_ID
+		#	print user_id
 			if user_id >= self.LEAP_ID and user_id < self.MYO_ID:
 				xyz = [float(x) for x in pos.split(",")]
-
 				# MOVE_MODEL
 				if gesture == self.leap_move:
 					self.controller.move_model(xyz, user_id)
@@ -217,7 +220,7 @@ class VRHardware():
 			elif user_id >= self.KINECT_ID and user_id < self.TABLET_ID:
 				xyz = [float(x) for x in pos.split(";")]
 				self.controller.move(xyz, user_id, is_left)
-				print xyz
+				#print xyz
 				if gesture == self.kinect_press:
 					if is_left:
 						print "Kinect left Press"
@@ -276,12 +279,12 @@ class VRHardware():
 
 	def print_settings(self):
 		print "______ID Setup________"
-		print "Leap: " + self.LEAP_ID + ", Myo: " + self.MYO_ID + ", Kinect: "+self.KINECT_ID
+		print "Leap: " + str(self.LEAP_ID) + ", Myo: " + str(self.MYO_ID) + ", Kinect: "+str(self.KINECT_ID)
 		print "______Gesture Setting_______"
 		print "Leap: press: "+ self.leap_press +" ,zoom in: "+self.leap_zoom_in+" ,zoom out: "+ self.leap_zoom_out \
 			  + " ,move: "+self.leap_move
-		print "LeapParameters release_cache:" + self.leap_release_cache + " ,press_cache: " + self.leap_press_cache\
-			  + " ,zoom_in_cache: " + self.leap_zoom_in_cache + " ,zoom_out_cache: "+ self.leap_zoom_out_cache
+		print "LeapParameters release_cache:" + str(self.leap_release_cache) + " ,press_cache: " + str(self.leap_press_cache)\
+			  + " ,zoom_in_cache: " + str(self.leap_zoom_in_cache) + " ,zoom_out_cache: "+ str(self.leap_zoom_out_cache)
 		print "Myo: press: "+ self.myo_press +" ,release: "+self.myo_release+" ,zoom: "+ self.myo_zoom
 		print "Kinect: press: "+ self.kinect_press +" ,release: "+self.kinect_release
 		print "______Connection______"
@@ -290,12 +293,12 @@ class VRHardware():
 		print 'VRHardware init done'
 
 
-def test():
-	c = Controller()
-	vr = VRHardware(c)
-
-	while True:
-		vr.process()
-
-if __name__ == "__main__":
-	test()
+# def test():
+# 	c = Controller()
+# 	vr = VRHardware(c)
+#
+# 	while True:
+# 		vr.process()
+#
+# if __name__ == "__main__":
+# 	test()

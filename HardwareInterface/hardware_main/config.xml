@@ -34,7 +34,7 @@
 
 
 <kinectGestures>
-    <press id="close"/>
+    <press id="closed"/>
     <release id="open"/>
 </kinectGestures>
 
