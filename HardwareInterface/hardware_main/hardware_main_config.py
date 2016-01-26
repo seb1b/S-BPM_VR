@@ -13,33 +13,33 @@ import itertools
 
 # Uncomment for standalone use
 
-# class Controller:
-# 	def press(self, pos, user_id, is_left=False):
-# 		if is_left:
-# 			print("press with left at", pos)
-# 		else:
-# 			print("press with right at", pos)
-# 	def release(self, pos, user_id, is_left=False):
-# 		if is_left:
-# 			print("release with left at", pos)
-# 		else:
-# 			print("release with right at", pos)
-# 	def move(self, pos, user_id, is_left=False):
-# 		print("move", pos)
-# 		# if is_left:
-# 		# 	print("move with left at", pos)
-# 		# else:
-# 		# 	print("move with right at", pos)
-# 	def zoom(self, level):
-# 		print "zoom"
-# 	def fade_away(self):
-# 		print "fade_away"
-# 	def rotate(self, degrees):
-# 		print "rotate"
-# 	def move_model(self, pos, user_id):
-# 		print("move_model at", pos)
-# 	def move_head(self, pos, degrees, user_id):
-# 		print "move_head"
+class Controller:
+	def press(self, pos, user_id, is_left=False):
+		if is_left:
+			print("press with left at", pos)
+		else:
+			print("press with right at", pos)
+	def release(self, pos, user_id, is_left=False):
+		if is_left:
+			print("release with left at", pos)
+		else:
+			print("release with right at", pos)
+	def move(self, pos, user_id, is_left=False):
+		#print("move", pos, is_lef)
+		if is_left:
+			print("move with left at", pos)
+		else:
+			print("move with right at", pos)
+	def zoom(self, level):
+		print("zoom")
+	def fade_away(self):
+		print("fade_away")
+	def rotate(self, degrees):
+		print("rotate")
+	def move_model(self, pos, user_id):
+		print("move_model at", pos)
+	def move_head(self, pos, degrees, user_id):
+		print("move_head")
 
 
 class VRHardware():
@@ -48,8 +48,10 @@ class VRHardware():
 		self.controller = controller
 
 
-		config = untangle.parse('config.xml')
+#		config = untangle.parse('../../HardwareInterface/hardware_main/config.xml')
 
+
+		config = untangle.parse('config.xml')
 
 		# TODO Any way to make this constant?
 		self.LEAP_ID = int(config.node.inputMethods.leap['id'])
@@ -223,24 +225,24 @@ class VRHardware():
 				#print xyz
 				if gesture == self.kinect_press:
 					if is_left:
-						print "Kinect left Press"
+						print("Kinect left Press")
 						self.called_press_left_kinect = True
-				 		self.controller.press(xyz, user_id, is_left)
+						self.controller.press(xyz, user_id, is_left)
 					else:
-						print "Kinect right Press"
+						print("Kinect right Press")
 						self.called_press_right_kinect = True
-				 		self.controller.press(xyz, user_id, is_left)
+						self.controller.press(xyz, user_id, is_left)
 
 				# #RELEASE
 				elif gesture == self.kinect_release:
 					if is_left and self.called_press_left_kinect:
-						print "Kinect left release"
+						print("Kinect left release")
 						self.called_press_left_kinect = False
-				 		self.controller.release(xyz, user_id, is_left)
+						self.controller.release(xyz, user_id, is_left)
 					elif not(is_left) and self.called_press_right_kinect:
-						print "Kinect right release"
+						print ("Kinect right release")
 						self.called_press_right_kinect = False
-				 		self.controller.release(xyz, user_id, is_left)
+						self.controller.release(xyz, user_id, is_left)
 
 
 
@@ -293,12 +295,12 @@ class VRHardware():
 		print 'VRHardware init done'
 
 
-# def test():
-# 	c = Controller()
-# 	vr = VRHardware(c)
-#
-# 	while True:
-# 		vr.process()
-#
-# if __name__ == "__main__":
-# 	test()
+def test():
+	c = Controller()
+	vr = VRHardware(c)
+
+	while True:
+		vr.process()
+
+if __name__ == "__main__":
+	test()

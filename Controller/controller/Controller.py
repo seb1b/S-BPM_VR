@@ -5,7 +5,7 @@ import logging
 
 from PASS import *
 from view import View
-from hardware_main_neu import VRHardware
+from hardware_main_config import VRHardware
 
 
 class Controller:
@@ -403,7 +403,7 @@ class Controller:
 		self.move_head([1.4, 0.0, -1.2], 180.2, 4)
 
 	def test_bsp_prozess(self):
-		file_path = "/home/vrpraktikum/Projects/S-BPM_VR/Model/tests/Beispielprozess.owl"
+		file_path = "../../Model/tests/Beispielprozess.owl"
 		self.models[file_path] = ModelManager(file_path)
 		self.view = View()
 		self.current_model = self.models[file_path]
