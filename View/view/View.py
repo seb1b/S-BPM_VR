@@ -33,9 +33,9 @@ class View():
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub.dae'
-		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub_Hashtag.dae'
-		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub_Highlight.dae'
-		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['external_subject_meta'] = '../../View/Blender/Prozess/Sub_Hashtag.dae'
+		self.BLENDER_PATHS['external_subject_highlight'] = '../../View/Blender/Prozess/Sub_Highlight.dae'
+		self.BLENDER_PATHS['external_subject_meta_highlight'] = '../../View/Blender/Prozess/Sub_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['f_state'] = '../../View/Blender/Behavior/FState.dae'
 		self.BLENDER_PATHS['f_state_meta'] = '../../View/Blender/Behavior/FState_Hashtag.dae'
 		self.BLENDER_PATHS['f_state_highlight'] = '../../View/Blender/Behavior/FState_Highlight.dae'
@@ -269,21 +269,28 @@ class View():
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
 		for child in scene_children:
-			#VR.view_root.remChild(child)
 			child.destroy()
 		self.object_dict.clear()
+		self.message_dict.clear()
+		self.ptool = VR.Pathtool()
+		self.ptool.setHandleGeometry(self.HANDLE)
+
 		#todo sizes
 		#todo replace with blender models
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
 			message_exchanges = self.cur_scene.messageExchanges
-			#TODO set right gui element
+			external_subjects = self.cur_scene.externalSubjects
 
 			for subject in subjects:
 				assert isinstance(subject, PASS.Subject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
-				poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject'])
-				poly_sub.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				if len(subject.hasMetaContent) == 0:
+					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject'])
+				else:
+					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'])
+				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 				poly_sub.setPickable(True)
 				poly_sub.addTag('subject')
 				poly_sub.addTag('obj')
@@ -292,13 +299,15 @@ class View():
 				VR.view_root.addChild(poly_sub)
 				self.object_dict[subject] = poly_sub
 				self.object_dict[poly_sub] = subject
+
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
 				pos = message.hasAbstractVisualRepresentation.hasPoint2D
 				poly_mes = VR.Geometry('cube')
 				poly_mes.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
 				poly_mes.setMaterial(VR.Material('sample material'))
-				poly_mes.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 				poly_mes.setPickable(True)
 				poly_mes.addTag('message')
 				poly_mes.addTag('obj')
@@ -306,62 +315,106 @@ class View():
 				poly_mes.setPlaneConstraints([0, 0, 1])
 				poly_mes.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_mes)
-				self.draw_line(message)
+				self.connect(message)
 				self.object_dict[message] = poly_mes
 				self.object_dict[poly_mes] = message
+				s = None
+				r = None
+				if message.sender in self.object_dict:
+					s = self.object_dict[message.sender]
+				if message.receiver in self.object_dict:
+					r = self.object_dict[message.sender]
+				self.message_dict[message] = [s, r, None]
 
-				sender = self.object_dict[message.sender]
-				receiver = self.object_dict[message.receiver]
-				self.message_dict[poly_mes] = [sender, receiver, None]
+			for subject in external_subjects:
+				assert isinstance(subject, PASS.ExternalSubject)
+				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
+				if len(subject.hasMetaContent) == 0:
+					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['external_subject'])
+				else:
+					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta'])
+				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
+				poly_sub.setPickable(True)
+				poly_sub.addTag('external_subject')
+				poly_sub.addTag('obj')
+				poly_sub.setPlaneConstraints([0, 0, 1])
+				poly_sub.setRotationConstraints([1, 1, 1])
+				VR.view_root.addChild(poly_sub)
+				self.object_dict[subject] = poly_sub
+				self.object_dict[poly_sub] = subject
 
 		elif isinstance(self.cur_scene, PASS.Behavior):
 			states = self.cur_scene.hasState
 			edges = self.cur_scene.hasEdge
-			#TODO set right gui element
 
 			for state in states:
 				assert isinstance(state, PASS.State)
 				pos = state.hasAbstractVisualRepresentation.hasPoint2D
-				poly_state = VR.Geometry('cube')
-				poly_state.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
-				poly_state.setMaterial(VR.Material('sample material'))
-				poly_state.setFrom(pos.hasXValue, pos.hasYValue, 0)
-				poly_state.setPickable(True)
 				if isinstance(state, PASS.FunctionState):
-					poly_state.addTag('function_state')
-					poly_state.setColors(self.colors['function_state'])
+					if len(state.hasMetaContent) == 0:
+						poly_state = VR.loadGeometry(self.BLENDER_PATHS['f_state'])
+					else:
+						poly_state = VR.loadGeometry(self.BLENDER_PATHS['f_state_meta'])
+					poly_state..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
+					poly_state.setPickable(True)
+					poly_state.addTag('functional_state')
+					poly_state.addTag('obj')
+					poly_state.setPlaneConstraints([0, 0, 1])
+					poly_state.setRotationConstraints([1, 1, 1])
+					VR.view_root.addChild(poly_state)
+					self.object_dict[state] = poly_state
+					self.object_dict[poly_state] = state
 				elif isinstance(state, PASS.SendState):
+					if len(state.hasMetaContent) == 0:
+						poly_state = VR.loadGeometry(self.BLENDER_PATHS['s_state'])
+					else:
+						poly_state = VR.loadGeometry(self.BLENDER_PATHS['s_state_meta'])
+					poly_state..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
+					poly_state.setPickable(True)
 					poly_state.addTag('send_state')
-					poly_state.setColors(self.colors['send_state'])
+					poly_state.addTag('obj')
+					poly_state.setPlaneConstraints([0, 0, 1])
+					poly_state.setRotationConstraints([1, 1, 1])
+					VR.view_root.addChild(poly_state)
+					self.object_dict[state] = poly_state
+					self.object_dict[poly_state] = state
 				elif isinstance(state, PASS.ReceiveState):
+					if len(state.hasMetaContent) == 0:
+						poly_state = VR.loadGeometry(self.BLENDER_PATHS['r_state'])
+					else:
+						poly_state = VR.loadGeometry(self.BLENDER_PATHS['r_state_meta'])
+					poly_state..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
+					poly_state.setPickable(True)
 					poly_state.addTag('receive_state')
-					poly_state.setColors(self.colors['receive_state'])
-				else:
-					print 'Failed setting state color.'
-				poly_state.addTag('obj')
-				poly_state.setPlaneConstraints([0, 0, 1])
-				poly_state.setRotationConstraints([1, 1, 1])
-				VR.view_root.addChild(poly_state)
-				self.object_dict[state] = poly_state
-				self.object_dict[poly_state] = state
+					poly_state.addTag('obj')
+					poly_state.setPlaneConstraints([0, 0, 1])
+					poly_state.setRotationConstraints([1, 1, 1])
+					VR.view_root.addChild(poly_state)
+					self.object_dict[state] = poly_state
+					self.object_dict[poly_state] = state
 
 			for edge in edges:
 				assert isinstance(edge, PASS.TransitionEdge)
 				pos = edge.hasAbstractVisualRepresentation.hasPoint2D
-				poly_edge = VR.Geometry('cube')
-				poly_edge.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
-				poly_edge.setMaterial(VR.Material('sample material'))
-				poly_edge.setFrom(pos.hasXValue, pos.hasYValue, 0)
+				if len(edge.hasMetaContent) == 0:
+					poly_edge = VR.loadGeometry(self.BLENDER_PATHS['transition'])
+				else:
+					poly_edge = VR.loadGeometry(self.BLENDER_PATHS['transition_meta'])
+				poly_edge..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+							 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 				poly_edge.setPickable(True)
-				poly_edge.addTag('state_message')
+				poly_edge.addTag('receive_state')
 				poly_edge.addTag('obj')
-				poly_edge.setColors(self.colors['state_message'])
 				poly_edge.setPlaneConstraints([0, 0, 1])
 				poly_edge.setRotationConstraints([1, 1, 1])
 				VR.view_root.addChild(poly_edge)
-				self.draw_line(edge)
 				self.object_dict[edge] = poly_edge
 				self.object_dict[poly_edge] = edge
+				self.connect(poly_edge)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
