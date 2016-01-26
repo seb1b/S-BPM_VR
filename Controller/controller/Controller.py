@@ -182,7 +182,8 @@ class Controller:
 							new_obj.label.append("New Message")
 					else:
 						self.log.warning("Invalid MenuBarItem type")
-					self.view.set_highlight(self.released_object, False)
+					if not self.view.set_highlight(self.released_object, False):
+						self.log.warning("view.set_highlight(True) failed")
 					self.selected_objects.remove(self.released_object)
 					assert self.released_object not in self.selected_objects
 					if new_obj is not None:
@@ -200,14 +201,14 @@ class Controller:
 			elif self.pressed_object is None and self.pressed_is_left == is_left:
 				# CASE: release on field without object -> deselect everything
 				for obj in self.selected_objects:
-					re = self.view.set_highlight(obj, False)
-					self.log.warning("set_highlight failed")
+					if not self.view.set_highlight(obj, False):
+						self.log.warning("view.set_highlight(False) failed")
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
 				# self.view.highlight_pos(pos)
 				self.log.info("deselect")
 			else:
-				self.log.info("case: x")
+				self.log.warning("case: x")
 		self.release_position[user_id] = pos
 		self.pressed_user_id = None
 
@@ -240,7 +241,7 @@ class Controller:
 		assert isinstance(is_left, bool), \
 			"Left/Right hand parameter must be a boolean value"
 
-		self.log.info(("move({}, {}, {})".format(pos, user_id, is_left)))
+		self.log.debug(("move({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
 			assert self.current_model is not None
@@ -408,16 +409,17 @@ class Controller:
 		self.view = View()
 		self.current_model = self.models[file_path]
 		self.current_model.addChangeListener(self.view.on_change)
-		#self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
 
-		self.view.on_change(self.current_model.model.hasModelComponent[0])
-		self.view.on_change(
-			self.current_model.model.hasModelComponent[0].subjects[0])
-		self.view.on_change(
-			self.current_model.model.hasModelComponent[0].subjects[1])
-		self.current_model.model.hasModelComponent[0].addMessageExchange(
-			self.current_model.model.hasModelComponent[0].subjects[0],
-			self.current_model.model.hasModelComponent[0].subjects[1])
+		self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
+
+		#self.view.on_change(self.current_model.model.hasModelComponent[0])
+		#self.view.on_change(
+		#	self.current_model.model.hasModelComponent[0].subjects[0])
+		#self.view.on_change(
+		#	self.current_model.model.hasModelComponent[0].subjects[1])
+		#self.current_model.model.hasModelComponent[0].addMessageExchange(
+		#	self.current_model.model.hasModelComponent[0].subjects[0],
+		#	self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"
