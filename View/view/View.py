@@ -93,7 +93,7 @@ class View():
 		VR.cam.setAt(self.camera_at)
 		VR.cam.setDir(self.camera_dir)
 		VR.cam.setFov(self.camera_fov)
-		
+
 		#setup pathtool
 		self.ptool = VR.Pathtool()
 		self.ptool.setHandleGeometry(self.HANDLE)
@@ -187,7 +187,7 @@ class View():
 		self.behavior_add_site.setAspectRatio(4)
 
 		#self.active_gui_element = self.behavior_add_plane
-	
+
 		#setup menu bar navigation
 		self.navigation_plane = VR.Geometry('navigation')
 		s = 'Plane '
@@ -228,7 +228,7 @@ class View():
 		self.edit_site.open('http://localhost:5500/edit')
 		self.edit_site.setResolution(512)
 		self.edit_site.setAspectRatio(4)
-		
+
 		#self.active_gui_element = self.edit_plane
 
 		# setup menu bar metadata
@@ -272,13 +272,18 @@ class View():
 			self.active_gui_element = self.behavior_add_plane
 
 		#set offsets
+		print 'bb: ', self.cur_scene.getBoundingBox2D()
 		self.model_offset_x = self.cur_scene.getBoundingBox2D()[0][0]
 		self.model_offset_y = self.cur_scene.getBoundingBox2D()[0][1]
 		self.model_width = self.cur_scene.getBoundingBox2D()[1][0] - self.model_offset_x
 		self.model_hight = self.cur_scene.getBoundingBox2D()[1][1] - self.model_offset_y
+		print 'x min ', self.model_offset_x
+		print 'y min ', self.model_offset_y
+		print 'x dist ', self.model_width
+		print 'y dist ', self.model_hight
 
 		#VR.cam.addChild(self.active_gui_element) #TODO
-		#self.update_all()
+		self.update_all()
 
 	def get_cur_scene(self):
 		return self.cur_scene
@@ -304,13 +309,17 @@ class View():
 			for subject in subjects:
 				assert isinstance(subject, PASS.Subject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
+				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
 				if len(subject.hasMetaContent) == 0:
 					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject'])
 				else:
 					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'])
-				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
+				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),# * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) ,0)#* self.scale_y, 0)
+				print 'subjet pos ', poly_sub.getFrom()
 				poly_sub.setPickable(True)
+				poly_sub.setScale(0.1, 0.1, 0.1)
 				poly_sub.addTag('subject')
 				poly_sub.addTag('obj')
 				poly_sub.setPlaneConstraints([0, 0, 1])
@@ -322,15 +331,17 @@ class View():
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
 				pos = message.hasAbstractVisualRepresentation.hasPoint2D
-				poly_mes = VR.Geometry('cube')
-				poly_mes.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
-				poly_mes.setMaterial(VR.Material('sample material'))
-				poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
+				if len(subject.hasMetaContent) == 0:
+					poly_mes = VR.loadGeometry(self.BLENDER_PATHS['message'])
+				else:
+					poly_mes = VR.loadGeometry(self.BLENDER_PATHS['message_meta'])
+				poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),# * self.scale_x,
+								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5),0)# * self.scale_y, 0)
+				print 'message pos ', poly_mes.getFrom()
 				poly_mes.setPickable(True)
+				poly_mes.setScale(0.1, 0.1, 0.1)
 				poly_mes.addTag('message')
 				poly_mes.addTag('obj')
-				poly_mes.setColors(self.colors['message'])
 				poly_mes.setPlaneConstraints([0, 0, 1])
 				poly_mes.setRotationConstraints([1, 1, 1])
 				self.object_dict[message] = poly_mes
@@ -341,9 +352,9 @@ class View():
 					s = self.object_dict[message.sender]
 				if message.receiver in self.object_dict:
 					r = self.object_dict[message.sender]
-				self.message_dict[message] = [s, r, None]
+				self.message_dict[poly_mes] = [s, r, None]
 				VR.view_root.addChild(poly_mes)
-				self.connect(message)
+				self.connect(poly_mes)
 
 			for subject in external_subjects:
 				assert isinstance(subject, PASS.ExternalSubject)
@@ -355,6 +366,7 @@ class View():
 				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 				poly_sub.setPickable(True)
+				poly_sub.setScale(0.1, 0.1, 0.1)
 				poly_sub.addTag('external_subject')
 				poly_sub.addTag('obj')
 				poly_sub.setPlaneConstraints([0, 0, 1])
@@ -375,9 +387,10 @@ class View():
 						poly_state = VR.loadGeometry(self.BLENDER_PATHS['f_state'])
 					else:
 						poly_state = VR.loadGeometry(self.BLENDER_PATHS['f_state_meta'])
-					poly_state..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					poly_state.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 					poly_state.setPickable(True)
+					poly_state.setScale(0.1, 0.1, 0.1)
 					poly_state.addTag('functional_state')
 					poly_state.addTag('obj')
 					poly_state.setPlaneConstraints([0, 0, 1])
@@ -390,9 +403,10 @@ class View():
 						poly_state = VR.loadGeometry(self.BLENDER_PATHS['s_state'])
 					else:
 						poly_state = VR.loadGeometry(self.BLENDER_PATHS['s_state_meta'])
-					poly_state..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					poly_state.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 					poly_state.setPickable(True)
+					poly_state.setScale(0.1, 0.1, 0.1)
 					poly_state.addTag('send_state')
 					poly_state.addTag('obj')
 					poly_state.setPlaneConstraints([0, 0, 1])
@@ -405,9 +419,10 @@ class View():
 						poly_state = VR.loadGeometry(self.BLENDER_PATHS['r_state'])
 					else:
 						poly_state = VR.loadGeometry(self.BLENDER_PATHS['r_state_meta'])
-					poly_state..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					poly_state.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 					poly_state.setPickable(True)
+					poly_state.setScale(0.1, 0.1, 0.1)
 					poly_state.addTag('receive_state')
 					poly_state.addTag('obj')
 					poly_state.setPlaneConstraints([0, 0, 1])
@@ -423,16 +438,22 @@ class View():
 					poly_edge = VR.loadGeometry(self.BLENDER_PATHS['transition'])
 				else:
 					poly_edge = VR.loadGeometry(self.BLENDER_PATHS['transition_meta'])
-				poly_edge..setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+				poly_edge.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 							 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
 				poly_edge.setPickable(True)
+				poly_edge.setScale(0.1, 0.1, 0.1)
 				poly_edge.addTag('receive_state')
 				poly_edge.addTag('obj')
 				poly_edge.setPlaneConstraints([0, 0, 1])
 				poly_edge.setRotationConstraints([1, 1, 1])
-				VR.view_root.addChild(poly_edge)
-				self.object_dict[edge] = poly_edge
-				self.object_dict[poly_edge] = edge
+				s = None
+				r = None
+				if edge.hasSourceState in self.object_dict:
+					s = self.object_dict[edge.hasSourceState]
+				if edge.hasTargetState in self.object_dict:
+					r = self.object_dict[edge.hasTargetState]
+				self.message_dict[poly_edge] = [s, r, None]
+				VR.view_root.addChild(poly_mes)
 				self.connect(poly_edge)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
@@ -1039,16 +1060,16 @@ class View():
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
 		#TODO move to right place
-		print 'on_change: Name tagging '
-		ae = VR.AnnotationEngine('ae_')
-		VR.view_root.addChild(ae)
-		ae.setColor([0,1,0,1])
-		ae.setBackground([1,0,0,0.5])
-		ae.setSize(0.02)
-		text = ''
-		for t in object.label:
-			text = str(text) + str(t)
-		ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
+		#print 'on_change: Name tagging '
+		#ae = VR.AnnotationEngine('ae_')
+		#VR.view_root.addChild(ae)
+		#ae.setColor([0,1,0,1])
+		#ae.setBackground([1,0,0,0.5])
+		#ae.setSize(0.02)
+		#text = ''
+		#for t in object.label:
+			#text = str(text) + str(t)
+		#ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
 
 	def connect(self, message):
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
@@ -1106,38 +1127,24 @@ class View():
 		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 3, "invalid number of handles"
 		handles[0].setFrom(s.getFrom())
-		print 'handle 1 vor:', handles[0].getFrom()
 		handles[0].setAt(s.getAt())
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
 		handles[0].addChild(s)
 		s.setFrom(0, 0, 0)
-		print 'handle 1 nach:', handles[0].getFrom()
 		handles[1].setFrom(message.getFrom())
-		print 'handle 2 vor:', handles[1].getFrom()
 		handles[1].setAt(message.getAt())
 		handles[1].setDir(1.0, 0.0, 0.0)
 		handles[1].addChild(message)
 		message.setFrom(0, 0, 0)
-		print 'handle 2 nach:', handles[1].getFrom()
 		handles[2].setFrom(r.getFrom())
-		print 'handle 3 vor:', handles[2].getFrom()
 		handles[2].setAt(r.getAt())
 		handles[2].setDir(end_dir[0], end_dir[1], 0.0)
 		handles[2].addChild(r)
 		r.setFrom(0, 0, 0)
-		print 'handle 3 nach:', handles[2].getFrom()
 		self.ptool.update()
 
 	def move_object(self, obj, pos_ws):
 		assert len(pos_ws) == 2
-		#path = VR.Path()
-		#pos_ws.append(0)
-		#pos_ws[0] = pos_ws[0] * 2
-		#direction = [wp - op for wp, op in zip(pos_ws, obj.getFrom())]
-		#path.set(obj.getFrom(), direction, pos_ws, direction, 2)
-		# VR.view_user_cursors[user_id][is_left].animate(path, 2, 0, False)
-		#obj.animate(path, 2, 0, False)
-		#obj.setFrom(pos_ws)
 		o = self.object_dict[obj]
 		assert isinstance(o, VR.Object)
 		o.setFrom((pos_ws[0] - 0.5) * self.scale_x, (pos_ws[1] - 0.5) * self.scale_y, 0.0)
