@@ -12,7 +12,6 @@ class Receive
 		using(var channel = connection.CreateModel())
 		{
 			channel.QueueDeclare(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
-
 			var consumer = new EventingBasicConsumer(channel);
 			consumer.Received += (model, ea) =>
 			{

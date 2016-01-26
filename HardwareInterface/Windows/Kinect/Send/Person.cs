@@ -85,7 +85,16 @@ namespace Kinect {
 			float y = joint.Position.Y/5;
 			float z = joint.Position.Z/5;
 
-			string pos = x + ";" + y + ";" + z;
+			string xPos = x + "";
+			xPos = xPos.Replace (",", ".");
+
+			string yPos = y + "";
+			yPos = yPos.Replace (",", ".");
+
+			string zPos = z + "";
+			zPos = zPos.Replace (",", ".");
+
+			string pos = xPos + ";" + yPos + ";" + zPos;
 			return pos;
 		}
 

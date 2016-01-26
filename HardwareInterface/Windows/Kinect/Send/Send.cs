@@ -91,6 +91,21 @@ class Send {
 		Console.WriteLine ("Done Inizialising"); //TODO
 	}
 
+	private void inizialiseRabbitMQLocal () {
+		Console.WriteLine ("Inizialising RabbitMQ Local"); // TODO 
+		// Rabbit MQ Connection
+		factory = new ConnectionFactory() { HostName = "localhost" };
+		connection = factory.CreateConnection ();
+		_channel = connection.CreateModel ();
+		_channel.QueueDeclare (queue: "hello",
+			durable: false,
+			exclusive: false,
+			autoDelete: false,
+			arguments: null);
+
+		Console.WriteLine ("Done Inizialising"); //TODO
+	}
+
 	private void inizialiseKinect () {
 		// Kinect sensor initialization
 		while (_kinectSensor == null || !_kinectSensor.IsAvailable) {
