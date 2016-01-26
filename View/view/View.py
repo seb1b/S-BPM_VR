@@ -141,13 +141,13 @@ class View():
 		#setup menu bar layerAdd
 		self.layer_add_plane = VR.Geometry('layerAdd')
 		s = 'Plane '
-		s += str(self.scale_x)
+		s += str(self.scale_x - (self.scale_x / 4))
 		s += ' 0.4 1 1'
 		self.layer_add_plane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.layer_add_plane.setMaterial(material)
-		self.layer_add_plane.setFrom(0, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.layer_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
 
 		self.layer_add_plane.setUp(0, -1, 0)
 		self.layer_add_plane.setAt(0, 0, 1)
@@ -166,13 +166,13 @@ class View():
 		#setup menu bar behaviorAdd
 		self.behavior_add_plane = VR.Geometry('behaviorAdd')
 		s = 'Plane '
-		s += str(self.scale_x)
+		s += str(self.scale_x - (self.scale_x / 4))
 		s += ' 0.4 1 1'
 		self.behavior_add_plane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.behavior_add_plane.setMaterial(material)
-		self.behavior_add_plane.setFrom(0, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.behavior_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
 
 		self.behavior_add_plane.setUp(0, -1, 0)
 		self.behavior_add_plane.setAt(0, 0, 1)
@@ -187,17 +187,35 @@ class View():
 		self.behavior_add_site.setAspectRatio(4)
 
 		#self.active_gui_element = self.behavior_add_plane
+	
+		#setup menu bar navigation
+		self.navigation_plane = VR.Geometry('navigation')
+		s = 'Plane '
+		s += str(self.scale_x / 4)
+		s += ' 0.4 1 1'
+		self.navigation_plane.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		self.navigation_plane.setMaterial(material)
+		self.navigation_plane.setFrom((self.scale_x * 3 / 8), -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+
+		self.navigation_plane.setUp(0, -1, 0)
+		self.navigation_plane.setAt(0, 0, 1)
+		self.navigation_plane.setDir(0, 0, 1)
+		self.navigation_plane.setPickable(False)
+		self.navigation_plane.addTag('navigation')
+
 
 		#setup menu bar edit
 		self.edit_plane = VR.Geometry('edit')
 		s = 'Plane '
-		s += str(self.scale_x)
+		s += str(self.scale_x / 4)
 		s += ' 0.4 1 1'
 		self.edit_plane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.edit_plane.setMaterial(material)
-		self.edit_plane.setFrom(0, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.edit_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
 
 		self.edit_plane.setUp(0, -1, 0)
 		self.edit_plane.setAt(0, 0, 1)
@@ -238,6 +256,7 @@ class View():
 		self.meta_site.setAspectRatio(0.4)
 
 		VR.cam.addChild(self.meta_plane)
+		VR.cam.addChild(self.navigation_plane)
 
 		VR.site = {self.edit_site, self.meta_site, self.layer_add_site, self.behavior_add_site}
 		VR.cam.addChild(self.active_gui_element)
