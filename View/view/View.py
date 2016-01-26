@@ -309,71 +309,94 @@ class View():
 			for subject in subjects:
 				assert isinstance(subject, PASS.Subject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
+				print 'position:', pos.hasXValue, pos.hasYValue
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
 				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				subject_node = VR.Transform('Subject_Container')
+				subject_node.addTag('obj')
+				subject_node.addTag('subject')
+				poly_subjects = []
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject']))
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject_meta']))
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject_highlight']))
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject_meta_highlight']))
+				for poly_sub in poly_subjects:
+					poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+					poly_sub.setPickable(True)
+					poly_sub.setScale(0.1, 0.1, 0.1)
+					poly_sub.setPlaneConstraints([0, 0, 1])
+					poly_sub.setRotationConstraints([1, 1, 1])
+					poly_sub.setVisible(False)
+					subject_node.addChild(poly_sub)
 				if len(subject.hasMetaContent) == 0:
-					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject'])
+					subject_node.getChildren()[0].setVisible(True)
 				else:
-					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'])
-				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),# * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) ,0)#* self.scale_y, 0)
-				print 'subjet pos ', poly_sub.getFrom()
-				poly_sub.setPickable(True)
-				poly_sub.setScale(0.1, 0.1, 0.1)
-				poly_sub.addTag('subject')
-				poly_sub.addTag('obj')
-				poly_sub.setPlaneConstraints([0, 0, 1])
-				poly_sub.setRotationConstraints([1, 1, 1])
-				VR.view_root.addChild(poly_sub)
-				self.object_dict[subject] = poly_sub
-				self.object_dict[poly_sub] = subject
+					subject_node.getChildren()[1].setVisible(True)
+				self.object_dict[subject] = subject_node
+				self.object_dict[subject_node] = subject
+				VR.view_root.addChild(subject_node)
 
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
 				pos = message.hasAbstractVisualRepresentation.hasPoint2D
+				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				message_node = VR.Transform('Message_Container')
+				message_node.addTag('obj')
+				message_node.addTag('message')
+				poly_mesages = []
+				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message']))
+				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_meta']))
+				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_highlight']))
+				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_meta_highlight']))
+				for poly_mes in poly_mesages:
+					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+					poly_mes.setPickable(True)
+					poly_mes.setScale(0.1, 0.1, 0.1)
+					poly_mes.setPlaneConstraints([0, 0, 1])
+					poly_mes.setRotationConstraints([1, 1, 1])
+					poly_mes.setVisible(False)
+					message_node.addChild(poly_mes)
 				if len(subject.hasMetaContent) == 0:
-					poly_mes = VR.loadGeometry(self.BLENDER_PATHS['message'])
+					message_node.getChildren()[0].setVisible(True)
 				else:
-					poly_mes = VR.loadGeometry(self.BLENDER_PATHS['message_meta'])
-				poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),# * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5),0)# * self.scale_y, 0)
-				print 'message pos ', poly_mes.getFrom()
-				poly_mes.setPickable(True)
-				poly_mes.setScale(0.1, 0.1, 0.1)
-				poly_mes.addTag('message')
-				poly_mes.addTag('obj')
-				poly_mes.setPlaneConstraints([0, 0, 1])
-				poly_mes.setRotationConstraints([1, 1, 1])
-				self.object_dict[message] = poly_mes
-				self.object_dict[poly_mes] = message
-				s = None
-				r = None
-				if message.sender in self.object_dict:
-					s = self.object_dict[message.sender]
-				if message.receiver in self.object_dict:
-					r = self.object_dict[message.sender]
-				self.message_dict[poly_mes] = [s, r, None]
-				VR.view_root.addChild(poly_mes)
-				self.connect(poly_mes)
+					message_node.getChildren()[1].setVisible(True)
+				self.object_dict[message] = message_node
+				self.object_dict[message_node] = message
+				self.message_dict[poly_mes] = [self.object_dict[message.sender], self.object_dict[message.sender], None]
+				#self.connect(poly_mes)
+				VR.view_root.addChild(message_node)
 
 			for subject in external_subjects:
-				assert isinstance(subject, PASS.ExternalSubject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
+				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				subject_node = VR.Transform('External_Subject_Container')
+				subject_node.addTag('obj')
+				subject_node.addTag('external_subject')
+				poly_subjects = []
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject']))
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta']))
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_highlight']))
+				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta_highlight']))
+				for poly_sub in poly_subjects:
+					poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+					poly_sub.setPickable(True)
+					poly_sub.setScale(0.1, 0.1, 0.1)
+					poly_sub.setPlaneConstraints([0, 0, 1])
+					poly_sub.setRotationConstraints([1, 1, 1])
+					poly_sub.setVisible(False)
+					subject_node.addChild(poly_sub)
 				if len(subject.hasMetaContent) == 0:
-					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['external_subject'])
+					subject_node.getChildren()[0].setVisible(True)
 				else:
-					poly_sub = VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta'])
-				poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
-				poly_sub.setPickable(True)
-				poly_sub.setScale(0.1, 0.1, 0.1)
-				poly_sub.addTag('external_subject')
-				poly_sub.addTag('obj')
-				poly_sub.setPlaneConstraints([0, 0, 1])
-				poly_sub.setRotationConstraints([1, 1, 1])
-				VR.view_root.addChild(poly_sub)
-				self.object_dict[subject] = poly_sub
-				self.object_dict[poly_sub] = subject
+					subject_node.getChildren()[1].setVisible(True)
+				self.object_dict[subject] = subject_node
+				self.object_dict[subject_node] = subject
+				VR.view_root.addChild(subject_node)
 
 		elif isinstance(self.cur_scene, PASS.Behavior):
 			states = self.cur_scene.hasState
@@ -382,79 +405,111 @@ class View():
 			for state in states:
 				assert isinstance(state, PASS.State)
 				pos = state.hasAbstractVisualRepresentation.hasPoint2D
+				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				state_node = VR.Transform('State_Container')
+				state_node.addTag('obj')
 				if isinstance(state, PASS.FunctionState):
-					if len(state.hasMetaContent) == 0:
-						poly_state = VR.loadGeometry(self.BLENDER_PATHS['f_state'])
+					state_node.addTag('function_state')
+					poly_states = []
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta_highlight']))
+					for poly_sub in poly_states:
+						poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+						poly_sub.setPickable(True)
+						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setPlaneConstraints([0, 0, 1])
+						poly_sub.setRotationConstraints([1, 1, 1])
+						poly_sub.setVisible(False)
+						subject_node.addChild(poly_sub)
+					if len(subject.hasMetaContent) == 0:
+						state_node.getChildren()[0].setVisible(True)
 					else:
-						poly_state = VR.loadGeometry(self.BLENDER_PATHS['f_state_meta'])
-					poly_state.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
-					poly_state.setPickable(True)
-					poly_state.setScale(0.1, 0.1, 0.1)
-					poly_state.addTag('functional_state')
-					poly_state.addTag('obj')
-					poly_state.setPlaneConstraints([0, 0, 1])
-					poly_state.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(poly_state)
-					self.object_dict[state] = poly_state
-					self.object_dict[poly_state] = state
+						state_node.getChildren()[1].setVisible(True)
+					self.object_dict[state] = state_node
+					self.object_dict[state_node] = state
+					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.SendState):
-					if len(state.hasMetaContent) == 0:
-						poly_state = VR.loadGeometry(self.BLENDER_PATHS['s_state'])
+					state_node.addTag('send_state')
+					poly_states = []
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta_highlight']))
+					for poly_sub in poly_states:
+						poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+						poly_sub.setPickable(True)
+						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setPlaneConstraints([0, 0, 1])
+						poly_sub.setRotationConstraints([1, 1, 1])
+						poly_sub.setVisible(False)
+						subject_node.addChild(poly_sub)
+					if len(subject.hasMetaContent) == 0:
+						state_node.getChildren()[0].setVisible(True)
 					else:
-						poly_state = VR.loadGeometry(self.BLENDER_PATHS['s_state_meta'])
-					poly_state.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
-					poly_state.setPickable(True)
-					poly_state.setScale(0.1, 0.1, 0.1)
-					poly_state.addTag('send_state')
-					poly_state.addTag('obj')
-					poly_state.setPlaneConstraints([0, 0, 1])
-					poly_state.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(poly_state)
-					self.object_dict[state] = poly_state
-					self.object_dict[poly_state] = state
+						state_node.getChildren()[1].setVisible(True)
+					self.object_dict[state] = state_node
+					self.object_dict[state_node] = state
+					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.ReceiveState):
-					if len(state.hasMetaContent) == 0:
-						poly_state = VR.loadGeometry(self.BLENDER_PATHS['r_state'])
+					state_node.addTag('receive_state')
+					poly_states = []
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta_highlight']))
+					for poly_sub in poly_states:
+						poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+						poly_sub.setPickable(True)
+						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setPlaneConstraints([0, 0, 1])
+						poly_sub.setRotationConstraints([1, 1, 1])
+						poly_sub.setVisible(False)
+						subject_node.addChild(poly_sub)
+					if len(subject.hasMetaContent) == 0:
+						state_node.getChildren()[0].setVisible(True)
 					else:
-						poly_state = VR.loadGeometry(self.BLENDER_PATHS['r_state_meta'])
-					poly_state.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
-					poly_state.setPickable(True)
-					poly_state.setScale(0.1, 0.1, 0.1)
-					poly_state.addTag('receive_state')
-					poly_state.addTag('obj')
-					poly_state.setPlaneConstraints([0, 0, 1])
-					poly_state.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(poly_state)
-					self.object_dict[state] = poly_state
-					self.object_dict[poly_state] = state
+						state_node.getChildren()[1].setVisible(True)
+					self.object_dict[state] = state_node
+					self.object_dict[state_node] = state
+					VR.view_root.addChild(state_node)
 
 			for edge in edges:
-				assert isinstance(edge, PASS.TransitionEdge)
+				assert isinstance(message, PASS.MessageExchange)
 				pos = edge.hasAbstractVisualRepresentation.hasPoint2D
-				if len(edge.hasMetaContent) == 0:
-					poly_edge = VR.loadGeometry(self.BLENDER_PATHS['transition'])
+				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				transition_node = VR.Transform('Transition_Container')
+				transition_node.addTag('obj')
+				transition_node.addTag('transition')
+				poly_trans = []
+				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition']))
+				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta']))
+				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_highlight']))
+				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta_highlight']))
+				for poly_mes in poly_trans:
+					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
+								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+					poly_mes.setPickable(True)
+					poly_mes.setScale(0.1, 0.1, 0.1)
+					poly_mes.setPlaneConstraints([0, 0, 1])
+					poly_mes.setRotationConstraints([1, 1, 1])
+					poly_mes.setVisible(False)
+					transition_node.addChild(poly_mes)
+				if len(subject.hasMetaContent) == 0:
+					transition_node.getChildren()[0].setVisible(True)
 				else:
-					poly_edge = VR.loadGeometry(self.BLENDER_PATHS['transition_meta'])
-				poly_edge.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-							 ((pos.hasYValue - self.model_offset_y) / self.model_hight -0.5) * self.scale_y, 0)
-				poly_edge.setPickable(True)
-				poly_edge.setScale(0.1, 0.1, 0.1)
-				poly_edge.addTag('receive_state')
-				poly_edge.addTag('obj')
-				poly_edge.setPlaneConstraints([0, 0, 1])
-				poly_edge.setRotationConstraints([1, 1, 1])
-				s = None
-				r = None
-				if edge.hasSourceState in self.object_dict:
-					s = self.object_dict[edge.hasSourceState]
-				if edge.hasTargetState in self.object_dict:
-					r = self.object_dict[edge.hasTargetState]
-				self.message_dict[poly_edge] = [s, r, None]
-				VR.view_root.addChild(poly_mes)
-				self.connect(poly_edge)
+					transition_node.getChildren()[1].setVisible(True)
+				self.object_dict[message] = transition_node
+				self.object_dict[transition_node] = message
+				self.message_dict[poly_mes] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None]
+				#self.connect(poly_trans)
+				VR.view_root.addChild(transition_node)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
@@ -501,14 +556,14 @@ class View():
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_left)
-			#mydev_l.addIntersection(VR.view_root)
-			mydev_l.addIntersection(self.meta_plane)
-			mydev_l.addIntersection(self.edit_plane)  #TODO replace by layer_add_plane
+			mydev_l.addIntersection(VR.view_root)
+			#mydev_l.addIntersection(self.meta_plane)
+			#mydev_l.addIntersection(self.edit_plane)  #TODO replace by layer_add_plane
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
-			#mydev_r.addIntersection(VR.view_root)
-			mydev_r.addIntersection(self.meta_plane)
-			mydev_r.addIntersection(self.edit_plane)   #TODO replace by layer_add_plane
+			mydev_r.addIntersection(VR.view_root)
+			#mydev_r.addIntersection(self.meta_plane)
+			#mydev_r.addIntersection(self.edit_plane)   #TODO replace by layer_add_plane
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
@@ -553,10 +608,10 @@ class View():
 
 	def set_highlight(self, obj, highlight):
 		assert isinstance(highlight, bool)
-		print 'pass obj', obj
-		o = self.object_dict[obj]
-		print 'vr obj', o
-		assert isinstance(o, VR.Object)
+		pass_obj = self.object_dict[obj]
+		assert isinstance(pass_obj, VR.Object)
+		children = pass_obj.getChildren()
+		for c in children: c.setVisible(False)
 
 		if highlight:
 			pass
@@ -571,163 +626,28 @@ class View():
 			else:
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
-		if isinstance(obj, PASS.Subject):
-			if highlight:  #TODO change message exchange line
-				if len(obj.hasMetaContent) == 0:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['subject_highlight'], parent='world')
-					new_o.setScale(0.1, 0.1, 0.1)
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				else:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['subject_meta_highlight'], parent='world')
-					new_o.setScale(0.1, 0.1, 0.1)
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				#set metaContent on gui element meta to parent
-				params = self.create_url_params_from_metacontent(self.object_dict[obj])
-				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+		#if isinstance(obj, PASS.Subject):
+			#print('Highlight: PASS.Subject')
+		if highlight:  #TODO change message exchange line
+			if len(obj.hasMetaContent) == 0:
+				children[2].setVisible(True)
+				return True
 			else:
-				if len(obj.hasMetaContent) == 0:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['subject'], parent='world')
-					new_o.setScale(0.1, 0.1, 0.1)
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				else:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'], parent='world')
-					new_o.setScale(0.1, 0.1, 0.1)
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				#set metaContent on gui element meta to parent
-				params = self.create_url_params_from_metacontent(self.cur_scene)
-				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
-		elif isinstance(obj, PASS.MessageExchange):
-			if highlight:  #TODO change message exchange line
-				if len(obj.hasMetaContent) == 0:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['message_highlight'], parent='world')
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				else:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['message_meta_highlight'], parent='world')
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				#set metaContent on gui element meta to parent
-				params = self.create_url_params_from_metacontent(self.object_dict[obj])
-				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
-			else:
-				if len(obj.hasMetaContent) == 0:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['message'], parent='world')
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				else:
-					del self.object_dict[obj]
-					del self.object_dict[o]
-					new_o = VR.loadGeometry(self.BLENDER_PATHS['message_meta'], parent='world')
-					new_o.setFrom(o.getFrom())
-					new_o.setPickable(True)
-					new_o.addTag('subject')
-					new_o.addTag('obj')
-					new_o.setPlaneConstraints([0, 0, 1])
-					new_o.setRotationConstraints([1, 1, 1])
-					VR.view_root.addChild(new_o)
-					o.distroy()
-					self.object_dict[obj] = new_o
-					self.object_dict[new_o] = obj
-					return True
-				#set metaContent on gui element meta to parent
-				params = self.create_url_params_from_metacontent(self.cur_scene)
-				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
-		elif isinstance(obj, PASS.SendState):  #TODO blender
-			o.setColors(self.colors['send_state'])
-			return True
-		elif isinstance(obj, PASS.ReceiveState):  #TODO blender
-			o.setColors(self.colors['receive_state'])
-			return True
-		elif isinstance(obj, PASS.FunctionState):  #TODO blender
-			o.setColors(self.colors['function_state'])
-			return True
-		elif isinstance(obj, PASS.TransitionEdge):  #TODO blender
-			o.setColors(self.colors['state_message'])
-			return True
+				children[3].setVisible(True)
+				return True
+			#set metaContent on gui element meta to parent
+			params = self.create_url_params_from_metacontent(self.object_dict[obj])
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		else:
-			print "View Error: no valid object tag"
-			return False
+			if len(obj.hasMetaContent) == 0:
+				children[0].setVisible(True)
+				return True
+			else:
+				children[1].setVisible(True)
+				return True
+			#set metaContent on gui element meta to parent
+			params = self.create_url_params_from_metacontent(self.cur_scene)
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		return False
 
 	def create_url_params_from_metacontent(self, obj):
@@ -769,7 +689,7 @@ class View():
 		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
-			print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID()
+			print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
 			if i.hasTag('edit'):
 				print 'view: edit'
 				mydev.trigger(0, 0)
@@ -794,7 +714,7 @@ class View():
 			else:
 				print 'view: object'
 				#TODO check if intersection with handle or object
-				p = i.getParent().getParent()
+				p = i.getParent().getParent().getParent()
 				if p.hasTag('obj'):
 					print 'Object found', p
 					return self.object_dict[p]
