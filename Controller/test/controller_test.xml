@@ -52,6 +52,14 @@
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
+			body {
+				margin: 0;
+				border-style: inset;
+				border-width: 2px;
+				padding: 10px;
+				background-color: white;
+			}
+			
 			.addDiv{
 				position: relative;
 				background: #ffffff;
@@ -65,11 +73,14 @@
 				min-height: 100px;
 				min-width: 100px;
 				height: 100%;
-				float: left;
 				background-repeat: no-repeat;
-				background-size: auto 80%;
+				background-size: 80% auto;
 				background-position: center;
 				display: table-cell;
+				text-align: center;
+				vertical-align: middle;
+				font-size: 16px; 
+				font-size: 3vw;
 			}
 
 			div:first-child:nth-last-child(1) {
@@ -104,9 +115,10 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="addDiv"&gt;
-			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Subject&lt;/div&gt;
-			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Message&lt;/div&gt;
-			&lt;div id="object" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Object&lt;/div&gt;
+			&lt;div id="functionState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/fState.png)"&gt;Function&lt;br/&gt;State&lt;/div&gt;
+			&lt;div id="receiveState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/rState.png)"&gt;Receive&lt;br/&gt;State&lt;/div&gt;
+			&lt;div id="sendState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/sState.png)"&gt;Send&lt;br/&gt;State&lt;/div&gt;
+			&lt;div id="transition" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/transition.png)"&gt;Transition&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
@@ -169,7 +181,13 @@
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
-		    body {margin:0;}
+		    body {
+				margin: 0;
+				border-style: inset;
+				border-width: 2px;
+				padding: 10px;
+				background-color: white;
+			}
 		
 			.editDiv{
 				position: relative;
@@ -272,6 +290,14 @@
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
+			body {
+				margin: 0;
+				border-style: inset;
+				border-width: 2px;
+				padding: 10px;
+				background-color: white;
+			}
+			
 			.addDiv{
 				position: relative;
 				background: #ffffff;
@@ -285,11 +311,14 @@
 				min-height: 100px;
 				min-width: 100px;
 				height: 100%;
-				float: left;
 				background-repeat: no-repeat;
-				background-size: auto 80%;
+				background-size: 80% auto;
 				background-position: center;
 				display: table-cell;
+				text-align: center;
+				vertical-align: middle;
+				font-size: 16px; 
+				font-size: 4vw;
 			}
 
 			div:first-child:nth-last-child(1) {
@@ -324,9 +353,8 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="addDiv"&gt;
-			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Subject&lt;/div&gt;
-			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Message&lt;/div&gt;
-			&lt;div id="object" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;Object&lt;/div&gt;
+			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/subject.png)"&gt;Subject&lt;/div&gt;
+			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/message.png)"&gt;Message&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
@@ -347,6 +375,14 @@
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
+			body {
+				margin: 0;
+				border-style: inset;
+				border-width: 2px;
+				padding: 10px;
+				background-color: white;
+			}
+			
 			.dataDiv{				
 				background: #ffffff;
 				width: 100%;
