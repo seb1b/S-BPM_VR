@@ -5,14 +5,14 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.76.0 commit date:2015-11-03, commit time:10:56, hash:f337fea</authoring_tool>
     </contributor>
-    <created>2016-01-23T15:56:29</created>
-    <modified>2016-01-23T15:56:29</modified>
+    <created>2016-01-27T00:41:26</created>
+    <modified>2016-01-27T00:41:26</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
   <library_images/>
   <library_effects>
-    <effect id="Material-effect">
+    <effect id="Material_003-effect">
       <profile_COMMON>
         <technique sid="common">
           <phong>
@@ -23,7 +23,7 @@
               <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <color sid="diffuse">0.64 0.56 0.08000001 1</color>
+              <color sid="diffuse">0.3481637 0.01522246 0.01156923 1</color>
             </diffuse>
             <specular>
               <color sid="specular">0.5 0.5 0.5 1</color>
@@ -31,6 +31,9 @@
             <shininess>
               <float sid="shininess">50</float>
             </shininess>
+            <transparency>
+              <float sid="transparency">1</float>
+            </transparency>
             <index_of_refraction>
               <float sid="index_of_refraction">1</float>
             </index_of_refraction>
@@ -64,42 +67,13 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="Material_002-effect">
-      <profile_COMMON>
-        <technique sid="common">
-          <phong>
-            <emission>
-              <color sid="emission">0 0 0 1</color>
-            </emission>
-            <ambient>
-              <color sid="ambient">0 0 0 1</color>
-            </ambient>
-            <diffuse>
-              <color sid="diffuse">0.64 0.64 0.64 1</color>
-            </diffuse>
-            <specular>
-              <color sid="specular">0.5 0.5 0.5 1</color>
-            </specular>
-            <shininess>
-              <float sid="shininess">50</float>
-            </shininess>
-            <index_of_refraction>
-              <float sid="index_of_refraction">1</float>
-            </index_of_refraction>
-          </phong>
-        </technique>
-      </profile_COMMON>
-    </effect>
   </library_effects>
   <library_materials>
-    <material id="Material-material" name="Material">
-      <instance_effect url="#Material-effect"/>
+    <material id="Material_003-material" name="Material_003">
+      <instance_effect url="#Material_003-effect"/>
     </material>
     <material id="Material_001-material" name="Material_001">
       <instance_effect url="#Material_001-effect"/>
-    </material>
-    <material id="Material_002-material" name="Material_002">
-      <instance_effect url="#Material_002-effect"/>
     </material>
   </library_materials>
   <library_geometries>
@@ -128,7 +102,7 @@
         <vertices id="Cube-mesh-vertices">
           <input semantic="POSITION" source="#Cube-mesh-positions"/>
         </vertices>
-        <polylist material="Material-material" count="300">
+        <polylist material="Material_003-material" count="300">
           <input semantic="VERTEX" source="#Cube-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube-mesh-normals" offset="1"/>
           <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
@@ -179,44 +153,44 @@
         </polylist>
       </mesh>
     </geometry>
-    <geometry id="Plane_003-mesh" name="Plane.003">
+    <geometry id="Plane_001-mesh" name="Plane.001">
       <mesh>
-        <source id="Plane_003-mesh-positions">
-          <float_array id="Plane_003-mesh-positions-array" count="12">0.9999979 1.000002 1.34309e-6 1.000002 -0.999998 2.62261e-6 -1.000002 0.999998 -2.62261e-6 -0.9999979 -1.000002 -1.34309e-6</float_array>
+        <source id="Plane_001-mesh-positions">
+          <float_array id="Plane_001-mesh-positions-array" count="12">0.9999979 1.000002 1.34309e-6 1.000002 -0.999998 2.62261e-6 -1.000002 0.999998 -2.62261e-6 -0.9999979 -1.000002 -1.34309e-6</float_array>
           <technique_common>
-            <accessor source="#Plane_003-mesh-positions-array" count="4" stride="3">
+            <accessor source="#Plane_001-mesh-positions-array" count="4" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="Plane_003-mesh-normals">
-          <float_array id="Plane_003-mesh-normals-array" count="3">1.98285e-6 -6.39758e-7 -1</float_array>
+        <source id="Plane_001-mesh-normals">
+          <float_array id="Plane_001-mesh-normals-array" count="3">1.98285e-6 -6.39758e-7 -1</float_array>
           <technique_common>
-            <accessor source="#Plane_003-mesh-normals-array" count="1" stride="3">
+            <accessor source="#Plane_001-mesh-normals-array" count="1" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="Plane_003-mesh-map-0">
-          <float_array id="Plane_003-mesh-map-0-array" count="12">0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001 1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001</float_array>
+        <source id="Plane_001-mesh-map-0">
+          <float_array id="Plane_001-mesh-map-0-array" count="12">0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001 1.00099e-4 9.998e-5 0.9999001 1.0004e-4 9.998e-5 0.9999001</float_array>
           <technique_common>
-            <accessor source="#Plane_003-mesh-map-0-array" count="6" stride="2">
+            <accessor source="#Plane_001-mesh-map-0-array" count="6" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="Plane_003-mesh-vertices">
-          <input semantic="POSITION" source="#Plane_003-mesh-positions"/>
+        <vertices id="Plane_001-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_001-mesh-positions"/>
         </vertices>
-        <polylist material="Material_002-material" count="2">
-          <input semantic="VERTEX" source="#Plane_003-mesh-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#Plane_003-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#Plane_003-mesh-map-0" offset="2" set="0"/>
+        <polylist material="Material_003-material" count="2">
+          <input semantic="VERTEX" source="#Plane_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_001-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Plane_001-mesh-map-0" offset="2" set="0"/>
           <vcount>3 3 </vcount>
           <p>1 0 0 3 0 1 2 0 2 0 0 3 1 0 4 2 0 5</p>
         </polylist>
@@ -231,7 +205,7 @@
         <instance_geometry url="#Cube-mesh" name="Cube">
           <bind_material>
             <technique_common>
-              <instance_material symbol="Material-material" target="#Material-material"/>
+              <instance_material symbol="Material_003-material" target="#Material_003-material"/>
             </technique_common>
           </bind_material>
         </instance_geometry>
@@ -247,11 +221,11 @@
         </instance_geometry>
       </node>
       <node id="Plane_001" name="Plane_001" type="NODE">
-        <matrix sid="transform">2.97427e-7 0 -0.15 0.5029 0 0.15 0 0.75 0.15 0 2.97427e-7 0.25 0 0 0 1</matrix>
-        <instance_geometry url="#Plane_003-mesh" name="Plane_001">
+        <matrix sid="transform">-6.55671e-9 0 -0.15 0.5029 0 0.15 0 0.75 0.15 0 -6.55671e-9 0.25 0 0 0 1</matrix>
+        <instance_geometry url="#Plane_001-mesh" name="Plane_001">
           <bind_material>
             <technique_common>
-              <instance_material symbol="Material_002-material" target="#Material_002-material"/>
+              <instance_material symbol="Material_003-material" target="#Material_003-material"/>
             </technique_common>
           </bind_material>
         </instance_geometry>
