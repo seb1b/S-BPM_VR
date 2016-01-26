@@ -32,10 +32,26 @@ class View():
 		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag.dae'
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub.dae'
+		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub_Hashtag.dae'
+		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub_Highlight.dae'
+		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['f_state'] = '../../View/Blender/Behavior/FState.dae'
 		self.BLENDER_PATHS['f_state_meta'] = '../../View/Blender/Behavior/FState_Hashtag.dae'
 		self.BLENDER_PATHS['f_state_highlight'] = '../../View/Blender/Behavior/FState_Highlight.dae'
 		self.BLENDER_PATHS['f_state_meta_highlight'] = '../../View/Blender/Behavior/FState_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['s_state'] = '../../View/Blender/Behavior/SState.dae'
+		self.BLENDER_PATHS['s_state_meta'] = '../../View/Blender/Behavior/SState_Hashtag.dae'
+		self.BLENDER_PATHS['s_state_highlight'] = '../../View/Blender/Behavior/SState_Highlight.dae'
+		self.BLENDER_PATHS['s_state_meta_highlight'] = '../../View/Blender/Behavior/SState_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['r_state'] = '../../View/Blender/Behavior/RState.dae'
+		self.BLENDER_PATHS['r_state_meta'] = '../../View/Blender/Behavior/RState_Hashtag.dae'
+		self.BLENDER_PATHS['r_state_highlight'] = '../../View/Blender/Behavior/RState_Highlight.dae'
+		self.BLENDER_PATHS['r_state_meta_highlight'] = '../../View/Blender/Behavior/RState_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['transition'] = '../../View/Blender/Behavior/Trans.dae'
+		self.BLENDER_PATHS['transition_meta'] = '../../View/Blender/Behavior/Trans_Hashtag.dae'
+		self.BLENDER_PATHS['transition_highlight'] = '../../View/Blender/Behavior/Trans_Highlight.dae'
+		self.BLENDER_PATHS['transition_meta_highlight'] = '../../View/Blender/Behavior/Trans_Highlight_Hashtag.dae'
 
 		self.HANDLE = VR.Geometry('handle')
 		self.HANDLE.setPrimitive('Box 0.03 0.03 0.03 1 1 1')
@@ -68,7 +84,7 @@ class View():
 		self.cur_scene = None
 		self.active_gui_element = None  # edit plane, layer_add plane or behavior_add plane
 
-		# setup root
+		#setup root
 		root = VR.getRoot().find('Headlight')
 		VR.view_root = VR.Transform('world')
 		root.addChild(VR.view_root)
@@ -82,13 +98,19 @@ class View():
 		self.ptool = VR.Pathtool()
 		self.ptool.setHandleGeometry(self.HANDLE)
 
-		# setup offset
+		#setup offsets
+		#screen
 		win_size = VR.getSetup().getWindow('screen').getSize()
 		assert len(win_size) == 2
 		self.scale_y = 2 * self.camera_from[2] * math.tan(self.camera_fov * 0.5)
 		self.scale_x = self.scale_y * win_size[0] / win_size[1]
 		self.scale_cursor_y = 2 * abs(self.CURSOR_DIST) * math.tan(self.camera_fov * 0.5)
 		self.scale_cursor_x = self.scale_cursor_y * win_size[0] / win_size[1]
+		#model
+		self.model_offset_x = 0
+		self.model_offset_y = 0
+		self.model_width = 0
+		self.model_hight = 0
 
 		# set colors
 		self.colors = {}
@@ -221,16 +243,20 @@ class View():
 		VR.cam.addChild(self.active_gui_element)
 
 	def set_cur_scene(self, cur_scene):
-		print 'set_cur_scene'
+		assert  isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior)
 		self.cur_scene = cur_scene
 		#self.cam.remChild(self.active_gui_element) #TODO
 
 		if isinstance(cur_scene, PASS.Layer):
 			self.active_gui_element = self.layer_add_plane
-		elif isinstance(cur_scene, PASS.Behavior):
+		else:  # is instance of Pass.Behavior
 			self.active_gui_element = self.behavior_add_plane
-		else:
-			print 'View: ERROR in set_cur_scene: no valid active scene'
+
+		#set offsets
+		self.model_offset_x = self.cur_scene.getBoundingBox2D()[0][0]
+		self.model_offset_y = self.cur_scene.getBoundingBox2D()[0][1]
+		self.model_width = self.cur_scene.getBoundingBox2D()[1][0] - self.model_offset_x
+		self.model_hight = self.cur_scene.getBoundingBox2D()[1][1] - self.model_offset_y
 
 		#VR.cam.addChild(self.active_gui_element) #TODO
 		#self.update_all()
@@ -454,7 +480,7 @@ class View():
 
 		if isinstance(obj, PASS.Subject):
 			if highlight:  #TODO change message exchange line
-				if obj.hasMetaContent is []:
+				if len(obj.hasMetaContent) == 0:
 					del self.object_dict[obj]
 					del self.object_dict[o]
 					new_o = VR.loadGeometry(self.BLENDER_PATHS['subject_highlight'], parent='world')
@@ -490,7 +516,7 @@ class View():
 				params = self.create_url_params_from_metacontent(self.object_dict[obj])
 				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 			else:
-				if obj.hasMetaContent is []:
+				if len(obj.hasMetaContent) == 0:
 					del self.object_dict[obj]
 					del self.object_dict[o]
 					new_o = VR.loadGeometry(self.BLENDER_PATHS['subject'], parent='world')
@@ -527,7 +553,7 @@ class View():
 				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		elif isinstance(obj, PASS.MessageExchange):
 			if highlight:  #TODO change message exchange line
-				if obj.hasMetaContent is []:
+				if len(obj.hasMetaContent) == 0:
 					del self.object_dict[obj]
 					del self.object_dict[o]
 					new_o = VR.loadGeometry(self.BLENDER_PATHS['message_highlight'], parent='world')
@@ -561,7 +587,7 @@ class View():
 				params = self.create_url_params_from_metacontent(self.object_dict[obj])
 				self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 			else:
-				if obj.hasMetaContent is []:
+				if len(obj.hasMetaContent) == 0:
 					del self.object_dict[obj]
 					del self.object_dict[o]
 					new_o = VR.loadGeometry(self.BLENDER_PATHS['message'], parent='world')
@@ -632,7 +658,7 @@ class View():
 		highlighted_point = VR.Geometry('sphere')
 		highlighted_point.setPrimitive('Sphere 0.05 5')
 		highlighted_point.setMaterial(VR.Material('sample material'))
-		highlighted_point.setFrom(pos[0], pos[1], 0.0) #TODO scaling factor
+		highlighted_point.setFrom((pos[0] - 0.5) * self.scale_x, (pos[1] - 0.5) * self.scale_y, 0.0)
 		highlighted_point.setPlaneConstraints([0, 0, 1])
 		highlighted_point.setRotationConstraints([1, 1, 1])
 		highlighted_point.setColors([1, 0, 0]) #TODO change color?!
@@ -674,6 +700,7 @@ class View():
 			#elif 'obj' in tags:
 			else:
 				print 'view: object'
+				#TODO check if intersection with handle or object
 				p = i.getParent().getParent()
 				if p.hasTag('obj'):
 					print 'Object found', p
@@ -691,145 +718,273 @@ class View():
 		pass
 
 	def on_change(self, object):
-		if isinstance(object, PASS.Subject) or isinstance(object, PASS.MessageExchange):
-			pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
-			pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
-
-			"""
-			bb_min_x = object.getParent(PASS.Layer).getBoundingBox2D()[0][0]
-			bb_min_y = object.getParent(PASS.Layer).getBoundingBox2D()[0][1]
-			bb_max_x = object.getParent(PASS.Layer).getBoundingBox2D()[1][0]
-			bb_max_y = object.getParent(PASS.Layer).getBoundingBox2D()[1][1]
-			bb_x_dist = bb_max_x - bb_min_x
-			bb_y_dist = bb_max_y - bb_min_y
-			"""
-
-			# find given object
-			print 'on_change: ', object
-			if not object in self.object_dict:  # add given object to scene
-				#create polyVR object and add it to scene #TODO
-				if isinstance(object, PASS.Subject):
-					print "on_change: Subject"
-					poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject'], parent='world')
+		if isinstance(self.cur_scene, PASS.Layer):
+			if isinstance(object, PASS.Subject):
+				print "View on_change: Subject"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new subject
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'], parent='world')
 					poly_obj.setScale(0.1, 0.1, 0.1)
 					poly_obj.addTag('subject')
 					poly_obj.addTag('obj')
-					poly_obj.setFrom(pos_x, pos_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
 					poly_obj.setPickable(True)
 					poly_obj.setPlaneConstraints([0, 0, 1])
 					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
 					self.object_dict[object] = poly_obj
 					self.object_dict[poly_obj] = object
 					VR.view_root.addChild(poly_obj)
-				elif isinstance(object, PASS.MessageExchange):
-					print "on_change: MessageExchange"
-					poly_obj = VR.loadGeometry(self.BLENDER_PATHS['message'], parent='world')
+				else:
+					poly_obj = self.object_dict[object]
+					#position changed
+					#TODO set Handle if this subject is connected
+					#if poly_obj.getParent() is Handle: change handle position
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#name changed
+					#TODO reset name
+					#TODO meta content
+			elif isinstance(object, PASS.MessageExchange):
+				print "View on_change: MessageExchange"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new message
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['message'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['message_meta'], parent='world')
 					poly_obj.setScale(0.1, 0.1, 0.1)
 					poly_obj.addTag('message')
 					poly_obj.addTag('obj')
-					poly_obj.setFrom(pos_x, pos_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
 					poly_obj.setPickable(True)
 					poly_obj.setPlaneConstraints([0, 0, 1])
 					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
 					self.object_dict[object] = poly_obj
 					self.object_dict[poly_obj] = object
-					self.message_dict[poly_obj] = [self.object_dict[object.sender], self.object_dict[object.receiver], None]
 					VR.view_root.addChild(poly_obj)
+					s = None
+					r = None
+					if object.sender in self.object_dict:
+						s = self.object_dict[object.sender]
+					if object.receiver in self.object_dict:
+						r = self.object_dict[object.sender]
+					self.message_dict[object] = [s, r, None]
 					self.connect(poly_obj)
-				elif isinstance(object, PASS.SendState):
-					print "on_change: SendState"
-					poly_obj = VR.Geometry('cube')  #TODO replace with blender model
-					primitive_str = 'Box'
-					#  primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
-					primitive_str += (' 0.2') * 3
-					primitive_str += ' 1' * 3
-					poly_obj.setPrimitive(primitive_str)
-					poly_obj.setMaterial(VR.Material('sample material'))
-					poly_obj.setColors(self.colors['send_state'])
-					poly_obj.addTag('send_state')
-					self.object_dict[poly_obj] = object
+				else:
+					poly_obj = self.object_dict[object]
+					# position changed
+					#TODO set Handle if existing
+					#if poly_obj.getParent() is Handle: change handle position
+					#poly_obj.getParent().setFrom((pos_x - self.model_offset_x) / self.model_width * self.scale_x,
+					#				 (pos_y - self.model_offset_y) / self.model_hight * self.scale_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#TODO reset name
+					#TODO meta content
+					#TODO sender changed
+					#TODO receiver changed
+			elif isinstance(object, PASS.ExternalSubject):
+				print "View on_change: External Message"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new message
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'], parent='world')
+					poly_obj.setScale(0.1, 0.1, 0.1)
+					poly_obj.addTag('external_subject')
+					poly_obj.addTag('obj')
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setPickable(True)
+					poly_obj.setPlaneConstraints([0, 0, 1])
+					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
 					self.object_dict[object] = poly_obj
-					VR.view_root.addChild(poly_obj)
-				elif isinstance(object, PASS.ReceiveState):
-					print "on_change: ReceiveState"
-					poly_obj = VR.Geometry('cube')  #TODO replace with blender model
-					primitive_str = 'Box'
-					#  primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
-					primitive_str += (' 0.2') * 3
-					primitive_str += ' 1' * 3
-					poly_obj.setPrimitive(primitive_str)
-					poly_obj.setMaterial(VR.Material('sample material'))
-					poly_obj.setColors(self.colors['receive_state'])
-					poly_obj.addTag('receive_state')
 					self.object_dict[poly_obj] = object
-					self.object_dict[object] = poly_obj
 					VR.view_root.addChild(poly_obj)
-				elif isinstance(object, PASS.FunctionState):
-					print "on_change: FunctionState"
-					poly_obj = VR.Geometry('cube')  #TODO replace with blender model
-					primitive_str = 'Box'
-					#  primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
-					primitive_str += (' 0.2') * 3
-					primitive_str += ' 1' * 3
-					poly_obj.setPrimitive(primitive_str)
-					poly_obj.setMaterial(VR.Material('sample material'))
-					poly_obj.setColors(self.colors['function_state'])
-					poly_obj.addTag('function_state')
-					self.object_dict[poly_obj] = object
-					self.object_dict[object] = poly_obj
-					VR.view_root.addChild(poly_obj)
-				elif isinstance(object, PASS.TransitionEdge):
-					print "on_change: TransitionEdge"
-					poly_obj = VR.Geometry('cube')  #TODO replace with blender model
-					primitive_str = 'Box'
-					#  primitive_str += (' ' + str(rel_size * max(self.offset_x, self.offset_y))) * 3
-					primitive_str += (' 0.2') * 3
-					primitive_str += ' 1' * 3
-					poly_obj.setPrimitive(primitive_str)
-					poly_obj.setMaterial(VR.Material('sample material'))
-					poly_obj.setColors(self.colors['state_message'])
-					poly_obj.addTag('state_message')
-					self.draw_line(object)
-					self.object_dict[poly_obj] = object
-					self.object_dict[object] = poly_obj
-					VR.view_root.addChild(poly_obj)
-				#TODO set names
-				print 'on_change: Name tagging '
-				ae = VR.AnnotationEngine('ae_')
-				VR.view_root.addChild(ae)
-				ae.setColor([0,1,0,1])
-				ae.setBackground([1,0,0,0.5])
-				ae.setSize(0.02)
-				text = ''
-				for t in object.label:
-					text = str(text) + str(t)
-				ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
-				#poly_obj.setFrom((pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0, (pos_y / bb_y_dist) * self.offset_y - self.offset_y / 2.0, 0.0 )
-				#print (pos_x / bb_x_dist) * self.offset_x - self.offset_x / 2.0
-				#self.log.addContainer(poly_obj)
-				#print 'c: ', self.log.getContainers()
-
-				#VR.view_root.addChild(poly_obj)
-			else:  # update given object
-				print "on_change: object ", object, " already in list"
-				#TODO if object is of type *message: change line
+				else:
+					poly_obj = self.object_dict[object]
+					# position changed
+					#TODO set Handle if existing
+					#if poly_obj.getParent() is Handle: change handle position
+					#poly_obj.getParent().setFrom((pos_x - self.model_offset_x) / self.model_width * self.scale_x,
+					#				 (pos_y - self.model_offset_y) / self.model_hight * self.scale_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#TODO reset name
+					#TODO meta content
+			else:
 				pass
-				#TODO label, parent, hasMetaContent
-			print 'on_change: obj dict: ', self.object_dict
-			print 'on_change: message_dict: ', self.message_dict
+		elif isinstance(self.cur_scene, PASS.Behavior):
+			if isinstance(object, PASS.SendState):
+				print "View on_change: Send State"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new subject
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['s_state'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['s_state_meta'], parent='world')
+					poly_obj.setScale(0.1, 0.1, 0.1)
+					poly_obj.addTag('send_state')
+					poly_obj.addTag('obj')
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setPickable(True)
+					poly_obj.setPlaneConstraints([0, 0, 1])
+					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
+					self.object_dict[object] = poly_obj
+					self.object_dict[poly_obj] = object
+					VR.view_root.addChild(poly_obj)
+				else:
+					poly_obj = self.object_dict[object]
+					#position changed
+					#TODO set Handle if this subject is connected
+					#if poly_obj.getParent() is Handle: change handle position
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#name changed
+					#TODO reset name
+					#TODO meta content
+			elif isinstance(object, PASS.ReceiveState):
+				print "View on_change: Receive State"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new message
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['r_state'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['subject_meta'], parent='world')
+					poly_obj.setScale(0.1, 0.1, 0.1)
+					poly_obj.addTag('receive_state')
+					poly_obj.addTag('obj')
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setPickable(True)
+					poly_obj.setPlaneConstraints([0, 0, 1])
+					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
+					self.object_dict[object] = poly_obj
+					self.object_dict[poly_obj] = object
+					self.connect(poly_obj)
+					VR.view_root.addChild(poly_obj)
+				else:
+					poly_obj = self.object_dict[object]
+					# position changed
+					#TODO set Handle if existing
+					#if poly_obj.getParent() is Handle: change handle position
+					#poly_obj.getParent().setFrom((pos_x - self.model_offset_x) / self.model_width * self.scale_x,
+					#				 (pos_y - self.model_offset_y) / self.model_hight * self.scale_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#TODO reset name
+			elif isinstance(object, PASS.FunctionState):
+				print "View on_change: Function State"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new message
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['f_state'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['f_state_meta'], parent='world')
+					poly_obj.setScale(0.1, 0.1, 0.1)
+					poly_obj.addTag('function_state')
+					poly_obj.addTag('obj')
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setPickable(True)
+					poly_obj.setPlaneConstraints([0, 0, 1])
+					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
+					self.object_dict[object] = poly_obj
+					self.object_dict[poly_obj] = object
+					VR.view_root.addChild(poly_obj)
+				else:
+					poly_obj = self.object_dict[object]
+					# position changed
+					#TODO set Handle if existing
+					#if poly_obj.getParent() is Handle: change handle position
+					#poly_obj.getParent().setFrom((pos_x - self.model_offset_x) / self.model_width * self.scale_x,
+					#				 (pos_y - self.model_offset_y) / self.model_hight * self.scale_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#TODO reset name
+					#TODO meta content
+			elif isinstance(object, PASS.TransitionEdge):
+				print "View on_change: Transition Edge"
+				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
+				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
+				if not object in self.object_dict:  # create new message
+					if len(object.hasMetaConten) == 0:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['transition'], parent='world')
+					else:
+						poly_obj = VR.loadGeometry(self.BLENDER_PATHS['transition_meta'], parent='world')
+					poly_obj.setScale(0.1, 0.1, 0.1)
+					poly_obj.addTag('transition')
+					poly_obj.addTag('obj')
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setPickable(True)
+					poly_obj.setPlaneConstraints([0, 0, 1])
+					poly_obj.setRotationConstraints([1, 1, 1])
+					#TODO set name
+					self.object_dict[object] = poly_obj
+					self.object_dict[poly_obj] = object
+					VR.view_root.addChild(poly_obj)
+					s = None
+					r = None
+					if object.hasSourceState in self.object_dict:
+						s = self.object_dict[object.sender]
+					if object.hasTargetState in self.object_dict:
+						r = self.object_dict[object.sender]
+					self.message_dict[object] = [s, r, None]
+					self.connect(poly_obj)
+				else:
+					poly_obj = self.object_dict[object]
+					# position changed
+					#TODO set Handle if existing
+					#if poly_obj.getParent() is Handle: change handle position
+					#poly_obj.getParent().setFrom((pos_x - self.model_offset_x) / self.model_width * self.scale_x,
+					#				 (pos_y - self.model_offset_y) / self.model_hight * self.scale_y, 0.0)
+					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					#TODO reset name
+					#TODO meta content
+					#TODO sender changed
+					#TODO receiver changed
+		else:
+			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
+		#TODO move to right place
+		print 'on_change: Name tagging '
+		ae = VR.AnnotationEngine('ae_')
+		VR.view_root.addChild(ae)
+		ae.setColor([0,1,0,1])
+		ae.setBackground([1,0,0,0.5])
+		ae.setSize(0.02)
+		text = ''
+		for t in object.label:
+			text = str(text) + str(t)
+		ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
 
 	def connect(self, message):
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
 		s = self.message_dict[message][0]
-		s.setPickable(False)
 		r = self.message_dict[message][1]
-		r.setPickable(False)
-		message.setPickable(False)
-
-		print "draw_line: ", s, " => ", r
-
+		assert s is not None and r is not None, "sender and receiver must not be None"
 		start_pos = s.getFrom()
 		mid_pos = message.getFrom()
 		end_pos = r.getFrom()
@@ -868,8 +1023,11 @@ class View():
 		else:
 			mid_dir[0] = -1.0
 
-		print "draw_line: dirs: ", start_dir, mid_dir, end_dir
+		message.setPickable(False)
+		s.setPickable(False)
+		s.setPickable(False)
 
+		print "draw_line: ", s, " => ", r
 		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		self.message_dict[message][2] = self.paths[-1]
 		self.ptool.extrude(None, self.paths[-1])
