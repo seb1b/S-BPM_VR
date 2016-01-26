@@ -314,8 +314,6 @@ class View():
 				poly_mes.setColors(self.colors['message'])
 				poly_mes.setPlaneConstraints([0, 0, 1])
 				poly_mes.setRotationConstraints([1, 1, 1])
-				VR.view_root.addChild(poly_mes)
-				self.connect(message)
 				self.object_dict[message] = poly_mes
 				self.object_dict[poly_mes] = message
 				s = None
@@ -325,6 +323,8 @@ class View():
 				if message.receiver in self.object_dict:
 					r = self.object_dict[message.sender]
 				self.message_dict[message] = [s, r, None]
+				VR.view_root.addChild(poly_mes)
+				self.connect(message)
 
 			for subject in external_subjects:
 				assert isinstance(subject, PASS.ExternalSubject)
@@ -931,8 +931,8 @@ class View():
 					#TODO set name
 					self.object_dict[object] = poly_obj
 					self.object_dict[poly_obj] = object
-					self.connect(poly_obj)
 					VR.view_root.addChild(poly_obj)
+					self.connect(poly_obj)
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
