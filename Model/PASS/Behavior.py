@@ -222,7 +222,7 @@ class Behavior(PASSProcessModelElement):
 		minX = float("inf")
 		minY = float("inf")
 		#Now iterate over all active process components
-		for active in self.hasState:
+		for active in (self.hasState + self.hasEdge):
 			if(hasattr(active, "hasAbstractVisualRepresentation")):
 				point = active.hasAbstractVisualRepresentation.getPoint2D()
 				#Max tests
@@ -259,7 +259,7 @@ class Behavior(PASSProcessModelElement):
 		minY = float("inf")
 		minZ = float("inf")
 		#Now iterate over all active process components
-		for active in self.hasState:
+		for active in (self.hasState + self.hasEdge):
 			if(hasattr(active, "hasAbstractVisualRepresentation")):
 				point = active.hasAbstractVisualRepresentation.getPoint3D()
 				#Max tests
