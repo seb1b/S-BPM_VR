@@ -1,10 +1,10 @@
 ﻿<Properties StartupItem="Receive\Receive.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Send\Send.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Send\Person.cs">
     <Files>
-      <File FileName="Send\Person.cs" Line="83" Column="47" />
-      <File FileName="Send\Send.cs" Line="82" Column="36" />
-      <File FileName="Receive\Receive.cs" Line="10" Column="60" />
+      <File FileName="Send\Person.cs" Line="101" Column="35" />
+      <File FileName="Send\Send.cs" Line="60" Column="4" />
+      <File FileName="Receive\Receive.cs" Line="19" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
