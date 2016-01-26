@@ -1120,27 +1120,88 @@ class View():
 		s.setPickable(False)
 		s.setPickable(False)
 
-		print "draw_line: ", s, " => ", r
-		self.paths.append(self.ptool.newPath(None, VR.view_root))
-		self.message_dict[message][2] = self.paths[-1]
-		self.ptool.extrude(None, self.paths[-1])
-		handles = self.ptool.getHandles(self.paths[-1])
-		assert len(handles) == 3, "invalid number of handles"
-		handles[0].setFrom(s.getFrom())
-		handles[0].setAt(s.getAt())
-		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
-		handles[0].addChild(s)
-		s.setFrom(0, 0, 0)
-		handles[1].setFrom(message.getFrom())
-		handles[1].setAt(message.getAt())
-		handles[1].setDir(1.0, 0.0, 0.0)
-		handles[1].addChild(message)
-		message.setFrom(0, 0, 0)
-		handles[2].setFrom(r.getFrom())
-		handles[2].setAt(r.getAt())
-		handles[2].setDir(end_dir[0], end_dir[1], 0.0)
-		handles[2].addChild(r)
-		r.setFrom(0, 0, 0)
+		connected = False
+
+		#ptool_paths = self.ptool.getPaths()
+		#for p in ptool_paths:
+			#s_handle = None
+			#s_path = None
+			#r_handle = None
+			#r_handle = None
+			#m_handle = None
+			#m_path = None
+			#
+			#hs = self.ptool.getHandles(p)
+			#for i, h in enumerate(hs):
+				#c = h.getChildren()
+				#if s in c:
+					#s_path = p
+					#s_handle = i
+				#if r in c:
+					#r_path = p
+					#r_handle = i
+				#if message in c:
+					#m_path = p
+					#m_handle = i
+			#
+			#if s is not None and r is not None and message is not None:
+				#pass
+			#elif s is not None and r is not None:
+				#pass
+			#else:
+				#pass
+			#if s in c:
+				#self.ptool.extrude(None, p)
+				#self.ptool.extrude(None, p)
+				#handles = self.ptool.getHandles(p)
+				#handles[3].setFrom(message.getFrom())
+				#handles[3].setDir(1, 0, 0.0)
+				#handles[3].addChild(message)
+				#message.setFrom(0, 0, 0)
+				#handles[4].setFrom(r.getFrom())
+				#handles[4].setDir(end_dir[0], end_dir[1], 0.0)
+				#handles[4].addChild(r)
+				#r.setFrom(0, 0, 0)
+				#connected = True
+				#print 'sender extrude'
+			#elif r in c:
+				#self.ptool.extrude(None, p)
+				#self.ptool.extrude(None, p)
+				#handles = self.ptool.getHandles(p)
+				#handles[3].setFrom(message.getFrom())
+				#handles[3].setDir(1, 0, 0.0)
+				#handles[3].addChild(message)
+				#message.setFrom(0, 0, 0)
+				#handles[4].setFrom(s.getFrom())
+				#handles[4].setDir(start_dir[0], start_dir[1], 0.0)
+				#handles[4].addChild(s)
+				#s.setFrom(0, 0, 0)
+				#connected = True
+				#print 'receiver extrude'
+
+		if not connected:
+			print "draw_line: ", s, " => ", r
+			self.paths.append(self.ptool.newPath(None, VR.view_root))
+			self.message_dict[message][2] = self.paths[-1]
+			self.ptool.extrude(None, self.paths[-1])
+			handles = self.ptool.getHandles(self.paths[-1])
+			assert len(handles) == 3, "invalid number of handles"
+			handles[0].setFrom(s.getFrom())
+			handles[0].setAt(s.getAt())
+			handles[0].setDir(start_dir[0], start_dir[1], 0.0)
+			handles[0].addChild(s)
+			s.setFrom(0, 0, 0)
+			handles[1].setFrom(message.getFrom())
+			handles[1].setAt(message.getAt())
+			handles[1].setDir(1.0, 0.0, 0.0)
+			handles[1].addChild(message)
+			message.setFrom(0, 0, 0)
+			handles[2].setFrom(r.getFrom())
+			handles[2].setAt(r.getAt())
+			handles[2].setDir(end_dir[0], end_dir[1], 0.0)
+			handles[2].addChild(r)
+			r.setFrom(0, 0, 0)
+
 		self.ptool.update()
 
 	def move_object(self, obj, pos_ws):
