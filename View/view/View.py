@@ -80,6 +80,7 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
+		self.handle_dict = {}
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -359,18 +360,18 @@ class View():
 				message_node = VR.Transform('Message_Container')
 				message_node.addTag('obj')
 				message_node.addTag('message')
+				message_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				message_node.setPlaneConstraints([0, 0, 1])
+				message_node.setRotationConstraints([1, 1, 1])
 				poly_mesages = []
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message']))
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_meta']))
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_highlight']))
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_meta_highlight']))
 				for poly_mes in poly_mesages:
-					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
 					poly_mes.setPickable(True)
 					poly_mes.setScale(0.1, 0.1, 0.1)
-					poly_mes.setPlaneConstraints([0, 0, 1])
-					poly_mes.setRotationConstraints([1, 1, 1])
 					poly_mes.setVisible(False)
 					message_node.addChild(poly_mes)
 				if len(subject.hasMetaContent) == 0:
@@ -390,18 +391,18 @@ class View():
 				subject_node = VR.Transform('External_Subject_Container')
 				subject_node.addTag('obj')
 				subject_node.addTag('external_subject')
+				subject_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				subject_node.setPlaneConstraints([0, 0, 1])
+				subject_node.setRotationConstraints([1, 1, 1])
 				poly_subjects = []
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject']))
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta']))
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_highlight']))
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta_highlight']))
 				for poly_sub in poly_subjects:
-					poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
 					poly_sub.setPickable(True)
 					poly_sub.setScale(0.1, 0.1, 0.1)
-					poly_sub.setPlaneConstraints([0, 0, 1])
-					poly_sub.setRotationConstraints([1, 1, 1])
 					poly_sub.setVisible(False)
 					subject_node.addChild(poly_sub)
 				if len(subject.hasMetaContent) == 0:
@@ -425,18 +426,18 @@ class View():
 				state_node.addTag('obj')
 				if isinstance(state, PASS.FunctionState):
 					state_node.addTag('function_state')
+					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					state_node.setPlaneConstraints([0, 0, 1])
+					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_highlight']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta_highlight']))
 					for poly_sub in poly_states:
-						poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
 						poly_sub.setPickable(True)
 						poly_sub.setScale(0.1, 0.1, 0.1)
-						poly_sub.setPlaneConstraints([0, 0, 1])
-						poly_sub.setRotationConstraints([1, 1, 1])
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(subject.hasMetaContent) == 0:
@@ -448,18 +449,18 @@ class View():
 					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.SendState):
 					state_node.addTag('send_state')
+					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					state_node.setPlaneConstraints([0, 0, 1])
+					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_highlight']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta_highlight']))
 					for poly_sub in poly_states:
-						poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
 						poly_sub.setPickable(True)
 						poly_sub.setScale(0.1, 0.1, 0.1)
-						poly_sub.setPlaneConstraints([0, 0, 1])
-						poly_sub.setRotationConstraints([1, 1, 1])
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(subject.hasMetaContent) == 0:
@@ -471,18 +472,18 @@ class View():
 					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.ReceiveState):
 					state_node.addTag('receive_state')
+					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					state_node.setPlaneConstraints([0, 0, 1])
+					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_highlight']))
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta_highlight']))
 					for poly_sub in poly_states:
-						poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
 						poly_sub.setPickable(True)
 						poly_sub.setScale(0.1, 0.1, 0.1)
-						poly_sub.setPlaneConstraints([0, 0, 1])
-						poly_sub.setRotationConstraints([1, 1, 1])
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(subject.hasMetaContent) == 0:
@@ -501,6 +502,10 @@ class View():
 				transition_node = VR.Transform('Transition_Container')
 				transition_node.addTag('obj')
 				transition_node.addTag('transition')
+				transition_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				transition_node.setPlaneConstraints([0, 0, 1])
+				transition_node.setRotationConstraints([1, 1, 1])
 				poly_trans = []
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition']))
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta']))
@@ -511,8 +516,6 @@ class View():
 								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
 					poly_mes.setPickable(True)
 					poly_mes.setScale(0.1, 0.1, 0.1)
-					poly_mes.setPlaneConstraints([0, 0, 1])
-					poly_mes.setRotationConstraints([1, 1, 1])
 					poly_mes.setVisible(False)
 					transition_node.addChild(poly_mes)
 				if len(subject.hasMetaContent) == 0:
@@ -626,16 +629,32 @@ class View():
 
 	def set_highlight(self, obj, highlight):
 		self.log.info('set_highlight')
+		print('WTF1')
+		import traceback
+		for line in traceback.format_stack():
+			print(line.strip())
+		print('WTF2')
 
 		assert isinstance(highlight, bool)
 		pass_obj = self.object_dict[obj]
 		assert isinstance(pass_obj, VR.Object)
 		children = pass_obj.getChildren()
-		for c in children: c.setVisible(False)
 
 		if highlight:
 			pass
 			#TODO set edit gui element
+			#set metaContent on gui element meta to parent
+			#params = self.create_url_params_from_metacontent(self.object_dict[obj])
+			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+
+			if children[0].isVisible() is True:
+				children[0].setVisible(False)
+				children[2].setVisible(True)
+				return True
+			elif children[1].isVisible() is True:
+				children[1].setVisible(False)
+				children[3].setVisible(True)
+				return True
 		else:
 			if isinstance(self.cur_scene, PASS.Layer):
 				#TODO set gui element for layer (subject, message)
@@ -646,28 +665,18 @@ class View():
 			else:
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
-		#if isinstance(obj, PASS.Subject):
-			#print('Highlight: PASS.Subject')
-		if highlight:  #TODO change message exchange line
-			if len(obj.hasMetaContent) == 0:
-				children[2].setVisible(True)
-				return True
-			else:
-				children[3].setVisible(True)
-				return True
 			#set metaContent on gui element meta to parent
-			params = self.create_url_params_from_metacontent(self.object_dict[obj])
-			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
-		else:
-			if len(obj.hasMetaContent) == 0:
+			#params = self.create_url_params_from_metacontent(self.cur_scene)
+			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+
+			if children[2].isVisible() is True:
+				children[2].setVisible(False)
 				children[0].setVisible(True)
 				return True
-			else:
+			elif children[3].isVisible() is True:
+				children[3].setVisible(False)
 				children[1].setVisible(True)
 				return True
-			#set metaContent on gui element meta to parent
-			params = self.create_url_params_from_metacontent(self.cur_scene)
-			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		return False
 
 	def create_url_params_from_metacontent(self, obj):
