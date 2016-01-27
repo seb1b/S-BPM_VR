@@ -125,8 +125,11 @@ class Controller:
 					self.log.debug("User {} is no active user - do not set pressed_object".format(user_id))
 
 			else:
-				# CASE: press on empty field or empty menu bar
-				self.log.debug("Got no object? {} - press on empty field or empty menu bar?".format(obj))
+				# CASE: press on object but already pressed OR press on empty field or empty menu bar
+				if obj is not None:
+					self.log.debug("Got {} - press on object but already pressed".format(obj))
+				else:
+					self.log.debug("Got no object - press on empty field or empty menu bar?")
 				pass
 		self.press_position[user_id] = pos
 		self.pressed_is_left = is_left
@@ -257,7 +260,11 @@ class Controller:
 				assert self.pressed_object in self.selected_objects
 				assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
 				self.log.info("Moving object to {}".format(pos))
-				self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
+				bb = self.view.get_cur_scene().getBoundingBox2D()
+				assert bb is not None and len(bb) == 2 and len(bb[0]) == 2 and len(bb[1]) == 2, \
+					"Invalid bounding box: {}".format(bb)
+				pos_norm_2d = [bb[0][0] + pos[0] * (bb[1][0] - bb[0][0]), bb[0][1] + pos[1] * (bb[1][1] - bb[0][1])]
+				self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 				#self.view.move_object(self.pressed_object, pos[:2])
 			self.view.move_cursor(pos, user_id, is_left)
 
