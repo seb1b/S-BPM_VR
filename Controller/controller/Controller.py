@@ -44,6 +44,13 @@ class Controller:
 
 		self.hw_main = VRHardware(self)
 
+	def _check_active_users(user_id):
+		if user_id not in self.active_users and len(self.active_users) < self.MAX_ACTIVE_USERS:
+			self.log.info("Adding new active user with ID {}".format(user_id))
+			self.active_users.append(user_id)
+			return True
+		return False
+
 	def process(self):
 		self.hw_main.process()
 
@@ -106,18 +113,13 @@ class Controller:
 				else:
 					self.log.info("Unknown object returned on press()")
 
-				if user_id not in self.active_users \
-					and len(self.active_users) < self.MAX_ACTIVE_USERS:
-					self.log.debug("Adding new active user with ID {}".format(user_id))
-					self.active_users.append(user_id)
-
 				if obj not in self.selected_objects:
 					self.log.debug("Adding new selected object {}".format(obj))
 					self.selected_objects.append(obj)
 					self.log.debug("Going to hightlight object")
 					if not self.view.set_highlight(obj, True):
 						self.log.warning("view.set_highlight(True) failed")
-				if user_id in self.active_users:
+				if _check_active_users(user_id):
 					self.log.debug("Setting new pressed_object: {}".format(obj))
 					self.pressed_object = obj
 					self.drag_position = pos
@@ -286,6 +288,9 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			if not _check_active_users(user_id):
+				self.log.debug("Inactive user {} trying to zoom".format(user_id))
+				return None
 			if level < 0:
 				if self.view.current_zoom_level() == 0:
 					layer = self.view.get_cur_scene()
@@ -352,6 +357,9 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			if not _check_active_users(user_id):
+				self.log.debug("Inactive user {} trying to fade_in".format(user_id))
+				return None
 			obj = self.view.get_object(user_id, is_left)
 			if obj is not None and self.pressed_user_id is None:
 				assert self.pressed_object is None, "Inconsistent pressed_* variables"
@@ -390,6 +398,9 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			if not _check_active_users(user_id):
+				self.log.debug("Inactive user {} trying to move_model".format(user_id))
+				return None
 			self.view.move_scene(pos[:2])
 
 		return None
