@@ -1,1278 +1,1290 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#PASSProcessModel-kcSC5kBWEqKk">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#PASSProcessModel-zKHFVmf4vekB">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#PASSProcessModel-kcSC5kBWEqKk">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kcSC5kBWEqKk</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#PASSProcessModel-zKHFVmf4vekB">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">zKHFVmf4vekB</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#PASSProcessModel-kcSC5kBWEqKk">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#PASSProcessModel-zKHFVmf4vekB">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#PASSProcessModel"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-iQgrZaAg1rZh"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="tcmYXu7p0PxQ"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-tGytY5zdo45c"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-sb9jdh65TBYN"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-R2iFFFNHOkPh"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ueiGNdaFgzAG"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-xCbL8QQkoV4b"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-G0vegVdCZGFZ"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ZXlNGksMaPWv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">qPmOiW2vz78e</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-qPmOiW2vz78e">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AKdBo6nlM4Yt</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#BaseLayer-AKdBo6nlM4Yt">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#BaseLayer"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-iQgrZaAg1rZh">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">iQgrZaAg1rZh</ns0:hasModelComponentID>
+  <rdf:Description rdf:nodeID="tcmYXu7p0PxQ">
+    <ns0:hasValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">01.01.2016</ns0:hasValue>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-iQgrZaAg1rZh">
+  <rdf:Description rdf:nodeID="tcmYXu7p0PxQ">
+    <ns0:hasKey xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date</ns0:hasKey>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="tcmYXu7p0PxQ">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MetaContent"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-tGytY5zdo45c">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tGytY5zdo45c</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-tGytY5zdo45c">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Behavior"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE">
-    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="Vbl1OAN2843h"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB">
+    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="fZpJR3o0l72Y"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE">
-    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-iQgrZaAg1rZh"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB">
+    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-tGytY5zdo45c"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Konstrukteur</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">m62t14MufOlE</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">vd2T8zj4RwiB</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="qLFlkme6ftD7"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="hKgviDTvKbYo"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Subject"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="qLFlkme6ftD7">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="loX45ePH2SIp"/>
+  <rdf:Description rdf:nodeID="hKgviDTvKbYo">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="w9O6wQzEtgnv"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="qLFlkme6ftD7">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="VZVfC8bHdMb7"/>
+  <rdf:Description rdf:nodeID="hKgviDTvKbYo">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="pCuKhg1LJnxD"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="qLFlkme6ftD7">
+  <rdf:Description rdf:nodeID="hKgviDTvKbYo">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="VZVfC8bHdMb7">
+  <rdf:Description rdf:nodeID="pCuKhg1LJnxD">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="VZVfC8bHdMb7">
+  <rdf:Description rdf:nodeID="pCuKhg1LJnxD">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="VZVfC8bHdMb7">
+  <rdf:Description rdf:nodeID="pCuKhg1LJnxD">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="loX45ePH2SIp">
+  <rdf:Description rdf:nodeID="w9O6wQzEtgnv">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="loX45ePH2SIp">
+  <rdf:Description rdf:nodeID="w9O6wQzEtgnv">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="loX45ePH2SIp">
+  <rdf:Description rdf:nodeID="w9O6wQzEtgnv">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="loX45ePH2SIp">
+  <rdf:Description rdf:nodeID="w9O6wQzEtgnv">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Vbl1OAN2843h">
+  <rdf:Description rdf:nodeID="fZpJR3o0l72Y">
     <ns0:hasValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">01.01.2016</ns0:hasValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Vbl1OAN2843h">
+  <rdf:Description rdf:nodeID="fZpJR3o0l72Y">
     <ns0:hasKey xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date</ns0:hasKey>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Vbl1OAN2843h">
+  <rdf:Description rdf:nodeID="fZpJR3o0l72Y">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MetaContent"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasEdge xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KkWBTKVJjRKB</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">vTAMYvo6oc0C</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
-    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-sKGdmprKOCwo"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
+    <ns0:hasState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-KwKBMUd3uqdU"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Behavior"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw">
-    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="YduXbgxlB4DF"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8">
+    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="aZclVQOy0aGm"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw">
-    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-KkWBTKVJjRKB"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8">
+    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-vTAMYvo6oc0C"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prüfer</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">oBaKoboppqrw</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hji1Tm098Ov8</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="P8alhvsWkvpn"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="PSgLBtcIAcf4"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Subject"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="P8alhvsWkvpn">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="IETd8GiNebP8"/>
+  <rdf:Description rdf:nodeID="PSgLBtcIAcf4">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="lCaAyMiI3G8a"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="P8alhvsWkvpn">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="XVmGfxOEJBYY"/>
+  <rdf:Description rdf:nodeID="PSgLBtcIAcf4">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="hMT6XVTMUkZT"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="P8alhvsWkvpn">
+  <rdf:Description rdf:nodeID="PSgLBtcIAcf4">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="XVmGfxOEJBYY">
+  <rdf:Description rdf:nodeID="hMT6XVTMUkZT">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="XVmGfxOEJBYY">
+  <rdf:Description rdf:nodeID="hMT6XVTMUkZT">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="XVmGfxOEJBYY">
+  <rdf:Description rdf:nodeID="hMT6XVTMUkZT">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IETd8GiNebP8">
+  <rdf:Description rdf:nodeID="lCaAyMiI3G8a">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IETd8GiNebP8">
+  <rdf:Description rdf:nodeID="lCaAyMiI3G8a">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IETd8GiNebP8">
+  <rdf:Description rdf:nodeID="lCaAyMiI3G8a">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IETd8GiNebP8">
+  <rdf:Description rdf:nodeID="lCaAyMiI3G8a">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="YduXbgxlB4DF">
+  <rdf:Description rdf:nodeID="aZclVQOy0aGm">
     <ns0:hasValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">01.01.2016</ns0:hasValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="YduXbgxlB4DF">
+  <rdf:Description rdf:nodeID="aZclVQOy0aGm">
     <ns0:hasKey xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date</ns0:hasKey>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="YduXbgxlB4DF">
+  <rdf:Description rdf:nodeID="aZclVQOy0aGm">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MetaContent"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-sb9jdh65TBYN">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sb9jdh65TBYN</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-R2iFFFNHOkPh">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">R2iFFFNHOkPh</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-sb9jdh65TBYN">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-R2iFFFNHOkPh">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Behavior"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw">
-    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="VoDx58U1HsPs"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc">
+    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="fc6pMjwXo8Je"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw">
-    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-sb9jdh65TBYN"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc">
+    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-R2iFFFNHOkPh"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Entwicklungsleiter</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">JZBKA5QqhIuw</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TfyZto36GzXc</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="gnZLNYWi3Rvd"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="L4KJmm5D8jxe"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Subject"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="gnZLNYWi3Rvd">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="UGv6plKBkXUV"/>
+  <rdf:Description rdf:nodeID="L4KJmm5D8jxe">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="XXimWImCtxeS"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="gnZLNYWi3Rvd">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="dRGHTrcFUq10"/>
+  <rdf:Description rdf:nodeID="L4KJmm5D8jxe">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="XOiuGsQRKyCw"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="gnZLNYWi3Rvd">
+  <rdf:Description rdf:nodeID="L4KJmm5D8jxe">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="dRGHTrcFUq10">
+  <rdf:Description rdf:nodeID="XOiuGsQRKyCw">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="dRGHTrcFUq10">
+  <rdf:Description rdf:nodeID="XOiuGsQRKyCw">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="dRGHTrcFUq10">
+  <rdf:Description rdf:nodeID="XOiuGsQRKyCw">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="UGv6plKBkXUV">
+  <rdf:Description rdf:nodeID="XXimWImCtxeS">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="UGv6plKBkXUV">
+  <rdf:Description rdf:nodeID="XXimWImCtxeS">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="UGv6plKBkXUV">
+  <rdf:Description rdf:nodeID="XXimWImCtxeS">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="UGv6plKBkXUV">
+  <rdf:Description rdf:nodeID="XXimWImCtxeS">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="VoDx58U1HsPs">
+  <rdf:Description rdf:nodeID="fc6pMjwXo8Je">
     <ns0:hasValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">01.01.2016</ns0:hasValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="VoDx58U1HsPs">
+  <rdf:Description rdf:nodeID="fc6pMjwXo8Je">
     <ns0:hasKey xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date</ns0:hasKey>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="VoDx58U1HsPs">
+  <rdf:Description rdf:nodeID="fc6pMjwXo8Je">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MetaContent"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ueiGNdaFgzAG">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ueiGNdaFgzAG</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-xCbL8QQkoV4b">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xCbL8QQkoV4b</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ueiGNdaFgzAG">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-xCbL8QQkoV4b">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Behavior"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic">
-    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="djSR5ZPy3bk1"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW">
+    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="knkfo4QRiY4b"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic">
-    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ueiGNdaFgzAG"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW">
+    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-xCbL8QQkoV4b"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prototypenbau</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">wE9zqQ4eLuic</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kF061gTBdLzW</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="lVh25R30DpW6"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="UTJGsQHUJOMo"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Subject"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lVh25R30DpW6">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="HgDM9omEZ39w"/>
+  <rdf:Description rdf:nodeID="UTJGsQHUJOMo">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="csKPzwUiQ13H"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lVh25R30DpW6">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="cIDb8vRthfCr"/>
+  <rdf:Description rdf:nodeID="UTJGsQHUJOMo">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="A6jIiZGwPsgw"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lVh25R30DpW6">
+  <rdf:Description rdf:nodeID="UTJGsQHUJOMo">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="cIDb8vRthfCr">
+  <rdf:Description rdf:nodeID="A6jIiZGwPsgw">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="cIDb8vRthfCr">
+  <rdf:Description rdf:nodeID="A6jIiZGwPsgw">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="cIDb8vRthfCr">
+  <rdf:Description rdf:nodeID="A6jIiZGwPsgw">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HgDM9omEZ39w">
+  <rdf:Description rdf:nodeID="csKPzwUiQ13H">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HgDM9omEZ39w">
+  <rdf:Description rdf:nodeID="csKPzwUiQ13H">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HgDM9omEZ39w">
+  <rdf:Description rdf:nodeID="csKPzwUiQ13H">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HgDM9omEZ39w">
+  <rdf:Description rdf:nodeID="csKPzwUiQ13H">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="djSR5ZPy3bk1">
+  <rdf:Description rdf:nodeID="knkfo4QRiY4b">
     <ns0:hasValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">01.01.2016</ns0:hasValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="djSR5ZPy3bk1">
+  <rdf:Description rdf:nodeID="knkfo4QRiY4b">
     <ns0:hasKey xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date</ns0:hasKey>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="djSR5ZPy3bk1">
+  <rdf:Description rdf:nodeID="knkfo4QRiY4b">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MetaContent"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-G0vegVdCZGFZ">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">G0vegVdCZGFZ</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ZXlNGksMaPWv">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ZXlNGksMaPWv</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-G0vegVdCZGFZ">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ZXlNGksMaPWv">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Behavior"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO">
-    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="jJbAM9NP9uu4"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk">
+    <ns0:hasMetaContent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="NFMi6hOIjYyk"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO">
-    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-G0vegVdCZGFZ"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk">
+    <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Behavior-ZXlNGksMaPWv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Serienfertigung</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HA2DQFC46PAO</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jP6irHpUpZKk</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="hGMuVsjWc67Y"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="bnsFzC0G6Hol"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-HA2DQFC46PAO">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-jP6irHpUpZKk">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Subject"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hGMuVsjWc67Y">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="On7Q9rmT97eV"/>
+  <rdf:Description rdf:nodeID="bnsFzC0G6Hol">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="anXRNFRiOibz"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hGMuVsjWc67Y">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="WTY6suEFokPB"/>
+  <rdf:Description rdf:nodeID="bnsFzC0G6Hol">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="M3LP2Ki15TTo"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hGMuVsjWc67Y">
+  <rdf:Description rdf:nodeID="bnsFzC0G6Hol">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="WTY6suEFokPB">
+  <rdf:Description rdf:nodeID="M3LP2Ki15TTo">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="WTY6suEFokPB">
+  <rdf:Description rdf:nodeID="M3LP2Ki15TTo">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="WTY6suEFokPB">
+  <rdf:Description rdf:nodeID="M3LP2Ki15TTo">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="On7Q9rmT97eV">
+  <rdf:Description rdf:nodeID="anXRNFRiOibz">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="On7Q9rmT97eV">
+  <rdf:Description rdf:nodeID="anXRNFRiOibz">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="On7Q9rmT97eV">
+  <rdf:Description rdf:nodeID="anXRNFRiOibz">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="On7Q9rmT97eV">
+  <rdf:Description rdf:nodeID="anXRNFRiOibz">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="jJbAM9NP9uu4">
+  <rdf:Description rdf:nodeID="NFMi6hOIjYyk">
     <ns0:hasValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">01.01.2016</ns0:hasValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="jJbAM9NP9uu4">
+  <rdf:Description rdf:nodeID="NFMi6hOIjYyk">
     <ns0:hasKey xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Date</ns0:hasKey>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="jJbAM9NP9uu4">
+  <rdf:Description rdf:nodeID="NFMi6hOIjYyk">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MetaContent"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-y17FS8QlvUXr">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">y17FS8QlvUXr</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-dKmcqH4mA1sX">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dKmcqH4mA1sX</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-y17FS8QlvUXr">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-dKmcqH4mA1sX">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-y17FS8QlvUXr"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-dKmcqH4mA1sX"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Änderungsantrag</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xEnAKzD6x5nO</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NpPI6ydmm9Gb</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="HjkjNV6dI8eH"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="meyD9zrRYy6u"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HjkjNV6dI8eH">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="bgXofRD1Qdtv"/>
+  <rdf:Description rdf:nodeID="meyD9zrRYy6u">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="E03iX1aeA90v"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HjkjNV6dI8eH">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="eWY810qZg1xU"/>
+  <rdf:Description rdf:nodeID="meyD9zrRYy6u">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="X0urMY3E0Dqh"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HjkjNV6dI8eH">
+  <rdf:Description rdf:nodeID="meyD9zrRYy6u">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="eWY810qZg1xU">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  <rdf:Description rdf:nodeID="X0urMY3E0Dqh">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="eWY810qZg1xU">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  <rdf:Description rdf:nodeID="X0urMY3E0Dqh">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="eWY810qZg1xU">
+  <rdf:Description rdf:nodeID="X0urMY3E0Dqh">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bgXofRD1Qdtv">
+  <rdf:Description rdf:nodeID="E03iX1aeA90v">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bgXofRD1Qdtv">
+  <rdf:Description rdf:nodeID="E03iX1aeA90v">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bgXofRD1Qdtv">
+  <rdf:Description rdf:nodeID="E03iX1aeA90v">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bgXofRD1Qdtv">
+  <rdf:Description rdf:nodeID="E03iX1aeA90v">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-etjmj5wUII4g">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">etjmj5wUII4g</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-uHgTOQ7VOkM3">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">uHgTOQ7VOkM3</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-etjmj5wUII4g">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-uHgTOQ7VOkM3">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-etjmj5wUII4g"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-uHgTOQ7VOkM3"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Antrag überarbeiten</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">YLDqjkJOoDj1</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dCfNOxo4Zefz</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="A7OxDtKCfhli"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="vG5LDRN2RHaW"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-m62t14MufOlE"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-vd2T8zj4RwiB"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="A7OxDtKCfhli">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="hnhWoPdg9d9M"/>
+  <rdf:Description rdf:nodeID="vG5LDRN2RHaW">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="kKLgNuhlkWyZ"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="A7OxDtKCfhli">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="NRPkalCb5rnT"/>
+  <rdf:Description rdf:nodeID="vG5LDRN2RHaW">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="ZgbRdSPMDRY9"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="A7OxDtKCfhli">
+  <rdf:Description rdf:nodeID="vG5LDRN2RHaW">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="NRPkalCb5rnT">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  <rdf:Description rdf:nodeID="ZgbRdSPMDRY9">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="NRPkalCb5rnT">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  <rdf:Description rdf:nodeID="ZgbRdSPMDRY9">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="NRPkalCb5rnT">
+  <rdf:Description rdf:nodeID="ZgbRdSPMDRY9">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hnhWoPdg9d9M">
+  <rdf:Description rdf:nodeID="kKLgNuhlkWyZ">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hnhWoPdg9d9M">
+  <rdf:Description rdf:nodeID="kKLgNuhlkWyZ">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hnhWoPdg9d9M">
+  <rdf:Description rdf:nodeID="kKLgNuhlkWyZ">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="hnhWoPdg9d9M">
+  <rdf:Description rdf:nodeID="kKLgNuhlkWyZ">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-YorU9HLnkk9E">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">YorU9HLnkk9E</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-TJG5t4HFa5C3">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TJG5t4HFa5C3</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-YorU9HLnkk9E">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-TJG5t4HFa5C3">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-YorU9HLnkk9E"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-TJG5t4HFa5C3"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Änderungsantrag in Ordnung</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DS2m7zfhbRax</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jo8n4uXR128f</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="pLTQrqPLE0KV"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="RBdcLBPqZbzL"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-DS2m7zfhbRax">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-jo8n4uXR128f">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="pLTQrqPLE0KV">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="gWyKlhypReiE"/>
+  <rdf:Description rdf:nodeID="RBdcLBPqZbzL">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="dh06FtpdEw34"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="pLTQrqPLE0KV">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="xBfYTX5fIQpO"/>
+  <rdf:Description rdf:nodeID="RBdcLBPqZbzL">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="zyhqR1Jrw9rh"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="pLTQrqPLE0KV">
+  <rdf:Description rdf:nodeID="RBdcLBPqZbzL">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xBfYTX5fIQpO">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="xBfYTX5fIQpO">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="xBfYTX5fIQpO">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="gWyKlhypReiE">
-    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="gWyKlhypReiE">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="gWyKlhypReiE">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="gWyKlhypReiE">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-W4mRT1xtWnie">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">W4mRT1xtWnie</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-W4mRT1xtWnie">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-W4mRT1xtWnie"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freigabe Prototypenbau</ns0:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mta1gh0ObyHI</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="ovKPYIzP1N3Q"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-mta1gh0ObyHI">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ovKPYIzP1N3Q">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="W3plRTes1H7U"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ovKPYIzP1N3Q">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="o09sXToohTVl"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ovKPYIzP1N3Q">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="o09sXToohTVl">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="o09sXToohTVl">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="o09sXToohTVl">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="W3plRTes1H7U">
-    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="W3plRTes1H7U">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="W3plRTes1H7U">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="W3plRTes1H7U">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-amlRqUWdRGcI">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">amlRqUWdRGcI</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-amlRqUWdRGcI">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-amlRqUWdRGcI"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freigabe der Serienfertigung</ns0:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OreuKiRlCfiR</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="Kam5ZBycyiu7"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-OreuKiRlCfiR">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="Kam5ZBycyiu7">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="ShUIOMzn534o"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="Kam5ZBycyiu7">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="wENp7UP0mfdZ"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="Kam5ZBycyiu7">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="wENp7UP0mfdZ">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="wENp7UP0mfdZ">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="wENp7UP0mfdZ">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ShUIOMzn534o">
-    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ShUIOMzn534o">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ShUIOMzn534o">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ShUIOMzn534o">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-LR04rgE6LIp2">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LR04rgE6LIp2</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-LR04rgE6LIp2">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-LR04rgE6LIp2"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prototyp funktional</ns0:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">H7Kom5WHIlVo</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="tVFTi1rmVKwG"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-JZBKA5QqhIuw"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-H7Kom5WHIlVo">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="tVFTi1rmVKwG">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="WK43ijZLr7mG"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="tVFTi1rmVKwG">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="s6E21bOLzPvu"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="tVFTi1rmVKwG">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="s6E21bOLzPvu">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="s6E21bOLzPvu">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="s6E21bOLzPvu">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="WK43ijZLr7mG">
-    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="WK43ijZLr7mG">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="WK43ijZLr7mG">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="WK43ijZLr7mG">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-VA9LIufspaYw">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">VA9LIufspaYw</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-VA9LIufspaYw">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-wE9zqQ4eLuic"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-VA9LIufspaYw"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prototyp nicht funktional</ns0:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PFTQRGccGOvZ</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="G1N02qr1yCv6"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-oBaKoboppqrw"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-PFTQRGccGOvZ">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="G1N02qr1yCv6">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="XoJgv7XZ4beM"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="G1N02qr1yCv6">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="frR7wnN0fUVe"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="G1N02qr1yCv6">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="frR7wnN0fUVe">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="frR7wnN0fUVe">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="frR7wnN0fUVe">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="XoJgv7XZ4beM">
-    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="XoJgv7XZ4beM">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="XoJgv7XZ4beM">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="XoJgv7XZ4beM">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Warten auf Antrag</ns0:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RBioU3I7fqrh</ns0:hasModelComponentID>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="ETrn31OAZxZA"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh">
-    <rdf:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.purl.org/s-scm-ont#InitialState</rdf:type>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#ReceiveState"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ETrn31OAZxZA">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="riO6YLiSPdwg"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ETrn31OAZxZA">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="iA0VBmO15DLH"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="ETrn31OAZxZA">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
-  </rdf:Description>
-  <rdf:Description rdf:nodeID="iA0VBmO15DLH">
+  <rdf:Description rdf:nodeID="zyhqR1Jrw9rh">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="iA0VBmO15DLH">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasYValue>
+  <rdf:Description rdf:nodeID="zyhqR1Jrw9rh">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="iA0VBmO15DLH">
+  <rdf:Description rdf:nodeID="zyhqR1Jrw9rh">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="riO6YLiSPdwg">
+  <rdf:Description rdf:nodeID="dh06FtpdEw34">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="riO6YLiSPdwg">
+  <rdf:Description rdf:nodeID="dh06FtpdEw34">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="riO6YLiSPdwg">
+  <rdf:Description rdf:nodeID="dh06FtpdEw34">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="riO6YLiSPdwg">
+  <rdf:Description rdf:nodeID="dh06FtpdEw34">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prüfe Antrag</ns0:label>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-xPsKTQRDpQae">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xPsKTQRDpQae</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">n2ZmmHAQGepA</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-xPsKTQRDpQae">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="T5d7II6ijK6j"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#FunctionState"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-xPsKTQRDpQae"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="T5d7II6ijK6j">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="GO5tpv30g0TL"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freigabe Prototypenbau</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="T5d7II6ijK6j">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="Egp9DRT1R4OC"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">v2ONMlgQifnV</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="T5d7II6ijK6j">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="JSUvCDzDej0O"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-v2ONMlgQifnV">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="JSUvCDzDej0O">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="pFjeObF3kNIn"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="JSUvCDzDej0O">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="cJ8wqfSWwPA1"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="JSUvCDzDej0O">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Egp9DRT1R4OC">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  <rdf:Description rdf:nodeID="cJ8wqfSWwPA1">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Egp9DRT1R4OC">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  <rdf:Description rdf:nodeID="cJ8wqfSWwPA1">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Egp9DRT1R4OC">
+  <rdf:Description rdf:nodeID="cJ8wqfSWwPA1">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="GO5tpv30g0TL">
+  <rdf:Description rdf:nodeID="pFjeObF3kNIn">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="GO5tpv30g0TL">
+  <rdf:Description rdf:nodeID="pFjeObF3kNIn">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="GO5tpv30g0TL">
+  <rdf:Description rdf:nodeID="pFjeObF3kNIn">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="GO5tpv30g0TL">
+  <rdf:Description rdf:nodeID="pFjeObF3kNIn">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bitte um Freigabe</ns0:label>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-n3YFynI0geaO">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">n3YFynI0geaO</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">XVEqTQ4PbibP</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-n3YFynI0geaO">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="YWDutB6f45cT"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP">
-    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#SendState"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-n3YFynI0geaO"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="YWDutB6f45cT">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="xykuIbxsH0fC"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freigabe der Serienfertigung</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="YWDutB6f45cT">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="xEUBieXJpCPf"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gnLlffAHv3qq</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="YWDutB6f45cT">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="TBNZskIWoy6s"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-gnLlffAHv3qq">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="TBNZskIWoy6s">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="reiedBx1EHaG"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="TBNZskIWoy6s">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="N3BPVsgIIokb"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="TBNZskIWoy6s">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xEUBieXJpCPf">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  <rdf:Description rdf:nodeID="N3BPVsgIIokb">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xEUBieXJpCPf">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  <rdf:Description rdf:nodeID="N3BPVsgIIokb">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xEUBieXJpCPf">
+  <rdf:Description rdf:nodeID="N3BPVsgIIokb">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xykuIbxsH0fC">
+  <rdf:Description rdf:nodeID="reiedBx1EHaG">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xykuIbxsH0fC">
+  <rdf:Description rdf:nodeID="reiedBx1EHaG">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xykuIbxsH0fC">
+  <rdf:Description rdf:nodeID="reiedBx1EHaG">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="xykuIbxsH0fC">
+  <rdf:Description rdf:nodeID="reiedBx1EHaG">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ende</ns0:label>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-SraFrWDJyH12">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SraFrWDJyH12</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">vdhvWUZG3qZD</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-SraFrWDJyH12">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="XbXsIiV6D8d6"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD">
-    <rdf:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.purl.org/s-scm-ont#FinalState</rdf:type>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-SraFrWDJyH12"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prototyp funktional</ns0:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">myEgCZxz0Y0H</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="JxHyOR6unbTO"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-TfyZto36GzXc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-myEgCZxz0Y0H">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="JxHyOR6unbTO">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="igYg9aRF9Wpc"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="JxHyOR6unbTO">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="wS20yWQEyLfM"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="JxHyOR6unbTO">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="wS20yWQEyLfM">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="wS20yWQEyLfM">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="wS20yWQEyLfM">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="igYg9aRF9Wpc">
+    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="igYg9aRF9Wpc">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="igYg9aRF9Wpc">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="igYg9aRF9Wpc">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-sdG2sWpyy5Wj">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sdG2sWpyy5Wj</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-sdG2sWpyy5Wj">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageType"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <ns0:sender xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-kF061gTBdLzW"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <ns0:hasType xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageType-sdG2sWpyy5Wj"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prototyp nicht funktional</ns0:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kD6cBbtOfULA</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="iQqIBontGEFD"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <ns0:receiver xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#Subject-hji1Tm098Ov8"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-kD6cBbtOfULA">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#MessageExchange"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="iQqIBontGEFD">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="d1conZBDCfvl"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="iQqIBontGEFD">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="bz8LrleKGB9n"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="iQqIBontGEFD">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="bz8LrleKGB9n">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="bz8LrleKGB9n">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="bz8LrleKGB9n">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="d1conZBDCfvl">
+    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="d1conZBDCfvl">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="d1conZBDCfvl">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="d1conZBDCfvl">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Warten auf Antrag</ns0:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mgqCBdkuC04J</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="ZrMVfJU7Knky"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J">
+    <rdf:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.purl.org/s-scm-ont#InitialState</rdf:type>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#ReceiveState"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="XbXsIiV6D8d6">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="mkBKjSuW5XP9"/>
+  <rdf:Description rdf:nodeID="ZrMVfJU7Knky">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="WObCKfrEwoRn"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="XbXsIiV6D8d6">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="JZQ6MEozZaUD"/>
+  <rdf:Description rdf:nodeID="ZrMVfJU7Knky">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="JbyZmTRM1hJW"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="XbXsIiV6D8d6">
+  <rdf:Description rdf:nodeID="ZrMVfJU7Knky">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="JZQ6MEozZaUD">
-    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  <rdf:Description rdf:nodeID="JbyZmTRM1hJW">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="JZQ6MEozZaUD">
-    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  <rdf:Description rdf:nodeID="JbyZmTRM1hJW">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="JZQ6MEozZaUD">
+  <rdf:Description rdf:nodeID="JbyZmTRM1hJW">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="mkBKjSuW5XP9">
+  <rdf:Description rdf:nodeID="WObCKfrEwoRn">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="mkBKjSuW5XP9">
+  <rdf:Description rdf:nodeID="WObCKfrEwoRn">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="mkBKjSuW5XP9">
+  <rdf:Description rdf:nodeID="WObCKfrEwoRn">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="mkBKjSuW5XP9">
+  <rdf:Description rdf:nodeID="WObCKfrEwoRn">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-sKGdmprKOCwo">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Informiere Konstrukteur</ns0:label>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Prüfe Antrag</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-sKGdmprKOCwo">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sKGdmprKOCwo</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DdvFEiwXJ2Xv</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-sKGdmprKOCwo">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="bjizGcXmpvQP"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="iI80zQgA4TnA"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-sKGdmprKOCwo">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#FunctionState"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="iI80zQgA4TnA">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="kYp6ef4nfPPq"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="iI80zQgA4TnA">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="x83wdOCTD1Bc"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="iI80zQgA4TnA">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="x83wdOCTD1Bc">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="x83wdOCTD1Bc">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="x83wdOCTD1Bc">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="kYp6ef4nfPPq">
+    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="kYp6ef4nfPPq">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="kYp6ef4nfPPq">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="kYp6ef4nfPPq">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bitte um Freigabe</ns0:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">N3wwA1vBLveg</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="XbyJ40UAa3mq"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#SendState"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bjizGcXmpvQP">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="b6LFyzdUnUWu"/>
+  <rdf:Description rdf:nodeID="XbyJ40UAa3mq">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="w1sQyAnP1bDa"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bjizGcXmpvQP">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="nbcq6cbEoJT2"/>
+  <rdf:Description rdf:nodeID="XbyJ40UAa3mq">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="KXphvbuxJhSh"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="bjizGcXmpvQP">
+  <rdf:Description rdf:nodeID="XbyJ40UAa3mq">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="nbcq6cbEoJT2">
+  <rdf:Description rdf:nodeID="KXphvbuxJhSh">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="nbcq6cbEoJT2">
+  <rdf:Description rdf:nodeID="KXphvbuxJhSh">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="nbcq6cbEoJT2">
+  <rdf:Description rdf:nodeID="KXphvbuxJhSh">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="b6LFyzdUnUWu">
+  <rdf:Description rdf:nodeID="w1sQyAnP1bDa">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="b6LFyzdUnUWu">
+  <rdf:Description rdf:nodeID="w1sQyAnP1bDa">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="b6LFyzdUnUWu">
+  <rdf:Description rdf:nodeID="w1sQyAnP1bDa">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="b6LFyzdUnUWu">
+  <rdf:Description rdf:nodeID="w1sQyAnP1bDa">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
-    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-RBioU3I7fqrh"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ende</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">y3EzaIuEwuaQ</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="o0EKDBPi7TOT"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ">
+    <rdf:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.purl.org/s-scm-ont#FinalState</rdf:type>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#ReceiveState"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="o0EKDBPi7TOT">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="rI6MdXb6IBJq"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="o0EKDBPi7TOT">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="t6ugNWspZ6i1"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="o0EKDBPi7TOT">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="t6ugNWspZ6i1">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="t6ugNWspZ6i1">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="t6ugNWspZ6i1">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="rI6MdXb6IBJq">
+    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="rI6MdXb6IBJq">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="rI6MdXb6IBJq">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="rI6MdXb6IBJq">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-KwKBMUd3uqdU">
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Informiere Konstrukteur</ns0:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-KwKBMUd3uqdU">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">KwKBMUd3uqdU</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-KwKBMUd3uqdU">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="w5k3D3PDMByK"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-KwKBMUd3uqdU">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#SendState"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="w5k3D3PDMByK">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="tJcWJFlomwbj"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="w5k3D3PDMByK">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="OovBBbTlvftv"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="w5k3D3PDMByK">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="OovBBbTlvftv">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="OovBBbTlvftv">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="OovBBbTlvftv">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="tJcWJFlomwbj">
+    <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="tJcWJFlomwbj">
+    <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="tJcWJFlomwbj">
+    <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="tJcWJFlomwbj">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
+    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-mgqCBdkuC04J"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Änderungsantrag</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">vJXvopuPDphp</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ZgmYh2cWUZaG</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="RuNea3nTx9CI"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="qKxH56CUR4ht"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
-    <ns0:refersTo xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
+    <ns0:refersTo xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
-    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
+    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-vJXvopuPDphp">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-ZgmYh2cWUZaG">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#ReceiveTransition"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="RuNea3nTx9CI">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="DsIrHK7NVsXD"/>
+  <rdf:Description rdf:nodeID="qKxH56CUR4ht">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="BVeDUBv4dnIC"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="RuNea3nTx9CI">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="DVdfomsnpQPc"/>
+  <rdf:Description rdf:nodeID="qKxH56CUR4ht">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="fUMswwg7gOqo"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="RuNea3nTx9CI">
+  <rdf:Description rdf:nodeID="qKxH56CUR4ht">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DVdfomsnpQPc">
+  <rdf:Description rdf:nodeID="fUMswwg7gOqo">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DVdfomsnpQPc">
+  <rdf:Description rdf:nodeID="fUMswwg7gOqo">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DVdfomsnpQPc">
+  <rdf:Description rdf:nodeID="fUMswwg7gOqo">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DsIrHK7NVsXD">
+  <rdf:Description rdf:nodeID="BVeDUBv4dnIC">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DsIrHK7NVsXD">
+  <rdf:Description rdf:nodeID="BVeDUBv4dnIC">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DsIrHK7NVsXD">
+  <rdf:Description rdf:nodeID="BVeDUBv4dnIC">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="DsIrHK7NVsXD">
+  <rdf:Description rdf:nodeID="BVeDUBv4dnIC">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ">
-    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ">
+    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Antrag OK</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">gZCKB8XiZcTQ</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">P4xCiX4hw8EZ</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="o8UprcJSJ2S1"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="zudBXU9Nkt8d"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ">
-    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ">
+    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-gZCKB8XiZcTQ">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-P4xCiX4hw8EZ">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#StandardTransition"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="o8UprcJSJ2S1">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="IxAbR9BED1ZC"/>
+  <rdf:Description rdf:nodeID="zudBXU9Nkt8d">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="iVnnjOEonLbD"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="o8UprcJSJ2S1">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="HhqXfxeDJBEJ"/>
+  <rdf:Description rdf:nodeID="zudBXU9Nkt8d">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="p1fmhUInixCE"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="o8UprcJSJ2S1">
+  <rdf:Description rdf:nodeID="zudBXU9Nkt8d">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HhqXfxeDJBEJ">
+  <rdf:Description rdf:nodeID="p1fmhUInixCE">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HhqXfxeDJBEJ">
+  <rdf:Description rdf:nodeID="p1fmhUInixCE">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="HhqXfxeDJBEJ">
+  <rdf:Description rdf:nodeID="p1fmhUInixCE">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IxAbR9BED1ZC">
+  <rdf:Description rdf:nodeID="iVnnjOEonLbD">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IxAbR9BED1ZC">
+  <rdf:Description rdf:nodeID="iVnnjOEonLbD">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IxAbR9BED1ZC">
+  <rdf:Description rdf:nodeID="iVnnjOEonLbD">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IxAbR9BED1ZC">
+  <rdf:Description rdf:nodeID="iVnnjOEonLbD">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm">
-    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW">
+    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Antrag nicht OK</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">iSPHG6Cunbkm</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LI9TB1CoSIUW</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="y9nJWIVhyjCy"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="msTIiwJYCuVp"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm">
-    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-sKGdmprKOCwo"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW">
+    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-KwKBMUd3uqdU"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-iSPHG6Cunbkm">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#StandardTransition-LI9TB1CoSIUW">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#StandardTransition"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="y9nJWIVhyjCy">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="sF3cBZTJClYc"/>
+  <rdf:Description rdf:nodeID="msTIiwJYCuVp">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="PavWsrSdjwh6"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="y9nJWIVhyjCy">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="lG3hJYVpAbNX"/>
+  <rdf:Description rdf:nodeID="msTIiwJYCuVp">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="xCoqWmUgdHTk"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="y9nJWIVhyjCy">
+  <rdf:Description rdf:nodeID="msTIiwJYCuVp">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lG3hJYVpAbNX">
+  <rdf:Description rdf:nodeID="xCoqWmUgdHTk">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lG3hJYVpAbNX">
+  <rdf:Description rdf:nodeID="xCoqWmUgdHTk">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lG3hJYVpAbNX">
+  <rdf:Description rdf:nodeID="xCoqWmUgdHTk">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="sF3cBZTJClYc">
+  <rdf:Description rdf:nodeID="PavWsrSdjwh6">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="sF3cBZTJClYc">
+  <rdf:Description rdf:nodeID="PavWsrSdjwh6">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="sF3cBZTJClYc">
+  <rdf:Description rdf:nodeID="PavWsrSdjwh6">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="sF3cBZTJClYc">
+  <rdf:Description rdf:nodeID="PavWsrSdjwh6">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
-    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-XVEqTQ4PbibP"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
+    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendState-N3wwA1vBLveg"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Änderungsantrag in Ordnung</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">skM8BuOvM8YI</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">XVPqI1AYHPL1</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="BRmPvfd1PCBY"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="IHwkIWuX2U3X"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
-    <ns0:refersTo xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-YLDqjkJOoDj1"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
+    <ns0:refersTo xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-dCfNOxo4Zefz"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
-    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
+    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-skM8BuOvM8YI">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#SendTransition-XVPqI1AYHPL1">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#SendTransition"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="BRmPvfd1PCBY">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="lcCwkxC8G26D"/>
+  <rdf:Description rdf:nodeID="IHwkIWuX2U3X">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="IvD9cOgGTPok"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="BRmPvfd1PCBY">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="PvxnxyADmlPy"/>
+  <rdf:Description rdf:nodeID="IHwkIWuX2U3X">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="vBfQPswrbJoo"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="BRmPvfd1PCBY">
+  <rdf:Description rdf:nodeID="IHwkIWuX2U3X">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="PvxnxyADmlPy">
+  <rdf:Description rdf:nodeID="vBfQPswrbJoo">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="PvxnxyADmlPy">
+  <rdf:Description rdf:nodeID="vBfQPswrbJoo">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="PvxnxyADmlPy">
+  <rdf:Description rdf:nodeID="vBfQPswrbJoo">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lcCwkxC8G26D">
+  <rdf:Description rdf:nodeID="IvD9cOgGTPok">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lcCwkxC8G26D">
+  <rdf:Description rdf:nodeID="IvD9cOgGTPok">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lcCwkxC8G26D">
+  <rdf:Description rdf:nodeID="IvD9cOgGTPok">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="lcCwkxC8G26D">
+  <rdf:Description rdf:nodeID="IvD9cOgGTPok">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
-    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-vdhvWUZG3qZD"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
+    <ns0:hasSourceState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveState-y3EzaIuEwuaQ"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
     <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Änderungsantrag</ns0:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
-    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yw372IYSKa27</ns0:hasModelComponentID>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tSMXD6NcD02m</ns0:hasModelComponentID>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
-    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="IEpn7jI4ieYp"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
+    <ns0:hasAbstractVisualRepresentation xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="JPF5kLRld0gh"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
-    <ns0:refersTo xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-xEnAKzD6x5nO"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
+    <ns0:refersTo xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#MessageExchange-NpPI6ydmm9Gb"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
-    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-n2ZmmHAQGepA"/>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
+    <ns0:hasTargetState xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#FunctionState-DdvFEiwXJ2Xv"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-yw372IYSKa27">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess.owl#ReceiveTransition-tSMXD6NcD02m">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#ReceiveTransition"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IEpn7jI4ieYp">
-    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="QTj4fgMFRkji"/>
+  <rdf:Description rdf:nodeID="JPF5kLRld0gh">
+    <ns0:hasPoint3D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="GvEBZHBELfhq"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IEpn7jI4ieYp">
-    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="Zuw9zjZVqXxn"/>
+  <rdf:Description rdf:nodeID="JPF5kLRld0gh">
+    <ns0:hasPoint2D xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:nodeID="HgSZYRqmc1Lo"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="IEpn7jI4ieYp">
+  <rdf:Description rdf:nodeID="JPF5kLRld0gh">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#AbstractVisualRepresentation"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Zuw9zjZVqXxn">
+  <rdf:Description rdf:nodeID="HgSZYRqmc1Lo">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Zuw9zjZVqXxn">
+  <rdf:Description rdf:nodeID="HgSZYRqmc1Lo">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="Zuw9zjZVqXxn">
+  <rdf:Description rdf:nodeID="HgSZYRqmc1Lo">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point2D"/>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="QTj4fgMFRkji">
+  <rdf:Description rdf:nodeID="GvEBZHBELfhq">
     <ns0:hasZValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasZValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="QTj4fgMFRkji">
+  <rdf:Description rdf:nodeID="GvEBZHBELfhq">
     <ns0:hasXValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasXValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="QTj4fgMFRkji">
+  <rdf:Description rdf:nodeID="GvEBZHBELfhq">
     <ns0:hasYValue xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</ns0:hasYValue>
   </rdf:Description>
-  <rdf:Description rdf:nodeID="QTj4fgMFRkji">
+  <rdf:Description rdf:nodeID="GvEBZHBELfhq">
     <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#Point3D"/>
   </rdf:Description>
 </rdf:RDF>

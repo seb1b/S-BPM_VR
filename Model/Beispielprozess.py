@@ -4,6 +4,8 @@ import PASS
 def buildHelper(manager, model):
 	# SID
 	baseLayer = model.hasModelComponent[0]
+	baseLayer.setMetaContent("Date", "01.01.2016")
+	
 	# SID -> Subjects
 	sKonstrukteur = baseLayer.addSubject()
 	sKonstrukteur.label.append("Konstrukteur")
@@ -28,18 +30,25 @@ def buildHelper(manager, model):
 	# SID -> MessageExchanges
 	meKonstrukteurPruefer = baseLayer.addMessageExchange(sKonstrukteur, sPruefer)
 	meKonstrukteurPruefer.label.append("Änderungsantrag")
+	meKonstrukteurPruefer.hasAbstractVisualRepresentation.setPoint2D(0.1,0.4)
 	mePrueferKonstrukteur = baseLayer.addMessageExchange(sPruefer, sKonstrukteur)
 	mePrueferKonstrukteur.label.append("Antrag überarbeiten")
+	mePrueferKonstrukteur.hasAbstractVisualRepresentation.setPoint2D(0.2,0.5)
 	mePrueferEntwicklungsleiter = baseLayer.addMessageExchange(sPruefer, sEntwicklungsleiter)
 	mePrueferEntwicklungsleiter.label.append("Änderungsantrag in Ordnung")
+	mePrueferEntwicklungsleiter.hasAbstractVisualRepresentation.setPoint2D(0.3,0.4)
 	meEntwicklungsleiterPrototypenbau = baseLayer.addMessageExchange(sEntwicklungsleiter, sPrototypenbau)
 	meEntwicklungsleiterPrototypenbau.label.append("Freigabe Prototypenbau")
+	meEntwicklungsleiterPrototypenbau.hasAbstractVisualRepresentation.setPoint2D(0.4,0.4)
 	meEntwicklungsleiterSerienfertigung = baseLayer.addMessageExchange(sEntwicklungsleiter, sPrototypenbau)
 	meEntwicklungsleiterSerienfertigung.label.append("Freigabe der Serienfertigung")
+	meEntwicklungsleiterSerienfertigung.hasAbstractVisualRepresentation.setPoint2D(0.5,0.4)
 	mePrototypenbauEntwicklungsleiter = baseLayer.addMessageExchange(sPrototypenbau, sEntwicklungsleiter)
 	mePrototypenbauEntwicklungsleiter.label.append("Prototyp funktional")
+	mePrototypenbauEntwicklungsleiter.hasAbstractVisualRepresentation.setPoint2D(0.1,0.2)
 	mePrototypenbauKonstrukteur = baseLayer.addMessageExchange(sPrototypenbau, sPruefer)
 	mePrototypenbauKonstrukteur.label.append("Prototyp nicht funktional")
+	mePrototypenbauKonstrukteur.hasAbstractVisualRepresentation.setPoint2D(0.4,0.2)
 	
 	# SBD (Pruefer)
 	behaviorPruefer = sPruefer.hasBehavior
