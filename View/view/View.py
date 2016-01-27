@@ -21,9 +21,9 @@ class View():
 		self.log.addHandler(ch)
 		self.log.info("Starting view")
 
-		self.ZOOM_STEP = 0.01
+		self.ZOOM_STEP = 0.05
 		self.MAX_USERS = 5
-		self.MAX_DIST = 10
+		self.MAX_DIST = 100
 		self.CURSOR_DIST = -2
 		self.MIN_DIST = 2
 		self.VALID_USER_COLORS = []
@@ -89,7 +89,7 @@ class View():
 		self.user_colors = {}
 
 		#setup camera parameter
-		self.camera_from = [0, 0, self.MAX_DIST]
+		self.camera_from = [0, 0, 10]
 		self.camera_at = [0, 0, -1.0]
 		self.camera_dir = [0, 0, -1]
 		self.camera_fov = 0.2
@@ -166,7 +166,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.layer_add_plane.setMaterial(material)
-		self.layer_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.layer_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
 
 		self.layer_add_plane.setUp(0, -1, 0)
 		self.layer_add_plane.setAt(0, 0, 1)
@@ -193,7 +193,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.behavior_add_plane.setMaterial(material)
-		self.behavior_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.behavior_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
 
 		self.behavior_add_plane.setUp(0, -1, 0)
 		self.behavior_add_plane.setAt(0, 0, 1)
@@ -219,7 +219,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.navigation_plane.setMaterial(material)
-		self.navigation_plane.setFrom((self.scale_x * 3 / 8), -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.navigation_plane.setFrom((self.scale_x * 3 / 8), -0.5 * self.scale_y + 0.2, -self.camera_from[2])
 
 		self.navigation_plane.setUp(0, -1, 0)
 		self.navigation_plane.setAt(0, 0, 1)
@@ -237,7 +237,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.edit_plane.setMaterial(material)
-		self.edit_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.MAX_DIST)
+		self.edit_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
 
 		self.edit_plane.setUp(0, -1, 0)
 		self.edit_plane.setAt(0, 0, 1)
@@ -263,7 +263,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.meta_plane.setMaterial(material)
-		self.meta_plane.setFrom(0.5 * self.scale_x - 0.2, 0.2, -self.MAX_DIST)
+		self.meta_plane.setFrom(0.5 * self.scale_x - 0.2, 0.2, -self.camera_from[2])
 		self.meta_plane.setUp(0, -1, 0)
 		self.meta_plane.setAt(0, 0, 1)
 		self.meta_plane.setDir(0, 0, 1)
