@@ -44,7 +44,7 @@ class Controller:
 
 		self.hw_main = VRHardware(self)
 
-	def _check_active_users(user_id):
+	def _check_active_users(self, user_id):
 		if user_id not in self.active_users and len(self.active_users) < self.MAX_ACTIVE_USERS:
 			self.log.info("Adding new active user with ID {}".format(user_id))
 			self.active_users.append(user_id)
@@ -119,7 +119,7 @@ class Controller:
 					self.log.debug("Going to hightlight object")
 					if not self.view.set_highlight(obj, True):
 						self.log.warning("view.set_highlight(True) failed")
-				if _check_active_users(user_id):
+				if self._check_active_users(user_id):
 					self.log.debug("Setting new pressed_object: {}".format(obj))
 					self.pressed_object = obj
 					self.drag_position = pos
@@ -290,7 +290,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if not _check_active_users(user_id):
+			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to zoom".format(user_id))
 				return None
 			if level < 0:
@@ -359,7 +359,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if not _check_active_users(user_id):
+			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to fade_in".format(user_id))
 				return None
 			obj = self.view.get_object(user_id, is_left)
@@ -400,7 +400,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if not _check_active_users(user_id):
+			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to move_model".format(user_id))
 				return None
 			self.view.move_scene(pos[:2])
