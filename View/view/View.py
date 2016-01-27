@@ -202,7 +202,7 @@ class View():
 		self.behavior_add_plane.addTag('behavior_add')
 
 		self.behavior_add_site = VR.CEF()
-		self.behavior_add_site.setMaterial(self.layer_add_plane.getMaterial())
+		self.behavior_add_site.setMaterial(self.behavior_add_plane.getMaterial())
 		self.behavior_add_site.open('http://localhost:5500/behaviorAdd')
 		self.behavior_add_site.setResolution(512)
 		self.behavior_add_site.setAspectRatio(4)
@@ -280,7 +280,7 @@ class View():
 		VR.cam.addChild(self.meta_plane)
 		VR.cam.addChild(self.navigation_plane)
 
-		VR.site = {self.edit_site, self.meta_site, self.layer_add_site, self.behavior_add_site}
+		VR.site = {self.edit_site, self.meta_site, self.behavior_add_site, self.layer_add_site}
 		VR.cam.addChild(self.active_gui_element)
 
 	def set_cur_scene(self, cur_scene):
@@ -291,8 +291,10 @@ class View():
 
 		if isinstance(cur_scene, PASS.Layer):
 			self.active_gui_element = self.layer_add_plane
-		else:  # is instance of Pass.Behavior
+		elif isinstance(cur_scene, PASS.Behavior):  # is instance of Pass.Behavior
 			self.active_gui_element = self.behavior_add_plane
+		else:
+			print 'set_cur_scene neither layer nor behavior'
 
 		#set offsets
 		print 'bb: ', self.cur_scene.getBoundingBox2D()

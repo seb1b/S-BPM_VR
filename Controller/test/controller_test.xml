@@ -46,6 +46,21 @@
 </core>
       <trig type="on_device" dev="mobile" state="Released" param="" key="-1" name_suffix="6" base_name="trigger" name_space="__global__"/>
     </Script>
+    <Script name_suffix="2" base_name="Script" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	poly_mes = VR.loadGeometry('../../View/Blender/Prozess/Message_Hashtag.dae')
+	poly_mes.setFrom(0, 0, 0)
+	poly_mes.setPickable(True)
+	poly_mes.setScale(0.1, 0.1, 0.1)
+	poly_mes.setVisible(True)
+	poly_mes.setUp(10, 1, 1)
+	poly_mes.rotate(0.5, 0.5, 0.5, 1)
+				
+	VR.view_root.addChild(poly_mes)
+</core>
+    </Script>
     <Script name_suffix="0" base_name="behaviorAdd" name_space="__script__" type="HTML" mobile="mobile">
       <core>
 &lt;html lang="de"&gt;
@@ -312,10 +327,11 @@
 				min-width: 100px;
 				height: 100%;
 				background-repeat: no-repeat;
-				background-size: 80% auto;
+				background-size: auto 80%;
 				background-position: center;
 				display: table-cell;
 				text-align: center;
+				
 				vertical-align: middle;
 				font-size: 16px; 
 				font-size: 4vw;
@@ -354,7 +370,8 @@
 	&lt;body&gt;		
 		&lt;div class="addDiv"&gt;
 			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/subject.png)"&gt;Subject&lt;/div&gt;
-			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/message.png)"&gt;Message&lt;/div&gt;
+			&lt;div id="exsubject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/exsubject.png)"&gt;External&lt;br /&gt;Subject&lt;/div&gt;
+			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/message.png); background-size: 80% auto;"&gt;Message&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
