@@ -13,9 +13,9 @@ class View():
 
 	def __init__(self):
 		self.log = logging.getLogger()
-		self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
+		self.log.setLevel(logging.WARNING)  # DEBUG INFO WARNING ...
 		ch = logging.StreamHandler(sys.stdout)
-		ch.setLevel(logging.DEBUG)
+		ch.setLevel(logging.WARNING)
 		formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
 		ch.setFormatter(formatter)
 		self.log.addHandler(ch)
@@ -153,7 +153,10 @@ class View():
 		self.behavior_add_plane = None
 		self.behavior_add_site = None
 
-		#setup menu bar layerAdd
+		#node for all edit planes
+		#self.edit_node = VR.Transform('edit_node')
+		
+		#setup menu bar layerAdd -> add in process layer
 		self.layer_add_plane = VR.Geometry('layerAdd')
 		s = 'Plane '
 		s += str(self.scale_x - (self.scale_x / 4))
@@ -177,6 +180,7 @@ class View():
 		self.layer_add_site.setResolution(512)
 		self.layer_add_site.setAspectRatio(4)
 
+		#self.edit_node.addChild(self.layer_add_plane)
 		self.active_gui_element = self.layer_add_plane
 
 		#setup menu bar behaviorAdd
@@ -357,6 +361,17 @@ class View():
 				self.object_dict[subject] = subject_node
 				self.object_dict[subject_node] = subject
 				VR.view_root.addChild(subject_node)
+				
+				ae = VR.AnnotationEngine('ae_')
+				ae.setColor([0,1,0,1])
+				ae.setPickable(False)
+				ae.setBackground([1,0,0,0.5])
+				ae.setSize(0.02)
+				text = ''
+				for t in subject.label:
+					text = str(text) + str(t)
+				ae.set(1, [0, 0, 2], 'test -' + text)
+				subject_node.addChild(ae)
 
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
@@ -368,8 +383,8 @@ class View():
 				message_node.addTag('message')
 				message_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
-				message_node.setPlaneConstraints([0, 0, 1])
-				message_node.setRotationConstraints([1, 1, 1])
+#				message_node.setPlaneConstraints([0, 0, 1])
+#				message_node.setRotationConstraints([1, 1, 1])
 				poly_mesages = []
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message']))
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_meta']))
@@ -379,6 +394,8 @@ class View():
 					poly_mes.setPickable(True)
 					poly_mes.setScale(0.1, 0.1, 0.1)
 					poly_mes.setVisible(False)
+					poly_mes.setUp(0, 0, 1)
+					poly_mes.rotate(90, 0, 0, 0)
 					message_node.addChild(poly_mes)
 				if len(message.hasMetaContent) == 0:
 					message_node.getChildren()[0].setVisible(True)
@@ -572,24 +589,26 @@ class View():
 			cursor_left.setMaterial(VR.Material('sample material'))
 			cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
 			cursor_left.addTag(str([user_id, True]))
+			#cursor_left.setColors(self.VALID_USER_COLORS[len(VR.view_user_cursor)])
 			VR.cam.addChild(cursor_left)
 			cursor_right = VR.Geometry('dev_r')
 			cursor_right.setPrimitive('Sphere 0.008 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
 			cursor_right.addTag(str([user_id, False]))
+			#cursor_right.setColors(self.VALID_USER_COLORS[len(VR.view_user_cursor)])
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_left)
 			mydev_l.addIntersection(VR.view_root)
-			#mydev_l.addIntersection(self.meta_plane)
-			#mydev_l.addIntersection(self.edit_plane)  #TODO replace by layer_add_plane
+			mydev_l.addIntersection(self.meta_plane)
+			mydev_l.addIntersection(self.edit_plane)
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
 			mydev_r.addIntersection(VR.view_root)
-			#mydev_r.addIntersection(self.meta_plane)
-			#mydev_r.addIntersection(self.edit_plane)   #TODO replace by layer_add_plane
+			mydev_r.addIntersection(self.meta_plane)
+			mydev_r.addIntersection(self.edit_plane)
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
@@ -1072,17 +1091,7 @@ class View():
 					#TODO receiver changed
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
-		#TODO move to right place
-		#print 'on_change: Name tagging '
-		#ae = VR.AnnotationEngine('ae_')
-		#VR.view_root.addChild(ae)
-		#ae.setColor([0,1,0,1])
-		#ae.setBackground([1,0,0,0.5])
-		#ae.setSize(0.02)
-		#text = ''
-		#for t in object.label:
-			#text = str(text) + str(t)
-		#ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
+		
 
 	def connect(self, message):
 		self.log.info('connect')
