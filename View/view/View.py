@@ -1,6 +1,8 @@
 import VR
 import math
 import PASS
+import sys
+import logging
 
 
 class View():
@@ -10,6 +12,15 @@ class View():
 			self.name = name
 
 	def __init__(self):
+		self.log = logging.getLogger()
+		self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
+		ch = logging.StreamHandler(sys.stdout)
+		ch.setLevel(logging.DEBUG)
+		formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+		ch.setFormatter(formatter)
+		self.log.addHandler(ch)
+		self.log.info("Starting view")
+
 		self.ZOOM_STEP = 0.01
 		self.MAX_USERS = 5
 		self.MAX_DIST = 10
@@ -128,7 +139,7 @@ class View():
 		self.setup_menu_bar()
 
 	def setup_menu_bar(self):
-		print 'setup_menu_bar'
+		self.log.info('setup_menu_bar')
 		self.edit_plane = None
 		self.edit_site = None
 		self.meta_plane = None
@@ -262,7 +273,8 @@ class View():
 		VR.cam.addChild(self.active_gui_element)
 
 	def set_cur_scene(self, cur_scene):
-		assert  isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior)
+		self.log.info('set_cur_scene')
+		assert isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior), cur_scene
 		self.cur_scene = cur_scene
 		#self.cam.remChild(self.active_gui_element) #TODO
 
@@ -286,10 +298,12 @@ class View():
 		self.update_all()
 
 	def get_cur_scene(self):
+		self.log.info('get_cur_scene')
 		return self.cur_scene
 
 	# update entire scene based on given scene self.cur_scene
 	def update_all(self):
+		self.log.info('update_all')
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
 		for child in scene_children:
@@ -300,7 +314,6 @@ class View():
 		self.ptool.setHandleGeometry(self.HANDLE)
 
 		#todo sizes
-		#todo replace with blender models
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
 			message_exchanges = self.cur_scene.messageExchanges
@@ -315,18 +328,19 @@ class View():
 				subject_node = VR.Transform('Subject_Container')
 				subject_node.addTag('obj')
 				subject_node.addTag('subject')
+				subject_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				subject_node.setPlaneConstraints([0, 0, 1])
+				subject_node.setRotationConstraints([1, 1, 1])
 				poly_subjects = []
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject']))
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject_meta']))
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject_highlight']))
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['subject_meta_highlight']))
 				for poly_sub in poly_subjects:
-					poly_sub.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+					poly_sub.setFrom(0, 0, 0)
 					poly_sub.setPickable(True)
 					poly_sub.setScale(0.1, 0.1, 0.1)
-					poly_sub.setPlaneConstraints([0, 0, 1])
-					poly_sub.setRotationConstraints([1, 1, 1])
 					poly_sub.setVisible(False)
 					subject_node.addChild(poly_sub)
 				if len(subject.hasMetaContent) == 0:
@@ -514,6 +528,7 @@ class View():
 			print 'Failed to load current scene: has to be level or behavior'
 
 	def zoom(self, level):
+		self.log.info('zoom')
 		print(("Zoom level: {}".format(self.current_zoom_level())))
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
@@ -521,11 +536,13 @@ class View():
 		#TODO add image
 
 	def current_zoom_level(self):
+		self.log.info('current_zoom_level')
 		level = int(float(self.MAX_DIST - VR.cam.getFrom()[2]) / self.ZOOM_STEP)
 		assert(level >= 0)
 		return level
 
 	def move_cursor(self, pos_ws, user_id, is_left):
+		self.log.info('move_cursor')
 		colors = [1]
 
 		assert isinstance(is_left, bool)
@@ -600,6 +617,7 @@ class View():
 		#print 'done'
 
 	def move_scene(self, translation):
+		self.log.info('move_scene')
 		cam_pos = VR.cam.getFrom()
 		assert len(cam_pos) == 3
 		assert len(translation) == 2
@@ -607,6 +625,8 @@ class View():
 		VR.cam.setFrom(new_cam_pos)
 
 	def set_highlight(self, obj, highlight):
+		self.log.info('set_highlight')
+
 		assert isinstance(highlight, bool)
 		pass_obj = self.object_dict[obj]
 		assert isinstance(pass_obj, VR.Object)
@@ -651,6 +671,7 @@ class View():
 		return False
 
 	def create_url_params_from_metacontent(self, obj):
+		self.log.info('create_url_params_from_metacontent')
 		o = self.object_dict[obj]
 		assert isinstance(o, VR.Object)
 
@@ -666,6 +687,7 @@ class View():
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
+		self.log.info('highlight_pos')
 		assert len(pos) == 2
 
 		highlighted_point = VR.Geometry('sphere')
@@ -682,14 +704,16 @@ class View():
 		return highlighted_point
 
 	def remove_highlight_pos(self, highlight_pos):  # remove the given highlighted object from scene
+		self.log.info('remove_highlight_pos')
 		VR.view_root.remChild(highlight_pos)
 
 	def get_object(self, user_id, is_left):
+		self.log.info('get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
 		if mydev.intersect():
 			i = mydev.getIntersected()
-			tags = i.getTags()
-			print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
+			#tags = i.getTags()
+			#print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
 			if i.hasTag('edit'):
 				print 'view: edit'
 				mydev.trigger(0, 0)
@@ -712,14 +736,14 @@ class View():
 				return self.menubar_entries['behavior_add']
 			#elif 'obj' in tags:
 			else:
-				print 'view: object'
+				#print 'view: object'
 				#TODO check if intersection with handle or object
 				p = i.getParent().getParent().getParent()
 				if p.hasTag('obj'):
-					print 'Object found', p
+					#print 'Object found', p
 					return self.object_dict[p]
 				elif i.hasTag('obj'):
-					print 'Object found', i
+					#print 'Object found', i
 					return self.object_dict[i]
 				else:
 					print 'No valid intersected object in get_object'
@@ -728,9 +752,11 @@ class View():
 		return None
 
 	def rotate(self, degrees):
+		self.log.info('rotate')
 		pass
 
 	def on_change(self, object):
+		self.log.info('on_change')
 		if isinstance(self.cur_scene, PASS.Layer):
 			if isinstance(object, PASS.Subject):
 				print "View on_change: Subject"
@@ -744,6 +770,7 @@ class View():
 					poly_obj.setScale(0.1, 0.1, 0.1)
 					poly_obj.addTag('subject')
 					poly_obj.addTag('obj')
+					self.log.debug("creating subject at {}, {}, {}".format(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
 									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
 					poly_obj.setPickable(True)
@@ -758,8 +785,9 @@ class View():
 					#position changed
 					#TODO set Handle if this subject is connected
 					#if poly_obj.getParent() is Handle: change handle position
-					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
-									 ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					self.log.debug("moving subject to {}, {}, {}".format(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0))
+					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					#name changed
 					#TODO reset name
 					#TODO meta content
@@ -992,6 +1020,7 @@ class View():
 		#ae.set(1, [pos_x, pos_y, 0.0], 'test -' + text)
 
 	def connect(self, message):
+		self.log.info('connect')
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
@@ -1125,6 +1154,7 @@ class View():
 		self.ptool.update()
 
 	def move_object(self, obj, pos_ws):
+		self.log.info('move_object')
 		assert len(pos_ws) == 2
 		o = self.object_dict[obj]
 		assert isinstance(o, VR.Object)
