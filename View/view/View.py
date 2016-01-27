@@ -13,15 +13,16 @@ class View():
 
 	def __init__(self):
 		self.log = logging.getLogger()
-		self.log.setLevel(logging.WARNING)  # DEBUG INFO WARNING ...
-		ch = logging.StreamHandler(sys.stdout)
-		ch.setLevel(logging.WARNING)
-		formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
-		ch.setFormatter(formatter)
-		self.log.addHandler(ch)
+		#self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
+		#ch = logging.StreamHandler(sys.stdout)
+		#ch.setLevel(logging.DEBUG)
+		#formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+		#ch.setFormatter(formatter)
+		#self.log.addHandler(ch)
 		self.log.info("Starting view")
 
 		self.ZOOM_STEP = 0.05
+		self.MOVE_STEP = 0.01
 		self.MAX_USERS = 5
 		self.MAX_DIST = 100
 		self.CURSOR_DIST = -2
@@ -651,7 +652,7 @@ class View():
 		cam_pos = VR.cam.getFrom()
 		assert len(cam_pos) == 3
 		assert len(translation) == 2
-		new_cam_pos = [cam_pos[0] + translation[0], cam_pos[1] + translation[1], cam_pos[2]]
+		new_cam_pos = [cam_pos[0] + translation[0] * self.MOVE_STEP, cam_pos[1] + translation[1] * self.MOVE_STEP, cam_pos[2]]
 		VR.cam.setFrom(new_cam_pos)
 
 	def set_highlight(self, obj, highlight):
