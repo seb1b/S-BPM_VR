@@ -258,16 +258,18 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if self.pressed_object is not None and self.pressed_is_left == is_left:
+			if self.pressed_object is not None and self.pressed_user_id == user_id \
+				and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
-				assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
-				self.log.info("Moving object to {}".format(pos))
-				bb = self.view.get_cur_scene().getBoundingBox2D()
-				assert bb is not None and len(bb) == 2 and len(bb[0]) == 2 and len(bb[1]) == 2, \
-					"Invalid bounding box: {}".format(bb)
-				pos_norm_2d = [bb[0][0] + pos[0] * (bb[1][0] - bb[0][0]), bb[0][1] + pos[1] * (bb[1][1] - bb[0][1])]
-				self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
-				#self.view.move_object(self.pressed_object, pos[:2])
+				if not isinstance(self.pressed_object, View.MenuBarItem):
+					assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
+					self.log.info("Moving object to {}".format(pos))
+					bb = self.view.get_cur_scene().getBoundingBox2D()
+					assert bb is not None and len(bb) == 2 and len(bb[0]) == 2 and len(bb[1]) == 2, \
+						"Invalid bounding box: {}".format(bb)
+					pos_norm_2d = [bb[0][0] + pos[0] * (bb[1][0] - bb[0][0]), bb[0][1] + pos[1] * (bb[1][1] - bb[0][1])]
+					self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					#self.view.move_object(self.pressed_object, pos[:2])
 			self.view.move_cursor(pos, user_id, is_left)
 
 		return None
