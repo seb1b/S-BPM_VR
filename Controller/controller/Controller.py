@@ -23,7 +23,7 @@ class Controller:
 
 		self.log.info("Starting controller")
 
-		self.MAX_ACTIVE_USERS = 0
+		self.MAX_ACTIVE_USERS = 2  # ROFL!!
 
 		# dictionaries of model and view, file path is key
 		self.models = {}
@@ -108,17 +108,25 @@ class Controller:
 
 				if user_id not in self.active_users \
 					and len(self.active_users) < self.MAX_ACTIVE_USERS:
+					self.log.debug("Adding new active user with ID {}".format(user_id))
 					self.active_users.append(user_id)
 
 				if obj not in self.selected_objects:
+					self.log.debug("Adding new selected object {}".format(obj))
 					self.selected_objects.append(obj)
-					self.view.set_highlight(obj, True)
+					self.log.debug("Going to hightlight object")
+					if not self.view.set_highlight(obj, True):
+						self.log.warning("view.set_highlight(True) failed")
 				if user_id in self.active_users:
+					self.log.debug("Setting new pressed_object: {}".format(obj))
 					self.pressed_object = obj
 					self.drag_position = pos
+				else:
+					self.log.debug("User {} is no active user - do not set pressed_object".format(user_id))
 
 			else:
 				# CASE: press on empty field or empty menu bar
+				self.log.debug("Got no object? {} - press on empty field or empty menu bar?".format(obj))
 				pass
 		self.press_position[user_id] = pos
 		self.pressed_is_left = is_left
@@ -248,9 +256,9 @@ class Controller:
 			if self.pressed_object is not None and self.pressed_is_left == is_left:
 				assert self.pressed_object in self.selected_objects
 				assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
-				self.pressed_object.hasAbstractVisualRepresentation.setPoint3D(
-					pos[0], pos[1], pos[2])
-				self.view.move_object(self.pressed_object, pos[:2])
+				self.log.info("Moving object to {}".format(pos))
+				self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
+				#self.view.move_object(self.pressed_object, pos[:2])
 			self.view.move_cursor(pos, user_id, is_left)
 
 		return None
