@@ -320,7 +320,7 @@ class Controller:
 				i = i - 1
 		return None
 
-	def fade_in(self, pos):
+	def fade_in(self, pos, user_id, is_left):
 		"""This function enters the inner sub-level of the object at the given
 		position
 
@@ -329,10 +329,39 @@ class Controller:
 
 		:param pos: the 3D position in normalized screen space coordinates
 		:type pos: float array of length 3
+		:param user_id: the id of the user causing this event
+		:type user_id: integer
+		:param is_left: Whether or not this event was caused by the left hand
+			(default: false)
+		:type is_left: boolean
 
 		:return: None
 		"""
+
+		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
+		for p in pos:
+			assert isinstance(p, (float, int)), \
+				"Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), \
+				"Position must be in normalized screen space coordinates [0.0,1.0]"
+		assert isinstance(user_id, int), "User ID must be an integer"
+		assert isinstance(is_left, bool), \
+			"Left/Right hand parameter must be a boolean value"
+
 		self.log.info(("fade_in({})".format(pos)))
+
+		if self.view is not None:
+			assert self.current_model is not None
+			obj = self.view.get_object(user_id, is_left)
+			if obj is not None and self.pressed_user_id is None:
+				assert self.pressed_object is None, "Inconsistent pressed_* variables"
+				if isinstance(obj, Subject):
+					self.log.info("fade_in: got subject")
+					behavior = obj.hasBehavior()
+					assert behavior is not None, "Invalid Subject, Behavior is none"
+					self.view.set_cur_scene(behavior)
+				else:
+					self.log.debug("fade_in: invalid object: {}".format(obj))
 		return None
 
 	def move_model(self, pos, user_id):
@@ -423,9 +452,9 @@ class Controller:
 		self.models[file_path] = ModelManager(file_path)
 		self.view = View()
 		self.current_model = self.models[file_path]
-		self.current_model.addChangeListener(self.view.on_change)
 
 		self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
+		self.current_model.addChangeListener(self.view.on_change)
 
 		#self.view.on_change(self.current_model.model.hasModelComponent[0])
 		#self.view.on_change(

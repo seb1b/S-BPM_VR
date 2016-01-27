@@ -2,6 +2,7 @@
 
 import collections, pika, sys
 import untangle  #for config file read in
+import os.path
 if sys.path[0] != '../Controller': sys.path.insert(0, '../Controller')
 
 # Uncomment for standalone use
@@ -13,33 +14,33 @@ import itertools
 
 # Uncomment for standalone use
 
-class Controller:
-	def press(self, pos, user_id, is_left=False):
-		if is_left:
-			print("press with left at", pos)
-		else:
-			print("press with right at", pos)
-	def release(self, pos, user_id, is_left=False):
-		if is_left:
-			print("release with left at", pos)
-		else:
-			print("release with right at", pos)
-	def move(self, pos, user_id, is_left=False):
-		#print("move", pos, is_lef)
-		if is_left:
-			print("move with left at", pos)
-		else:
-			print("move with right at", pos)
-	def zoom(self, level):
-		print("zoom")
-	def fade_away(self):
-		print("fade_away")
-	def rotate(self, degrees):
-		print("rotate")
-	def move_model(self, pos, user_id):
-		print("move_model at", pos)
-	def move_head(self, pos, degrees, user_id):
-		print("move_head")
+#class Controller:
+#	def press(self, pos, user_id, is_left=False):
+#		if is_left:
+#			print("press with left at", pos)
+#		else:
+#			print("press with right at", pos)
+#	def release(self, pos, user_id, is_left=False):
+#		if is_left:
+#			print("release with left at", pos)
+#		else:
+#			print("release with right at", pos)
+#	def move(self, pos, user_id, is_left=False):
+#		#print("move", pos, is_lef)
+#		if is_left:
+#			print("move with left at", pos)
+#		else:
+#			print("move with right at", pos)
+#	def zoom(self, level):
+#		print("zoom")
+#	def fade_away(self):
+#		print("fade_away")
+#	def rotate(self, degrees):
+#		print("rotate")
+#	def move_model(self, pos, user_id):
+#		print("move_model at", pos)
+#	def move_head(self, pos, degrees, user_id):
+#		print("move_head")
 
 
 class VRHardware():
@@ -47,11 +48,10 @@ class VRHardware():
 	def __init__(self, controller):
 		self.controller = controller
 
-
-#		config = untangle.parse('../../HardwareInterface/hardware_main/config.xml')
-
-
-		config = untangle.parse('config.xml')
+		config_file = '../../HardwareInterface/hardware_main/config.xml'
+		if not os.path.isfile(config_file):
+			config_file = 'config.xml'
+		config = untangle.parse(config_file)
 
 		# TODO Any way to make this constant?
 		self.LEAP_ID = int(config.node.inputMethods.leap['id'])
@@ -66,6 +66,7 @@ class VRHardware():
 		self.leap_move = config.node.leapGestures.move['id']
 		self.leap_zoom_in = config.node.leapGestures.zoom_in['id']
 		self.leap_zoom_out = config.node.leapGestures.zoom_out['id']
+		self.leap_fade_in = config.node.leapGestures.fade_in['id']
 
 		# leap cache setup
 		self.leap_press_cache = int(config.node.leapParameters.press_cache['id'])
@@ -185,6 +186,9 @@ class VRHardware():
 								self.controller.zoom(1)
 							elif self.last_gestures(self.leap_zoom_out_cache, self.leap_zoom_out, is_left):
 								self.controller.zoom(-1)
+					elif gesture == self.leap_fade_in:
+						# n = 1
+						self.controller.fade_in(xyz, user_id, is_left)
 
 			# MYO
 			elif user_id >= self.MYO_ID and user_id < self.KINECT_ID:

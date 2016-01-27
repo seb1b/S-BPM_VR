@@ -14,6 +14,7 @@
   <zoom_out id="circle_counterclockwise"/>
   <move id="hands_aligned"/>
   <press id="grab"/>
+  <fade_in id="keytap"/>
 </leapGestures>
 
 <leapParameters>
