@@ -140,7 +140,7 @@ class Controller:
 					# CASE: should be MenuBarItem
 					self.log.info(("Press on MenuBarItem: {}".format(obj.name)))
 					if obj.name == "layer_add":
-						pressed_menu_bar_item
+						self.pressed_menu_bar_item
 					elif obj.name == "edit":
 						# TODO: implement rest
 						pass
