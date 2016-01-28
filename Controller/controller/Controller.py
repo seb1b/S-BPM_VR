@@ -2,8 +2,8 @@
 import math
 import sys
 import logging
+import PASS
 
-from PASS import *
 from view import View
 from hardware_main_config import VRHardware
 
@@ -53,6 +53,9 @@ class Controller:
 			return True
 		return False
 
+	def process_menu_bar(self, message):
+		assert message is not None, "Message is None"
+
 	def process(self):
 		self.hw_main.process()
 
@@ -93,19 +96,19 @@ class Controller:
 			if obj is not None and self.pressed_user_id is None:
 				# CASE: press on existing obj(subject/message/menu bar item)
 				self.log.info("press(): got object")
-				if isinstance(obj, Subject):
+				if isinstance(obj, PASS.Subject):
 					# CASE: click on Subject
 					self.log.info("press(): got Subject")
 					pass
-				elif isinstance(obj, MessageExchange):
+				elif isinstance(obj, PASS.MessageExchange):
 					# CASE: click on MessageExchange
 					self.log.info("press(): got MessageExchange")
 					pass
-				elif isinstance(obj, State):
+				elif isinstance(obj, PASS.State):
 					# CASE: click on State
 					self.log.info("press(): got State")
 					pass
-				elif isinstance(obj, TransitionEdge):
+				elif isinstance(obj, PASS.TransitionEdge):
 					# CASE: click on TransitionEdge
 					self.log.info("press(): got TransitionEdge")
 					pass
@@ -184,18 +187,23 @@ class Controller:
 				if isinstance(self.released_object, View.MenuBarItem):
 					# CASE: menu bar item was released on field
 					new_obj = None
-					if self.released_object.type_name == "subject":
+					if self.released_object.name == "subject":
 						# CASE: add subject was released on field
 						new_obj = self.current_model.hasModelComponent[0].addSubject()
 						new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
 						new_obj.label.append("New Subject")
-					if self.released_object.type_name == "message":
+					if self.released_object.name == "message":
 						# CASE: add message was released on field
 						if len(self.selected_objects) == 2:
 							# CASE: adding message only possible if two subjects are selected
 							new_obj = self.current_model.hasModelComponent[0].addMessageExchange(
 								self.selected_objects[0], self.selected_objects[1])
 							new_obj.label.append("New Message")
+					if self.released_object.name == "edit":
+						# CASE: active edit modus
+						if len(selected_objects) == 1:
+							# CASE: only if one object is selected
+							pass
 					else:
 						self.log.warning("Invalid MenuBarItem type")
 					self.selected_objects.remove(self.released_object)
@@ -299,8 +307,9 @@ class Controller:
 				if self.view.current_zoom_level() == 0:
 					layer = self.view.get_cur_scene()
 					if layer is not None:
-						parent_layer = self.current_model.getParent(layer)
+						parent_layer = self.current_model.getParent(layer, PASS.Layer)
 						if parent_layer is not None:
+							assert isinstance(parent_layer, PASS.Layer), "Got invalid parent from Model"
 							self.view.set_cur_scene(parent_layer)
 				else:
 					self.view.zoom(-1)
@@ -367,7 +376,7 @@ class Controller:
 			obj = self.view.get_object(user_id, is_left)
 			if obj is not None and self.pressed_user_id is None:
 				assert self.pressed_object is None, "Inconsistent pressed_* variables"
-				if isinstance(obj, Subject):
+				if isinstance(obj, PASS.Subject):
 					self.log.info("fade_in: got subject")
 					behavior = obj.hasBehavior
 					assert behavior is not None, "Invalid Subject, Behavior is none"
@@ -467,7 +476,7 @@ class Controller:
 
 	def test_bsp_prozess(self):
 		file_path = "../../Model/tests/Beispielprozess.owl"
-		self.models[file_path] = ModelManager(file_path)
+		self.models[file_path] = PASS.ModelManager(file_path)
 		self.view = View()
 		self.current_model = self.models[file_path]
 
