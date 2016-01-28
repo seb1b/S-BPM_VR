@@ -55,6 +55,7 @@ class Controller:
 
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
+		self.log.info("process_menu_bar({})".format(message))
 
 	def process(self):
 		self.hw_main.process()
