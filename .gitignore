@@ -3,3 +3,4 @@
 Controller/build
 HardwareInterface/build
 View/build
+Controller/test/controller_test.png

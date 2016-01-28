@@ -13,15 +13,16 @@ class View():
 
 	def __init__(self):
 		self.log = logging.getLogger()
-		self.log.setLevel(logging.WARNING)  # DEBUG INFO WARNING ...
-		ch = logging.StreamHandler(sys.stdout)
-		ch.setLevel(logging.WARNING)
-		formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
-		ch.setFormatter(formatter)
-		self.log.addHandler(ch)
+		#self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
+		#ch = logging.StreamHandler(sys.stdout)
+		#ch.setLevel(logging.DEBUG)
+		#formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+		#ch.setFormatter(formatter)
+		#self.log.addHandler(ch)
 		self.log.info("Starting view")
 
 		self.ZOOM_STEP = 0.05
+		self.MOVE_STEP = 0.01
 		self.MAX_USERS = 5
 		self.MAX_DIST = 100
 		self.CURSOR_DIST = -2
@@ -31,8 +32,8 @@ class View():
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])
 		self.VALID_USER_COLORS.append([0.81, 0.77, 0.66])
 		self.VALID_USER_COLORS.append([0.25, 0.19, 0.47])
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
+		self.VALID_USER_COLORS.append([0.98, 0.98, 0.62])
+		self.VALID_USER_COLORS.append([0.85, 0.59, 0.98])
 
 		self.BLENDER_PATHS = {}
 		self.BLENDER_PATHS['subject'] = '../../View/Blender/Prozess/Subjekt.dae'
@@ -127,18 +128,6 @@ class View():
 		self.model_width = 0
 		self.model_hight = 0
 
-		# set colors
-		self.colors = {}
-		self.colors['menu_subject'] = [[0.56, 0.78, 0.95]]  # not needed?
-		self.colors['menu_message'] = [[0.95, 0.85, 0.56]]  # not needed?
-		self.colors['subject'] = [[0.56, 0.78, 0.95]]  # blue
-		self.colors['message'] = [[0.95, 0.85, 0.56]]  # orange
-		self.colors['send_state'] = [[0.98, 0.69, 0.81]]  # green
-		self.colors['receive_state'] = [[0.85, 0.59, 0.98]]  # purple
-		self.colors['function_state'] = [[0.74, 0.95, 0.80]]  # rose
-		self.colors['state_message'] = [[0.98, 0.98, 0.62]]  # yellow
-		self.colors['highlight'] = [[1, 0, 0]]
-
 		# gui elements
 		self.setup_menu_bar()
 
@@ -202,7 +191,7 @@ class View():
 		self.behavior_add_plane.addTag('behavior_add')
 
 		self.behavior_add_site = VR.CEF()
-		self.behavior_add_site.setMaterial(self.layer_add_plane.getMaterial())
+		self.behavior_add_site.setMaterial(self.behavior_add_plane.getMaterial())
 		self.behavior_add_site.open('http://localhost:5500/behaviorAdd')
 		self.behavior_add_site.setResolution(512)
 		self.behavior_add_site.setAspectRatio(4)
@@ -280,7 +269,7 @@ class View():
 		VR.cam.addChild(self.meta_plane)
 		VR.cam.addChild(self.navigation_plane)
 
-		VR.site = {self.edit_site, self.meta_site, self.layer_add_site, self.behavior_add_site}
+		VR.site = {self.edit_site, self.meta_site, self.behavior_add_site, self.layer_add_site}
 		VR.cam.addChild(self.active_gui_element)
 
 	def set_cur_scene(self, cur_scene):
@@ -291,8 +280,10 @@ class View():
 
 		if isinstance(cur_scene, PASS.Layer):
 			self.active_gui_element = self.layer_add_plane
-		else:  # is instance of Pass.Behavior
+		elif isinstance(cur_scene, PASS.Behavior):  # is instance of Pass.Behavior
 			self.active_gui_element = self.behavior_add_plane
+		else:
+			print 'set_cur_scene neither layer nor behavior'
 
 		#set offsets
 		print 'bb: ', self.cur_scene.getBoundingBox2D()
@@ -569,7 +560,6 @@ class View():
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		self.log.info('move_cursor')
-		colors = [1]
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
@@ -584,31 +574,32 @@ class View():
 
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
+			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
 			cursor_left = VR.Geometry('dev_l')
 			cursor_left.setPrimitive('Sphere 0.008 5')
 			cursor_left.setMaterial(VR.Material('sample material'))
 			cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
 			cursor_left.addTag(str([user_id, True]))
-			#cursor_left.setColors(self.VALID_USER_COLORS[len(VR.view_user_cursor)])
+			cursor_left.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_left)
 			cursor_right = VR.Geometry('dev_r')
 			cursor_right.setPrimitive('Sphere 0.008 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
 			cursor_right.addTag(str([user_id, False]))
-			#cursor_right.setColors(self.VALID_USER_COLORS[len(VR.view_user_cursor)])
+			cursor_right.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_left)
 			mydev_l.addIntersection(VR.view_root)
-			mydev_l.addIntersection(self.meta_plane)
-			mydev_l.addIntersection(self.edit_plane)
+			#mydev_l.addIntersection(self.meta_plane)
+			#mydev_l.addIntersection(self.edit_plane)
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
 			mydev_r.addIntersection(VR.view_root)
-			mydev_r.addIntersection(self.meta_plane)
-			mydev_r.addIntersection(self.edit_plane)
+			#mydev_r.addIntersection(self.meta_plane)
+			#mydev_r.addIntersection(self.edit_plane)
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
@@ -619,7 +610,6 @@ class View():
 			#self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
 			VR.view_user_cursors[user_id][True] = mydev_l
 			VR.view_user_cursors[user_id][False] = mydev_r
-			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
 			VR.view_user_positions[user_id] = {}
 			VR.view_user_positions[user_id][True] = [0, 0, 0]
 			VR.view_user_positions[user_id][False] = [0, 0, 0]
@@ -649,7 +639,7 @@ class View():
 		cam_pos = VR.cam.getFrom()
 		assert len(cam_pos) == 3
 		assert len(translation) == 2
-		new_cam_pos = [cam_pos[0] + translation[0], cam_pos[1] + translation[1], cam_pos[2]]
+		new_cam_pos = [cam_pos[0] + translation[0] * self.MOVE_STEP, cam_pos[1] + translation[1] * self.MOVE_STEP, cam_pos[2]]
 		VR.cam.setFrom(new_cam_pos)
 
 	def set_highlight(self, obj, highlight):
@@ -1091,7 +1081,6 @@ class View():
 					#TODO receiver changed
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
-		
 
 	def connect(self, message):
 		self.log.info('connect')
@@ -1139,76 +1128,24 @@ class View():
 		else:
 			mid_dir[0] = -1.0
 
-		for c in message.getChildren(): c.setPickable(False)
-		for c in s.getChildren(): c.setPickable(False)
-		for c in r.getChildren(): r.setPickable(False)
-
-		if s in self.handle_dict and r in self.handle_dict:  # and message in self.handle_dict:
-			hs = self.handle_dict[s][0]
-			hr = self.handle_dict[r][0]
-			self.paths.append(self.ptool.newPath(None, VR.view_root))
-			self.message_dict[message][2] = self.paths[-1]
-			self.ptool.extrude(None, self.paths[-1])
-			handles = self.ptool.getHandles(self.paths[-1])
-			handles[0] = hs
-			handles[1].setFrom(message.getFrom)
-			handles[1].setDir(1, 0, 0)
-			handles[1].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[2] = hr
-		elif s in self.handle_dict:
-			p = self.handle_dict[s][1]
-			self.ptool.extrude(None, p)
-			self.ptool.extrude(None, p)
-			handles = self.ptool.getHandles(p)
-			handles[-2].setFrom(message.getFrom())
-			handles[-2].setDir(1, 0, 0.0)
-			handles[-2].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[-1].setFrom(r.getFrom())
-			handles[-1].setDir(end_dir[0], end_dir[1], 0.0)
-			handles[-1].addChild(r)
-			r.setFrom(0, 0, 0)
-			self.handle_dict[message] = [handles[-2], p]
-			self.handle_dict[r] = [handles[-1], p]
-		elif r in self.handle_dict:
-			p = self.handle_dict[r][1]
-			self.ptool.extrude(None, p)
-			self.ptool.extrude(None, p)
-			handles = self.ptool.getHandles(p)
-			handles[-2].setFrom(message.getFrom())
-			handles[-2].setDir(1, 0, 0.0)
-			handles[-2].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[-1].setFrom(s.getFrom())
-			handles[-1].setDir(end_dir[0], end_dir[1], 0.0)
-			handles[-1].addChild(s)
-			r.setFrom(0, 0, 0)
-			self.handle_dict[message] = [handles[-2], p]
-			self.handle_dict[s] = [handles[-1], p]
-		else:
-			print "draw_line: ", s, " => ", r
-			self.paths.append(self.ptool.newPath(None, VR.view_root))
-			self.message_dict[message][2] = self.paths[-1]
-			self.ptool.extrude(None, self.paths[-1])
-			handles = self.ptool.getHandles(self.paths[-1])
-			assert len(handles) == 3, "invalid number of handles"
-			handles[0].setFrom(s.getFrom())
-			handles[0].setAt(s.getAt())
-			handles[0].setDir(start_dir[0], start_dir[1], 0.0)
-			handles[0].addChild(s)
-			s.setFrom(0, 0, 0)
-			handles[1].setFrom(message.getFrom())
-			handles[1].setDir(1.0, 0.0, 0.0)
-			handles[1].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[2].setFrom(r.getFrom())
-			handles[2].setDir(end_dir[0], end_dir[1], 0.0)
-			handles[2].addChild(r)
-			r.setFrom(0, 0, 0)
-			self.handle_dict[s] = [handles[0], self.paths[-1]]
-			#self.handle_dict[message] = [handles[1], self.paths[-1]]
-			self.handle_dict[r] = [handles[2], self.paths[-1]]
+		print "draw_line: ", s, " => ", r
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
+		self.message_dict[message][2] = self.paths[-1]
+		self.ptool.extrude(None, self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 3, "invalid number of handles"
+		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
+		handles[0].setPickable(False)
+		handles[0].setFrom(0, 0, 0)
+		s.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setPickable(False)
+		handles[1].setDir(1.0, 0.0, 0.0)
+		message.addChild(handles[1])
+		handles[2].setFrom(0, 0, 0)
+		handles[2].setDir(end_dir[0], end_dir[1], 0.0)
+		handles[2].setPickable(False)
+		r.addChild(handles[2])
 
 		self.ptool.update()
 

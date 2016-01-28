@@ -13,9 +13,9 @@ class Controller:
 	def __init__(self):
 		#logging.basicConfig(filename='controller.log', level=logging.INFO)
 		self.log = logging.getLogger()
-		self.log.setLevel(logging.INFO)
+		self.log.setLevel(logging.WARNING)
 		ch = logging.StreamHandler(sys.stdout)
-		ch.setLevel(logging.INFO)
+		ch.setLevel(logging.WARNING)
 		#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 		formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
 		ch.setFormatter(formatter)
@@ -44,7 +44,9 @@ class Controller:
 
 		self.hw_main = VRHardware(self)
 
-	def _check_active_users(user_id):
+	def _check_active_users(self, user_id):
+		if user_id in self.active_users:
+			return True
 		if user_id not in self.active_users and len(self.active_users) < self.MAX_ACTIVE_USERS:
 			self.log.info("Adding new active user with ID {}".format(user_id))
 			self.active_users.append(user_id)
@@ -119,7 +121,7 @@ class Controller:
 					self.log.debug("Going to hightlight object")
 					if not self.view.set_highlight(obj, True):
 						self.log.warning("view.set_highlight(True) failed")
-				if _check_active_users(user_id):
+				if self._check_active_users(user_id):
 					self.log.debug("Setting new pressed_object: {}".format(obj))
 					self.pressed_object = obj
 					self.drag_position = pos
@@ -290,7 +292,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if not _check_active_users(user_id):
+			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to zoom".format(user_id))
 				return None
 			if level < 0:
@@ -359,7 +361,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if not _check_active_users(user_id):
+			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to fade_in".format(user_id))
 				return None
 			obj = self.view.get_object(user_id, is_left)
@@ -367,7 +369,7 @@ class Controller:
 				assert self.pressed_object is None, "Inconsistent pressed_* variables"
 				if isinstance(obj, Subject):
 					self.log.info("fade_in: got subject")
-					behavior = obj.hasBehavior()
+					behavior = obj.hasBehavior
 					assert behavior is not None, "Invalid Subject, Behavior is none"
 					self.view.set_cur_scene(behavior)
 				else:
@@ -394,16 +396,19 @@ class Controller:
 		for p in pos:
 			assert isinstance(p, (float, int)), \
 				"Position must contain three floating point numbers"
+			assert (p >= 0.0 and p <= 1.0), \
+				"Position must be in normalized screen space coordinates [0.0,1.0]"
 		assert isinstance(user_id, int), "User ID must be an integer"
 
 		self.log.info(("move_model({}, {})".format(pos, user_id)))
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if not _check_active_users(user_id):
+			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to move_model".format(user_id))
 				return None
-			self.view.move_scene(pos[:2])
+			# normalize to [-1,1]
+			self.view.move_scene([pos[0] * 2.0 - 1.0, (1 - pos[2]) * 2.0 - 1.0])
 
 		return None
 
