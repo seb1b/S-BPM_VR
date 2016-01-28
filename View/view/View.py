@@ -32,8 +32,8 @@ class View():
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])
 		self.VALID_USER_COLORS.append([0.81, 0.77, 0.66])
 		self.VALID_USER_COLORS.append([0.25, 0.19, 0.47])
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])  #TODO
+		self.VALID_USER_COLORS.append([0.98, 0.98, 0.62])
+		self.VALID_USER_COLORS.append([0.85, 0.59, 0.98])
 
 		self.BLENDER_PATHS = {}
 		self.BLENDER_PATHS['subject'] = '../../View/Blender/Prozess/Subjekt.dae'
@@ -127,18 +127,6 @@ class View():
 		self.model_offset_y = 0
 		self.model_width = 0
 		self.model_hight = 0
-
-		# set colors
-		self.colors = {}
-		self.colors['menu_subject'] = [[0.56, 0.78, 0.95]]  # not needed?
-		self.colors['menu_message'] = [[0.95, 0.85, 0.56]]  # not needed?
-		self.colors['subject'] = [[0.56, 0.78, 0.95]]  # blue
-		self.colors['message'] = [[0.95, 0.85, 0.56]]  # orange
-		self.colors['send_state'] = [[0.98, 0.69, 0.81]]  # green
-		self.colors['receive_state'] = [[0.85, 0.59, 0.98]]  # purple
-		self.colors['function_state'] = [[0.74, 0.95, 0.80]]  # rose
-		self.colors['state_message'] = [[0.98, 0.98, 0.62]]  # yellow
-		self.colors['highlight'] = [[1, 0, 0]]
 
 		# gui elements
 		self.setup_menu_bar()
@@ -309,7 +297,7 @@ class View():
 		print 'y dist ', self.model_hight
 
 		#VR.cam.addChild(self.active_gui_element) #TODO
-		self.update_all()
+		#self.update_all()
 
 	def get_cur_scene(self):
 		self.log.info('get_cur_scene')
@@ -407,7 +395,7 @@ class View():
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
 				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.sender], None]
-				#self.connect(message_node)
+				self.connect(message_node)
 				VR.view_root.addChild(message_node)
 
 			for subject in external_subjects:
@@ -572,7 +560,6 @@ class View():
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		self.log.info('move_cursor')
-		colors = [1]
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
@@ -587,31 +574,32 @@ class View():
 
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
+			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
 			cursor_left = VR.Geometry('dev_l')
 			cursor_left.setPrimitive('Sphere 0.008 5')
 			cursor_left.setMaterial(VR.Material('sample material'))
 			cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
 			cursor_left.addTag(str([user_id, True]))
-			#cursor_left.setColors(self.VALID_USER_COLORS[len(VR.view_user_cursor)])
+			cursor_left.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_left)
 			cursor_right = VR.Geometry('dev_r')
 			cursor_right.setPrimitive('Sphere 0.008 5')
 			cursor_right.setMaterial(VR.Material('sample material'))
 			cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
 			cursor_right.addTag(str([user_id, False]))
-			#cursor_right.setColors(self.VALID_USER_COLORS[len(VR.view_user_cursor)])
+			cursor_right.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_left)
 			mydev_l.addIntersection(VR.view_root)
-			mydev_l.addIntersection(self.meta_plane)
-			mydev_l.addIntersection(self.edit_plane)
+			#mydev_l.addIntersection(self.meta_plane)
+			#mydev_l.addIntersection(self.edit_plane)
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
 			mydev_r.addIntersection(VR.view_root)
-			mydev_r.addIntersection(self.meta_plane)
-			mydev_r.addIntersection(self.edit_plane)
+			#mydev_r.addIntersection(self.meta_plane)
+			#mydev_r.addIntersection(self.edit_plane)
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
@@ -622,7 +610,6 @@ class View():
 			#self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
 			VR.view_user_cursors[user_id][True] = mydev_l
 			VR.view_user_cursors[user_id][False] = mydev_r
-			VR.view_user_colors[user_id] = colors[len(VR.view_user_cursors) - 1]
 			VR.view_user_positions[user_id] = {}
 			VR.view_user_positions[user_id][True] = [0, 0, 0]
 			VR.view_user_positions[user_id][False] = [0, 0, 0]
@@ -1141,77 +1128,25 @@ class View():
 			mid_dir[0] = 1.0
 		else:
 			mid_dir[0] = -1.0
-
-		for c in message.getChildren(): c.setPickable(False)
-		for c in s.getChildren(): c.setPickable(False)
-		for c in r.getChildren(): r.setPickable(False)
-
-		if s in self.handle_dict and r in self.handle_dict:  # and message in self.handle_dict:
-			hs = self.handle_dict[s][0]
-			hr = self.handle_dict[r][0]
-			self.paths.append(self.ptool.newPath(None, VR.view_root))
-			self.message_dict[message][2] = self.paths[-1]
-			self.ptool.extrude(None, self.paths[-1])
-			handles = self.ptool.getHandles(self.paths[-1])
-			handles[0] = hs
-			handles[1].setFrom(message.getFrom)
-			handles[1].setDir(1, 0, 0)
-			handles[1].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[2] = hr
-		elif s in self.handle_dict:
-			p = self.handle_dict[s][1]
-			self.ptool.extrude(None, p)
-			self.ptool.extrude(None, p)
-			handles = self.ptool.getHandles(p)
-			handles[-2].setFrom(message.getFrom())
-			handles[-2].setDir(1, 0, 0.0)
-			handles[-2].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[-1].setFrom(r.getFrom())
-			handles[-1].setDir(end_dir[0], end_dir[1], 0.0)
-			handles[-1].addChild(r)
-			r.setFrom(0, 0, 0)
-			self.handle_dict[message] = [handles[-2], p]
-			self.handle_dict[r] = [handles[-1], p]
-		elif r in self.handle_dict:
-			p = self.handle_dict[r][1]
-			self.ptool.extrude(None, p)
-			self.ptool.extrude(None, p)
-			handles = self.ptool.getHandles(p)
-			handles[-2].setFrom(message.getFrom())
-			handles[-2].setDir(1, 0, 0.0)
-			handles[-2].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[-1].setFrom(s.getFrom())
-			handles[-1].setDir(end_dir[0], end_dir[1], 0.0)
-			handles[-1].addChild(s)
-			r.setFrom(0, 0, 0)
-			self.handle_dict[message] = [handles[-2], p]
-			self.handle_dict[s] = [handles[-1], p]
-		else:
-			print "draw_line: ", s, " => ", r
-			self.paths.append(self.ptool.newPath(None, VR.view_root))
-			self.message_dict[message][2] = self.paths[-1]
-			self.ptool.extrude(None, self.paths[-1])
-			handles = self.ptool.getHandles(self.paths[-1])
-			assert len(handles) == 3, "invalid number of handles"
-			handles[0].setFrom(s.getFrom())
-			handles[0].setAt(s.getAt())
-			handles[0].setDir(start_dir[0], start_dir[1], 0.0)
-			handles[0].addChild(s)
-			s.setFrom(0, 0, 0)
-			handles[1].setFrom(message.getFrom())
-			handles[1].setDir(1.0, 0.0, 0.0)
-			handles[1].addChild(message)
-			message.setFrom(0, 0, 0)
-			handles[2].setFrom(r.getFrom())
-			handles[2].setDir(end_dir[0], end_dir[1], 0.0)
-			handles[2].addChild(r)
-			r.setFrom(0, 0, 0)
-			self.handle_dict[s] = [handles[0], self.paths[-1]]
-			#self.handle_dict[message] = [handles[1], self.paths[-1]]
-			self.handle_dict[r] = [handles[2], self.paths[-1]]
+			
+		print "draw_line: ", s, " => ", r
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
+		self.message_dict[message][2] = self.paths[-1]
+		self.ptool.extrude(None, self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 3, "invalid number of handles"
+		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
+		handles[0].setPickable(False)
+		handles[0].setFrom(0, 0, 0)
+		s.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setPickable(False)
+		handles[1].setDir(1.0, 0.0, 0.0)
+		message.addChild(handles[1])
+		handles[2].setFrom(0, 0, 0)
+		handles[2].setDir(end_dir[0], end_dir[1], 0.0)
+		handles[2].setPickable(False)
+		r.addChild(handles[2])
 
 		self.ptool.update()
 
