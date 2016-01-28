@@ -418,11 +418,11 @@ class View():
 					message_node.getChildren()[1].setVisible(True)
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
-				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]
-				self.connect(message_node)
-				VR.view_root.addChild(message_node)
+				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]				
 				ae = self.create_annotation_engine(message, 0.02)
 				message_node.addChild(ae)
+				self.connect(message_node)
+				VR.view_root.addChild(message_node)
 
 			for subject in external_subjects:
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
@@ -578,9 +578,10 @@ class View():
 			
 	def create_annotation_engine(self, subject, size):
 		# text label
+		assert subject is not None, "create_annotation_engine given subject has not to be None"
 		text = ''
 		for t in subject.label:
-			text = str(text) + str(t)
+			text = text + t
 		ae = VR.AnnotationEngine('ae_' + str(text))
 		ae.setColor([0,1,0,1])
 		ae.setPickable(False)
@@ -690,11 +691,6 @@ class View():
 
 	def set_highlight(self, obj, highlight):
 		self.log.info('set_highlight')
-		print('WTF1')
-		import traceback
-		for line in traceback.format_stack():
-			print(line.strip())
-		print('WTF2')
 
 		assert isinstance(highlight, bool)
 		pass_obj = self.object_dict[obj]
@@ -835,8 +831,10 @@ class View():
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new subject
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
-					assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-					assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
+						return
+					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+						return
 					subject_node = VR.Transform('Subject_Container')
 					subject_node.addTag('obj')
 					subject_node.addTag('subject')
@@ -871,6 +869,14 @@ class View():
 					self.log.debug("moving subject to {}, {}, {}".format(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					#had_name = False
+					#for c in poly_obj.getChildren():
+					#	if isinstance(c, VR.AnnotationEngine):
+					#		c = self.create_annotation_engine(object, 0.02)
+					#		had_name = True
+					#if not had_name:
+						#ae = self.create_annotation_engine(object, 0.02)
+						#poly_obj.addChild(ae)
 					#name changed
 					#TODO reset name
 					#TODO meta content
@@ -1177,12 +1183,11 @@ class View():
 			mid_dir[0] = -1.0
 
 		print "draw_line: ", s, " => ", r
+				
+		#set path to sender
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
-		#self.paths[-1].setColors([[0, 0, 0]])
-		self.message_dict[message][2] = self.paths[-1]
-		VR.ptool.extrude(None, self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
-		assert len(handles) == 3, "invalid number of handles"
+		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
 		handles[0].setPickable(False)
 		handles[0].setFrom(0, 0, 0)
@@ -1191,10 +1196,37 @@ class View():
 		handles[1].setPickable(False)
 		handles[1].setDir(1.0, 0.0, 0.0)
 		message.addChild(handles[1])
-		handles[2].setFrom(0, 0, 0)
-		handles[2].setDir(end_dir[0], end_dir[1], 0.0)
-		handles[2].setPickable(False)
-		r.addChild(handles[2])
+		
+		#set path to receiver
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		handles = VR.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 2, "invalid number of handles"
+		handles[0].setFrom(0, 0, 0)
+		handles[0].setPickable(False)
+		handles[0].setDir(1.0, 0.0, 0.0)
+		message.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
+		handles[1].setPickable(False)
+		r.addChild(handles[1])
+		
+		#self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		#self.message_dict[message][2] = self.paths[-1]
+		#VR.ptool.extrude(None, self.paths[-1])
+		#handles = VR.ptool.getHandles(self.paths[-1])
+		#assert len(handles) == 3, "invalid number of handles"
+		#handles[0].setDir(start_dir[0], start_dir[1], 0.0)
+		#handles[0].setPickable(False)
+		#handles[0].setFrom(0, 0, 0)
+		#s.addChild(handles[0])
+		#handles[1].setFrom(0, 0, 0)
+		#handles[1].setPickable(False)
+		#handles[1].setDir(1.0, 0.0, 0.0)
+		#message.addChild(handles[1])
+		#handles[2].setFrom(0, 0, 0)
+		#handles[2].setDir(end_dir[0], end_dir[1], 0.0)
+		#handles[2].setPickable(False)
+		#r.addChild(handles[2])
 
 		VR.ptool.update()
 
