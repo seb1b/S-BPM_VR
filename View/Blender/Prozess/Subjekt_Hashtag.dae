@@ -5,12 +5,16 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.71.0 commit date:2014-06-12, commit time:18:39, hash:169c95b</authoring_tool>
     </contributor>
-    <created>2016-01-28T15:14:15</created>
-    <modified>2016-01-28T15:14:15</modified>
+    <created>2016-01-28T18:00:35</created>
+    <modified>2016-01-28T18:00:35</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
-  <library_images/>
+  <library_images>
+    <image id="Hashtag_jpeg" name="Hashtag_jpeg">
+      <init_from>Hashtag.jpeg</init_from>
+    </image>
+  </library_images>
   <library_effects>
     <effect id="Material-effect">
       <profile_COMMON>
@@ -40,6 +44,16 @@
     </effect>
     <effect id="Material_001-effect">
       <profile_COMMON>
+        <newparam sid="Hashtag_jpeg-surface">
+          <surface type="2D">
+            <init_from>Hashtag_jpeg</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="Hashtag_jpeg-sampler">
+          <sampler2D>
+            <source>Hashtag_jpeg-surface</source>
+          </sampler2D>
+        </newparam>
         <technique sid="common">
           <phong>
             <emission>
@@ -49,7 +63,7 @@
               <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <color sid="diffuse">0.64 0.64 0.64 1</color>
+              <texture texture="Hashtag_jpeg-sampler" texcoord="UVMap"/>
             </diffuse>
             <specular>
               <color sid="specular">0.5 0.5 0.5 1</color>
