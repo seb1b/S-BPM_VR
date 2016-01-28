@@ -68,11 +68,11 @@ class Controller:
 				self.selected_objects.append(new_obj)
 				self.pressed_menu_bar_item = self.pressed_object
 				self.pressed_object = new_obj
-			elif message == "external_subject":
+			elif message == "exsubject":
+				# TODO: implement
 				pass
 			elif message == "message":
-				pass
-			elif message == "...":
+				self.pressed_menu_bar_item = self.pressed_object
 				pass
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
@@ -223,18 +223,21 @@ class Controller:
 						if not self.view.set_highlight(self.released_object, True):
 							self.log.warning("view.set_highlight(False) failed")
 						# TODO: start edit mode
-					if self.released_object.name == "message":
+					elif isinstance(self.released_object, PASS.ExternalSubject):
+						# CASE: add subject was released on field
+						if not self.view.set_highlight(self.released_object, True):
+							self.log.warning("view.set_highlight(False) failed")
+						# TODO: start edit mode
+					elif self.pressed_menu_bar_item.name == "message":
 						# CASE: add message was released on field
-						if len(self.selected_objects) == 2:
+						lo = view.get_object(user_id, True)
+						ro = view.get_object(user_id, False)
+						if isinstance(lo, PASS.Subject) and isinstance(ro, PASS.Subject):
 							# CASE: adding message only possible if two subjects are selected
-							new_obj = self.current_model.hasModelComponent[0].addMessageExchange(
-								self.selected_objects[0], self.selected_objects[1])
+							new_obj = self.view.get_cur_scene().addMessageExchange(lo, ro)
 							new_obj.label.append("New Message")
-					if self.released_object.name == "edit":
-						# CASE: active edit modus
-						if len(selected_objects) == 1:
-							# CASE: only if one object is selected
-							pass
+						else:
+							self.log.info("User {} trying to create message on invalid targets".format(user_id))
 					else:
 						self.log.warning("Invalid MenuBarItem type")
 					self.selected_objects.remove(self.released_object)
