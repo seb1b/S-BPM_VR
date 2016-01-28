@@ -111,8 +111,8 @@ class View():
 		VR.cam.setFov(self.camera_fov)
 
 		#setup pathtool
-		self.ptool = VR.Pathtool()
-		self.ptool.setHandleGeometry(self.HANDLE)
+		VR.ptool = VR.Pathtool()
+		VR.ptool.setHandleGeometry(self.HANDLE)
 
 		#setup offsets
 		#screen
@@ -313,8 +313,8 @@ class View():
 		self.object_dict.clear()
 		self.message_dict.clear()
 		self.handle_dict.clear()
-		self.ptool = VR.Pathtool()
-		self.ptool.setHandleGeometry(self.HANDLE)
+		VR.ptool = VR.Pathtool()
+		VR.ptool.setHandleGeometry(self.HANDLE)
 
 		#todo sizes
 		if isinstance(self.cur_scene, PASS.Layer):
@@ -385,8 +385,8 @@ class View():
 					message_node.getChildren()[1].setVisible(True)
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
-				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.sender], None]
-				#self.connect(message_node)
+				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]
+				self.connect(message_node)
 				VR.view_root.addChild(message_node)
 				ae = self.create_annotation_engine(message, 0.02)
 				message_node.addChild(ae)
@@ -1103,6 +1103,7 @@ class View():
 		s = self.message_dict[message][0]
 		r = self.message_dict[message][1]
 		assert s is not None and r is not None, "sender and receiver must not be None"
+		print 'sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label
 		start_pos = s.getFrom()
 		mid_pos = message.getFrom()
 		end_pos = r.getFrom()
@@ -1142,10 +1143,10 @@ class View():
 			mid_dir[0] = -1.0
 
 		print "draw_line: ", s, " => ", r
-		self.paths.append(self.ptool.newPath(None, VR.view_root))
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
 		self.message_dict[message][2] = self.paths[-1]
-		self.ptool.extrude(None, self.paths[-1])
-		handles = self.ptool.getHandles(self.paths[-1])
+		VR.ptool.extrude(None, self.paths[-1])
+		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 3, "invalid number of handles"
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
 		handles[0].setPickable(False)
@@ -1160,7 +1161,7 @@ class View():
 		handles[2].setPickable(False)
 		r.addChild(handles[2])
 
-		self.ptool.update()
+		VR.ptool.update()
 
 	def move_object(self, obj, pos_ws):
 		self.log.info('move_object')

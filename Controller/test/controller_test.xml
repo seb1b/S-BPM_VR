@@ -68,12 +68,12 @@
 	VR.view_root.addChild(mes)
 	VR.view_root.addChild(sub)
 	
-	ptool = VR.Pathtool()
+	VR.ptool = VR.Pathtool()
 	#ptool.setHandleGeometry(HANDLE)
 	paths = []
 
-	paths.append(ptool.newPath(None, VR.view_root))
-	handles = ptool.getHandles(paths[-1])
+	paths.append(VR.ptool.newPath(None, VR.view_root))
+	handles = VR.ptool.getHandles(paths[-1])
 	assert len(handles) == 2, "invalid number of handles"
 	handles[0].setDir(0, 1, 0.0)
 	handles[0].setPickable(False)
@@ -86,7 +86,7 @@
 	mes.addChild(handles[1])
 #	handles[1].addChild(mes)
 	
-	ptool.update()
+	VR.ptool.update()
 	
 </core>
     </Script>
@@ -687,6 +687,15 @@
 	&lt;/script&gt;
 &lt;/html&gt;
 </core>
+    </Script>
+    <Script name_suffix="0" base_name="update_pathtool" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	
+	if hasattr(VR, 'ptool'):
+		VR.ptool.update()
+</core>
+      <trig type="on_timeout" dev="" state="Pressed" param="0" key="0" name_suffix="4" base_name="trigger" name_space="__global__"/>
     </Script>
   </Scripts>
   <Sockets/>
