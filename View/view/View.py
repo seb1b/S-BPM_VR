@@ -84,7 +84,8 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
-		self.handle_dict = {}  # key:poly subject/state/message value: 1. handle 2.path
+		#TODO delete
+		self.handle_dict = {}  # key:poly subject/state/message value: 1. handle 2.path 
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -129,7 +130,37 @@ class View():
 		self.model_hight = 0
 
 		# gui elements
+		#node for all edit planes
+		self.edit_node = VR.Transform('edit_node')
+		self.edit_node.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])		
 		self.setup_menu_bar()
+	
+	def setup_start_page(self):
+		#setup menu bar behaviorAdd
+		self.start_page_plane = VR.Geometry('startPage')
+		s = 'Plane '
+		s += str(self.scale_x) + str(self.scale_y)
+		s += ' 1 1'
+		self.start_page_plane.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		self.start_page_plane.setMaterial(material)
+		self.start_page_plane.setFrom(0, 0, 0)
+
+		self.start_page_plane.setUp(0, -1, 0)
+		self.start_page_plane.setAt(0, 0, 1)
+		self.start_page_plane.setDir(0, 0, 1)
+		self.start_page_plane.setPickable(False)
+		self.start_page_plane.addTag('start_page')
+
+		self.start_page_site = VR.CEF()
+		self.start_page_site.setMaterial(self.behavior_add_plane.getMaterial())
+		self.start_page_site.open('http://localhost:5500/behaviorAdd')
+		self.start_page_site.setResolution(512)
+		self.start_page_site.setAspectRatio(4)
+		
+		self.start_page_plane.setVisible(False)
+		VR.view_root.addChild(self.start_page_plane)
 
 	def setup_menu_bar(self):
 		self.log.info('setup_menu_bar')
@@ -141,9 +172,6 @@ class View():
 		self.layer_add_site = None
 		self.behavior_add_plane = None
 		self.behavior_add_site = None
-
-		#node for all edit planes
-		#self.edit_node = VR.Transform('edit_node')
 		
 		#setup menu bar layerAdd -> add in process layer
 		self.layer_add_plane = VR.Geometry('layerAdd')
@@ -155,7 +183,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.layer_add_plane.setMaterial(material)
-		self.layer_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
+		self.layer_add_plane.setFrom(0, 0, 0)
 
 		self.layer_add_plane.setUp(0, -1, 0)
 		self.layer_add_plane.setAt(0, 0, 1)
@@ -168,9 +196,10 @@ class View():
 		self.layer_add_site.open('http://localhost:5500/layerAdd')
 		self.layer_add_site.setResolution(512)
 		self.layer_add_site.setAspectRatio(4)
-
-		#self.edit_node.addChild(self.layer_add_plane)
-		self.active_gui_element = self.layer_add_plane
+		
+		self.layer_add_plane.setVisible(False)
+		self.edit_node.addChild(self.layer_add_plane)
+		
 
 		#setup menu bar behaviorAdd
 		self.behavior_add_plane = VR.Geometry('behaviorAdd')
@@ -182,7 +211,7 @@ class View():
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.behavior_add_plane.setMaterial(material)
-		self.behavior_add_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
+		self.behavior_add_plane.setFrom(0, 0, 0)
 
 		self.behavior_add_plane.setUp(0, -1, 0)
 		self.behavior_add_plane.setAt(0, 0, 1)
@@ -195,8 +224,36 @@ class View():
 		self.behavior_add_site.open('http://localhost:5500/behaviorAdd')
 		self.behavior_add_site.setResolution(512)
 		self.behavior_add_site.setAspectRatio(4)
+		
+		self.behavior_add_plane.setVisible(False)
+		self.edit_node.addChild(self.behavior_add_plane)
+		
+		
+		#setup menu bar edit
+		self.edit_plane = VR.Geometry('edit')
+		s = 'Plane '
+		s += str(self.scale_x - (self.scale_x / 4))
+		s += ' 0.4 1 1'
+		self.edit_plane.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		self.edit_plane.setMaterial(material)
+		self.edit_plane.setFrom(0, 0, 0)
 
-		#self.active_gui_element = self.behavior_add_plane
+		self.edit_plane.setUp(0, -1, 0)
+		self.edit_plane.setAt(0, 0, 1)
+		self.edit_plane.setDir(0, 0, 1)
+		self.edit_plane.setPickable(False)
+		self.edit_plane.addTag('edit')
+
+		self.edit_site = VR.CEF()
+		self.edit_site.setMaterial(self.edit_plane.getMaterial())
+		self.edit_site.open('http://localhost:5500/edit')
+		self.edit_site.setResolution(512)
+		self.edit_site.setAspectRatio(4)
+		
+		self.edit_plane.setVisible(False)
+		self.edit_node.addChild(self.edit_plane)
 
 		#setup menu bar navigation
 		self.navigation_plane = VR.Geometry('navigation')
@@ -216,31 +273,6 @@ class View():
 		self.navigation_plane.setPickable(False)
 		self.navigation_plane.addTag('navigation')
 
-
-		#setup menu bar edit
-		self.edit_plane = VR.Geometry('edit')
-		s = 'Plane '
-		s += str(self.scale_x / 4)
-		s += ' 0.4 1 1'
-		self.edit_plane.setPrimitive(s)
-		material = VR.Material('gui')
-		material.setLit(False)
-		self.edit_plane.setMaterial(material)
-		self.edit_plane.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
-
-		self.edit_plane.setUp(0, -1, 0)
-		self.edit_plane.setAt(0, 0, 1)
-		self.edit_plane.setDir(0, 0, 1)
-		self.edit_plane.setPickable(False)
-		self.edit_plane.addTag('edit')
-
-		self.edit_site = VR.CEF()
-		self.edit_site.setMaterial(self.edit_plane.getMaterial())
-		self.edit_site.open('http://localhost:5500/edit')
-		self.edit_site.setResolution(512)
-		self.edit_site.setAspectRatio(4)
-
-		#self.active_gui_element = self.edit_plane
 
 		# setup menu bar metadata
 		self.meta_plane = VR.Geometry('meta')
@@ -270,18 +302,19 @@ class View():
 		VR.cam.addChild(self.navigation_plane)
 
 		VR.site = {self.edit_site, self.meta_site, self.behavior_add_site, self.layer_add_site}
-		VR.cam.addChild(self.active_gui_element)
+		VR.cam.addChild(self.edit_node)
 
 	def set_cur_scene(self, cur_scene):
 		self.log.info('set_cur_scene')
 		assert isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior), cur_scene
 		self.cur_scene = cur_scene
-		#self.cam.remChild(self.active_gui_element) #TODO
+		VR.cam.setFrom(self.camera_from)
 
+		for c in self.edit_node.getChildren(): c.setVisible(False)
 		if isinstance(cur_scene, PASS.Layer):
-			self.active_gui_element = self.layer_add_plane
+			self.edit_node.getChildren()[0].setVisible(True)
 		elif isinstance(cur_scene, PASS.Behavior):  # is instance of Pass.Behavior
-			self.active_gui_element = self.behavior_add_plane
+			self.edit_node.getChildren()[1].setVisible(True)
 		else:
 			print 'set_cur_scene neither layer nor behavior'
 
@@ -605,14 +638,14 @@ class View():
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_left)
+			mydev_l.addIntersection(self.edit_node)
+			mydev_l.addIntersection(self.meta_plane)
 			mydev_l.addIntersection(VR.view_root)
-			#mydev_l.addIntersection(self.meta_plane)
-			#mydev_l.addIntersection(self.edit_plane)
 			mydev_r = VR.Device('mydev')
 			mydev_r.setBeacon(cursor_right)
+			mydev_r.addIntersection(self.edit_node)
+			mydev_r.addIntersection(self.meta_plane)
 			mydev_r.addIntersection(VR.view_root)
-			#mydev_r.addIntersection(self.meta_plane)
-			#mydev_r.addIntersection(self.edit_plane)
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
@@ -669,6 +702,8 @@ class View():
 		children = pass_obj.getChildren()
 
 		if highlight:
+			for c in self.edit_node.getChildren(): c.setVisible(False)
+			self.edit_node.getChildren()[2].setVisible(True)
 			pass
 			#TODO set edit gui element
 			#set metaContent on gui element meta to parent
@@ -683,13 +718,12 @@ class View():
 				children[1].setVisible(False)
 				children[3].setVisible(True)
 				return True
-		else:
+		else:			
+			for c in self.edit_node.getChildren(): c.setVisible(False)
 			if isinstance(self.cur_scene, PASS.Layer):
-				#TODO set gui element for layer (subject, message)
-				pass
+				self.edit_node.getChildren()[0].setVisible(True)
 			elif isinstance(self.cur_scene, PASS.Behavior):
-				#TODO set gui element for layer (fstate, sstate, rstate, tedge)
-				pass
+				self.edit_node.getChildren()[1].setVisible(True)
 			else:
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
@@ -1144,6 +1178,7 @@ class View():
 
 		print "draw_line: ", s, " => ", r
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		#self.paths[-1].setColors([[0, 0, 0]])
 		self.message_dict[message][2] = self.paths[-1]
 		VR.ptool.extrude(None, self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
