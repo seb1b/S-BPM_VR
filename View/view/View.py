@@ -352,16 +352,7 @@ class View():
 				self.object_dict[subject] = subject_node
 				self.object_dict[subject_node] = subject
 				VR.view_root.addChild(subject_node)
-				
-				ae = VR.AnnotationEngine('ae_')
-				ae.setColor([0,1,0,1])
-				ae.setPickable(False)
-				ae.setBackground([1,0,0,0.5])
-				ae.setSize(0.02)
-				text = ''
-				for t in subject.label:
-					text = str(text) + str(t)
-				ae.set(1, [0, 0, 2], 'test -' + text)
+				ae = self.create_annotation_engine(subject, 0.02)
 				subject_node.addChild(ae)
 
 			for message in message_exchanges:
@@ -397,6 +388,8 @@ class View():
 				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.sender], None]
 				#self.connect(message_node)
 				VR.view_root.addChild(message_node)
+				ae = self.create_annotation_engine(message, 0.02)
+				message_node.addChild(ae)
 
 			for subject in external_subjects:
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
@@ -424,8 +417,10 @@ class View():
 				else:
 					subject_node.getChildren()[1].setVisible(True)
 				self.object_dict[subject] = subject_node
-				self.object_dict[subject_node] = subject
+				self.object_dict[subject_node] = subject				
 				VR.view_root.addChild(subject_node)
+				ae = self.create_annotation_engine(subject, 0.02)
+				subject_node.addChild(ae)
 
 		elif isinstance(self.cur_scene, PASS.Behavior):
 			states = self.cur_scene.hasState
@@ -505,8 +500,10 @@ class View():
 					else:
 						state_node.getChildren()[1].setVisible(True)
 					self.object_dict[state] = state_node
-					self.object_dict[state_node] = state
+					self.object_dict[state_node] = state					
 					VR.view_root.addChild(state_node)
+					ae = self.create_annotation_engine(state, 0.02)
+					state_node.addChild(ae)
 
 			for edge in edges:
 				assert isinstance(message, PASS.MessageExchange)
@@ -541,8 +538,24 @@ class View():
 				self.message_dict[poly_mes] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None]
 				#self.connect(transition_node)
 				VR.view_root.addChild(transition_node)
+				ae = self.create_annotation_engine(edge, 0.02)
+				transition_node.addChild(ae)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
+			
+	def create_annotation_engine(self, subject, size):
+		# text label
+		text = ''
+		for t in subject.label:
+			text = str(text) + str(t)
+		ae = VR.AnnotationEngine('ae_' + str(text))
+		ae.setColor([0,1,0,1])
+		ae.setPickable(False)
+		#ae.setBackground([1,0,0,0.5])
+		ae.setSize(size*2)
+		ae.setScale([0.5,0.5,1])				
+		ae.set(1, [-size, 0, 0.1], text)	
+		return ae
 
 	def zoom(self, level):
 		self.log.info('zoom')
