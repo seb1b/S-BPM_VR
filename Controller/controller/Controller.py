@@ -119,8 +119,9 @@ class Controller:
 					self.log.debug("Adding new selected object {}".format(obj))
 					self.selected_objects.append(obj)
 					self.log.debug("Going to hightlight object")
-					if not self.view.set_highlight(obj, True):
-						self.log.warning("view.set_highlight(True) failed")
+					if not isinstance(obj, View.MenuBarItem):
+						if not self.view.set_highlight(obj, True):
+							self.log.warning("view.set_highlight(True) failed")
 				if self._check_active_users(user_id):
 					self.log.debug("Setting new pressed_object: {}".format(obj))
 					self.pressed_object = obj
@@ -197,8 +198,6 @@ class Controller:
 							new_obj.label.append("New Message")
 					else:
 						self.log.warning("Invalid MenuBarItem type")
-					if not self.view.set_highlight(self.released_object, False):
-						self.log.warning("view.set_highlight(True) failed")
 					self.selected_objects.remove(self.released_object)
 					assert self.released_object not in self.selected_objects
 					if new_obj is not None:
@@ -216,8 +215,9 @@ class Controller:
 			elif self.pressed_object is None and self.pressed_is_left == is_left:
 				# CASE: release on field without object -> deselect everything
 				for obj in self.selected_objects:
-					if not self.view.set_highlight(obj, False):
-						self.log.warning("view.set_highlight(False) failed")
+					if not isinstance(obj, View.MenuBarItem):
+						if not self.view.set_highlight(obj, False):
+							self.log.warning("view.set_highlight(False) failed")
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
 				# self.view.highlight_pos(pos)
