@@ -297,7 +297,7 @@ class View():
 		print 'y dist ', self.model_hight
 
 		#VR.cam.addChild(self.active_gui_element) #TODO
-		#self.update_all()
+		self.update_all()
 
 	def get_cur_scene(self):
 		self.log.info('get_cur_scene')
@@ -395,7 +395,7 @@ class View():
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
 				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.sender], None]
-				self.connect(message_node)
+				#self.connect(message_node)
 				VR.view_root.addChild(message_node)
 
 			for subject in external_subjects:
@@ -1081,7 +1081,6 @@ class View():
 					#TODO receiver changed
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
-		
 
 	def connect(self, message):
 		self.log.info('connect')
@@ -1128,7 +1127,7 @@ class View():
 			mid_dir[0] = 1.0
 		else:
 			mid_dir[0] = -1.0
-			
+
 		print "draw_line: ", s, " => ", r
 		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		self.message_dict[message][2] = self.paths[-1]
