@@ -38,6 +38,7 @@ class Controller:
 
 		self.selected_objects = []
 		self.pressed_object = None
+		self.pressed_menu_bar_item = None
 		self.released_object = None
 		self.pressed_is_left = False
 		self.pressed_user_id = None
@@ -56,6 +57,28 @@ class Controller:
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
 		self.log.info("process_menu_bar({})".format(message))
+		assert self.pressed_object is not None, "FU1"
+		if self.pressed_object.name == "layer_add":
+			if message == "subject":
+				new_obj = self.view.get_cur_scene().addSubject()
+				new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
+				new_obj.label.append("New Subject")
+				self.selected_objects.append(new_obj)
+				self.pressed_menu_bar_item = self.pressed_object
+				self.pressed_object = new_obj
+			elif message == "external_subject":
+				pass
+			elif message == "message":
+				pass
+			elif message == "...":
+				pass
+			else:
+				self.log.warning("invalid mesage: {}".format(message))
+		# TODO: implement rest
+		elif self.pressed_object.name == "...":
+			pass
+		else:
+			self.log.warning("invalid pressed_object: {}".format(self.pressed_object))
 
 	def process(self):
 		self.hw_main.process()
@@ -116,6 +139,11 @@ class Controller:
 				elif isinstance(obj, View.MenuBarItem):
 					# CASE: should be MenuBarItem
 					self.log.info(("Press on MenuBarItem: {}".format(obj.name)))
+					if obj.name == "layer_add":
+						pressed_menu_bar_item
+					elif obj.name == "edit":
+						# TODO: implement rest
+						pass
 				else:
 					self.log.info("Unknown object returned on press()")
 
@@ -185,14 +213,14 @@ class Controller:
 				assert self.pressed_object in self.selected_objects
 				self.released_object = self.pressed_object
 				self.pressed_object = None
-				if isinstance(self.released_object, View.MenuBarItem):
+				if isinstance(self.pressed_menu_bar_item, View.MenuBarItem):
 					# CASE: menu bar item was released on field
 					new_obj = None
-					if self.released_object.name == "subject":
+					if isinstance(self.released_object, PASS.Subject):
 						# CASE: add subject was released on field
-						new_obj = self.current_model.hasModelComponent[0].addSubject()
-						new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
-						new_obj.label.append("New Subject")
+						if not self.view.set_highlight(self.released_object, True):
+							self.log.warning("view.set_highlight(False) failed")
+						# TODO: start edit mode
 					if self.released_object.name == "message":
 						# CASE: add message was released on field
 						if len(self.selected_objects) == 2:
@@ -212,6 +240,7 @@ class Controller:
 					if new_obj is not None:
 						self.selected_objects.append(new_obj)
 					self.released_object = new_obj
+					self.pressed_menu_bar_item = None
 				elif sum([x ** 2 for x in [a - b for a, b in zip(
 					self.press_position[user_id], pos)]]) < 10.0:
 					# CASE: some field object was selected
