@@ -56,8 +56,10 @@ class Controller:
 
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
+		if not isinstance(self.pressed_object, View.MenuBarItem):
+			return
+
 		self.log.info("process_menu_bar({})".format(message))
-		assert self.pressed_object is not None, "FU1"
 		if self.pressed_object.name == "layer_add":
 			if message == "subject":
 				new_obj = self.view.get_cur_scene().addSubject()
