@@ -276,7 +276,7 @@ class Controller:
 
 		return None
 
-	def zoom(self, level):
+	def zoom(self, level, user_id):
 		"""This function handles a zoom event
 
 		This function zooms the view by the giving parameter level, zooms out if -1,

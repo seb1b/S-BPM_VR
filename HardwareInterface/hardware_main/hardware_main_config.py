@@ -31,10 +31,12 @@ import itertools
 #			print("move with left at", pos)
 #		else:
 #			print("move with right at", pos)
-#	def zoom(self, level):
+#	def zoom(self, level, user_id):
 #		print("zoom")
 #	def fade_away(self):
 #		print("fade_away")
+#	def fade_in(self, pos, user_id, is_left):
+#		print("fade_in")
 #	def rotate(self, degrees):
 #		print("rotate")
 #	def move_model(self, pos, user_id):
@@ -177,15 +179,15 @@ class VRHardware():
 						# n = 15
 						if is_left:
 							if self.last_gestures(self.leap_zoom_in_cache, self.leap_zoom_in, is_left):
-								self.controller.zoom(1)
+								self.controller.zoom(1, user_id)
 							elif self.last_gestures(self.leap_zoom_out_cache, self.leap_zoom_out, is_left):
-								self.controller.zoom(-1)
+								self.controller.zoom(-1, user_id)
 
 						else:
 							if self.last_gestures(self.leap_zoom_in_cache, self.leap_zoom_in, is_left):
-								self.controller.zoom(1)
+								self.controller.zoom(1, user_id)
 							elif self.last_gestures(self.leap_zoom_out_cache, self.leap_zoom_out, is_left):
-								self.controller.zoom(-1)
+								self.controller.zoom(-1, user_id)
 					elif gesture == self.leap_fade_in:
 						# n = 1
 						self.controller.fade_in(xyz, user_id, is_left)
@@ -220,9 +222,9 @@ class VRHardware():
 					print("Myo zoom: " + str(rot[0]))
 					# TODO For left arm different
 					if rot[0] > 0.2:
-						self.controller.zoom(1)
+						self.controller.zoom(1, user_id)
 					elif rot[0] < -0.5:
-						self.controller.zoom(-1)
+						self.controller.zoom(-1, user_id)
 			elif user_id >= self.KINECT_ID and user_id < self.TABLET_ID:
 				xyz = [float(x) for x in pos.split(";")]
 				self.controller.move(xyz, user_id, is_left)
