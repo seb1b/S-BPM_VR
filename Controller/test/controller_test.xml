@@ -3,7 +3,7 @@
   <Objects>
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="0 0 3" at="0 0 2" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="0 0 10" at="0 0 9" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
       </Object>
@@ -34,17 +34,6 @@
 	
 	a.start()
 </core>
-    </Script>
-    <Script name_suffix="1" base_name="Script" name_space="__script__" type="Python" mobile="">
-      <core>
-	import VR
-	
-	print 'msg:', dev.getMessage()
-	#dev.answer('blub')
-	
-#	VR.view. callback function in view aufrufen
-</core>
-      <trig type="on_device" dev="mobile" state="Released" param="" key="-1" name_suffix="6" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="2" base_name="Script" name_space="__script__" type="Python" mobile="">
       <core>
@@ -443,6 +432,20 @@
 	&lt;/script&gt;
 &lt;/html&gt;
 </core>
+    </Script>
+    <Script name_suffix="0" base_name="menu_bar_click" name_space="__script__" type="Python" mobile="">
+      <core>
+	import VR
+	message = dev.getMessage()
+	#dev.answer('blub')
+
+	if hasattr(VR, controller):
+		VR.controller.process_menu_bar(message)
+	else:
+		print(message)
+
+</core>
+      <trig type="on_device" dev="mobile" state="Released" param="" key="-1" name_suffix="6" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="meta" name_space="__script__" type="HTML" mobile="mobile">
       <core>
