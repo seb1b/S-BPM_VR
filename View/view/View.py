@@ -293,7 +293,7 @@ class View():
 
 		self.meta_site = VR.CEF()
 		self.meta_site.setMaterial(self.meta_plane.getMaterial())
-		params = '?' + 'm1_k=key1&m1_v=value1&m2_k=key2&m2_v=value2'
+		params = '?' + 'key1=value1&key2=value2'
 		self.meta_site.open('http://localhost:5500/meta' + params)
 		self.meta_site.setResolution(200)
 		self.meta_site.setAspectRatio(0.4)
