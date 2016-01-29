@@ -606,7 +606,7 @@
 		//newCellValueTitle.setAttribute('class','cellValue');
 		//newCellValueTitle.setAttribute('contenteditable','true');
 		// set metadata
-		for(i = 0; i &lt; Object.keys(QueryString).length; i = i) {	
+		for(i = 0; i &lt; Object.keys(QueryString).length; i = i + 1) {	
 			var newRow   = tableRef.insertRow(tableRef.rows.length);
 			var newCellKey  = newRow.insertCell(-1);
 			var newCellValue  = newRow.insertCell(-1);
