@@ -701,10 +701,9 @@ class View():
 			for c in self.edit_node.getChildren(): c.setVisible(False)
 			self.edit_node.getChildren()[2].setVisible(True)
 			pass
-			#TODO set edit gui element
-			#set metaContent on gui element meta to parent
-			#params = self.create_url_params_from_metacontent(self.object_dict[obj])
-			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+			# set edit gui element
+			params = self.create_url_params_from_metacontent(self.object_dict[obj])
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[0].isVisible() is True:
 				children[0].setVisible(False)
@@ -724,8 +723,8 @@ class View():
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
 			#set metaContent on gui element meta to parent
-			#params = self.create_url_params_from_metacontent(self.cur_scene)
-			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+			params = self.create_url_params_from_metacontent(self.cur_scene)
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[2].isVisible() is True:
 				children[2].setVisible(False)
@@ -742,12 +741,16 @@ class View():
 		o = self.object_dict[obj]
 		assert isinstance(o, VR.Object)
 
-		params = ''
+		label = ''
+		for l in obj.label:
+			label = label + l
+		params = 'label=' + str(label) + '&'
 		metaKeys = o.getMetaKeys()
 		i = 0
 		while i < len(metaKeys):
 			print o.getMetaContent(metaKeys[i])
-			params = params + 'k' + str(i) + '=' + str(metaKeys[i]) + '&' + 'v' + str(i) + '=' + str(o.getMetaContent(metaKeys[i]))
+			#params = params + 'k' + str(i) + '=' + str(metaKeys[i]) + '&' + 'v' + str(i) + '=' + str(o.getMetaContent(metaKeys[i]))
+			params = params + str(metaKeys[i]) + '=' + str(o.getMetaContent(metaKeys[i]))
 			if(i != len(metaKeys)):
 				params = params + '&'
 
