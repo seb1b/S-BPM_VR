@@ -85,7 +85,7 @@ class View():
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
 		#TODO delete
-		self.handle_dict = {}  # key:poly subject/state/message value: 1. handle 2.path 
+		self.handle_dict = {}  # key:poly subject/state/message value: 1. handle 2.path
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -873,13 +873,13 @@ class View():
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					#name changed
-					#TODO reset name					
+					#TODO reset name
 					#had_name = False
 					for c in poly_obj.getChildren():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
@@ -932,13 +932,13 @@ class View():
 					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
 						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
 					#TODO reset name
-					#name changed					
+					#name changed
 					#had_name = False
 					for c in poly_obj.getChildren():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
@@ -996,12 +996,14 @@ class View():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
 					#TODO meta content
+			elif isinstance(object, PASS.Layer):
+				self.update_all()
 			else:
 				pass
 		elif isinstance(self.cur_scene, PASS.Behavior):
@@ -1048,7 +1050,7 @@ class View():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
@@ -1097,7 +1099,7 @@ class View():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
@@ -1146,7 +1148,7 @@ class View():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
@@ -1202,7 +1204,7 @@ class View():
 						if isinstance(c, VR.AnnotationEngine):
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
-							#print 'had_name' 
+							#print 'had_name'
 							poly_obj.removeChildren(c)
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
@@ -1210,6 +1212,10 @@ class View():
 					#TODO meta content
 					#TODO sender changed
 					#TODO receiver changed
+			elif isinstance(object, PASS.Behavior):
+				self.update_all()
+			else:
+				pass
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
 
