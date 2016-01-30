@@ -880,7 +880,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
@@ -939,7 +939,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
@@ -997,7 +997,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
@@ -1051,7 +1051,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
@@ -1100,7 +1100,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
@@ -1149,7 +1149,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
@@ -1205,7 +1205,7 @@ class View():
 							#c = self.create_annotation_engine(object, 0.02)
 							#had_name = True
 							#print 'had_name'
-							poly_obj.removeChildren(c)
+							c.destroy()
 					#if not had_name:
 					ae = self.create_annotation_engine(object, 0.02)
 					poly_obj.addChild(ae)
