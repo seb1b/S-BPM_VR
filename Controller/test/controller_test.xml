@@ -84,6 +84,10 @@
 	
 	VR.ptool.update()
 	
+	print VR.view_root.getChildren()
+	#mes.destroy()
+	#print VR.view_root.getChildren()
+	
 </core>
     </Script>
     <Script name_suffix="3" base_name="Script" name_space="__script__" type="Python" mobile="">
