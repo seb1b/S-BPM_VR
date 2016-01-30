@@ -81,10 +81,31 @@ namespace Kinect {
 
 		private string getPosition (Joint joint) {
 			// dividing as we need an normalized result
-			float x = joint.Position.X/5;
-			float y = joint.Position.Y/5;
-			float z = joint.Position.Z/5;
+			Joint shoulderL = body.Joints [JointType.ShoulderLeft];
+			Joint shoulderR = body.Joints [JointType.ShoulderRight];
+			float b = shoulderL.Position.X - shoulderR.Position.X;
+			b = b * 3;
+			Joint head = body.Joints [JointType.Head];
+			float h = 0.8; // difference between highest and lowest handposition
+			float x = ((joint.Position.X - head.Position.X) / b) + 0.5;
+			float y = ((joint.Position.Y - head.Position.Y) / h);
+			float z = head.Position.Z - joint.Position.Z;
 
+			if (x > 1) {
+				x = 1;
+			} else if (x < 0) {
+				x = 0;
+			}
+			if (y > 1) {
+				y = 1;
+			} else if (y < 0) {
+				y = 0;
+			}
+			if (z > 1) {
+				z = 1;
+			} else if (z < 0) {
+				z = 0;
+			}
 			string xPos = x + "";
 			xPos = xPos.Replace (",", ".");
 
