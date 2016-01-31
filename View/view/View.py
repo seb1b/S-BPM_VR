@@ -84,8 +84,6 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
-		#TODO delete
-		self.handle_dict = {}  # key:poly subject/state/message value: 1. handle 2.path
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -97,7 +95,6 @@ class View():
 		self.camera_fov = 0.2
 
 		self.paths = []  # list of paths
-		self.m_paths = []  # for creating a new message
 		self.new_message_path = None  # for creating a new message
 
 		self.cur_scene = None
@@ -116,8 +113,6 @@ class View():
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
-		VR.mptool = VR.Pathtool()
-		VR.mptool.setHandleGeometry(self.HANDLE)
 
 		#setup offsets
 		#screen
@@ -365,7 +360,6 @@ class View():
 			child.destroy()
 		self.object_dict.clear()
 		self.message_dict.clear()
-		self.handle_dict.clear()
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
 
@@ -1307,8 +1301,8 @@ class View():
 			if self.new_message_path is not None:
 				return
 			print "test"
-			self.m_paths.append(VR.mptool.newPath(None, VR.view_root))
-			handles = VR.mptool.getHandles(self.m_paths[-1])
+			self.paths.append(VR.ptool.newPath(None, VR.view_root))
+			handles = VR.ptool.getHandles(self.paths[-1])
 			assert len(handles) == 2, "invalid number of handles"
 			handles[0].setPickable(False)
 			handles[0].setFrom(0, 0, 0)
@@ -1316,12 +1310,18 @@ class View():
 			handles[1].setFrom(0, 0, 0)
 			handles[1].setPickable(False)
 			VR.view_user_cursors[user_id][1].getBeacon().addChild(handles[1])
-			self.new_message_path = self.m_paths[-1]
-			VR.mptool.update()
+			self.new_message_path = len(self.paths) - 1
+			VR.ptool.update()
 		else:
 			print 'else'
 			if self.new_message_path is not None:
-				#VR.mptool.remPath(self.new_message_path)
+				print 'delete'
+				h1 = VR.view_user_cursors[user_id][0].getBeacon().getChildren()[0]
+				h2 = VR.view_user_cursors[user_id][1].getBeacon().getChildren()[0]
+				print h1,h2
+				h1.destroy()
+				h2.destroy()
+				#VR.ptool.remPath(self.paths[self.new_message_path])
 				self.new_message_path = None
 			else:
 				print "Warning: no message path to be deleted..."
