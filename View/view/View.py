@@ -121,12 +121,12 @@ class View():
 
 		#setup offsets
 		#screen
-		win_size = VR.getSetup().getWindow('screen').getSize()
-		assert len(win_size) == 2
+		self.win_size = VR.getSetup().getWindow('screen').getSize()
+		assert len(self.win_size) == 2
 		self.scale_y = 2 * self.camera_from[2] * math.tan(self.camera_fov * 0.5)
-		self.scale_x = self.scale_y * win_size[0] / win_size[1]
+		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self.scale_cursor_y = 2 * abs(self.CURSOR_DIST) * math.tan(self.camera_fov * 0.5)
-		self.scale_cursor_x = self.scale_cursor_y * win_size[0] / win_size[1]
+		self.scale_cursor_x = self.scale_cursor_y * self.win_size[0] / self.win_size[1]
 		#model
 		self.model_offset_x = 0
 		self.model_offset_y = 0
@@ -138,13 +138,17 @@ class View():
 		self.edit_node = VR.Transform('edit_node')
 		self.edit_node.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])		
 		self.setup_menu_bar()
+
+		# start page
+		self.setup_start_page()
 	
 	def setup_start_page(self):
 		#setup menu bar behaviorAdd
 		self.start_page_plane = VR.Geometry('startPage')
 		s = 'Plane '
-		s += str(self.scale_x) + str(self.scale_y)
-		s += ' 1 1'
+		#s += str(self.scale_x) + str(self.scale_y)
+		s += str(self.scale_x) 
+		s += ' 2 1 1'
 		self.start_page_plane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
@@ -158,12 +162,12 @@ class View():
 		self.start_page_plane.addTag('start_page')
 
 		self.start_page_site = VR.CEF()
-		self.start_page_site.setMaterial(self.behavior_add_plane.getMaterial())
-		self.start_page_site.open('http://localhost:5500/behaviorAdd')
-		self.start_page_site.setResolution(512)
-		self.start_page_site.setAspectRatio(4)
+		self.start_page_site.setMaterial(self.start_page_plane.getMaterial())
+		self.start_page_site.open('http://localhost:5500/start')
+		self.start_page_site.setResolution(1024)
+		self.start_page_site.setAspectRatio(2)
 		
-		self.start_page_plane.setVisible(False)
+		self.start_page_plane.setVisible(True)
 		VR.view_root.addChild(self.start_page_plane)
 
 	def setup_menu_bar(self):
@@ -302,6 +306,8 @@ class View():
 		self.meta_site.setResolution(200)
 		self.meta_site.setAspectRatio(0.4)
 
+		self.meta_plane.setVisible(False)
+		self.navigation_plane.setVisible(False)
 		VR.cam.addChild(self.meta_plane)
 		VR.cam.addChild(self.navigation_plane)
 
@@ -314,6 +320,11 @@ class View():
 		self.cur_scene = cur_scene
 		VR.cam.setFrom(self.camera_from)
 
+		# hide start view
+		self.start_page_plane.setVisible(False)
+		# show menus
+		self.meta_plane.setVisible(True)
+		self.navigation_plane.setVisible(True)
 		for c in self.edit_node.getChildren(): c.setVisible(False)
 		if isinstance(cur_scene, PASS.Layer):
 			self.edit_node.getChildren()[0].setVisible(True)
