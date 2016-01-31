@@ -615,6 +615,18 @@ class View():
 		ae.setScale([0.5, 0.5, 1])
 		ae.set(1, [-size, 0, 0.1], text)
 		return ae
+	
+	def refresh_annotation_engine(self, subject, size):
+		# text label
+		assert subject is not None, "refresh_annotation_engine given subject has not to be None"
+		text = ''
+		for t in subject.label:
+			text = text + t		
+		for c in subject.getChildren():
+			if c.hasTag('AnnotationEngine'):
+				ae = c
+		assert ae is not None, "refresh_annotation_engine given subject has no AnnotationEngine"
+		ae.set(1, [-size, 0, 0.1], text)
 
 	def zoom(self, level):
 		self.log.info('zoom')
