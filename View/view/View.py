@@ -68,7 +68,7 @@ class View():
 		self.HANDLE = VR.Geometry('handle')
 		self.HANDLE.setPrimitive('Box 0.001 0.001 0.001 1 1 1')
 		self.HANDLE.setMaterial(VR.Material('sample material'))
-		
+
 		self.PLANE_SIZE = 0.4
 		self.OBJ_SIzE = 0.2
 
@@ -136,18 +136,18 @@ class View():
 		# gui elements
 		#node for all edit planes
 		self.edit_node = VR.Transform('edit_node')
-		self.edit_node.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])		
+		self.edit_node.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
 		self.setup_menu_bar()
 
 		# start page
 		self.setup_start_page()
-	
+
 	def setup_start_page(self):
 		#setup menu bar behaviorAdd
 		self.start_page_plane = VR.Geometry('startPage')
 		s = 'Plane '
 		#s += str(self.scale_x) + str(self.scale_y)
-		s += str(self.scale_x) 
+		s += str(self.scale_x)
 		s += ' 2 1 1'
 		self.start_page_plane.setPrimitive(s)
 		material = VR.Material('gui')
@@ -166,8 +166,14 @@ class View():
 		self.start_page_site.open('http://localhost:5500/start')
 		self.start_page_site.setResolution(1024)
 		self.start_page_site.setAspectRatio(2)
-		
+
 		self.start_page_plane.setVisible(True)
+		self.start_page_site.setMaterial(self.behavior_add_plane.getMaterial())
+		self.start_page_site.open('http://localhost:5500/behaviorAdd')
+		self.start_page_site.setResolution(512)
+		self.start_page_site.setAspectRatio(4)
+
+		self.start_page_plane.setVisible(False)
 		VR.view_root.addChild(self.start_page_plane)
 
 	def setup_menu_bar(self):
@@ -180,7 +186,7 @@ class View():
 		self.layer_add_site = None
 		self.behavior_add_plane = None
 		self.behavior_add_site = None
-		
+
 		#setup menu bar layerAdd -> add in process layer
 		self.layer_add_plane = VR.Geometry('layerAdd')
 		s = 'Plane '
@@ -204,10 +210,9 @@ class View():
 		self.layer_add_site.open('http://localhost:5500/layerAdd')
 		self.layer_add_site.setResolution(512)
 		self.layer_add_site.setAspectRatio(4)
-		
+
 		self.layer_add_plane.setVisible(False)
 		self.edit_node.addChild(self.layer_add_plane)
-		
 
 		#setup menu bar behaviorAdd
 		self.behavior_add_plane = VR.Geometry('behaviorAdd')
@@ -232,11 +237,10 @@ class View():
 		self.behavior_add_site.open('http://localhost:5500/behaviorAdd')
 		self.behavior_add_site.setResolution(512)
 		self.behavior_add_site.setAspectRatio(4)
-		
+
 		self.behavior_add_plane.setVisible(False)
 		self.edit_node.addChild(self.behavior_add_plane)
-		
-		
+
 		#setup menu bar edit
 		self.edit_plane = VR.Geometry('edit')
 		s = 'Plane '
@@ -259,7 +263,7 @@ class View():
 		self.edit_site.open('http://localhost:5500/edit')
 		self.edit_site.setResolution(512)
 		self.edit_site.setAspectRatio(4)
-		
+
 		self.edit_plane.setVisible(False)
 		self.edit_node.addChild(self.edit_plane)
 
@@ -280,7 +284,6 @@ class View():
 		self.navigation_plane.setDir(0, 0, 1)
 		self.navigation_plane.setPickable(False)
 		self.navigation_plane.addTag('navigation')
-
 
 		# setup menu bar metadata
 		self.meta_plane = VR.Geometry('meta')
@@ -325,7 +328,8 @@ class View():
 		# show menus
 		self.meta_plane.setVisible(True)
 		self.navigation_plane.setVisible(True)
-		for c in self.edit_node.getChildren(): c.setVisible(False)
+		for c in self.edit_node.getChildren():
+			c.setVisible(False)
 		if isinstance(cur_scene, PASS.Layer):
 			self.edit_node.getChildren()[0].setVisible(True)
 		elif isinstance(cur_scene, PASS.Behavior):  # is instance of Pass.Behavior
@@ -346,6 +350,7 @@ class View():
 
 		#VR.cam.addChild(self.active_gui_element) #TODO
 		self.update_all()
+		VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.camera_from[2] + 10)
 
 	def get_cur_scene(self):
 		self.log.info('get_cur_scene')
@@ -623,7 +628,6 @@ class View():
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
 			VR.cam.setFrom(new_cam_pos)
-		#TODO add image
 
 	def current_zoom_level(self):
 		self.log.info('current_zoom_level')
