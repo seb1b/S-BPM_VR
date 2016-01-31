@@ -50,6 +50,39 @@ def buildHelper(manager, model):
 	mePrototypenbauKonstrukteur.label.append("Prototyp nicht funktional")
 	mePrototypenbauKonstrukteur.hasAbstractVisualRepresentation.setPoint2D(0.4,0.2)
 	
+	# SBD (Konstrukteur)
+	behaviorKonstrukteur = sKonstrukteur.hasBehavior
+	# SBD -> States
+	state1 = behaviorKonstrukteur.addReceiveState()
+	state1.label.append("Warten auf Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.1,0.1)
+	behaviorKonstrukteur.setInitialState(state1)
+	state2 = behaviorKonstrukteur.addFunctionState()
+	state2.label.append("Prüfe Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.1)
+	state3 = behaviorKonstrukteur.addSendState()
+	state3.label.append("Bitte um Freigabe")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.5,0.1)
+	state4 = behaviorKonstrukteur.addReceiveState()
+	state4.label.append("Ende")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.7,0.1)
+	state4.isFinalState = True
+	state5 = behaviorKonstrukteur.addSendState()
+	state5.label.append("Informiere Konstrukteur")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.3)
+	
+	# SBD -> TransitionEdges
+	edge12 = behaviorKonstrukteur.addReceiveTransition(state1, state2, meKonstrukteurPruefer)
+	edge12.label.append("Änderungsantrag")
+	edge23 = behaviorKonstrukteur.addStandardTransition(state2, state3)
+	edge23.label.append("Antrag OK")
+	edge25 = behaviorKonstrukteur.addStandardTransition(state2, state5)
+	edge25.label.append("Antrag nicht OK")
+	edge34 = behaviorKonstrukteur.addSendTransition(state3, state4, mePrueferKonstrukteur)
+	edge34.label.append("Änderungsantrag in Ordnung")
+	edge42 = behaviorKonstrukteur.addReceiveTransition(state4, state2, meKonstrukteurPruefer)
+	edge42.label.append("Änderungsantrag")
+
 	# SBD (Pruefer)
 	behaviorPruefer = sPruefer.hasBehavior
 	# SBD -> States
@@ -72,15 +105,114 @@ def buildHelper(manager, model):
 	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.3)
 	
 	# SBD -> TransitionEdges
-	edge12 = behaviorPruefer.addReceiveTransition(state1, state2, meKonstrukteurPruefer)
+	edge12 = behaviorPruefer.addReceiveTransition(state1, state2, mePrueferEntwicklungsleiter)
 	edge12.label.append("Änderungsantrag")
 	edge23 = behaviorPruefer.addStandardTransition(state2, state3)
 	edge23.label.append("Antrag OK")
 	edge25 = behaviorPruefer.addStandardTransition(state2, state5)
 	edge25.label.append("Antrag nicht OK")
-	edge34 = behaviorPruefer.addSendTransition(state3, state4, mePrueferKonstrukteur)
+	edge34 = behaviorPruefer.addSendTransition(state3, state4, meEntwicklungsleiterEntwicklungsleiter)
 	edge34.label.append("Änderungsantrag in Ordnung")
-	edge42 = behaviorPruefer.addReceiveTransition(state4, state2, meKonstrukteurPruefer)
+	edge42 = behaviorPruefer.addReceiveTransition(state4, state2, mePrueferEntwicklungsleiter)
+	edge42.label.append("Änderungsantrag")
+
+	# SBD (Entwicklungsleiter)
+	behaviorEntwicklungsleiter = sEntwicklungsleiter.hasBehavior
+	# SBD -> States
+	state1 = behaviorEntwicklungsleiter.addReceiveState()
+	state1.label.append("Warten auf Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.1,0.1)
+	behaviorEntwicklungsleiter.setInitialState(state1)
+	state2 = behaviorEntwicklungsleiter.addFunctionState()
+	state2.label.append("Prüfe Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.1)
+	state3 = behaviorEntwicklungsleiter.addSendState()
+	state3.label.append("Bitte um Freigabe")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.5,0.1)
+	state4 = behaviorEntwicklungsleiter.addReceiveState()
+	state4.label.append("Ende")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.7,0.1)
+	state4.isFinalState = True
+	state5 = behaviorEntwicklungsleiter.addSendState()
+	state5.label.append("Informiere Konstrukteur")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.3)
+	
+	# SBD -> TransitionEdges
+	edge12 = behaviorEntwicklungsleiter.addReceiveTransition(state1, state2, meKonstrukteurPruefer)
+	edge12.label.append("Änderungsantrag")
+	edge23 = behaviorEntwicklungsleiter.addStandardTransition(state2, state3)
+	edge23.label.append("Antrag OK")
+	edge25 = behaviorEntwicklungsleiter.addStandardTransition(state2, state5)
+	edge25.label.append("Antrag nicht OK")
+	edge34 = behaviorEntwicklungsleiter.addSendTransition(state3, state4, mePrueferKonstrukteur)
+	edge34.label.append("Änderungsantrag in Ordnung")
+	edge42 = behaviorEntwicklungsleiter.addReceiveTransition(state4, state2, meKonstrukteurPruefer)
+	edge42.label.append("Änderungsantrag")
+
+	# SBD (Prototypenbau)
+	behaviorPrototypenbau = sPrototypenbau.hasBehavior
+	# SBD -> States
+	state1 = behaviorPrototypenbau.addReceiveState()
+	state1.label.append("Warten auf Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.1,0.1)
+	behaviorPrototypenbau.setInitialState(state1)
+	state2 = behaviorPrototypenbau.addFunctionState()
+	state2.label.append("Prüfe Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.1)
+	state3 = behaviorPrototypenbau.addSendState()
+	state3.label.append("Bitte um Freigabe")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.5,0.1)
+	state4 = behaviorPrototypenbau.addReceiveState()
+	state4.label.append("Ende")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.7,0.1)
+	state4.isFinalState = True
+	state5 = behaviorPrototypenbau.addSendState()
+	state5.label.append("Informiere Konstrukteur")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.3)
+	
+	# SBD -> TransitionEdges
+	edge12 = behaviorPrototypenbau.addReceiveTransition(state1, state2, meKonstrukteurPruefer)
+	edge12.label.append("Änderungsantrag")
+	edge23 = behaviorPrototypenbau.addStandardTransition(state2, state3)
+	edge23.label.append("Antrag OK")
+	edge25 = behaviorPrototypenbau.addStandardTransition(state2, state5)
+	edge25.label.append("Antrag nicht OK")
+	edge34 = behaviorPrototypenbau.addSendTransition(state3, state4, mePrueferKonstrukteur)
+	edge34.label.append("Änderungsantrag in Ordnung")
+	edge42 = behaviorPrototypenbau.addReceiveTransition(state4, state2, meKonstrukteurPruefer)
+	edge42.label.append("Änderungsantrag")
+
+	# SBD (Serienfertigung)
+	behaviorSerienfertigung = sSerienfertigung.hasBehavior
+	# SBD -> States
+	state1 = behaviorSerienfertigung.addReceiveState()
+	state1.label.append("Warten auf Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.1,0.1)
+	behaviorSerienfertigung.setInitialState(state1)
+	state2 = behaviorSerienfertigung.addFunctionState()
+	state2.label.append("Prüfe Antrag")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.1)
+	state3 = behaviorSerienfertigung.addSendState()
+	state3.label.append("Bitte um Freigabe")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.5,0.1)
+	state4 = behaviorSerienfertigung.addReceiveState()
+	state4.label.append("Ende")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.7,0.1)
+	state4.isFinalState = True
+	state5 = behaviorSerienfertigung.addSendState()
+	state5.label.append("Informiere Konstrukteur")
+	state1.hasAbstractVisualRepresentation.setPoint2D(0.3,0.3)
+	
+	# SBD -> TransitionEdges
+	edge12 = behaviorSerienfertigung.addReceiveTransition(state1, state2, meKonstrukteurPruefer)
+	edge12.label.append("Änderungsantrag")
+	edge23 = behaviorSerienfertigung.addStandardTransition(state2, state3)
+	edge23.label.append("Antrag OK")
+	edge25 = behaviorSerienfertigung.addStandardTransition(state2, state5)
+	edge25.label.append("Antrag nicht OK")
+	edge34 = behaviorSerienfertigung.addSendTransition(state3, state4, mePrueferKonstrukteur)
+	edge34.label.append("Änderungsantrag in Ordnung")
+	edge42 = behaviorSerienfertigung.addReceiveTransition(state4, state2, meKonstrukteurPruefer)
 	edge42.label.append("Änderungsantrag")
 
 #Create manager
