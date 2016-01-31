@@ -718,8 +718,8 @@ class View():
 			self.edit_node.getChildren()[2].setVisible(True)
 			pass
 			# set edit gui element
-			params = self.create_url_params_from_metacontent(self.object_dict[obj])
-			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+			#params = self.create_url_params_from_metacontent(obj)
+			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[0].isVisible() is True:
 				children[0].setVisible(False)
@@ -740,8 +740,8 @@ class View():
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
 			#set metaContent on gui element meta to parent
-			params = self.create_url_params_from_metacontent(self.cur_scene)
-			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+			#params = self.create_url_params_from_metacontent(self.cur_scene)
+			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[2].isVisible() is True:
 				children[2].setVisible(False)
@@ -755,19 +755,19 @@ class View():
 
 	def create_url_params_from_metacontent(self, obj):
 		self.log.info('create_url_params_from_metacontent')
-		o = self.object_dict[obj]
-		assert isinstance(o, VR.Object)
+		#o = self.object_dict[obj]
+		#assert isinstance(o, VR.Object)
 
 		label = ''
 		for l in obj.label:
 			label = label + l
 		params = 'label=' + str(label) + '&'
-		metaKeys = o.getMetaKeys()
+		metaKeys = obj.getMetaKeys()
 		i = 0
 		while i < len(metaKeys):
-			print o.getMetaContent(metaKeys[i])
+			print obj.getMetaContent(metaKeys[i])
 			#params = params + 'k' + str(i) + '=' + str(metaKeys[i]) + '&' + 'v' + str(i) + '=' + str(o.getMetaContent(metaKeys[i]))
-			params = params + str(metaKeys[i]) + '=' + str(o.getMetaContent(metaKeys[i]))
+			params = params + str(metaKeys[i]) + '=' + str(obj.getMetaContent(metaKeys[i]))
 			if(i != len(metaKeys)):
 				params = params + '&'
 
@@ -954,8 +954,10 @@ class View():
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new message
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
-					assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-					assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
+						return
+					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+						return
 					subject_node = VR.Transform('External_Subject_Container')
 					subject_node.addTag('obj')
 					subject_node.addTag('external_subject')
@@ -1006,6 +1008,10 @@ class View():
 			if isinstance(object, PASS.SendState):
 				print "View on_change: Send State"
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
+				if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
+					return
+				if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+					return
 				if not object in self.object_dict:  # create new subject
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
@@ -1141,8 +1147,10 @@ class View():
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new message
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
-					assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-					assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
+						return
+					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+						return
 					transition_node = VR.Transform('Transition_Container')
 					transition_node.addTag('obj')
 					transition_node.addTag('transition')
