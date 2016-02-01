@@ -65,7 +65,7 @@
 	handles1[1].setVisible(False)
 	mid.addChild(handles1[1])
 #	handles1[1].addChild(mes)
-
+	'''
 	paths.append(VR.ptool.newPath(None, VR.view_root))
 	handles2 = VR.ptool.getHandles(paths[1])
 	assert len(handles2) == 2, "invalid number of handles"
@@ -81,6 +81,7 @@
 #	handles2[1].setPickable(True)
 	mes.addChild(handles2[1])
 #	handles2[1].addChild(mes)
+	'''
 	
 	VR.ptool.update()
 	
