@@ -456,7 +456,7 @@ class ModelManager(object):
 		@author
 		"""
 		self._changeListeners.append(listenerFunction)
-		listenerFunction(self.model)
+		listenerFunction(self.model, None)
 
 	def removeChangeListener(self, listenerFunction):
 		"""

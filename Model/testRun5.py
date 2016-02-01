@@ -30,6 +30,8 @@ def buildHelper(manager, model):
 
 	newState3.hasAbstractVisualRepresentation.setPoint2D(13, 15)
 
+	newState2.label.append("Hallo")
+
 	print behavior2.getBoundingBox2D()
 	print behavior2.getBoundingBox3D()
 	print behavior1.getBoundingBox2D()
@@ -39,9 +41,9 @@ def buildHelper(manager, model):
 	print layer.getBoundingBox3D()
 
 
-def changeListener(object):
+def changeListener(object, attrName):
 	global i
-	print(("==> Object changed: " + str(object) + "!"))
+	print(("==> Object changed: " + str(object) + " with attribute " + str(attrName) + "!"))
 	print(("==> Parent: " + str(object.getParent(PASS.BaseLayer)) + "!"))
 	i += 1
 
