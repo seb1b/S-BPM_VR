@@ -43,6 +43,7 @@ class Controller:
 		self.released_object = None
 		self.pressed_is_left = False
 		self.pressed_user_id = None
+		self.point_pos = None
 
 		self.hw_main = VRHardware(self)
 
@@ -63,8 +64,13 @@ class Controller:
 		self.log.info("process_menu_bar({})".format(message))
 		if self.pressed_object.name == "layer_add":
 			if message == "subject":
-				new_obj = self.view.get_cur_scene().addSubject()
-				new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
+				if point_pos not None:
+					new_obj = self.view.get_cur_scene().addSubject()
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.point_pos[0], self.point_pos[1])
+					point_pos = None
+				else:
+					new_obj = self.view.get_cur_scene().addSubject()
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
 				new_obj.label.append("New Subject")
 				self.selected_objects.append(new_obj)
 				self.pressed_menu_bar = self.pressed_object
@@ -279,7 +285,8 @@ class Controller:
 							self.log.warning("view.set_highlight(False) failed")
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
-				# self.view.highlight_pos(pos)
+					self.point_pos = pos
+					self.view.highlight_pos(point_pos)
 				self.log.info("deselect")
 			else:
 				self.log.warning("case: x")
