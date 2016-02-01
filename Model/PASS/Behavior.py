@@ -46,8 +46,8 @@ class Behavior(PASSProcessModelElement):
 		@author
 		"""
 		PASSProcessModelElement.__init__(self, manager, uri, isBlank, blankNodeId)
-		self.hasEdge = ListenerList([], self)
-		self.hasState = ListenerList([], self)
+		self.hasEdge = ListenerList([], self, "hasEdge")
+		self.hasState = ListenerList([], self, "hasState")
 		
 		self._fireChangeEvents = True
 		self.fireChangeEvent()

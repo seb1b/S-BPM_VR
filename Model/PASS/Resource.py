@@ -68,7 +68,7 @@ class Resource(object):
 			raise Exception("Paramter \"manager\" has to be of type ModelManager!")
 		self._modelManager = manager
 		self._modelManager.registerResource(self)
-		self.type = ListenerList([], self)
+		self.type = ListenerList([], self, "type")
 		#Now check whether to create a normal or a blank resource
 		self._isBlank = isBlank
 		if(not self._isBlank):
@@ -120,7 +120,7 @@ class Resource(object):
 		#First set yourself the class type if it is not Resource or already set
 		if(type(self).__name__ != "Resource"):
 			if(not hasattr(self, "type")):
-				self.type = ListenerList([], self)
+				self.type = ListenerList([], self, "type")
 			ownClassUri = self.modelManager.classMapper.getClassResource(type(self).__name__)
 			#Does not work because they are of type resource
 			found = False
@@ -311,13 +311,13 @@ class Resource(object):
 		#Fire the event change event if try to set any variable (Except the one setting whether we should fire the change events or not!)
 		if(name != "_fireChangeEvents"):
 			object.__setattr__(self, name, value)
-			self.fireChangeEvent()
+			self.fireChangeEvent(name)
 		else:
 			object.__setattr__(self, name, value)
 		
-	def fireChangeEvent(self):
+	def fireChangeEvent(self, attrName = None):
 		if(self._fireChangeEvents):
-			self.modelManager.fireChangeEvent(self)
+			self.modelManager.fireChangeEvent(self, attrName)
 			
 	@property
 	def childResources(self):

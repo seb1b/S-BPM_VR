@@ -270,7 +270,7 @@ class ModelManager(object):
 		multiplicity = subjectClass.getAttrMultiplicity(attrName)
 		if(multiplicity == AttributeMultiplicity.UNKNOWN):
 			if (not hasattr(subjectClass, attrName)):
-				setattr(subjectClass, attrName, ListenerList([], subjectClass))
+				setattr(subjectClass, attrName, ListenerList([], subjectClass, str(attrName)))
 			getattr(subjectClass, attrName).append(objectClass)
 		elif(multiplicity == AttributeMultiplicity.UNIQUE):
 			setattr(subjectClass, attrName, objectClass)
@@ -468,18 +468,19 @@ class ModelManager(object):
 		"""
 		self._changeListeners.remove(listenerFunction)
 
-	def fireChangeEvent(self, changedElement):
+	def fireChangeEvent(self, changedElement, attrName):
 		"""
 		 Fires a change event to all registered change listeners.
 
 		@param PASSProcessModelElement changedElement : The element that has changed.
+		@param string attrName : The name of the attribute that has changed.
 		@return  :
 		@author
 		"""
 		#Only fire if we are not loading anything currently
 		if(not self._currentlyLoading):
 			for func in self._changeListeners:
-				func(changedElement)
+				func(changedElement, attrName)
 			
 	def getParent(self, childElement, classType = None, recursionDepth = 1):
 		"""
