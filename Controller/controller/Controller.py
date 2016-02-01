@@ -65,7 +65,7 @@ class Controller:
 		self.log.info("process_menu_bar({})".format(message))
 		if self.pressed_object.name == "layer_add":
 			if message == "subject":
-				if point_pos not None:
+				if point_pos is not None:
 					new_obj = self.view.get_cur_scene().addSubject()
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.point_pos[0], self.point_pos[1])
 					point_pos = None
@@ -85,6 +85,14 @@ class Controller:
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
 				pass
+			elif message == "delete":
+				# only the latest selected subject will be deleted
+				assert selected_objects is not None, "Nothing to delete" 
+				self.pressed_menu_bar = self.pressed_object
+				self.pressed_menu_bar_item = message
+				latest_obj = self.selected_objects[len(self.selected_objects)-1]
+				self.view.get_cur_scene().removeActiveComponent(latest_obj, True)	
+				self.selected_objects.pop()
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
 		# TODO: implement rest
