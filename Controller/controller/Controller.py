@@ -44,6 +44,7 @@ class Controller:
 		self.pressed_is_left = False
 		self.pressed_user_id = None
 		self.point_pos = None
+		self.highlighted_pos = None
 
 		self.hw_main = VRHardware(self)
 
@@ -285,8 +286,10 @@ class Controller:
 							self.log.warning("view.set_highlight(False) failed")
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
-					self.point_pos = pos
-					self.view.highlight_pos(point_pos)
+				self.view.remove_highlighted_pos(highlighted_pos)
+				self.point_pos = pos
+				self.highlighted_pos = pos
+				self.view.highlight_pos(highlighted_pos)
 				self.log.info("deselect")
 			else:
 				self.log.warning("case: x")
