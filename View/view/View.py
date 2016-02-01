@@ -1239,6 +1239,164 @@ class View():
 				pass
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
+	'''
+	def connect(self, message):
+		self.log.info('connect')
+		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
+		assert message in self.message_dict, "parameter must be in message_dict"
+
+		s = self.message_dict[message][0]
+		r = self.message_dict[message][1]
+		assert s is not None and r is not None, "sender and receiver must not be None"
+		print 'sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label
+		start_pos = s.getFrom()
+		mid_start_mes_pos = [message.getFrom()[0], s.getFrom()[1], -0.1]
+		mes_pos = message.getFrom()
+		mid_mes_end_pos = [message.getFrom()[0], r.getFrom()[1], -0.1]
+		end_pos = r.getFrom()		
+
+		#create additional mid objects
+		mid_1 = VR.Geometry('mid')
+		mid_1.setPrimitive('Box 0 0 0 1 1 1')
+		mid_1.setFrom(mid_start_mes_pos)
+		mid_1.setPickable(True)
+		mid_1.addTag('mid')
+		VR.view_root.addChild(mid_1)
+		mid_2 = VR.Geometry('mid')
+		mid_2.setPrimitive('Box 0 0 0 1 1 1')
+		mid_2.setFrom(mid_mes_end_pos)
+		mid_2.setPickable(True)
+		mid_2.addTag('mid')
+		VR.view_root.addChild(mid_2)
+
+		#calc handels
+		start_dir = [0.0, 0.0]
+		#mes_start_mes_dir = [0.0, 0.0]
+		mes_dir = [0.0, 0.0]
+		#mid_mes_end_dir = [0.0, 0.0]
+		end_dir = [0.0, 0.0]
+		#calc handel start_pos and mid_pos
+		if start_pos[0] < mes_pos[0]:
+			#start_pos handle right			
+			start_dir = [-1.0, 0.0]
+			if start_pos[1] < mes_pos[1]:
+				#mes_pos handle bottom
+				mes_dir = [0.0, 1.0]
+			elif start_pos[1] == mes_pos[1]:
+				#mes_pos handle left
+				mes_dir = [1.0, 0.0]
+			else:
+				#mes_pos handle top
+				mes_dir = [0.0, -1.0]
+		elif start_pos[0] == mes_pos[0]:
+			#start_pos handle middle
+			if start_pos[1] < mes_pos[1]:
+				#start_pos middle top
+				start_dir = [0.0, -1.0]
+			else:
+				#start_pos middle bottom
+				start_dir = [0.0, 1.0]
+		else:
+			#start_pos handle left
+			start_dir = [1.0, 0.0]
+			if start_pos[1] < mes_pos[1]:
+				#mes_pos handle bottom
+				mes_dir = [0.0, 1.0]
+			elif start_pos[1] == mes_pos[1]:
+				#mes_pos handle right
+				mes_dir = [-1.0, 0.0]			
+			else:
+				#mes_pos handle top
+				mes_dir = [0.0, -1.0]
+		#calc handel end_pos and mid_pos
+		if end_pos[0] < mes_pos[0]:
+			#end_pos handle right
+			end_dir = [-1.0, 0.0]
+			if end_pos[1] < mes_pos[1]:
+				#mes_pos handle bottom
+				mes_dir = [0.0, 1.0]
+			elif end_pos[1] == mes_pos[1]:
+				#mes_pos handle left
+				mes_dir = [1.0, 0.0]
+			else:
+				#mes_pos handle top
+				mes_dir = [0.0, -1.0]
+		elif end_pos[0] == mes_pos[0]:
+			#end_pos handle middle
+			if end_pos[1] < mes_pos[1]:
+				#end_pos middle top
+				end_dir = [0.0, -1.0]
+			else:
+				#start_pos middle bottom
+				end_dir = [0.0, 1.0]
+		else:
+			#end_pos handle left
+			end_dir = [1.0, 0.0]
+			if start_pos[1] < mes_pos[1]:
+				#mes_pos handle bottom
+				mes_dir = [0.0, 1.0]
+			elif start_pos[1] == mes_pos[1]:
+				#mes_pos handle right
+				mes_dir = [-1.0, 0.0]
+			else:
+				#mes_pos handle top
+				mes_dir = [0.0, -1.0]
+
+		#set all paths
+		#set path sender -> mid
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		handles = VR.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 2, "invalid number of handles"
+		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
+		handles[0].setPickable(False)
+		handles[0].setFrom(0, 0, 0)
+		s.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setPickable(False)
+		handles[1].setDir(start_dir[0], start_dir[1], 0.0)
+		mid_1.addChild(handles[1])
+		
+		#set path mid -> message
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		handles = VR.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 2, "invalid number of handles"
+		handles[0].setDir(mes_dir[0], mes_dir[1], 0.0)
+		handles[0].setPickable(False)
+		handles[0].setFrom(0, 0, 0)
+		mid_1.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setPickable(False)
+		handles[1].setDir(mes_dir[0], mes_dir[1], 0.0)
+		message.addChild(handles[1])
+
+		#set path message -> mid
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		handles = VR.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 2, "invalid number of handles"
+		handles[0].setDir(mes_dir[0], mes_dir[1], 0.0)
+		handles[0].setPickable(False)
+		handles[0].setFrom(0, 0, 0)
+		message.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setPickable(False)
+		handles[1].setDir(mes_dir[0], mes_dir[1], 0.0)
+		mid_2.addChild(handles[1])
+		
+		#set path mid -> receiver
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		handles = VR.ptool.getHandles(self.paths[-1])
+		assert len(handles) == 2, "invalid number of handles"
+		handles[0].setDir(end_dir[0], end_dir[1], 0.0)
+		handles[0].setPickable(False)
+		handles[0].setFrom(0, 0, 0)
+		mid_2.addChild(handles[0])
+		handles[1].setFrom(0, 0, 0)
+		handles[1].setPickable(False)
+		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
+		r.addChild(handles[1])
+
+		VR.ptool.update()
+	'''
 
 	def connect(self, message):
 		self.log.info('connect')
