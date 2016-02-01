@@ -3,8 +3,8 @@
 import PASS
 
 
-def changeListener(object):
-	print(("==> Object changed: " + str(object) + "!"))
+def changeListener(object, attrName):
+	print(("==> Object changed: " + str(object) + " with attribute " + str(attrName) + "!"))
 
 print("========= Loading: =============")
 manager = PASS.ModelManager("./tests/in001.nt")
