@@ -83,13 +83,14 @@ namespace Kinect {
 			// dividing as we need an normalized result
 			Joint shoulderL = body.Joints [JointType.ShoulderLeft];
 			Joint shoulderR = body.Joints [JointType.ShoulderRight];
-			float b = shoulderL.Position.X - shoulderR.Position.X;
-			b = b * 3;
+			Joint hip = body.Joints [JointType.HipLeft];
 			Joint head = body.Joints [JointType.Head];
-			float h = 0.8; // difference between highest and lowest handposition
-			float x = ((joint.Position.X - head.Position.X) / b) + 0.5;
-			float y = ((joint.Position.Y - head.Position.Y) / h);
-			float z = head.Position.Z - joint.Position.Z;
+			double b = shoulderL.Position.X - shoulderR.Position.X;
+			b = b * 3;
+			double h = head.Position.Y - hip.Position.Y; // difference between highest and lowest handposition
+			double x = 1 - (((joint.Position.X - head.Position.X) / b) + 0.5);
+			double y = (joint.Position.Y - hip.Position.Y) / h;
+			double z = head.Position.Z - joint.Position.Z;
 
 			if (x > 1) {
 				x = 1;
