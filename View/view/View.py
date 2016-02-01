@@ -83,7 +83,7 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
-		self.annotation_dict = {}  # key: object, 1. entry: list(index) 
+		self.annotation_dict = {}  # key: object, 1. entry: list(index)
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -905,7 +905,7 @@ class View():
 		self.log.info('rotate')
 		pass
 
-	def on_change(self, object):
+	def on_change(self, object, attr):
 		self.log.info('on_change')
 		if isinstance(self.cur_scene, PASS.Layer):
 			if isinstance(object, PASS.Subject):

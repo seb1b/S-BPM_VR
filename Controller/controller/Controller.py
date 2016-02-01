@@ -65,10 +65,10 @@ class Controller:
 		self.log.info("process_menu_bar({})".format(message))
 		if self.pressed_object.name == "layer_add":
 			if message == "subject":
-				if point_pos is not None:
+				if self.point_pos is not None:
 					new_obj = self.view.get_cur_scene().addSubject()
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.point_pos[0], self.point_pos[1])
-					point_pos = None
+					self.point_pos = None
 				else:
 					new_obj = self.view.get_cur_scene().addSubject()
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
@@ -85,14 +85,14 @@ class Controller:
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
 				pass
-			elif message == "delete":
-				# only the latest selected subject will be deleted
-				assert selected_objects is not None, "Nothing to delete" 
-				self.pressed_menu_bar = self.pressed_object
-				self.pressed_menu_bar_item = message
-				latest_obj = self.selected_objects[len(self.selected_objects)-1]
-				self.view.get_cur_scene().removeActiveComponent(latest_obj, True)	
-				self.selected_objects.pop()
+			#elif message == "delete":
+				## only the latest selected subject will be deleted
+				#assert self.selected_objects is not None, "Nothing to delete"
+				#self.pressed_menu_bar = self.pressed_object
+				#self.pressed_menu_bar_item = message
+				#latest_obj = self.selected_objects[len(self.selected_objects) - 1]
+				#self.view.get_cur_scene().removeActiveComponent(latest_obj, True)
+				#self.selected_objects.pop()
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
 		# TODO: implement rest
@@ -294,10 +294,10 @@ class Controller:
 							self.log.warning("view.set_highlight(False) failed")
 				self.selected_objects = []
 				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
-				self.view.remove_highlighted_pos(highlighted_pos)
+				self.view.remove_highlighted_pos(self.highlighted_pos)
 				self.point_pos = pos
 				self.highlighted_pos = pos
-				self.view.highlight_pos(highlighted_pos)
+				self.view.highlight_pos(self.highlighted_pos)
 				self.log.info("deselect")
 			else:
 				self.log.warning("case: x")
@@ -563,7 +563,7 @@ class Controller:
 
 	def init_empty(self):
 		file_path = "/tmp/temp_model.owl"
-		self.models[file_path] = ModelManager()
+		self.models[file_path] = PASS.ModelManager()
 		self.view = View()
 		self.current_model = self.models[file_path]
 		self.current_model.addChangeListener(self.view.on_change)
