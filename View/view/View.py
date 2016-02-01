@@ -70,7 +70,6 @@ class View():
 		self.HANDLE.setMaterial(VR.Material('sample material'))
 
 		self.PLANE_SIZE = 0.4
-		self.OBJ_SIzE = 0.2
 
 		#TODO add path for missing elements
 
@@ -109,6 +108,11 @@ class View():
 		VR.cam.setAt(self.camera_at)
 		VR.cam.setDir(self.camera_dir)
 		VR.cam.setFov(self.camera_fov)
+		self.cam_navigation = VR.Camera('cam_navigation')
+		self.cam_navigation.setFrom(self.camera_from[0], self.camera_from[1], self.camera_from[2] + 2.5)
+		self.cam_navigation.setAt(self.camera_at)
+		self.cam_navigation.setDir(self.camera_dir)
+		self.cam_navigation.setFov(self.camera_fov)
 
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
@@ -263,22 +267,57 @@ class View():
 		self.edit_node.addChild(self.edit_plane)
 
 		#setup menu bar navigation
-		self.navigation_plane = VR.Geometry('navigation')
+		#background
+		self.navigation_plane_back = VR.Geometry('navigation_back')
 		s = 'Plane '
 		s += str(self.scale_x / 4)
 		s += ' ' + str(self.PLANE_SIZE)
+		s += ' 1 1'
+		self.navigation_plane_back.setPrimitive(s)
+		material = VR.Material('gui')
+		material.setLit(False)
+		self.navigation_plane_back.setMaterial(material)
+		self.navigation_plane_back.setFrom((self.scale_x * 3 / 8), -0.5 * self.scale_y + 0.2, -self.camera_from[2])
+		self.navigation_plane_back.setUp(0, -1, 0)
+		self.navigation_plane_back.setAt(0, 0, 1)
+		self.navigation_plane_back.setDir(0, 0, 1)
+		self.navigation_plane_back.setScale(1, -1, 1)
+		self.navigation_plane_back.setPickable(False)
+		self.navigation_plane_back.addTag('navigationBack')
+		
+		self.navigation_plane = VR.Geometry('navigation')
+		s = 'Plane '
+		s += str(self.scale_x / 4 - (self.scale_x / 4 / 150))
+		s += ' ' + str(self.PLANE_SIZE - (self.PLANE_SIZE / 150))
 		s += ' 1 1'
 		self.navigation_plane.setPrimitive(s)
 		material = VR.Material('gui')
 		material.setLit(False)
 		self.navigation_plane.setMaterial(material)
-		self.navigation_plane.setFrom((self.scale_x * 3 / 8), -0.5 * self.scale_y + 0.2, -self.camera_from[2])
-
+		self.navigation_plane.setFrom((self.scale_x * 3 / 8), -0.5 * self.scale_y + 0.2, -self.camera_from[2] + 0.1)
 		self.navigation_plane.setUp(0, -1, 0)
 		self.navigation_plane.setAt(0, 0, 1)
 		self.navigation_plane.setDir(0, 0, 1)
+		self.navigation_plane.setScale(1, -1, 1)
 		self.navigation_plane.setPickable(False)
 		self.navigation_plane.addTag('navigation')
+		
+		texture = VR.TextureRenderer('navigation_texture')
+		root = VR.getRoot().find('Headlight')
+		VR.getRoot().addChild(texture)		
+		
+		VR.rcam = self.cam_navigation
+		li = VR.Light('sun')
+		lib = VR.LightBeacon('sun_b')
+		li.setBeacon(lib)		
+		texture.setup(self.cam_navigation, int(self.scale_x / 4 * 1024), int(self.PLANE_SIZE * 1024))
+		li.addChild(self.cam_navigation)
+		texture.addChild(li)
+		self.cam_navigation.addChild(lib)
+		texture.addLink(root)
+		
+		m = texture.getMaterial()
+		self.navigation_plane.setMaterial(m)
 
 		# setup menu bar metadata
 		self.meta_plane = VR.Geometry('meta')
@@ -307,6 +346,7 @@ class View():
 		self.meta_plane.setVisible(False)
 		self.navigation_plane.setVisible(False)
 		VR.cam.addChild(self.meta_plane)
+		VR.cam.addChild(self.navigation_plane_back)		
 		VR.cam.addChild(self.navigation_plane)
 
 		VR.site = {self.edit_site, self.meta_site, self.behavior_add_site, self.layer_add_site}
@@ -611,9 +651,10 @@ class View():
 		ae.setColor([0, 1, 0, 1])
 		ae.setPickable(False)
 		#ae.setBackground([1,0,0,0.5])
-		ae.setSize(size * 2)
-		ae.setScale([0.5, 0.5, 1])
-		ae.set(1, [-size, 0, 0.1], text)
+		ae.setSize(size)
+		ae.setScale([1, 1, 1])
+		split = text.replace(' ', '\n')
+		ae.set(1, [-0.01*len(text), 0, 0.1], split)
 		return ae
 	
 	def refresh_annotation_engine(self, subject, size):
@@ -1322,7 +1363,7 @@ class View():
 			handles[1].setFrom(0, 0, 0)
 			handles[1].setPickable(False)
 			VR.view_user_cursors[user_id][1].getBeacon().addChild(handles[1])
-			self.new_message_path = len(self.paths) - 1
+			self.new_message_path = self.paths[-1]
 			VR.ptool.update()
 		else:
 			print 'else'
@@ -1333,7 +1374,7 @@ class View():
 				print h1,h2
 				h1.destroy()
 				h2.destroy()
-				#VR.ptool.remPath(self.paths[self.new_message_path])
+				#VR.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
 				print "Warning: no message path to be deleted..."
