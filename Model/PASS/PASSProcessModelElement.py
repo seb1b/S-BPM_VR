@@ -75,10 +75,10 @@ class PASSProcessModelElement(Resource):
 		
 		#Generate the component id and the empty array for the meta content
 		self.hasComponentID = randomXMLName()
-		self.hasMetaContent = ListenerList([], self)
+		self.hasMetaContent = ListenerList([], self, "hasMetaContent")
 		self.hasAbstractVisualRepresentation = None
 		self.hasVisualRepresentation = None
-		self.label = ListenerList([], self)
+		self.label = ListenerList([], self, "label")
 		
 	@property
 	def uri(self):
@@ -177,8 +177,6 @@ class PASSProcessModelElement(Resource):
 				#Stop deleting if we only want to delete the first occurence
 				if(onlyFirst):
 					break
-		#Now fire a change event because we removed a meta content - Important: This time it is fired by the element itself
-		self.fireChangeEvent()
 
 
 

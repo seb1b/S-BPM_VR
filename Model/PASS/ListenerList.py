@@ -9,14 +9,15 @@ class ListenerList(list):
 	@version 2015-01-11
 	"""
 
-	def __init__(self, value, parent):
+	def __init__(self, value, parent, attrName):
 		list.__init__(self, value)
 		self._parent = parent
+		self._attrName = attrName
 
 	def _callParent(self):
 		operation = getattr(self._parent, "fireChangeEvent", None)
 		if(callable(operation)):
-			self._parent.fireChangeEvent()
+			self._parent.fireChangeEvent(self._attrName)
 
 	def __setitem__(self, key, value):
 		list.__setitem__(self, key, value)

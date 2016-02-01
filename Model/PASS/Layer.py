@@ -76,7 +76,7 @@ class Layer(PASSProcessModelElement):
 		if((parentModel is not None) and (not isinstance(parentModel, PASSProcessModel))):
 			raise Exception("ParentModel parameter must be of type PASSProcessModel!")
 		self.belongsTo = parentModel
-		self.hasModelComponent = ListenerList([], self)
+		self.hasModelComponent = ListenerList([], self, "hasModelComponent")
 		
 	def getAttrMultiplicity(self, attributeName):
 		if(attributeName == "belongsTo"):
