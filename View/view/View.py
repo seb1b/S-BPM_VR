@@ -124,7 +124,7 @@ class View():
 		self.annotation_engine.setSize(0.2)
 		self.annotation_engine.setScale([1, 1, 1])
 		VR.view_root.addChild(self.annotation_engine)
-		
+
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
@@ -138,7 +138,7 @@ class View():
 		self.scale_cursor_y = 2 * abs(self.CURSOR_DIST) * math.tan(self.camera_fov * 0.5)
 		self.scale_cursor_x = self.scale_cursor_y * self.win_size[0] / self.win_size[1]
 		self.scale_plane_y = 2 * 11 * math.tan(self.camera_fov * 0.5)
-		self.scale_plane_x = self.scale_plane_y  * self.win_size[0] / self.win_size[1]
+		self.scale_plane_x = self.scale_plane_y * self.win_size[0] / self.win_size[1]
 		#model
 		self.model_offset_x = 0
 		self.model_offset_y = 0
@@ -297,7 +297,7 @@ class View():
 		self.navigation_plane_back.setScale(1, -1, 1)
 		self.navigation_plane_back.setPickable(False)
 		self.navigation_plane_back.addTag('navigationBack')
-		
+
 		self.navigation_plane = VR.Geometry('navigation')
 		s = 'Plane '
 		s += str(self.scale_x / 4 - (self.scale_x / 4 / 150))
@@ -314,21 +314,21 @@ class View():
 		self.navigation_plane.setScale(1, -1, 1)
 		self.navigation_plane.setPickable(False)
 		self.navigation_plane.addTag('navigation')
-		
+
 		texture = VR.TextureRenderer('navigation_texture')
 		root = VR.getRoot().find('Headlight')
-		VR.getRoot().addChild(texture)		
-		
+		VR.getRoot().addChild(texture)
+
 		VR.rcam = self.cam_navigation
 		li = VR.Light('sun')
 		lib = VR.LightBeacon('sun_b')
-		li.setBeacon(lib)		
+		li.setBeacon(lib)
 		texture.setup(self.cam_navigation, int(self.scale_x / 4 * 1024), int(self.PLANE_SIZE * 1024))
 		li.addChild(self.cam_navigation)
 		texture.addChild(li)
 		self.cam_navigation.addChild(lib)
 		texture.addLink(root)
-		
+
 		m = texture.getMaterial()
 		self.navigation_plane.setMaterial(m)
 
@@ -359,7 +359,7 @@ class View():
 		self.meta_plane.setVisible(False)
 		self.navigation_plane.setVisible(False)
 		VR.cam.addChild(self.meta_plane)
-		VR.cam.addChild(self.navigation_plane_back)		
+		VR.cam.addChild(self.navigation_plane_back)
 		VR.cam.addChild(self.navigation_plane)
 
 		VR.site = {self.edit_site, self.meta_site, self.behavior_add_site, self.layer_add_site}
@@ -399,6 +399,8 @@ class View():
 		#VR.cam.addChild(self.active_gui_element) #TODO
 		self.update_all()
 		VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.camera_from[2] + 10)
+		self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
+		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 
 	def get_cur_scene(self):
 		self.log.info('get_cur_scene')
@@ -577,8 +579,8 @@ class View():
 					self.object_dict[state] = state_node
 					self.object_dict[state_node] = state
 					self.create_annotation_engine(state)
-					state_node.addChild(ae)
-					VR.view_root.addChild(state_node)
+					#state_node.addChild(ae)
+					#VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.ReceiveState):
 					state_node.addTag('receive_state')
 					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
@@ -622,8 +624,8 @@ class View():
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_highlight']))
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta_highlight']))
 				for poly_mes in poly_trans:
-					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					poly_mes.setPickable(True)
 					poly_mes.setScale(0.1, 0.1, 0.1)
 					poly_mes.setVisible(False)
@@ -658,13 +660,13 @@ class View():
 			#print 'teschd', int(i), split[int(i)- self.annotation_index]
 			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.01*len(split[int(i - self.annotation_index)])), self.object_dict[subject].getFrom()[1], self.object_dict[subject].getFrom()[2] + 0.1], split[int(i - self.annotation_index)] + 'test')
 		self.annotation_index = self.annotation_index + len(index_list)
-	
+
 	def refresh_annotation_engine(self, subject, size):
 		# text label
 		assert subject is not None, "refresh_annotation_engine given subject has not to be None"
 		text = ''
 		for t in subject.label:
-			text = text + t		
+			text = text + t
 		for c in subject.getChildren():
 			if c.hasTag('AnnotationEngine'):
 				ae = c
@@ -677,6 +679,8 @@ class View():
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
 			VR.cam.setFrom(new_cam_pos)
+		self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
+		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 
 	def current_zoom_level(self):
 		self.log.info('current_zoom_level')
@@ -856,7 +860,8 @@ class View():
 
 	def remove_highlight_point(self, highlight_point):  # remove the given highlighted object from scene
 		self.log.info('remove_highlight_pos')
-		VR.view_root.remChild(highlight_point)
+		if isinstance(highlight_point, VR.Object):
+			VR.view_root.remChild(highlight_point)
 
 	def get_object(self, user_id, is_left):
 		self.log.info('get_object')
@@ -1206,8 +1211,8 @@ class View():
 					poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_highlight']))
 					poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta_highlight']))
 					for poly_mes in poly_trans:
-						poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5),  # * self.scale_x,
-									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5), 0)  # * self.scale_y, 0)
+						poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 						poly_mes.setPickable(True)
 						poly_mes.setScale(0.1, 0.1, 0.1)
 						poly_mes.setVisible(False)
