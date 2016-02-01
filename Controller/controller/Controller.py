@@ -288,17 +288,18 @@ class Controller:
 					pass
 			elif self.pressed_object is None and self.pressed_is_left == is_left:
 				# CASE: release on field without object -> deselect everything
-				for obj in self.selected_objects:
-					if not isinstance(obj, View.MenuBar):
-						if not self.view.set_highlight(obj, False):
-							self.log.warning("view.set_highlight(False) failed")
-				self.selected_objects = []
-				# TODO: set highlight on empty field (for creating new object from menubar combo-command)
-				self.view.remove_highlighted_pos(self.highlighted_pos)
-				self.point_pos = pos
-				self.highlighted_pos = pos
-				self.view.highlight_pos(self.highlighted_pos)
-				self.log.info("deselect")
+				#for obj in self.selected_objects:
+					#if not isinstance(obj, View.MenuBar):
+						#if not self.view.set_highlight(obj, False):
+							#self.log.warning("view.set_highlight(False) failed")
+				#self.selected_objects = []
+				## TODO: set highlight on empty field (for creating new object from menubar combo-command)
+				#self.view.remove_highlighted_pos(self.highlighted_pos)
+				#self.point_pos = pos
+				#self.highlighted_pos = pos
+				#self.view.highlight_pos(self.highlighted_pos)
+				#self.log.info("deselect")
+				pass
 			else:
 				self.log.warning("case: x")
 		self.release_position[user_id] = pos
