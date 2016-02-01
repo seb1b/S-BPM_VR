@@ -348,6 +348,9 @@ class Controller:
 					assert bb is not None and len(bb) == 2 and len(bb[0]) == 2 and len(bb[1]) == 2, \
 						"Invalid bounding box: {}".format(bb)
 					pos_norm_2d = [bb[0][0] + pos[0] * (bb[1][0] - bb[0][0]), bb[0][1] + pos[1] * (bb[1][1] - bb[0][1])]
+					old_pos = self.pressed_object.hasAbstractVisualRepresentation.hasPoint2D
+					old_pos = [old_pos.hasXValue, old_pos.hasYValue]
+					self.log.warning("Moving object from {} to {} in model".format(old_pos, pos_norm_2d))
 					self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 					#self.view.move_object(self.pressed_object, pos[:2])
 			self.view.move_cursor(pos, user_id, is_left)
