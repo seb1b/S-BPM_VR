@@ -82,7 +82,8 @@ class View():
 
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
-		self.message_dict = {}  # key: poly_mess 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
+		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
+		self.annotation_dict = {}  # key: object, 1. entry: list(index) 
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -114,6 +115,16 @@ class View():
 		self.cam_navigation.setDir(self.camera_dir)
 		self.cam_navigation.setFov(self.camera_fov)
 
+		#setup annotation engine
+		self.annotation_index = 0
+		self.annotation_engine = VR.AnnotationEngine('ae')
+		self.annotation_engine.setColor([0, 1, 0, 1])
+		self.annotation_engine.setPickable(False)
+		#self.annotation_engine.setBackground([1,0,0,0.5])
+		self.annotation_engine.setSize(0.2)
+		self.annotation_engine.setScale([1, 1, 1])
+		VR.view_root.addChild(self.annotation_engine)
+		
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
@@ -126,6 +137,8 @@ class View():
 		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self.scale_cursor_y = 2 * abs(self.CURSOR_DIST) * math.tan(self.camera_fov * 0.5)
 		self.scale_cursor_x = self.scale_cursor_y * self.win_size[0] / self.win_size[1]
+		self.scale_plane_y = 2 * 11 * math.tan(self.camera_fov * 0.5)
+		self.scale_plane_x = self.scale_plane_y  * self.win_size[0] / self.win_size[1]
 		#model
 		self.model_offset_x = 0
 		self.model_offset_y = 0
@@ -135,7 +148,7 @@ class View():
 		# gui elements
 		#node for all edit planes
 		self.edit_node = VR.Transform('edit_node')
-		self.edit_node.setFrom(-(self.scale_x / 4) / 2, -0.5 * self.scale_y + 0.2, -self.camera_from[2])
+		self.edit_node.setFrom(-(self.scale_plane_x / 4) / 2, -0.5 * self.scale_plane_y + 0.2, -11)
 		self.setup_menu_bar()
 
 		# start page
@@ -189,7 +202,7 @@ class View():
 		#setup menu bar layerAdd -> add in process layer
 		self.layer_add_plane = VR.Geometry('layerAdd')
 		s = 'Plane '
-		s += str(self.scale_x - (self.scale_x / 4))
+		s += str(self.scale_plane_x - (self.scale_plane_x / 4))
 		s += ' ' + str(self.PLANE_SIZE)
 		s += ' 1 1'
 		self.layer_add_plane.setPrimitive(s)
@@ -439,9 +452,7 @@ class View():
 				self.object_dict[subject] = subject_node
 				self.object_dict[subject_node] = subject
 				VR.view_root.addChild(subject_node)
-				ae = self.create_annotation_engine(subject, 0.02)
-				ae.addTag('AnnotationEngine')
-				subject_node.addChild(ae)
+				self.create_annotation_engine(subject)
 
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
@@ -474,9 +485,7 @@ class View():
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
 				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]				
-				ae = self.create_annotation_engine(message, 0.02)
-				ae.addTag('AnnotationEngine')
-				message_node.addChild(ae)
+				self.create_annotation_engine(message)
 				self.connect(message_node)
 				VR.view_root.addChild(message_node)
 
@@ -508,9 +517,7 @@ class View():
 				self.object_dict[subject] = subject_node
 				self.object_dict[subject_node] = subject				
 				VR.view_root.addChild(subject_node)
-				ae = self.create_annotation_engine(subject, 0.02)
-				ae.addTag('AnnotationEngine')
-				subject_node.addChild(ae)
+				self.create_annotation_engine(subject)
 
 		elif isinstance(self.cur_scene, PASS.Behavior):
 			states = self.cur_scene.hasState
@@ -545,9 +552,7 @@ class View():
 						state_node.getChildren()[1].setVisible(True)
 					self.object_dict[state] = state_node
 					self.object_dict[state_node] = state
-					ae = self.create_annotation_engine(state, 0.02)
-					ae.addTag('AnnotationEngine')
-					state_node.addChild(ae)
+					self.create_annotation_engine(state)
 					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.SendState):
 					state_node.addTag('send_state')
@@ -571,8 +576,7 @@ class View():
 						state_node.getChildren()[1].setVisible(True)
 					self.object_dict[state] = state_node
 					self.object_dict[state_node] = state
-					ae = self.create_annotation_engine(state, 0.02)
-					ae.addTag('AnnotationEngine')
+					self.create_annotation_engine(state)
 					state_node.addChild(ae)
 					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.ReceiveState):
@@ -597,9 +601,7 @@ class View():
 						state_node.getChildren()[1].setVisible(True)
 					self.object_dict[state] = state_node
 					self.object_dict[state_node] = state
-					ae = self.create_annotation_engine(state, 0.02)
-					ae.addTag('AnnotationEngine')
-					state_node.addChild(ae)
+					self.create_annotation_engine(state)
 					VR.view_root.addChild(state_node)
 
 			for edge in edges:
@@ -635,27 +637,27 @@ class View():
 				self.message_dict[poly_mes] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None]
 				#self.connect(transition_node)
 				VR.view_root.addChild(transition_node)
-				ae = self.create_annotation_engine(edge, 0.02)
-				ae.addTag('AnnotationEngine')
-				transition_node.addChild(ae)
+				self.create_annotation_engine(edge, 0.02)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
-	def create_annotation_engine(self, subject, size):
+	def create_annotation_engine(self, subject):
 		# text label
 		assert subject is not None, "create_annotation_engine given subject has not to be None"
 		text = ''
 		for t in subject.label:
 			text = text + t
-		ae = VR.AnnotationEngine('ae_' + str(text))
-		ae.setColor([0, 1, 0, 1])
-		ae.setPickable(False)
-		#ae.setBackground([1,0,0,0.5])
-		ae.setSize(size)
-		ae.setScale([1, 1, 1])
-		split = text.replace(' ', '\n')
-		ae.set(1, [-0.01*len(text), 0, 0.1], split)
-		return ae
+		split = text.split(' ')
+		print 'split', split
+		index_list = []
+		for s in split:
+			index_list.append(split.index(s) + self.annotation_index)
+		print 'indexlist', index_list
+		self.annotation_dict[subject] = index_list
+		for i in index_list:
+			#print 'teschd', int(i), split[int(i)- self.annotation_index]
+			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.01*len(split[int(i - self.annotation_index)])), self.object_dict[subject].getFrom()[1], self.object_dict[subject].getFrom()[2] + 0.1], split[int(i - self.annotation_index)] + 'test')
+		self.annotation_index = self.annotation_index + len(index_list)
 	
 	def refresh_annotation_engine(self, subject, size):
 		# text label
@@ -852,7 +854,7 @@ class View():
 
 		return highlighted_point
 
-	def remove_highlight_pos(self, highlight_pos):  # remove the given highlighted object from scene
+	def remove_highlight_point(self, highlight_point):  # remove the given highlighted object from scene
 		self.log.info('remove_highlight_pos')
 		VR.view_root.remChild(highlight_pos)
 
@@ -940,9 +942,7 @@ class View():
 						subject_node.getChildren()[1].setVisible(True)
 					self.object_dict[object] = subject_node
 					self.object_dict[subject_node] = object
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					subject_node.addChild(ae)
+					self.create_annotation_engine(object)
 					VR.view_root.addChild(subject_node)
 				else:
 					poly_obj = self.object_dict[object]
@@ -951,12 +951,14 @@ class View():
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					# name changed
+					'''
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
 					ae = self.create_annotation_engine(object, 0.02)
 					ae.addTag('AnnotationEngine')
 					poly_obj.addChild(ae)
+					'''
 			elif isinstance(object, PASS.MessageExchange):
 				print "View on_change: MessageExchange"
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
@@ -989,13 +991,10 @@ class View():
 						message_node.getChildren()[0].setVisible(True)
 					else:
 						message_node.getChildren()[1].setVisible(True)
-					ae = self.create_annotation_engine(object, 0.02)
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 					self.object_dict[object] = message_node
 					self.object_dict[message_node] = object
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					message_node.addChild(ae)
+					self.create_annotation_engine(object)
 					VR.view_root.addChild(message_node)
 					self.connect(message_node)
 				else:
@@ -1007,9 +1006,7 @@ class View():
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 			elif isinstance(object, PASS.ExternalSubject):
 				print "View on_change: External Message"
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
@@ -1042,13 +1039,10 @@ class View():
 					else:
 						subject_node.getChildren()[1].setVisible(True)
 					#set name
-					ae = self.create_annotation_engine(object, 0.02)
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 					self.object_dict[object] = subject_node
 					self.object_dict[subject_node] = object
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					subject_node.addChild(ae)
+					ae = self.create_annotation_engine(object)
 					VR.view_root.addChild(subject_node)
 				else:
 					poly_obj = self.object_dict[object]
@@ -1059,9 +1053,7 @@ class View():
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 			elif isinstance(object, PASS.Layer):
 				self.update_all()
 			else:
@@ -1097,9 +1089,7 @@ class View():
 					else:
 						state_node.getChildren()[1].setVisible(True)
 					#set name
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 					self.object_dict[object] = state_node
 					self.object_dict[state_node] = object
 					VR.view_root.addChild(state_node)
@@ -1112,9 +1102,7 @@ class View():
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 			elif isinstance(object, PASS.ReceiveState):
 				print "View on_change: Receive State"
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
@@ -1141,9 +1129,7 @@ class View():
 					else:
 						state_node.getChildren()[1].setVisible(True)
 					#set name
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 					self.object_dict[object] = state_node
 					self.object_dict[state_node] = object
 					VR.view_root.addChild(state_node)
@@ -1156,9 +1142,7 @@ class View():
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 			elif isinstance(object, PASS.FunctionState):
 				print "View on_change: Function State"
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
@@ -1185,9 +1169,7 @@ class View():
 					else:
 						state_node.getChildren()[1].setVisible(True)
 					#set name
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 					self.object_dict[object] = state_node
 					self.object_dict[state_node] = object
 					VR.view_root.addChild(state_node)
@@ -1200,9 +1182,7 @@ class View():
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 			elif isinstance(object, PASS.TransitionEdge):
 				print "View on_change: Transition Edge"
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
@@ -1237,9 +1217,7 @@ class View():
 					else:
 						transition_node.getChildren()[1].setVisible(True)
 					#set name
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 					self.object_dict[object] = transition_node
 					self.object_dict[transition_node] = object
 					self.message_dict[poly_mes] = [self.object_dict[object.hasSourceState], self.object_dict[object.hasTargetState], None]
@@ -1254,9 +1232,7 @@ class View():
 					for c in poly_obj.getChildren():
 						if c.hasTag('AnnotationEngine'):
 							c.destroy()
-					ae = self.create_annotation_engine(object, 0.02)
-					ae.addTag('AnnotationEngine')
-					poly_obj.addChild(ae)
+					self.create_annotation_engine(object)
 			elif isinstance(object, PASS.Behavior):
 				self.update_all()
 			else:

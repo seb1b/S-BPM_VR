@@ -65,7 +65,7 @@ class Controller:
 		self.log.info("process_menu_bar({})".format(message))
 		if self.pressed_object.name == "layer_add":
 			if message == "subject":
-				if point_pos not None:
+				if point_pos is not None:
 					new_obj = self.view.get_cur_scene().addSubject()
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.point_pos[0], self.point_pos[1])
 					point_pos = None
