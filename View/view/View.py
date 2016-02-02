@@ -70,6 +70,8 @@ class View():
 		self.HANDLE.setMaterial(VR.Material('sample material'))
 
 		self.PLANE_SIZE = 0.4
+		self.OBJECT_SCALE = [0.2, 0.2, 0.2]
+		self.TEXT_SIZE = 0.03
 
 		#TODO add path for missing elements
 
@@ -219,7 +221,7 @@ class View():
 		#setup menu bar behaviorAdd
 		self.behavior_add_plane = VR.Geometry('behaviorAdd')
 		s = 'Plane '
-		s += str(self.scale_x - (self.scale_x / 4))
+		s += str(self.scale_plane_x - (self.scale_plane_x / 4))
 		s += ' ' + str(self.PLANE_SIZE)
 		s += ' 1 1'
 		self.behavior_add_plane.setPrimitive(s)
@@ -246,7 +248,7 @@ class View():
 		#setup menu bar edit
 		self.edit_plane = VR.Geometry('edit')
 		s = 'Plane '
-		s += str(self.scale_x - (self.scale_x / 4))
+		s += str(self.scale_plane_x - (self.scale_plane_x / 4))
 		s += ' 0.4 1 1'
 		self.edit_plane.setPrimitive(s)
 		material = VR.Material('gui')
@@ -416,7 +418,7 @@ class View():
 		self.annotation_engine.setColor([0, 0, 0, 1])
 		self.annotation_engine.setPickable(False)
 		self.annotation_engine.setBackground([255, 255, 255, 1])
-		self.annotation_engine.setSize(0.02)
+		self.annotation_engine.setSize(self.TEXT_SIZE)
 		self.annotation_engine.setScale([1, 1, 1])
 
 		#todo sizes
@@ -445,7 +447,7 @@ class View():
 				for poly_sub in poly_subjects:
 					poly_sub.setFrom(0, 0, 0)
 					poly_sub.setPickable(True)
-					poly_sub.setScale(0.1, 0.1, 0.1)
+					poly_sub.setScale(self.OBJECT_SCALE)
 					poly_sub.setVisible(False)
 					subject_node.addChild(poly_sub)
 				if len(subject.hasMetaContent) == 0:
@@ -476,7 +478,7 @@ class View():
 				poly_mesages.append(VR.loadGeometry(self.BLENDER_PATHS['message_meta_highlight']))
 				for poly_mes in poly_mesages:
 					poly_mes.setPickable(True)
-					poly_mes.setScale(0.1, 0.1, 0.1)
+					poly_mes.setScale(self.OBJECT_SCALE)
 					poly_mes.setVisible(False)
 					poly_mes.setUp(0, 0, 1)
 					poly_mes.rotate(90, 0, 0, 0)
@@ -510,7 +512,7 @@ class View():
 				poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta_highlight']))
 				for poly_sub in poly_subjects:
 					poly_sub.setPickable(True)
-					poly_sub.setScale(0.1, 0.1, 0.1)
+					poly_sub.setScale(self.OBJECT_SCALE)
 					poly_sub.setVisible(False)
 					subject_node.addChild(poly_sub)
 				if len(subject.hasMetaContent) == 0:
@@ -546,7 +548,7 @@ class View():
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(state.hasMetaContent) == 0:
@@ -570,7 +572,7 @@ class View():
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(state.hasMetaContent) == 0:
@@ -595,7 +597,7 @@ class View():
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(state.hasMetaContent) == 0:
@@ -628,7 +630,7 @@ class View():
 					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					poly_mes.setPickable(True)
-					poly_mes.setScale(0.1, 0.1, 0.1)
+					poly_mes.setScale(self.OBJECT_SCALE)
 					poly_mes.setVisible(False)
 					transition_node.addChild(poly_mes)
 				if len(edge.hasMetaContent) == 0:
@@ -656,7 +658,7 @@ class View():
 		self.annotation_dict[subject] = index_list
 		print 'annotation: index_list create', index_list, split
 		for i in index_list:
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.012*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 0.035), 0.1], split[index_list.index(int(i))])
+			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
 		self.annotation_index = self.annotation_index + len(index_list)
 		
 	def refresh_annotation_engine_entry(self, subject):
@@ -677,8 +679,7 @@ class View():
 		self.annotation_dict[subject] = index_list
 		print 'annotation: index_list after', index_list	
 		for i in index_list:
-			#self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.013*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1], self.object_dict[subject].getFrom()[2] + 0.1], split[index_list.index(int(i))])
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.013*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 0.035), 0.1], split[index_list.index(int(i))])	
+			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
 
 	def zoom(self, level):
 		self.log.info('zoom')
@@ -793,8 +794,8 @@ class View():
 			self.edit_node.getChildren()[2].setVisible(True)
 			pass
 			# set edit gui element
-			#params = self.create_url_params_from_metacontent(obj)
-			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+			params = self.create_url_params_from_metacontent(obj)
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[0].isVisible() is True:
 				children[0].setVisible(False)
@@ -815,8 +816,8 @@ class View():
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
 			#set metaContent on gui element meta to parent
-			#params = self.create_url_params_from_metacontent(self.cur_scene)
-			#self.meta_site.open('http://localhost:5500/meta' + '?' + params)
+			params = self.create_url_params_from_metacontent(self.cur_scene)
+			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[2].isVisible() is True:
 				children[2].setVisible(False)
@@ -830,8 +831,6 @@ class View():
 
 	def create_url_params_from_metacontent(self, obj):
 		self.log.info('create_url_params_from_metacontent')
-		#o = self.object_dict[obj]
-		#assert isinstance(o, VR.Object)
 
 		label = ''
 		for l in obj.label:
@@ -840,12 +839,10 @@ class View():
 		metaKeys = obj.getMetaKeys()
 		i = 0
 		while i < len(metaKeys):
-			print obj.getMetaContent(metaKeys[i])
-			#params = params + 'k' + str(i) + '=' + str(metaKeys[i]) + '&' + 'v' + str(i) + '=' + str(o.getMetaContent(metaKeys[i]))
-			params = params + str(metaKeys[i]) + '=' + str(obj.getMetaContent(metaKeys[i]))
+			params = params + str(metaKeys[i]) + '=' + str(obj.getMetaContent(metaKeys[i])[0])
+			i = i + 1
 			if(i != len(metaKeys)):
-				params = params + '&'
-
+				params = params + '&'			
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
@@ -945,7 +942,7 @@ class View():
 					for poly_sub in poly_subjects:
 						poly_sub.setFrom(0, 0, 0)
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(object.hasMetaContent) == 0:
@@ -989,7 +986,7 @@ class View():
 					for poly_sub in poly_subjects:
 						poly_sub.setFrom(0, 0, 0)
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						message_node.addChild(poly_sub)
 					if len(object.hasMetaContent) == 0:
@@ -1033,7 +1030,7 @@ class View():
 					poly_subjects.append(VR.loadGeometry(self.BLENDER_PATHS['external_subject_meta_highlight']))
 					for poly_sub in poly_subjects:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(object.hasMetaContent) == 0:
@@ -1079,7 +1076,7 @@ class View():
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['s_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(object.hasMetaContent) == 0:
@@ -1116,7 +1113,7 @@ class View():
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['r_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(object.hasMetaContent) == 0:
@@ -1153,7 +1150,7 @@ class View():
 					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['f_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
-						poly_sub.setScale(0.1, 0.1, 0.1)
+						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
 					if len(object.hasMetaContent) == 0:
@@ -1198,7 +1195,7 @@ class View():
 						poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 						poly_mes.setPickable(True)
-						poly_mes.setScale(0.1, 0.1, 0.1)
+						poly_mes.setScale(self.OBJECT_SCALE)
 						poly_mes.setVisible(False)
 						transition_node.addChild(poly_mes)
 					if len(object.hasMetaContent) == 0:
@@ -1492,9 +1489,7 @@ class View():
 				h1 = VR.view_user_cursors[user_id][0].getBeacon().getChildren()[0]
 				h2 = VR.view_user_cursors[user_id][1].getBeacon().getChildren()[0]
 				print h1,h2
-				h1.destroy()
-				h2.destroy()
-				#VR.ptool.remPath(self.new_message_path)
+				VR.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
 				print "Warning: no message path to be deleted..."

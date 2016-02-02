@@ -595,14 +595,6 @@
 			var vars = query.split("&amp;");
 			for (var i=0;i&lt;vars.length;i++) {
 				var pair = vars[i].split("=");
-				//if (typeof query_string[pair[0]] === "undefined") {
-					//query_string[pair[0]] = decodeURIComponent(pair[1]);
-					// If second entry with this name
-				//} else if (typeof query_string[pair[0]] === "string") {
-					//var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-					//query_string[pair[0]] = arr;
-				//} else {
-					//query_string[pair[0]].push(decodeURIComponent(pair[1]));
 				query_string[i] = pair;
 			} 
 			return query_string;
@@ -610,14 +602,6 @@
 		
 		// Add cells depending on params from URI
 		var tableRef = document.getElementById('metaTable').getElementsByTagName('tbody')[0];
-		// query string consists of key-value-pairs
-		// set name from object
-		//var newRowTitle   = tableRef.insertRow(tableRef.rows.length);
-		//var newCellValueTitle  = newRowTitle.insertCell(-1);
-		//newCellValueTitle.appendChild(document.createTextNode(QueryString[Object.keys(QueryString)[0]]));				
-		//newCellValueTitle.setAttribute('id','cellValue0');
-		//newCellValueTitle.setAttribute('class','cellValue');
-		//newCellValueTitle.setAttribute('contenteditable','true');
 		// set metadata
 		for(i = 0; i &lt; Object.keys(QueryString).length; i = i + 1) {	
 			var newRow   = tableRef.insertRow(tableRef.rows.length);
