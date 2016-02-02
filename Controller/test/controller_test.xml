@@ -375,10 +375,10 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="editDiv"&gt;
-			&lt;button id="delete" class="button" onclick="clickFunction(this)" style="background-image: url(Delete.png)"&gt;&lt;/button&gt;
-			&lt;button id="edit" class="button" onclick="clickFunction(this)" style="background-image: url(Edit.png)"&gt;&lt;/button&gt;
-			&lt;button id="copy" class="button" onclick="clickFunction(this)" style="background-image: url(Copy.png)"&gt;&lt;/button&gt;
-			&lt;button id="cancel" class="button" onclick="clickFunction(this)" style="background-image: url(Cancel.png)"&gt;&lt;/button&gt;
+			&lt;button id="delete" class="button" onclick="clickFunction(this)" style="background-image: url(img/delete.png)"&gt;&lt;/button&gt;
+			&lt;!-- &lt;button id="edit" class="button" onclick="clickFunction(this)" style="background-image: url(img/edit.png)"&gt;&lt;/button&gt; --&gt;
+			&lt;button id="copy" class="button" onclick="clickFunction(this)" style="background-image: url(img/copy.png)"&gt;&lt;/button&gt;
+			&lt;button id="cancel" class="button" onclick="clickFunction(this)" style="background-image: url(img/cancel.png)"&gt;&lt;/button&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
@@ -386,8 +386,8 @@
 		var websocket = new WebSocket('ws://localhost:5500');			
 
 		function clickFunction(element) {
-			websocket.send('blaaa');
-			alert(element.id);
+			websocket.send(element.id);
+			//alert(element.id);
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
@@ -560,6 +560,10 @@
 			td {
 				padding: 5px;			
 			}
+			
+			tr {
+				height: 60px;
+			}
 				
 			table, th, td {
 				border: 1px solid black;
@@ -635,6 +639,7 @@
 			cells[i].addEventListener('focus', function(event) {
 				targetElement = event.target || event.srcElement;
 				oldValue = targetElement.textContent.trim() || targetElement.innerText.trim();
+				targetElement.style.backgroundColor = "yellow";
 			}, false);
 			
 		// TODO: Trim all new lines after keyup
@@ -663,6 +668,7 @@
 					websocket.send("metaContent[" + "id" + "] -&gt; " + targetElement.id + ": '" + oldValue + "' -&gt; '" + newValue + "'");
 					alert("metaContent[" + key + "] changed: '" + oldValue + "' -&gt; '" + newValue + "'");
 				}
+				targetElement.style.backgroundColor = "transparent";
 			}, false);
 		}
 	&lt;/script&gt;	
