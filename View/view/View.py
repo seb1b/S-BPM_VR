@@ -311,6 +311,7 @@ class View():
 
 		texture = VR.TextureRenderer('navigation_texture')
 		root = VR.getRoot().find('Headlight')
+		#root = VR.cam
 		VR.getRoot().addChild(texture)
 
 		VR.rcam = self.cam_navigation
@@ -384,7 +385,7 @@ class View():
 		self.model_offset_x = self.cur_scene.getBoundingBox2D()[0][0]
 		self.model_offset_y = self.cur_scene.getBoundingBox2D()[0][1]
 		self.model_width = self.cur_scene.getBoundingBox2D()[1][0] - self.model_offset_x
-		self.model_hight = self.cur_scene.getBoundingBox2D()[1][1] - self.model_offset_y
+		self.model_hight = self.cur_scene.getBoundingBox2D()[1][1] - self.model_offset_y				
 		print 'x min ', self.model_offset_x
 		print 'y min ', self.model_offset_y
 		print 'x dist ', self.model_width
@@ -485,8 +486,8 @@ class View():
 					poly_mes.setPickable(True)
 					poly_mes.setScale(self.OBJECT_SCALE)
 					poly_mes.setVisible(False)
-					poly_mes.setUp(0, 0, 1)
-					poly_mes.rotate(90, 0, 0, 0)
+					#poly_mes.setUp(0, 0, 1)
+					#poly_mes.rotate(90, 0, 0, 0)
 					message_node.addChild(poly_mes)
 				if len(message.hasMetaContent) == 0:
 					message_node.getChildren()[0].setVisible(True)
@@ -494,7 +495,7 @@ class View():
 					message_node.getChildren()[1].setVisible(True)
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
-				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]
+				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None, None, None]
 				self.create_annotation_engine_entry(message)
 				self.connect(message_node)
 				VR.view_root.addChild(message_node)
@@ -549,15 +550,15 @@ class View():
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_highlight']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['function_state_meta_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['f_state']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['f_state_meta']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['f_state_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['f_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
 						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
-						subject_node.addChild(poly_sub)
+						state_node.addChild(poly_sub)
 					if len(state.hasMetaContent) == 0:
 						state_node.getChildren()[0].setVisible(True)
 					else:
@@ -573,15 +574,15 @@ class View():
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_highlight']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['send_state_meta_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['s_state']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['s_state_meta']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['s_state_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['s_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
 						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
-						subject_node.addChild(poly_sub)
+						state_node.addChild(poly_sub)
 					if len(state.hasMetaContent) == 0:
 						state_node.getChildren()[0].setVisible(True)
 					else:
@@ -593,20 +594,21 @@ class View():
 					#VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.ReceiveState):
 					state_node.addTag('receive_state')
+					
 					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_highlight']))
-					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['receive_state_meta_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['r_state']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['r_state_meta']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['r_state_highlight']))
+					poly_states.append(VR.loadGeometry(self.BLENDER_PATHS['r_state_meta_highlight']))
 					for poly_sub in poly_states:
 						poly_sub.setPickable(True)
 						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
-						subject_node.addChild(poly_sub)
+						state_node.addChild(poly_sub)
 					if len(state.hasMetaContent) == 0:
 						state_node.getChildren()[0].setVisible(True)
 					else:
@@ -617,7 +619,7 @@ class View():
 					VR.view_root.addChild(state_node)
 
 			for edge in edges:
-				assert isinstance(message, PASS.MessageExchange)
+				assert isinstance(edge, PASS.TransitionEdge)
 				self.elements.append(edge)
 				pos = edge.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
@@ -627,16 +629,14 @@ class View():
 				transition_node.addTag('transition')
 				transition_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
-				transition_node.setPlaneConstraints([0, 0, 1])
-				transition_node.setRotationConstraints([1, 1, 1])
+				#transition_node.setPlaneConstraints([0, 0, 1])
+				#transition_node.setRotationConstraints([1, 1, 1])
 				poly_trans = []
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition']))
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta']))
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_highlight']))
 				poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta_highlight']))
 				for poly_mes in poly_trans:
-					poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-								((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					poly_mes.setPickable(True)
 					poly_mes.setScale(self.OBJECT_SCALE)
 					poly_mes.setVisible(False)
@@ -645,12 +645,12 @@ class View():
 					transition_node.getChildren()[0].setVisible(True)
 				else:
 					transition_node.getChildren()[1].setVisible(True)
-				self.object_dict[message] = transition_node
-				self.object_dict[transition_node] = message
-				self.message_dict[poly_mes] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None]
-				#self.connect(transition_node)
+				self.object_dict[edge] = transition_node
+				self.object_dict[transition_node] = edge
+				self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
+				self.connect(transition_node)
+				self.create_annotation_engine_entry(edge)
 				VR.view_root.addChild(transition_node)
-				self.create_annotation_engine_entry(edge, 0.02)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
@@ -749,11 +749,11 @@ class View():
 			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
 			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
-			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
+			self.meta_site.addMouse(mydev_r, self.meta_plane, 0, 2, 3, 4)
 			self.layer_add_site.addMouse(mydev_l, self.layer_add_plane, 0, 2, 3, 4)
 			self.layer_add_site.addMouse(mydev_r, self.layer_add_plane, 0, 2, 3, 4)
-			#self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
-			#self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
+			self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
+			self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
 			VR.view_user_cursors[user_id][True] = mydev_l
 			VR.view_user_cursors[user_id][False] = mydev_r
 			VR.view_user_positions[user_id] = {}
@@ -880,8 +880,8 @@ class View():
 		mydev = VR.view_user_cursors[user_id][is_left]
 		if mydev.intersect():
 			i = mydev.getIntersected()
-			#tags = i.getTags()
-			#print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
+			tags = i.getTags()
+			print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
 			if i.hasTag('edit'):
 				print 'view: edit'
 				mydev.trigger(0, 0)
@@ -905,6 +905,7 @@ class View():
 			#elif 'obj' in tags:
 			else:
 				#print 'view: object'
+				
 				p = i.getParent().getParent().getParent()
 				if p.hasTag('obj'):
 					#print 'Object found', p
@@ -972,6 +973,10 @@ class View():
 						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					# name changed
 					self.refresh_annotation_engine_entry(object)
+					#refresh paths
+					#attached_message = self._get_attached_message(object)
+					#if attached_message is not None:
+						#self.connect_refresh(attached_message)
 			elif isinstance(object, PASS.MessageExchange):
 				print "View on_change: MessageExchange"
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
@@ -1011,6 +1016,7 @@ class View():
 					self.object_dict[message_node] = object
 					self.create_annotation_engine_entry(object)
 					VR.view_root.addChild(message_node)
+					self.message_dict[message_node] = [self.object_dict[object.sender], self.object_dict[object.receiver], None, None, None]
 					self.connect(message_node)
 				else:
 					poly_obj = self.object_dict[object]
@@ -1259,7 +1265,7 @@ class View():
 					self.create_annotation_engine_entry(object)
 					self.object_dict[object] = transition_node
 					self.object_dict[transition_node] = object
-					self.message_dict[poly_mes] = [self.object_dict[object.hasSourceState], self.object_dict[object.hasTargetState], None]
+					self.message_dict[poly_mes] = [self.object_dict[object.hasSourceState], self.object_dict[object.hasTargetState], None, None, None]
 					self.connect(poly_trans)
 					VR.view_root.addChild(transition_node)
 				else:
@@ -1297,12 +1303,14 @@ class View():
 			else:
 				pass
 		else:
-			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
-
+			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'	
+	
 	def _get_attached_message(self, subject):
+		print 'object', subject
 		poly_sub = self.object_dict[subject]
 		for i in self.message_dict:
 			if self.message_dict[i][0] is poly_sub or self.message_dict[i][1] is poly_sub:
+				print 'attached message', i
 				return i
 		return None
 	'''
@@ -1334,6 +1342,9 @@ class View():
 		mid_2.setPickable(True)
 		mid_2.addTag('mid')
 		VR.view_root.addChild(mid_2)
+		
+		self.message_dict[message][3] = mid_1
+		self.message_dict[message][4] = mid_2
 
 		#calc handels
 		start_dir = [0.0, 0.0]
@@ -1407,10 +1418,12 @@ class View():
 			else:
 				#mes_pos handle top
 				mes_dir = [0.0, -1.0]
-
+	
 		#set all paths
+		m_paths = []
 		#set path sender -> mid
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
@@ -1424,6 +1437,7 @@ class View():
 		
 		#set path mid -> message
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(mes_dir[0], mes_dir[1], 0.0)
@@ -1437,6 +1451,7 @@ class View():
 
 		#set path message -> mid
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(mes_dir[0], mes_dir[1], 0.0)
@@ -1450,6 +1465,7 @@ class View():
 		
 		#set path mid -> receiver
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(end_dir[0], end_dir[1], 0.0)
@@ -1461,7 +1477,28 @@ class View():
 		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
 		r.addChild(handles[1])
 
+		self.message_dict[message][2] = m_paths
 		VR.ptool.update()
+
+	def connect_refresh(self, message):
+		print 'Refresh paths'
+		
+		s = self.message_dict[message][0]
+		r = self.message_dict[message][1]
+		mid_1 = self.message_dict[message][3]
+		mid_2 = self.message_dict[message][4]		
+
+		print '[message.getFrom()[0], s.getFrom()[1], -0.1]', [message.getFrom()[0], s.getFrom()[1], -0.1]
+		print '[message.getFrom()[0], r.getFrom()[1], -0.1]', [message.getFrom()[0], r.getFrom()[1], -0.1]
+		
+		#calc new mid positions
+		mid_start_mes_pos = [message.getFrom()[0], s.getFrom()[1], -0.1]
+		mid_mes_end_pos = [message.getFrom()[0], r.getFrom()[1], -0.1]
+		
+		#set new mid positions
+		mid_1.setFrom(mid_start_mes_pos)
+		mid_2.setFrom(mid_mes_end_pos)
+		
 	'''
 
 	def connect(self, message):
@@ -1543,7 +1580,7 @@ class View():
 		r.addChild(handles[1])
 		self.message_dict[message][2] = m_paths  #TODO @Kai
 		VR.ptool.update()
-
+		
 	#def move_object(self, obj, pos_ws):
 		#self.log.info('move_object')
 		#assert len(pos_ws) == 2

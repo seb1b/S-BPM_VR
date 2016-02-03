@@ -81,14 +81,19 @@ def buildHelper(manager, model):
 	# SBD -> TransitionEdges
 	edge12 = behaviorKonstrukteur.addReceiveTransition(state1, state2, mePrueferKonstrukteur)
 	edge12.label.append("Änderungsantrag")
+	edge12.hasAbstractVisualRepresentation.setPoint2D(0.1,0.1)
 	edge23 = behaviorKonstrukteur.addStandardTransition(state2, state3)
 	edge23.label.append("Antrag OK")
+	edge23.hasAbstractVisualRepresentation.setPoint2D(0.2,0.1)
 	edge25 = behaviorKonstrukteur.addStandardTransition(state2, state5)
 	edge25.label.append("Antrag nicht OK")
+	edge25.hasAbstractVisualRepresentation.setPoint2D(0.3,0.1)
 	edge34 = behaviorKonstrukteur.addSendTransition(state3, state4, meKonstrukteurPruefer)
 	edge34.label.append("Änderungsantrag in Ordnung")
+	edge34.hasAbstractVisualRepresentation.setPoint2D(0.4,0.1)
 	edge42 = behaviorKonstrukteur.addReceiveTransition(state4, state2, mePrueferKonstrukteur)
 	edge42.label.append("Änderungsantrag")
+	edge42.hasAbstractVisualRepresentation.setPoint2D(0.5,0.1)
 
 	# SBD (Pruefer)
 	behaviorPruefer = sPruefer.hasBehavior
