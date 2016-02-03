@@ -27,6 +27,7 @@ class View():
 		self.MAX_DIST = 100
 		self.CURSOR_DIST = -2
 		self.MIN_DIST = 2
+		self.CAM_INIT_DIST = 10
 		self.VALID_USER_COLORS = []
 		#setup valid user colors
 		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])
@@ -92,7 +93,7 @@ class View():
 		self.user_colors = {}
 
 		#setup camera parameter
-		self.camera_from = [0, 0, 10]
+		self.camera_from = [0, 0, self.CAM_INIT_DIST]
 		self.camera_at = [0, 0, -1.0]
 		self.camera_dir = [0, 0, -1]
 		self.camera_fov = 0.2
@@ -126,7 +127,7 @@ class View():
 		#screen
 		self.win_size = VR.getSetup().getWindow('screen').getSize()
 		assert len(self.win_size) == 2
-		self.scale_y = 2 * self.camera_from[2] * math.tan(self.camera_fov * 0.5)
+		self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
 		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self.scale_cursor_y = 2 * abs(self.CURSOR_DIST) * math.tan(self.camera_fov * 0.5)
 		self.scale_cursor_x = self.scale_cursor_y * self.win_size[0] / self.win_size[1]
@@ -390,8 +391,10 @@ class View():
 		print 'y dist ', self.model_hight
 
 		#VR.cam.addChild(self.active_gui_element) #TODO
+		self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
+		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self.update_all()
-		VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.camera_from[2] + 10)
+		VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
 		self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
 		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 
