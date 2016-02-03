@@ -86,6 +86,7 @@ class View():
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
 		self.annotation_dict = {}  # key: object, 1. entry: list(index)
+		self.elements = []
 
 		#stores user_id and corresponding color
 		self.user_colors = {}
@@ -421,7 +422,6 @@ class View():
 		self.annotation_engine.setSize(self.TEXT_SIZE)
 		self.annotation_engine.setScale([1, 1, 1])
 
-		#todo sizes
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
 			message_exchanges = self.cur_scene.messageExchanges
@@ -429,6 +429,7 @@ class View():
 
 			for subject in subjects:
 				assert isinstance(subject, PASS.Subject)
+				self.elements.append(subject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
 				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
@@ -461,6 +462,7 @@ class View():
 
 			for message in message_exchanges:
 				assert isinstance(message, PASS.MessageExchange)
+				self.elements.append(message)
 				pos = message.hasAbstractVisualRepresentation.hasPoint2D
 				#assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
 				#assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
@@ -489,7 +491,7 @@ class View():
 					message_node.getChildren()[1].setVisible(True)
 				self.object_dict[message] = message_node
 				self.object_dict[message_node] = message
-				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]				
+				self.message_dict[message_node] = [self.object_dict[message.sender], self.object_dict[message.receiver], None]
 				self.create_annotation_engine_entry(message)
 				self.connect(message_node)
 				VR.view_root.addChild(message_node)
@@ -498,6 +500,7 @@ class View():
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
 				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				self.elements.append(subject)
 				subject_node = VR.Transform('External_Subject_Container')
 				subject_node.addTag('obj')
 				subject_node.addTag('external_subject')
@@ -530,6 +533,7 @@ class View():
 
 			for state in states:
 				assert isinstance(state, PASS.State)
+				self.elements.append(state)
 				pos = state.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
 				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
@@ -611,6 +615,7 @@ class View():
 
 			for edge in edges:
 				assert isinstance(message, PASS.MessageExchange)
+				self.elements.append(edge)
 				pos = edge.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
 				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
@@ -656,7 +661,7 @@ class View():
 		for s in split:
 			index_list.append(split.index(s) + self.annotation_index)
 		self.annotation_dict[subject] = index_list
-		print 'annotation: index_list create', index_list, split
+		#print 'annotation: index_list create', index_list, split
 		for i in index_list:
 			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
 		self.annotation_index = self.annotation_index + len(index_list)
@@ -668,16 +673,16 @@ class View():
 			text = text + t
 		split = text.split(' ')
 		index_list = self.annotation_dict[subject]
-		print 'annotation: index_list before', index_list, split		
+		#print 'annotation: index_list before', index_list, split		
 		if len(index_list) < len(split):
-			for i in (0, (split - index_list)):
+			for i in xrange(0, (split - index_list)):
 				index_list.append(self.annotation_index + 1)
 				self.annotation_index = self.annotation_index +1
 		elif len(index_list) > len(split):
 			for i in (0, (index_list - split)):
 				index_list.remove(self.annotation_index + 1)
 		self.annotation_dict[subject] = index_list
-		print 'annotation: index_list after', index_list	
+		#print 'annotation: index_list after', index_list	
 		for i in index_list:
 			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
 
@@ -922,16 +927,19 @@ class View():
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new subject
-					pos = object.hasAbstractVisualRepresentation.hasPoint2D
-					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
-						return
-					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
-						return
+					self.elements.append(object)
+					#TODO check!
+					#if not pos_x >= self.model_offset_x and pos_x <= self.model_offset_x + self.model_width:
+						#print 'returning'
+						#return
+					#if pos_y >= self.model_offset_y and pos_y <= self.model_offset_y + self.model_hight:
+						#print 'returning'
+						#return
 					subject_node = VR.Transform('Subject_Container')
 					subject_node.addTag('obj')
 					subject_node.addTag('subject')
-					subject_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					subject_node.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
+						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
 					subject_node.setPlaneConstraints([0, 0, 1])
 					subject_node.setRotationConstraints([1, 1, 1])
 					poly_subjects = []
@@ -966,11 +974,13 @@ class View():
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new message
+					self.elements.append(object)
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
-					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
-						return
-					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
-						return
+					#TODO check!
+					#if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
+						#return
+					#if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+						#return
 					message_node = VR.Transform('Subject_Container')
 					message_node.addTag('obj')
 					message_node.addTag('subject')
@@ -1002,7 +1012,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x,
+					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
 						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
@@ -1011,6 +1021,7 @@ class View():
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new message
+					self.elements.append(object)
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
 					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 						return
@@ -1050,7 +1061,31 @@ class View():
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.Layer):
-				self.update_all()
+				print 'onchange layer'
+				if attr == "hasModelComponent":
+					list_of_elements = object.hasModelComponent
+					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
+					element_to_delete = set(self.elements) - set(list_of_elements)
+					assert len(element_to_delete) < 2, "More than one element to delete"
+					if len(element_to_delete) == 1:
+						if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
+							poly_obj = self.object_dict[element_to_delete[0]]
+							del self.object_dict[poly_obj]
+							del self.object_dict[element_to_delete[0]]
+							self.elements.remove(element_to_delete[0])
+							poly_obj.destroy()
+						elif isinstance(element_to_delete[0], PASS.MessageExchange):
+							poly_obj = self.object_dict[element_to_delete[0]]
+							paths_to_delete = self.message_dict[poly_obj][2]
+							for p in paths_to_delete:
+								self.ptool.remPath(p)
+							del self.object_dict[poly_obj]
+							del self.object_dict[element_to_delete[0]]
+							del self.message_dict[poly_obj]
+							self.elements.remove(element_to_delete[0])
+							poly_obj.destroy()
+					else:
+						print 'Skip, Element added.'
 			else:
 				pass
 		elif isinstance(self.cur_scene, PASS.Behavior):
@@ -1061,7 +1096,8 @@ class View():
 					return
 				if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
 					return
-				if not object in self.object_dict:  # create new subject
+				if not object in self.object_dict:  # create new state
+					self.elements.append(object)
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
@@ -1098,7 +1134,8 @@ class View():
 			elif isinstance(object, PASS.ReceiveState):
 				print "View on_change: Receive State"
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
-				if not object in self.object_dict:  # create new subject
+				if not object in self.object_dict:  # create new state
+					self.elements.append(object)
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
@@ -1135,7 +1172,8 @@ class View():
 			elif isinstance(object, PASS.FunctionState):
 				print "View on_change: Function State"
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
-				if not object in self.object_dict:  # create new subject
+				if not object in self.object_dict:  # create new state
+					self.elements.append(object)
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
@@ -1174,6 +1212,7 @@ class View():
 				pos_x = object.hasAbstractVisualRepresentation.hasPoint2D.hasXValue
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new message
+					self.elements.append(object)
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
 					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 						return
@@ -1217,7 +1256,30 @@ class View():
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.Behavior):
-				self.update_all()
+				print 'onchange behavior'
+				#if attr == "hasModelComponent":
+					#list_of_elements = object.hasModelComponent
+					#list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
+					#element_to_delete = set(self.elements) - set(list_of_elements)
+					#assert len(element_to_delete) < 2, "More than one element to delete"
+					#if len(element_to_delete) == 1:
+						#if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
+							#poly_obj = self.object_dict[element_to_delete[0]]
+							#del self.object_dict[poly_obj]
+							#del self.object_dict[element_to_delete[0]]
+							#poly_obj.destroy()
+						#elif isinstance(element_to_delete[0], PASS.MessageExchange):
+							#poly_obj = self.object_dict[element_to_delete[0]]
+							#paths_to_delete = self.message_dict[poly_obj][2]
+							#for p in paths_to_delete:
+								#self.ptool.remPath(p)
+							#del self.object_dict[poly_obj]
+							#del self.object_dict[element_to_delete[0]]
+							#del self.message_dict[poly_obj]
+							#poly_obj.destroy()
+					#else:
+						#print 'Skip, Element added.'
+				update_all()  #TODO with controller!
 			else:
 				pass
 		else:
@@ -1428,10 +1490,12 @@ class View():
 		else:
 			mid_dir[0] = -1.0
 
-		print "draw_line: ", s, " => ", r
-				
+		#print "draw_line: ", s, " => ", r
+
 		#set path to sender
+		m_paths = []  #TODO @Kai
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		m_paths.append(self.paths[-1])  #TODO @Kai
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
@@ -1442,9 +1506,10 @@ class View():
 		handles[1].setPickable(False)
 		handles[1].setDir(1.0, 0.0, 0.0)
 		message.addChild(handles[1])
-		
+
 		#set path to receiver
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		m_paths.append(self.paths[-1])  #TODO @Kai
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setFrom(0, 0, 0)
@@ -1455,7 +1520,7 @@ class View():
 		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
 		handles[1].setPickable(False)
 		r.addChild(handles[1])
-
+		self.message_dict[message][2] = m_paths  #TODO @Kai
 		VR.ptool.update()
 
 	#def move_object(self, obj, pos_ws):
@@ -1470,7 +1535,6 @@ class View():
 		if set_line:
 			if self.new_message_path is not None:
 				return
-			print "test"
 			self.paths.append(VR.ptool.newPath(None, VR.view_root))
 			handles = VR.ptool.getHandles(self.paths[-1])
 			assert len(handles) == 2, "invalid number of handles"
@@ -1483,12 +1547,8 @@ class View():
 			self.new_message_path = self.paths[-1]
 			VR.ptool.update()
 		else:
-			print 'else'
 			if self.new_message_path is not None:
 				print 'delete'
-				h1 = VR.view_user_cursors[user_id][0].getBeacon().getChildren()[0]
-				h2 = VR.view_user_cursors[user_id][1].getBeacon().getChildren()[0]
-				print h1,h2
 				VR.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
