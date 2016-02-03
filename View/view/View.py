@@ -1069,6 +1069,17 @@ class View():
 					assert len(element_to_delete) < 2, "More than one element to delete"
 					if len(element_to_delete) == 1:
 						if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
+							poly_mes = self._get_attached_message(element_to_delete[0])
+							if poly_mes is not None:  # delete attached message
+								mes = self.object_dict[poly_mes]
+								paths_to_delete = self.message_dict[poly_mes][2]
+								for p in paths_to_delete:
+									self.ptool.remPath(p)
+								del self.object_dict[mes]
+								del self.object_dict[poly_mes]
+								del self.message_dict[poly_mes]
+								self.elements.remove[mes]
+								poly_mes.destroy()
 							poly_obj = self.object_dict[element_to_delete[0]]
 							del self.object_dict[poly_obj]
 							del self.object_dict[element_to_delete[0]]
@@ -1279,11 +1290,18 @@ class View():
 							#poly_obj.destroy()
 					#else:
 						#print 'Skip, Element added.'
-				update_all()  #TODO with controller!
+				self.update_all()  #TODO with controller!
 			else:
 				pass
 		else:
 			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'
+
+	def _get_attached_message(self, subject):
+		poly_sub = self.object_dict[subject]
+		for i in self.message_dict:
+			if self.message_dict[i][0] is poly_sub or self.message_dict[i][1] is poly_sub:
+				return i
+		return None
 	'''
 	def connect(self, message):
 		self.log.info('connect')
