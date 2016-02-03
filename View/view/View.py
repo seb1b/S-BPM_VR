@@ -878,6 +878,8 @@ class View():
 	def get_object(self, user_id, is_left):
 		self.log.info('get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
+		#print 'beacon', mydev.getBeacon().getType()
+		#VR.Geometry(mydev.getBeacon()).setColors([[0,0,0]])
 		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
