@@ -73,6 +73,7 @@ class View():
 		self.PLANE_SIZE = 0.4
 		self.OBJECT_SCALE = [0.2, 0.2, 0.2]
 		self.TEXT_SIZE = 0.03
+		self.BORDER_ANGLE = 0.005
 
 		#TODO add path for missing elements
 
@@ -350,6 +351,7 @@ class View():
 		self.meta_site.open('http://localhost:5500/meta' + params)
 		self.meta_site.setResolution(200)
 		self.meta_site.setAspectRatio(0.4)
+		#self.meta_site.addKeyboard(VR.keyboard)
 
 		self.meta_plane.setVisible(False)
 		self.navigation_plane.setVisible(False)
@@ -375,13 +377,20 @@ class View():
 		#print 'y min ', self.model_offset_y
 		#print 'x dist ', self.model_width
 		#print 'y dist ', self.model_height
-		dist = 0.5 * max(self.model_width, self.model_height) / math.tan(self.camera_fov * 0.5)
+		dist = 0.5 * self.model_width / math.tan((self.camera_fov - self.BORDER_ANGLE) * 0.5)
 		VR.cam.setFrom(self.model_offset_x + 0.5 * self.model_width, self.model_offset_y + 0.5 * self.model_height, dist)
+		self.scale_y = dist * math.tan(self.camera_fov * 0.5) * 2
+		self.scale_x = self.scale_y / self.win_size[1] * self.win_size[0]
+
+		dist_overview = 0.5 * self.model_width / math.tan(self.camera_fov * 0.5)
+		self.cam_navigation.setFrom(self.model_offset_x + 0.5 * self.model_width, self.model_offset_y + 0.5 * self.model_height, dist_overview)
 
 		# hide start view
 		self.start_page_plane.setVisible(False)
 		# show menus
 		self.meta_plane.setVisible(True)
+		params = self.create_url_params_from_metacontent(self.cur_scene)
+		self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		self.navigation_plane.setVisible(True)
 		for c in self.edit_node.getChildren():
 			c.setVisible(False)
@@ -397,8 +406,7 @@ class View():
 		#self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self.update_all()
 		#VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
-		#self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
-		#self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
+
 
 	def get_cur_scene(self):
 		self.log.info('get_cur_scene')
@@ -688,8 +696,8 @@ class View():
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
 			VR.cam.setFrom(new_cam_pos)
-		self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
-		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
+		self.scale_y = new_cam_pos[2] * math.tan(self.camera_fov * 0.5) * 2
+		self.scale_x = self.scale_y / self.win_size[1] * self.win_size[0]
 
 	def current_zoom_level(self):
 		self.log.info('current_zoom_level')
@@ -843,7 +851,7 @@ class View():
 			params = params + str(metaKeys[i]) + '=' + str(obj.getMetaContent(metaKeys[i])[0])
 			i = i + 1
 			if(i != len(metaKeys)):
-				params = params + '&'			
+				params = params + '&'
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
@@ -853,7 +861,8 @@ class View():
 		highlighted_point = VR.Geometry('sphere')
 		highlighted_point.setPrimitive('Sphere 0.05 5')
 		highlighted_point.setMaterial(VR.Material('sample material'))
-		highlighted_point.setFrom((pos[0] - 0.5) * self.scale_x, (pos[1] - 0.5) * self.scale_y, 0.0)
+		w_pos = self.local_to_world_2d(pos)
+		highlighted_point.setFrom(w_pos[0], w_pos[1], 0.0)
 		highlighted_point.setPlaneConstraints([0, 0, 1])
 		highlighted_point.setRotationConstraints([1, 1, 1])
 		highlighted_point.setColors([1, 0, 0]) #TODO change color?!
@@ -879,8 +888,8 @@ class View():
 			print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
 			if i.hasTag('edit'):
 				print 'view: edit'
-				mydev.trigger(0, 0)
-				mydev.trigger(0, 1)
+				#mydev.trigger(0, 0)
+				#mydev.trigger(0, 1)
 				return self.menubar_entries['edit']
 			elif i.hasTag('meta'):
 				print 'view: meta'
@@ -889,19 +898,19 @@ class View():
 				return self.menubar_entries['meta']
 			elif i.hasTag('layer_add'):
 				print 'view: layer_add'
-				mydev.trigger(0, 0)
-				mydev.trigger(0, 1)
+				#mydev.trigger(0, 0)
+				#mydev.trigger(0, 1)
 				return self.menubar_entries['layer_add']
 			elif i.hasTag('behavior_add'):
 				print 'view: behavior_add'
-				mydev.trigger(0, 0)
-				mydev.trigger(0, 1)
+				#mydev.trigger(0, 0)
+				#mydev.trigger(0, 1)
 				return self.menubar_entries['behavior_add']
 			#elif 'obj' in tags:
 			else:
 				#print 'view: object'
 				
-				p = i.getParent().getParent().getParent()
+				p = i.getParent().getParent()
 				if p.hasTag('obj'):
 					#print 'Object found', p
 					return self.object_dict[p]
@@ -937,7 +946,7 @@ class View():
 					subject_node = VR.Transform('Subject_Container')
 					subject_node.addTag('obj')
 					subject_node.addTag('subject')
-					subject_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					subject_node.setFrom(pos_x, pos_y, 0)
 					subject_node.setPlaneConstraints([0, 0, 1])
 					subject_node.setRotationConstraints([1, 1, 1])
 					poly_subjects = []
@@ -963,7 +972,7 @@ class View():
 					poly_obj = self.object_dict[object]
 					#position changed
 					self.log.debug("moving subject to {}, {}, {}".format(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
-					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					# name changed
 					self.refresh_annotation_engine_entry(object)
 					#refresh paths
@@ -976,7 +985,6 @@ class View():
 				pos_y = object.hasAbstractVisualRepresentation.hasPoint2D.hasYValue
 				if not object in self.object_dict:  # create new message
 					self.elements.append(object)
-					pos = object.hasAbstractVisualRepresentation.hasPoint2D
 					#TODO check!
 					#if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 						#return
@@ -985,7 +993,7 @@ class View():
 					message_node = VR.Transform('Subject_Container')
 					message_node.addTag('obj')
 					message_node.addTag('subject')
-					message_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					message_node.setFrom(pos_x, pos_y, 0)
 					message_node.setPlaneConstraints([0, 0, 1])
 					message_node.setRotationConstraints([1, 1, 1])
 					poly_subjects = []
@@ -1013,7 +1021,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
-					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.ExternalSubject):
@@ -1055,7 +1063,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
-					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.Layer):
@@ -1110,8 +1118,7 @@ class View():
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
-					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
+					state_node.setFrom(pos_x, pos_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -1136,8 +1143,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					#position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.ReceiveState):
@@ -1148,8 +1154,7 @@ class View():
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
-					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
+					state_node.setFrom(pos_x, pos_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -1174,8 +1179,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					#position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.FunctionState):
@@ -1186,8 +1190,7 @@ class View():
 					state_node = VR.Transform('State_Container')
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
-					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
+					state_node.setFrom(pos_x, pos_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -1212,8 +1215,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					#position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.TransitionEdge):
@@ -1230,8 +1232,7 @@ class View():
 					transition_node = VR.Transform('Transition_Container')
 					transition_node.addTag('obj')
 					transition_node.addTag('transition')
-					transition_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
+					transition_node.setFrom(pos_x, pos_y, 0)
 					transition_node.setPlaneConstraints([0, 0, 1])
 					transition_node.setRotationConstraints([1, 1, 1])
 					poly_trans = []
@@ -1260,35 +1261,34 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
+					poly_obj.setFrom(pos_x, pos_y, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.Behavior):
 				print 'onchange behavior'
-				#if attr == "hasModelComponent":
-					#list_of_elements = object.hasModelComponent
-					#list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
-					#element_to_delete = set(self.elements) - set(list_of_elements)
-					#assert len(element_to_delete) < 2, "More than one element to delete"
-					#if len(element_to_delete) == 1:
-						#if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
-							#poly_obj = self.object_dict[element_to_delete[0]]
-							#del self.object_dict[poly_obj]
-							#del self.object_dict[element_to_delete[0]]
-							#poly_obj.destroy()
-						#elif isinstance(element_to_delete[0], PASS.MessageExchange):
-							#poly_obj = self.object_dict[element_to_delete[0]]
-							#paths_to_delete = self.message_dict[poly_obj][2]
-							#for p in paths_to_delete:
-								#self.ptool.remPath(p)
-							#del self.object_dict[poly_obj]
-							#del self.object_dict[element_to_delete[0]]
-							#del self.message_dict[poly_obj]
-							#poly_obj.destroy()
-					#else:
-						#print 'Skip, Element added.'
-				self.update_all()  #TODO with controller!
+				if attr == "hasModelComponent":
+					list_of_elements = object.hasModelComponent
+					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
+					element_to_delete = set(self.elements) - set(list_of_elements)
+					assert len(element_to_delete) < 2, "More than one element to delete"
+					if len(element_to_delete) == 1:
+						if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
+							poly_obj = self.object_dict[element_to_delete[0]]
+							del self.object_dict[poly_obj]
+							del self.object_dict[element_to_delete[0]]
+							poly_obj.destroy()
+						elif isinstance(element_to_delete[0], PASS.MessageExchange):
+							poly_obj = self.object_dict[element_to_delete[0]]
+							paths_to_delete = self.message_dict[poly_obj][2]
+							for p in paths_to_delete:
+								self.ptool.remPath(p)
+							del self.object_dict[poly_obj]
+							del self.object_dict[element_to_delete[0]]
+							del self.message_dict[poly_obj]
+							poly_obj.destroy()
+					else:
+						print 'Skip, Element added.'
+				#self.update_all()  #TODO with controller!
 			else:
 				pass
 		else:
