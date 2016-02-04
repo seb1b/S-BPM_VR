@@ -3,6 +3,7 @@ import math
 import sys
 import logging
 import PASS
+import time
 
 from view import View
 from hardware_main_config import VRHardware
@@ -36,15 +37,18 @@ class Controller:
 		self.drag_position = None
 		self.release_position = {}
 
-		self.selected_objects = []
+		self.selected_object = None
 		self.pressed_object = None
 		self.pressed_menu_bar = None
 		self.pressed_menu_bar_item = None
 		self.released_object = None
 		self.pressed_is_left = False
 		self.pressed_user_id = None
-		self.point_pos = None
+		
 		self.highlighted_pos = None
+		self.highlighted_pos_obj = None
+		
+		self.passive_selected_objects = defaultdict(None)  # user_id is key
 
 		self.hw_main = VRHardware(self)
 
@@ -56,6 +60,25 @@ class Controller:
 			self.active_users.append(user_id)
 			return True
 		return False
+		
+	def _update_selected_object(self, obj):
+		if self.selected_object is not None and isinstance(self.selected_object, PASS.PassProcessModelElement):
+			if not self.view.set_highlight(self.selected_object, False):
+				self.log.warning("Deselecting object {} failed".format(self.selected_object))
+		self.selected_object = obj
+		if self.selected_object is not None and isinstance(self.selected_object, PASS.PassProcessModelElement):
+			if not self.view.set_highlight(self.selected_object, True):
+				self.log.warning("Selecting object {} failed".format(self.selected_object))
+
+	def _update_passive_highlight(self, obj, user_id):
+		if isinstance(obj, PASS.PassProcessModelElement):
+			if self.passive_selected_objects[user_id] is not None and isinstance(self.passive_selected_objects[user_id], PASS.PassProcessModelElement):
+				if not self.view.set_highlight(self.passive_selected_objects[user_id], False):
+					self.log.warning("Deselecting passive object {} failed".format(self.passive_selected_objects[user_id]))
+			self.passive_selected_objects[user_id] = obj
+			if self.passive_selected_objects[user_id] is not None and isinstance(self.passive_selected_objects[user_id], PASS.PassProcessModelElement):
+				if not self.view.set_highlight(self.passive_selected_objects[user_id], True):
+					self.log.warning("Selecting passive object {} failed".format(self.passive_selected_objects[user_id]))
 
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
@@ -65,18 +88,24 @@ class Controller:
 		self.log.info("process_menu_bar({})".format(message))
 		if self.pressed_object.name == "layer_add":
 			if message == "subject":
-				if self.point_pos is not None:
+				if self.highlighted_pos_obj is not None:
+					assert self.highlighted_pos_obj is not None, "WTF"
 					new_obj = self.view.get_cur_scene().addSubject()
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.point_pos[0], self.point_pos[1])
-					self.point_pos = None
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.highlighted_pos[0], self.highlighted_pos[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					self.view.remove_highlight_point(self.highlighted_pos_obj)
+					self.highlighted_pos = None
+					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addSubject()
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
 				new_obj.label.append("New Subject")
-				self.selected_objects.append(new_obj)
+				self._update_selected_object(new_obj)
+				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
 				self.pressed_object = new_obj
+				self._update_selected_object(self.pressed_object)
 			elif message == "exsubject":
 				# TODO: implement
 				pass
@@ -84,20 +113,37 @@ class Controller:
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
-				pass
-			#elif message == "delete":
-				## only the latest selected subject will be deleted
-				#assert self.selected_objects is not None, "Nothing to delete"
-				#self.pressed_menu_bar = self.pressed_object
-				#self.pressed_menu_bar_item = message
-				#latest_obj = self.selected_objects[len(self.selected_objects) - 1]
-				#self.view.get_cur_scene().removeActiveComponent(latest_obj, True)
-				#self.selected_objects.pop()
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
 		# TODO: implement rest
-		elif self.pressed_object.name == "...":
-			pass
+		elif self.pressed_object.name == "behavior_add":
+			if message == "delete" and self.selected_object is not None:
+				if isinstance(self.selected_object, PASS.ActiveProcessComponent):  # subject
+					self.view.get_cur_scene().removeActiveComponent(self.selected_object, True)
+					self._update_selected_object(None)
+				if isinstance(self.selected_object, PASS.MessageExchange):
+					self.view.get_cur_scene().removeMessageExchange(self.selected_object)
+					self._update_selected_object(None)
+				if isinstance(self.selected_object, PASS.State):
+					self.view.get_cur_scene().removeState(self.selected_object)
+					self._update_selected_object(None)
+				if isinstance(self.selected_object, PASS.TransitionEdge):
+					self.view.get_cur_scene().removeTransitionEdge(self.selected_object)
+					self._update_selected_object(None)
+			if message == "copy" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
+					# TODO: deepCopy() functionality not implemented yet (model)
+					#pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
+					#pos[0] += 0.1
+					#pos[1] -= 0.1
+					#new_obj = self.selected_object.deepCopy()
+					#new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
+					#self._update_selected_object(new_obj)
+					pass
+			if message == "cancel" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
+				or isinstance(self.selected_object, PASS.MessageExchange)
+				or isinstance(self.selected_object, PASS.State)
+				or isinstance(self.selected_object, PASS.TransitionEdge)):
+				self._update_selected_object(None)
 		else:
 			self.log.warning("invalid pressed_object: {}".format(self.pressed_object))
 
@@ -135,64 +181,30 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			#obj = self.view.get_object(pos[:2])  # old version
-			# TODO: maybe update cursor position with pos
 			obj = self.view.get_object(user_id, is_left)
-			if obj is not None and self.pressed_user_id is None:
-				# CASE: press on existing obj(subject/message/menu bar item)
-				self.log.info("press(): got object")
-				if isinstance(obj, PASS.Subject):
-					# CASE: click on Subject
-					self.log.info("press(): got Subject")
-					pass
-				elif isinstance(obj, PASS.MessageExchange):
-					# CASE: click on MessageExchange
-					self.log.info("press(): got MessageExchange")
-					pass
-				elif isinstance(obj, PASS.State):
-					# CASE: click on State
-					self.log.info("press(): got State")
-					pass
-				elif isinstance(obj, PASS.TransitionEdge):
-					# CASE: click on TransitionEdge
-					self.log.info("press(): got TransitionEdge")
-					pass
-				elif isinstance(obj, View.MenuBar):
-					# CASE: should be MenuBar
+			if obj is not None and self.pressed_user_id is None and self._check_active_users(user_id):
+				if isinstance(obj, View.MenuBar):
+					# CASE: click on menu bar -> trigger cursor click
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
-					if obj.name == "layer_add":
-						pass
-					elif obj.name == "edit":
-						# TODO: implement rest
-						pass
+					self.view.trigger(user_id, is_left)
 				else:
-					self.log.info("Unknown object returned on press()")
+					self.log.info("Unhandled object returned on press(): {}".format(obj))
 
-				if obj not in self.selected_objects:
-					self.log.debug("Adding new selected object {}".format(obj))
-					self.selected_objects.append(obj)
-					self.log.debug("Going to hightlight object")
-					if not isinstance(obj, View.MenuBar):
-						if not self.view.set_highlight(obj, True):
-							self.log.warning("view.set_highlight(True) failed")
 				if self._check_active_users(user_id):
+					self._update_selected_object(obj)
 					self.log.debug("Setting new pressed_object: {}".format(obj))
 					self.pressed_object = obj
+					self.pressed_is_left = is_left
 					self.drag_position = pos
+					self.pressed_user_id = user_id
 				else:
 					self.log.debug("User {} is no active user - do not set pressed_object".format(user_id))
 
-			else:
-				# CASE: press on object but already pressed OR press on empty field or empty menu bar
-				if obj is not None:
-					self.log.debug("Got {} - press on object but already pressed".format(obj))
-				else:
-					self.log.debug("Got no object - press on empty field or empty menu bar?")
-				pass
-		self.press_position[user_id] = pos
-		self.pressed_is_left = is_left
-		self.pressed_user_id = user_id  # TODO: double check
+			elif obj is not None and obj not in self.passive_selected_objects:
+				# CASE: press on object from passive user
+				self._update_passive_highlight(obj, True)
 
+		self.press_position[user_id] = pos
 		return None
 
 	def release(self, pos, user_id, is_left=False):
@@ -227,30 +239,23 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if self.pressed_object is not None \
-				and self.pressed_is_left == is_left \
-				and self.pressed_user_id == user_id:
+			if self.pressed_object is not None and self.pressed_is_left == is_left and self.pressed_user_id == user_id:
 				# CASE: some object was released -> drag or select?
-				assert self.pressed_object in self.selected_objects
+				assert self.pressed_object is self.selected_object
 				self.released_object = self.pressed_object
 				self.pressed_object = None
-				if isinstance(self.pressed_menu_bar, View.MenuBar):
+				self.pressed_user_id = None
+				if isinstance(self.pressed_menu_bar, View.MenuBar):  # NOTE: this was set in handle_menu_bar!!!!!!
 					# CASE: menu bar item was released on field
-					new_obj = None
-					#if isinstance(self.released_object, PASS.Subject):
 					if self.pressed_menu_bar_item == "subject":
 						assert isinstance(self.released_object, PASS.Subject), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add subject was released on field
-						if not self.view.set_highlight(self.released_object, True):
-							self.log.warning("view.set_highlight(False) failed")
-						# TODO: start edit mode
+						pass
 					#elif isinstance(self.released_object, PASS.ExternalSubject):
 					elif self.pressed_menu_bar_item == "exsubject":
 						assert isinstance(self.released_object, PASS.ExternalSubject), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add external subject was released on field
-						if not self.view.set_highlight(self.released_object, True):
-							self.log.warning("view.set_highlight(False) failed")
-						# TODO: start edit mode
+						pass
 					elif self.pressed_menu_bar_item == "message":
 						assert isinstance(self.released_object, View.MenuBar), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add message was released on field
@@ -259,51 +264,50 @@ class Controller:
 						if isinstance(lo, PASS.Subject) and isinstance(ro, PASS.Subject):
 							# CASE: adding message only possible if two subjects are selected
 							new_obj = self.view.get_cur_scene().addMessageExchange(lo, ro)
-							x1 = lo.hasAbstractVisualRepresentation.hasPos2D.hasXValue
-							y1 = lo.hasAbstractVisualRepresentation.hasPos2D.hasYValue
-							x2 = ro.hasAbstractVisualRepresentation.hasPos2D.hasXValue
-							y2 = ro.hasAbstractVisualRepresentation.hasPos2D.hasYValue
-							new_obj.hasAbstractVisualRepresentation.setPos2D([x1 + (x2 - x1) / 2, y1 + (y2 - y1) / 2])
+							p1 = lo.hasAbstractVisualRepresentation.getPos2D()
+							p2 = ro.hasAbstractVisualRepresentation.getPos2D()
+							min_pos = [math.min(a, b) for a, b in zip(p1, p2)]
+							max_pos = [math.max(a, b) for a, b in zip(p1, p2)]
+							new_obj.hasAbstractVisualRepresentation.setPos2D([min_pos[0] + (max_pos[0] - min_pos[0]) / 2, min_pos[1] + (max_pos[1] - min_pos[1]) / 2])
 							new_obj.label.append("New Message")
+							new_obj.setMetaContent("Date", time.strftime("%c"))
+							self._update_selected_object(new_obj)
+							self.released_object = new_obj
 						else:
 							self.log.info("User {} trying to create message on invalid targets".format(user_id))
 						self.view.set_message_line(user_id, False)
 					else:
 						self.log.warning("Invalid MenuBar type")
-					self.selected_objects.remove(self.released_object)
-					assert self.released_object not in self.selected_objects
-					if new_obj is not None:
-						self.selected_objects.append(new_obj)
-					self.released_object = new_obj
 					self.pressed_menu_bar = None
 					self.pressed_menu_bar_item = None
-				elif sum([x ** 2 for x in [a - b for a, b in zip(
-					self.press_position[user_id], pos)]]) < 10.0:
+				elif sum([x ** 2 for x in [a - b for a, b in zip(self.press_position[user_id], pos)]]) < 10.0:
 					# CASE: some field object was selected
-					# nothing to do
+					# nothing to do LOL
 					pass
 				else:
 					# CASE: some field object was dragged/moved
 					# nothing to do
 					pass
-			elif self.pressed_object is None and self.pressed_is_left == is_left:
-				#CASE: release on field without object -> deselect everything
-				for obj in self.selected_objects:
-					if not isinstance(obj, View.MenuBar):
-						if not self.view.set_highlight(obj, False):
-							self.log.warning("view.set_highlight(False) failed")
-				self.selected_objects = []
-				## TODO: set highlight on empty field (for creating new object from menubar combo-command)
-				#self.view.remove_highlighted_pos(self.highlighted_pos)
-				#self.point_pos = pos
-				#self.highlighted_pos = pos
-				#self.view.highlight_pos(self.highlighted_pos)
-				self.log.info("deselect")
-				pass
+			elif self.pressed_object is None and self._check_active_users(user_id):
+				# CASE: release on field without object -> deselect everything and whatnot
+				if self.selected_object is None and self.highlighted_pos_obj is None:
+					# set highlight on empty field (for creating new object from menubar combo-command)
+					self.highlighted_pos_obj = self.view.highlight_pos(pos)
+					self.highlighted_pos = pos
+				elif self.selected_object is None:
+					# remove highlight on empty field
+					self.view.remove_highlight_point(self.highlighted_pos_obj)
+					self.highlighted_pos_obj = None
+					self.highlighted_pos = None
+				else:
+					# remove highlight from object
+					self._update_selected_object(None)
 			else:
-				self.log.warning("case: x")
+				# passive user release -> remove passive highlight from user
+				self._update_passive_highlight(None, user_id)
+
 		self.release_position[user_id] = pos
-		self.pressed_user_id = None
+		self.view.release(user_id, is_left)
 
 		return None
 
@@ -338,9 +342,8 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
-			if self.pressed_object is not None and self.pressed_user_id == user_id \
-				and self.pressed_is_left == is_left:
-				assert self.pressed_object in self.selected_objects
+			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
+				assert self.pressed_object is self.selected_object
 				if not isinstance(self.pressed_object, View.MenuBar):
 					assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
 					self.log.info("Moving object to {}".format(pos))
@@ -485,7 +488,7 @@ class Controller:
 				self.log.debug("Inactive user {} trying to move_model".format(user_id))
 				return None
 			# normalize to [-1,1]
-			self.view.move_scene([pos[0] * 2.0 - 1.0, (1 - pos[2]) * 2.0 - 1.0])
+			self.view.move_scene([pos[0] * 2.0 - 1.0, (1 - pos[1]) * 2.0 - 1.0])
 
 		return None
 
