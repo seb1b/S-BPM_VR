@@ -293,7 +293,7 @@ class Controller:
 				# CASE: release on field without object -> deselect everything and whatnot
 				if self.selected_object is None and self.highlighted_pos_obj is None:
 					# set highlight on empty field (for creating new object from menubar combo-command)
-					self.highlighted_pos_obj = self.view.highlight_pos(pos)
+					self.highlighted_pos_obj = self.view.highlight_pos(pos[:2])
 					self.highlighted_pos = pos
 				elif self.selected_object is None:
 					# remove highlight on empty field
