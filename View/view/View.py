@@ -891,6 +891,13 @@ class View():
 		if isinstance(highlight_point, VR.Object):
 			VR.view_root.remChild(highlight_point)
 
+	def trigger(self, user_id, is_left):
+		self.log.info('trigger')
+		mydev = VR.view_user_cursors[user_id][is_left]
+		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
+		mydev.trigger(0, 0)
+		mydev.trigger(0, 1)
+
 	def get_object(self, user_id, is_left):
 		self.log.info('get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
