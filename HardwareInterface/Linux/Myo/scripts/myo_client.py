@@ -7,7 +7,6 @@ def getChange(edge):
 	# userID:posXYZ:L/R:Geste
 	stringToSend = ""
 
-	# myo = 2, number of users = 1
 	userID = "20" #TODO extend for more myos
 
 	# position on the screen:
@@ -32,11 +31,11 @@ def getChange(edge):
 	position = str(x) + "," + str(y) + "," + str(z) + ";" + str(posBox) + ";" + str(xRot) + "," + str(yRot) + "," + str(zRot)
 
 	hand = ""
-	h = myo.getArm() # TODO assuming the arm won't change?
-	if (h == "left"): #for some reason shows wrong
-		hand = "R"
-	elif (h == "right"):
+	h = myo.getArm()
+	if (h == "left"): 
 		hand = "L"
+	elif (h == "right"):
+		hand = "R"
 	else:
 		hand = "unknown"
 
@@ -48,7 +47,7 @@ def getChange(edge):
 
 # Center is set when you first double tap to unlock.
 # It is kept unlocked forever
-def onUnlock(): #TODO check if this is enough
+def onUnlock(): 
 	myo.rotSetCenter()
 	myo.unlock("hold")
 

@@ -30,7 +30,9 @@
   <zoom id="fingersSpread"/>
   <release id="rest"/>
   <press id="fist"/>
-
+  <move_model id="waveOut"/>
+  <fade_in id="waveIn"/>
+  <fade_away id="doubleTap"/>
 </myoGestures>
 
 

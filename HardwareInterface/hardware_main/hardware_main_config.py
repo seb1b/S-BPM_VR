@@ -3,47 +3,49 @@
 import collections, pika, sys
 import untangle  #for config file read in
 import os.path
-if sys.path[0] != '../Controller': sys.path.insert(0, '../Controller')
+if sys.path[0] != '../../Controller': sys.path.insert(0, '../../Controller')
 
 # Uncomment for standalone use
-# import controller
+import controller
 
 # from controller import Controller
 import threading
 import itertools
 
 # Uncomment for standalone use
-
-#class Controller:
-#	def press(self, pos, user_id, is_left=False):
-#		if is_left:
-#			print("press with left at", pos)
-#		else:
-#			print("press with right at", pos)
-#	def release(self, pos, user_id, is_left=False):
-#		if is_left:
-#			print("release with left at", pos)
-#		else:
-#			print("release with right at", pos)
-#	def move(self, pos, user_id, is_left=False):
+"""class Controller:
+	def press(self, pos, user_id, is_left=False):
+		if is_left:
+			print("press with left at", pos)
+		else:
+			print("press with right at", pos)
+	def release(self, pos, user_id, is_left=False):
+		if is_left:
+			print("release with left at", pos)
+		else:
+			print("release with right at", pos)
+	def move(self, pos, user_id, is_left=False):
+		pass
 #		#print("move", pos, is_lef)
 #		if is_left:
 #			print("move with left at", pos)
 #		else:
 #			print("move with right at", pos)
-#	def zoom(self, level, user_id):
-#		print("zoom")
-#	def fade_away(self):
-#		print("fade_away")
-#	def fade_in(self, pos, user_id, is_left):
-#		print("fade_in")
-#	def rotate(self, degrees):
-#		print("rotate")
-#	def move_model(self, pos, user_id):
-#		print("move_model at", pos)
-#	def move_head(self, pos, degrees, user_id):
-#		print("move_head")
-
+	def zoom(self, level, user_id):
+		print("zoom")
+	def fade_away(self):
+		counter = 0
+		counter = counter+1
+		print("fade_away", counter)
+	def fade_in(self, pos, user_id, is_left):
+		print("fade_in at", pos)
+	def rotate(self, degrees):
+		print("rotate")
+	def move_model(self, pos, user_id):
+		print("move_model at", pos)
+	def move_head(self, pos, degrees, user_id):
+		print("move_head")
+"""
 
 class VRHardware():
 
@@ -80,6 +82,9 @@ class VRHardware():
 		self.myo_press = config.node.myoGestures.press['id']
 		self.myo_release = config.node.myoGestures.release['id']
 		self.myo_zoom = config.node.myoGestures.zoom['id']
+		self.myo_move_model = config.node.myoGestures.move_model['id']
+		self.myo_fade_in = config.node.myoGestures.fade_in['id']
+		self.myo_fade_away = config.node.myoGestures.fade_away['id']
 
 		#set kinect control
 		self.kinect_press = config.node.kinectGestures.press['id']
@@ -99,6 +104,7 @@ class VRHardware():
 
 		# Variables used for Myo control
 		self.called_press_myo = False
+		self.fist_counter = 0
 
 		# Variables used for Kinect
 		self.called_press_left_kinect = False
@@ -196,6 +202,7 @@ class VRHardware():
 			elif user_id >= self.MYO_ID and user_id < self.KINECT_ID:
 				xyz = [float(x) for x in pos.split(";")[0].split(",")]
 				rot = [float(x) for x in pos.split(";")[2].split(",")]
+				#box = pos.split(";")[1] 
 
 				# Myo has some additional info
 				gesture_split = gesture.split(";")
@@ -203,11 +210,10 @@ class VRHardware():
 				gesture = gesture_split[0]
 
 				# MOVE
-				# TODO Normalize position on 0, 1 -> in myo client
 				self.controller.move(xyz, user_id, is_left)
 
 				# PRESS
-				if gesture == self.myo_press:
+				if gesture == self.myo_press:						
 					self.called_press_myo = True
 					#print("Myo press")
 					self.controller.press(xyz, user_id, is_left)
@@ -220,11 +226,31 @@ class VRHardware():
 				# ZOOM
 				elif gesture == self.myo_zoom:
 					print("Myo zoom: " + str(rot[0]))
-					# TODO For left arm different
-					if rot[0] > 0.2:
-						self.controller.zoom(1, user_id)
-					elif rot[0] < -0.5:
-						self.controller.zoom(-1, user_id)
+					if ~is_left:
+						if rot[0] > 0.2:
+							self.controller.zoom(1, user_id)
+						elif rot[0] < -0.5:
+							self.controller.zoom(-1, user_id)
+					else:
+						if rot[0] > -0.2:
+							self.controller.zoom(1, user_id)
+						elif rot[0] < 0.5:
+							self.controller.zoom(-1, user_id)
+				# FADE_IN
+				elif gesture == self.myo_fade_in:
+					#print("Myo fade_in")
+					self.controller.fade_in(xyz, user_id, is_left)
+
+				# FADE_AWAY
+				elif gesture == self.myo_fade_away:
+					#print("Myo fade_in")
+					self.controller.fade_away()
+
+				# MOVE_MODEL
+				elif gesture == self.myo_move_model:
+					#print("Myo fade_in")
+					self.controller.move_model(xyz, user_id)
+
 			elif user_id >= self.KINECT_ID and user_id < self.TABLET_ID:
 				xyz = [float(x) for x in pos.split(";")]
 				self.controller.move(xyz, user_id, is_left)
