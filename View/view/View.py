@@ -42,8 +42,8 @@ class View():
 		self.BLENDER_PATHS['subject_highlight'] = '../../View/Blender/Prozess/Subjekt_Highlight.dae'
 		self.BLENDER_PATHS['subject_meta_highlight'] = '../../View/Blender/Prozess/Subjekt_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['message'] = '../../View/Blender/Prozess/Message.dae'
-		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag_test.dae'
-		#self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message.dae'
+		#self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag_test.dae'
+		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message.dae'
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub.dae'
@@ -138,7 +138,7 @@ class View():
 		self.model_offset_x = 0
 		self.model_offset_y = 0
 		self.model_width = 0
-		self.model_hight = 0
+		self.model_height = 0
 
 		# gui elements
 		#node for all edit planes
@@ -365,7 +365,19 @@ class View():
 		self.log.info('set_cur_scene')
 		assert isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior), cur_scene
 		self.cur_scene = cur_scene
-		VR.cam.setFrom(self.camera_from)
+		#set offsets
+		#print 'bb: ', self.cur_scene.getBoundingBox2D()
+		bb = self.cur_scene.getBoundingBox2D()
+		self.model_offset_x = bb[0][0]
+		self.model_offset_y = bb[0][1]
+		self.model_width = bb[1][0] - self.model_offset_x
+		self.model_height = bb[1][1] - self.model_offset_y
+		#print 'x min ', self.model_offset_x
+		#print 'y min ', self.model_offset_y
+		#print 'x dist ', self.model_width
+		#print 'y dist ', self.model_height
+		dist = 0.5 * max(self.model_width, self.model_height) / math.tan(self.camera_fov * 0.5)
+		VR.cam.setFrom(self.model_offset_x + 0.5 * self.model_width, self.model_offset_y + 0.5 * self.model_height, dist)
 
 		# hide start view
 		self.start_page_plane.setVisible(False)
@@ -381,24 +393,13 @@ class View():
 		else:
 			print 'set_cur_scene neither layer nor behavior'
 
-		#set offsets
-		print 'bb: ', self.cur_scene.getBoundingBox2D()
-		self.model_offset_x = self.cur_scene.getBoundingBox2D()[0][0]
-		self.model_offset_y = self.cur_scene.getBoundingBox2D()[0][1]
-		self.model_width = self.cur_scene.getBoundingBox2D()[1][0] - self.model_offset_x
-		self.model_hight = self.cur_scene.getBoundingBox2D()[1][1] - self.model_offset_y				
-		print 'x min ', self.model_offset_x
-		print 'y min ', self.model_offset_y
-		print 'x dist ', self.model_width
-		print 'y dist ', self.model_hight
-
-		#VR.cam.addChild(self.active_gui_element) #TODO
-		self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
-		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
+		##VR.cam.addChild(self.active_gui_element) #TODO
+		#self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
+		#self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self.update_all()
-		VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
-		self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
-		self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
+		#VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
+		#self.scale_y = 2 * VR.cam.getFrom()[2] * math.tan(self.camera_fov * 0.5)
+		#self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 
 	def get_cur_scene(self):
 		self.log.info('get_cur_scene')
@@ -437,12 +438,11 @@ class View():
 				self.elements.append(subject)
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height, '{} is not in y bounding range'.format(pos.hasYValue)
 				subject_node = VR.Transform('Subject_Container')
 				subject_node.addTag('obj')
 				subject_node.addTag('subject')
-				subject_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				subject_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				subject_node.setPlaneConstraints([0, 0, 1])
 				subject_node.setRotationConstraints([1, 1, 1])
 				poly_subjects = []
@@ -470,12 +470,11 @@ class View():
 				self.elements.append(message)
 				pos = message.hasAbstractVisualRepresentation.hasPoint2D
 				#assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-				#assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				#assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height, '{} is not in y bounding range'.format(pos.hasYValue)
 				message_node = VR.Transform('Message_Container')
 				message_node.addTag('obj')
 				message_node.addTag('message')
-				message_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				message_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 #				message_node.setPlaneConstraints([0, 0, 1])
 #				message_node.setRotationConstraints([1, 1, 1])
 				poly_mesages = []
@@ -504,13 +503,12 @@ class View():
 			for subject in external_subjects:
 				pos = subject.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height, '{} is not in y bounding range'.format(pos.hasYValue)
 				self.elements.append(subject)
 				subject_node = VR.Transform('External_Subject_Container')
 				subject_node.addTag('obj')
 				subject_node.addTag('external_subject')
-				subject_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				subject_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				subject_node.setPlaneConstraints([0, 0, 1])
 				subject_node.setRotationConstraints([1, 1, 1])
 				poly_subjects = []
@@ -541,13 +539,12 @@ class View():
 				self.elements.append(state)
 				pos = state.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height, '{} is not in y bounding range'.format(pos.hasYValue)
 				state_node = VR.Transform('State_Container')
 				state_node.addTag('obj')
 				if isinstance(state, PASS.FunctionState):
 					state_node.addTag('function_state')
-					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					state_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -570,8 +567,7 @@ class View():
 					VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.SendState):
 					state_node.addTag('send_state')
-					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					state_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -595,9 +591,7 @@ class View():
 					#VR.view_root.addChild(state_node)
 				elif isinstance(state, PASS.ReceiveState):
 					state_node.addTag('receive_state')
-					
-					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					state_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -624,12 +618,11 @@ class View():
 				self.elements.append(edge)
 				pos = edge.hasAbstractVisualRepresentation.hasPoint2D
 				assert pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width, '{} is not in x bounding range'.format(pos.hasXValue)
-				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight, '{} is not in y bounding range'.format(pos.hasYValue)
+				assert pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height, '{} is not in y bounding range'.format(pos.hasYValue)
 				transition_node = VR.Transform('Transition_Container')
 				transition_node.addTag('obj')
 				transition_node.addTag('transition')
-				transition_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-					((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+				transition_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				#transition_node.setPlaneConstraints([0, 0, 1])
 				#transition_node.setRotationConstraints([1, 1, 1])
 				poly_trans = []
@@ -677,7 +670,7 @@ class View():
 			text = text + t
 		split = text.split(' ')
 		index_list = self.annotation_dict[subject]
-		#print 'annotation: index_list before', index_list, split		
+		#print 'annotation: index_list before', index_list, split
 		if len(index_list) < len(split):
 			for i in xrange(0, (split - index_list)):
 				index_list.append(self.annotation_index + 1)
@@ -939,14 +932,13 @@ class View():
 					#if not pos_x >= self.model_offset_x and pos_x <= self.model_offset_x + self.model_width:
 						#print 'returning'
 						#return
-					#if pos_y >= self.model_offset_y and pos_y <= self.model_offset_y + self.model_hight:
+					#if pos_y >= self.model_offset_y and pos_y <= self.model_offset_y + self.model_height:
 						#print 'returning'
 						#return
 					subject_node = VR.Transform('Subject_Container')
 					subject_node.addTag('obj')
 					subject_node.addTag('subject')
-					subject_node.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					subject_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					subject_node.setPlaneConstraints([0, 0, 1])
 					subject_node.setRotationConstraints([1, 1, 1])
 					poly_subjects = []
@@ -971,9 +963,8 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					#position changed
-					self.log.debug("moving subject to {}, {}, {}".format(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0))
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					self.log.debug("moving subject to {}, {}, {}".format(((pos_x - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
+					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					# name changed
 					self.refresh_annotation_engine_entry(object)
 					#refresh paths
@@ -990,13 +981,12 @@ class View():
 					#TODO check!
 					#if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 						#return
-					#if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+					#if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height:
 						#return
 					message_node = VR.Transform('Subject_Container')
 					message_node.addTag('obj')
 					message_node.addTag('subject')
-					message_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					message_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					message_node.setPlaneConstraints([0, 0, 1])
 					message_node.setRotationConstraints([1, 1, 1])
 					poly_subjects = []
@@ -1024,8 +1014,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.ExternalSubject):
@@ -1037,13 +1026,12 @@ class View():
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
 					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 						return
-					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height:
 						return
 					subject_node = VR.Transform('External_Subject_Container')
 					subject_node.addTag('obj')
 					subject_node.addTag('external_subject')
-					subject_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+					subject_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					subject_node.setPlaneConstraints([0, 0, 1])
 					subject_node.setRotationConstraints([1, 1, 1])
 					poly_subjects = []
@@ -1068,8 +1056,7 @@ class View():
 				else:
 					poly_obj = self.object_dict[object]
 					# position changed
-					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.Layer):
@@ -1117,7 +1104,7 @@ class View():
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 					return
-				if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+				if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height:
 					return
 				if not object in self.object_dict:  # create new state
 					self.elements.append(object)
@@ -1125,7 +1112,7 @@ class View():
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
 					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -1151,7 +1138,7 @@ class View():
 					poly_obj = self.object_dict[object]
 					#position changed
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.ReceiveState):
@@ -1163,7 +1150,7 @@ class View():
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
 					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -1189,7 +1176,7 @@ class View():
 					poly_obj = self.object_dict[object]
 					#position changed
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.FunctionState):
@@ -1201,7 +1188,7 @@ class View():
 					state_node.addTag('obj')
 					state_node.addTag('send_state')
 					state_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
 					state_node.setPlaneConstraints([0, 0, 1])
 					state_node.setRotationConstraints([1, 1, 1])
 					poly_states = []
@@ -1227,7 +1214,7 @@ class View():
 					poly_obj = self.object_dict[object]
 					#position changed
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.TransitionEdge):
@@ -1239,13 +1226,13 @@ class View():
 					pos = object.hasAbstractVisualRepresentation.hasPoint2D
 					if not pos.hasXValue >= self.model_offset_x and pos.hasXValue <= self.model_offset_x + self.model_width:
 						return
-					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_hight:
+					if pos.hasYValue >= self.model_offset_y and pos.hasYValue <= self.model_offset_y + self.model_height:
 						return
 					transition_node = VR.Transform('Transition_Container')
 					transition_node.addTag('obj')
 					transition_node.addTag('transition')
 					transition_node.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+						((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
 					transition_node.setPlaneConstraints([0, 0, 1])
 					transition_node.setRotationConstraints([1, 1, 1])
 					poly_trans = []
@@ -1255,7 +1242,7 @@ class View():
 					poly_trans.append(VR.loadGeometry(self.BLENDER_PATHS['transition_meta_highlight']))
 					for poly_mes in poly_trans:
 						poly_mes.setFrom(((pos.hasXValue - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-									((pos.hasYValue - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0)
+									((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0)
 						poly_mes.setPickable(True)
 						poly_mes.setScale(self.OBJECT_SCALE)
 						poly_mes.setVisible(False)
@@ -1275,7 +1262,7 @@ class View():
 					poly_obj = self.object_dict[object]
 					# position changed
 					poly_obj.setFrom(((pos_x - self.model_offset_x) / self.model_width - 0.5) * self.scale_x,
-						((pos_y - self.model_offset_y) / self.model_hight - 0.5) * self.scale_y, 0.0)
+						((pos_y - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0)
 					#name changed
 					self.refresh_annotation_engine_entry(object)
 			elif isinstance(object, PASS.Behavior):
@@ -1614,3 +1601,8 @@ class View():
 				self.new_message_path = None
 			else:
 				print "Warning: no message path to be deleted..."
+
+	def local_to_world_2d(self, local_pos):
+		#transformation
+		assert len(local_pos) == 2, "local_pos must have a length of 2"
+		return [(local_pos[0] - 0.5) * self.scale_x, (local_pos[1] - 0.5) * self.scale_y]
