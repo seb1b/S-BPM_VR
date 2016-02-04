@@ -75,8 +75,8 @@ class View():
 		self.HANDLE.setMaterial(VR.Material('sample material'))
 
 		self.PLANE_SIZE = 0.4
-		self.OBJECT_SCALE = [0.2, 0.2, 0.2]
-		self.TEXT_SIZE = 0.03
+		self.OBJECT_SCALE = [0.4, 0.4, 0.4]
+		self.TEXT_SIZE = 0.05
 		self.BORDER_ANGLE = 0.005
 
 		#TODO add path for missing elements
@@ -735,7 +735,7 @@ class View():
 			cursor_left = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
 			cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
 			cursor_left.addTag(str([user_id, True]))
-			cursor_left.setScale([0.01, 0.01, 0.01])
+			cursor_left.setScale([0.003, 0.003, 0.003])
 			#cursor_left.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_left)
 			#cursor_right = VR.Geometry('dev_r')
@@ -747,7 +747,7 @@ class View():
 			cursor_right = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
 			cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
 			cursor_right.addTag(str([user_id, False]))
-			cursor_right.setScale([0.01, 0.01, 0.01])
+			cursor_right.setScale([0.003, 0.003, 0.003])
 			#cursor_right.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
@@ -898,6 +898,23 @@ class View():
 		mydev.trigger(0, 0)
 		mydev.trigger(0, 1)
 
+	def release(self, user_id, is_left):
+		mydev = VR.view_user_cursors[user_id][is_left]
+		pos = mydev.getBeacon().getFrom()
+		if is_left:
+			cursor = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
+			cursor.addTag(str([user_id, True]))
+			cursor.setFrom(pos)
+			cursor.setScale([0.003, 0.003, 0.003])
+		else:
+			cursor = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
+			cursor.addTag(str([user_id, False]))
+			cursor.setFrom(pos)
+			cursor.setScale([0.003, 0.003, 0.003])
+		mydev.getBeacon().destroy()
+		VR.cam.addChild(cursor)
+		mydev.setBeacon(cursor)
+
 	def get_object(self, user_id, is_left):
 		self.log.info('get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
@@ -908,12 +925,12 @@ class View():
 			cursor = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
 			cursor.addTag(str([user_id, True]))
 			cursor.setFrom(pos)
-			cursor.setScale([0.01, 0.01, 0.01])
+			cursor.setScale([0.003, 0.003, 0.003])
 		else:
 			cursor = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
 			cursor.addTag(str([user_id, False]))
 			cursor.setFrom(pos)
-			cursor.setScale([0.01, 0.01, 0.01])
+			cursor.setScale([0.003, 0.003, 0.003])
 		mydev.getBeacon().destroy()
 		VR.cam.addChild(cursor)
 		mydev.setBeacon(cursor)
