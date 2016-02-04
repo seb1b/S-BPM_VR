@@ -889,7 +889,7 @@ class View():
 	def remove_highlight_point(self, highlight_point):  # remove the given highlighted object from scene
 		self.log.info('remove_highlight_pos')
 		if isinstance(highlight_point, VR.Object):
-			VR.view_root.remChild(highlight_point)
+			highlight_point.destroy()
 
 	def trigger(self, user_id, is_left):
 		self.log.info('trigger')
