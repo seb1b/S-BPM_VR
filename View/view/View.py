@@ -65,6 +65,10 @@ class View():
 		self.BLENDER_PATHS['transition_meta'] = '../../View/Blender/Behavior/Trans_Hashtag.dae'
 		self.BLENDER_PATHS['transition_highlight'] = '../../View/Blender/Behavior/Trans_Highlight.dae'
 		self.BLENDER_PATHS['transition_meta_highlight'] = '../../View/Blender/Behavior/Trans_Highlight_Hashtag.dae'
+		self.BLENDER_PATHS['open_hand_left'] = '../../View/Blender/Cursor/Open_Hand_Left.dae'
+		self.BLENDER_PATHS['closed_hand_left'] = '../../View/Blender/Cursor/Closed_Hand_Left.dae'
+		self.BLENDER_PATHS['open_hand_right'] = '../../View/Blender/Cursor/Open_Hand_Right.dae'
+		self.BLENDER_PATHS['closed_hand_right'] = '../../View/Blender/Cursor/Closed_Hand_Right.dae'
 
 		self.HANDLE = VR.Geometry('handle')
 		self.HANDLE.setPrimitive('Box 0.001 0.001 0.001 1 1 1')
@@ -351,7 +355,7 @@ class View():
 		self.meta_site.open('http://localhost:5500/meta' + params)
 		self.meta_site.setResolution(200)
 		self.meta_site.setAspectRatio(0.4)
-		#self.meta_site.addKeyboard(VR.keyboard)
+		self.meta_site.addKeyboard(VR.keyboard)
 
 		self.meta_plane.setVisible(False)
 		self.navigation_plane.setVisible(False)
@@ -722,19 +726,29 @@ class View():
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
 			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
-			cursor_left = VR.Geometry('dev_l')
-			cursor_left.setPrimitive('Sphere 0.008 5')
-			cursor_left.setMaterial(VR.Material('sample material'))
+			#cursor_left = VR.Geometry('dev_l')
+			#cursor_left.setPrimitive('Sphere 0.008 5')
+			#cursor_left.setMaterial(VR.Material('sample material'))
+			#cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
+			#cursor_left.addTag(str([user_id, True]))
+			#cursor_left.setColors([VR.view_user_colors[user_id]])
+			cursor_left = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
 			cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
 			cursor_left.addTag(str([user_id, True]))
-			cursor_left.setColors([VR.view_user_colors[user_id]])
+			cursor_left.setScale([0.01, 0.01, 0.01])
+			#cursor_left.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_left)
-			cursor_right = VR.Geometry('dev_r')
-			cursor_right.setPrimitive('Sphere 0.008 5')
-			cursor_right.setMaterial(VR.Material('sample material'))
+			#cursor_right = VR.Geometry('dev_r')
+			#cursor_right.setPrimitive('Sphere 0.008 5')
+			#cursor_right.setMaterial(VR.Material('sample material'))
+			#cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
+			#cursor_right.addTag(str([user_id, False]))
+			#cursor_right.setColors([VR.view_user_colors[user_id]])
+			cursor_right = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
 			cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
 			cursor_right.addTag(str([user_id, False]))
-			cursor_right.setColors([VR.view_user_colors[user_id]])
+			cursor_right.setScale([0.01, 0.01, 0.01])
+			#cursor_right.setColors([VR.view_user_colors[user_id]])
 			VR.cam.addChild(cursor_right)
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
@@ -882,6 +896,20 @@ class View():
 		mydev = VR.view_user_cursors[user_id][is_left]
 		#print 'beacon', mydev.getBeacon().getType()
 		#VR.Geometry(mydev.getBeacon()).setColors([[0,0,0]])
+		pos = mydev.getBeacon().getFrom()
+		if is_left:
+			cursor = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
+			cursor.addTag(str([user_id, True]))
+			cursor.setFrom(pos)
+			cursor.setScale([0.01, 0.01, 0.01])
+		else:
+			cursor = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
+			cursor.addTag(str([user_id, False]))
+			cursor.setFrom(pos)
+			cursor.setScale([0.01, 0.01, 0.01])
+		mydev.getBeacon().destroy()
+		VR.cam.addChild(cursor)
+		mydev.setBeacon(cursor)
 		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
