@@ -4,6 +4,7 @@ import sys
 import logging
 import PASS
 import time
+import collections
 
 from view import View
 from hardware_main_config import VRHardware
@@ -44,11 +45,11 @@ class Controller:
 		self.released_object = None
 		self.pressed_is_left = False
 		self.pressed_user_id = None
-		
+
 		self.highlighted_pos = None
 		self.highlighted_pos_obj = None
-		
-		self.passive_selected_objects = defaultdict(None)  # user_id is key
+
+		self.passive_selected_objects = collections.defaultdict(None)  # user_id is key
 
 		self.hw_main = VRHardware(self)
 
