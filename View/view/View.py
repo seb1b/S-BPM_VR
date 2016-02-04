@@ -893,8 +893,8 @@ class View():
 				return self.menubar_entries['edit']
 			elif i.hasTag('meta'):
 				print 'view: meta'
-				mydev.trigger(0, 0)
-				mydev.trigger(0, 1)
+				#mydev.trigger(0, 0)
+				#mydev.trigger(0, 1)
 				return self.menubar_entries['meta']
 			elif i.hasTag('layer_add'):
 				print 'view: layer_add'
