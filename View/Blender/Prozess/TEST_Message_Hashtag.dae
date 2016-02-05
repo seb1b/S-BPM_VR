@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.70.5 commit date:2014-05-04, commit time:02:37, hash:fd80ac4</authoring_tool>
     </contributor>
-    <created>2016-02-05T17:29:11</created>
-    <modified>2016-02-05T17:29:11</modified>
+    <created>2016-02-05T18:44:25</created>
+    <modified>2016-02-05T18:44:25</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -14,8 +14,8 @@
     <image id="Hashtag_png_001" name="Hashtag_png_001">
       <init_from>Hashtag.png.001.png</init_from>
     </image>
-    <image id="Briefumschlag_png_001" name="Briefumschlag_png_001">
-      <init_from>Briefumschlag.png.001.png</init_from>
+    <image id="TEST_Umschlag_jpg" name="TEST_Umschlag_jpg">
+      <init_from>TEST_Umschlag.jpg</init_from>
     </image>
   </library_images>
   <library_effects>
@@ -87,16 +87,16 @@
         </technique>
       </profile_COMMON>
     </effect>
-    <effect id="Material_002-effect">
+    <effect id="Material_004-effect">
       <profile_COMMON>
-        <newparam sid="Briefumschlag_png_001-surface">
+        <newparam sid="TEST_Umschlag_jpg-surface">
           <surface type="2D">
-            <init_from>Briefumschlag_png_001</init_from>
+            <init_from>TEST_Umschlag_jpg</init_from>
           </surface>
         </newparam>
-        <newparam sid="Briefumschlag_png_001-sampler">
+        <newparam sid="TEST_Umschlag_jpg-sampler">
           <sampler2D>
-            <source>Briefumschlag_png_001-surface</source>
+            <source>TEST_Umschlag_jpg-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -108,7 +108,7 @@
               <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <texture texture="Briefumschlag_png_001-sampler" texcoord="UVMap"/>
+              <texture texture="TEST_Umschlag_jpg-sampler" texcoord="UVMap"/>
             </diffuse>
             <specular>
               <color sid="specular">0.5 0.5 0.5 1</color>
@@ -116,9 +116,6 @@
             <shininess>
               <float sid="shininess">50</float>
             </shininess>
-            <transparency>
-              <float sid="transparency">0</float>
-            </transparency>
             <index_of_refraction>
               <float sid="index_of_refraction">1</float>
             </index_of_refraction>
@@ -134,8 +131,8 @@
     <material id="Material-material" name="Material">
       <instance_effect url="#Material-effect"/>
     </material>
-    <material id="Material_002-material" name="Material_002">
-      <instance_effect url="#Material_002-effect"/>
+    <material id="Material_004-material" name="Material_004">
+      <instance_effect url="#Material_004-effect"/>
     </material>
   </library_materials>
   <library_geometries>
@@ -238,7 +235,7 @@
           </technique_common>
         </source>
         <source id="Plane_003-mesh-map-0">
-          <float_array id="Plane_003-mesh-map-0-array" count="12">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001 1.00099e-4 9.998e-5 0.9999001 0.9999001</float_array>
+          <float_array id="Plane_003-mesh-map-0-array" count="12">1.00106e-4 0.06643569 0.9999001 0.06643575 0.9999001 0.9335643 9.99868e-5 0.9335643 1.00106e-4 0.06643569 0.9999001 0.9335643</float_array>
           <technique_common>
             <accessor source="#Plane_003-mesh-map-0-array" count="6" stride="2">
               <param name="S" type="float"/>
@@ -249,7 +246,7 @@
         <vertices id="Plane_003-mesh-vertices">
           <input semantic="POSITION" source="#Plane_003-mesh-positions"/>
         </vertices>
-        <polylist material="Material_002-material" count="2">
+        <polylist material="Material_004-material" count="2">
           <input semantic="VERTEX" source="#Plane_003-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Plane_003-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#Plane_003-mesh-map-0" offset="2" set="0"/>
@@ -283,11 +280,11 @@
         </node>
       </node>
       <node id="Plane" name="Plane" type="NODE">
-        <matrix sid="transform">1 0 0 0 0 0.4 0 0 0 0 1 0 0 0 0 1</matrix>
+        <matrix sid="transform">0.6 0 0 0 0 0.4 0 0 0 0 1 0 0 0 0 1</matrix>
         <instance_geometry url="#Plane_003-mesh">
           <bind_material>
             <technique_common>
-              <instance_material symbol="Material_002-material" target="#Material_002-material"/>
+              <instance_material symbol="Material_004-material" target="#Material_004-material"/>
             </technique_common>
           </bind_material>
         </instance_geometry>
