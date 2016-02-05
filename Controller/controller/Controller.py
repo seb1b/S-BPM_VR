@@ -117,7 +117,7 @@ class Controller:
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
 		# TODO: implement rest
-		elif self.pressed_object.name == "behavior_add":
+		elif self.pressed_object.name == "edit":
 			if message == "delete" and self.selected_object is not None:
 				if isinstance(self.selected_object, PASS.ActiveProcessComponent):  # subject
 					self.view.get_cur_scene().removeActiveComponent(self.selected_object, True)
@@ -145,6 +145,32 @@ class Controller:
 				or isinstance(self.selected_object, PASS.State)
 				or isinstance(self.selected_object, PASS.TransitionEdge)):
 				self._update_selected_object(None)
+		elif self.pressed_object.name == "behavior_add":
+			if message in ["functionState", "receiveState", "sendState"]:
+				if self.highlighted_pos_obj is not None:
+					assert self.highlighted_pos_obj is not None, "WTF"
+					if message == "functionState":
+						new_obj = self.view.get_cur_scene().addFunctionState()
+					elif message == "receiveState":
+						new_obj = self.view.get_cur_scene().addReceiveState()
+					else:
+						new_obj = self.view.get_cur_scene().addSendState()
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.highlighted_pos[0], self.highlighted_pos[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					self.view.remove_highlight_point(self.highlighted_pos_obj)
+					self.highlighted_pos = None
+					self.highlighted_pos_obj = None
+				else:
+					new_obj = self.view.get_cur_scene().addFunctionState()
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
+				new_obj.label.append("New {}{}".format(message[0].upper(), message[1:]))  # change first letter to upper case
+				self._update_selected_object(new_obj)
+				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
+				self.pressed_menu_bar = self.pressed_object
+				self.pressed_menu_bar_item = message
+				self.pressed_object = new_obj
+				self._update_selected_object(self.pressed_object)
+			# TODO: "transition"
 		else:
 			self.log.warning("invalid pressed_object: {}".format(self.pressed_object))
 
