@@ -160,24 +160,24 @@ class VRHardware():
 					# RELEASE
 					# n = 5
 					if self.called_press_left_leap and is_left and not self.last_gestures(self.leap_release_cache, self.leap_press, is_left):
-						self.controller.release(xyz, user_id, is_left)
 						self.called_press_left_leap = False
+						self.controller.release(xyz, user_id, is_left)
 
 					if self.called_press_right_leap and not is_left and not self.last_gestures(self.leap_release_cache, self.leap_press, is_left):
-						self.controller.release(xyz, user_id, is_left)
 						self.called_press_right_leap = False
+						self.controller.release(xyz, user_id, is_left)
 
 					# Press
 					if gesture == self.leap_press:
 
 						# n = 25
 						if is_left and self.last_gestures(self.leap_press_cache, self.leap_press, is_left):
-							self.controller.press(xyz, user_id, is_left)
 							self.called_press_left_leap = True
+							self.controller.press(xyz, user_id, is_left)
 
 						if not is_left and self.last_gestures(self.leap_press_cache, self.leap_press, is_left):
-							self.controller.press(xyz, user_id, is_left)
 							self.called_press_right_leap = True
+							self.controller.press(xyz, user_id, is_left)
 
 					# ZOOM
 					elif gesture == self.leap_zoom_in or gesture == self.leap_zoom_out:
