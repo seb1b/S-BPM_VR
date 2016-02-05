@@ -92,7 +92,7 @@ class Controller:
 				if self.highlighted_pos_obj is not None:
 					assert self.highlighted_pos_obj is not None, "WTF"
 					new_obj = self.view.get_cur_scene().addSubject()
-					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos)
+					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
@@ -100,7 +100,7 @@ class Controller:
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addSubject()
-					pos_norm_2d = self.view.local_to_world_2d(self.drag_position)
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
 					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 				new_obj.setMetaContent("Date", time.strftime("%c"))
@@ -127,16 +127,16 @@ class Controller:
 				if isinstance(self.selected_object, PASS.ActiveProcessComponent):  # subject
 					self.view.get_cur_scene().removeActiveComponent(self.selected_object, True)
 					self._update_selected_object(None)
-				if isinstance(self.selected_object, PASS.MessageExchange):
+				elif isinstance(self.selected_object, PASS.MessageExchange):
 					self.view.get_cur_scene().removeMessageExchange(self.selected_object)
 					self._update_selected_object(None)
-				if isinstance(self.selected_object, PASS.State):
+				elif isinstance(self.selected_object, PASS.State):
 					self.view.get_cur_scene().removeState(self.selected_object)
 					self._update_selected_object(None)
-				if isinstance(self.selected_object, PASS.TransitionEdge):
+				elif isinstance(self.selected_object, PASS.TransitionEdge):
 					self.view.get_cur_scene().removeTransitionEdge(self.selected_object)
 					self._update_selected_object(None)
-			if message == "copy" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
+			elif message == "copy" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
 					# TODO: deepCopy() functionality not implemented yet (model)
 					#pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
 					#pos[0] += 0.1
@@ -145,7 +145,7 @@ class Controller:
 					#new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
 					#self._update_selected_object(new_obj)
 					pass
-			if message == "cancel" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
+			elif message == "cancel" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
 				or isinstance(self.selected_object, PASS.MessageExchange)
 				or isinstance(self.selected_object, PASS.State)
 				or isinstance(self.selected_object, PASS.TransitionEdge)):
@@ -160,7 +160,7 @@ class Controller:
 						new_obj = self.view.get_cur_scene().addReceiveState()
 					else:
 						new_obj = self.view.get_cur_scene().addSendState()
-					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos)
+					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
 					self.log.info("Creating {} at local {} / world {}".format(message, self.highlighted_pos, pos_norm_2d))
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
 					new_obj.setMetaContent("Date", time.strftime("%c"))
@@ -169,7 +169,7 @@ class Controller:
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addFunctionState()
-					pos_norm_2d = self.view.local_to_world_2d(self.drag_position)
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
 				new_obj.label.append("New {}{}".format(message[0].upper(), message[1:]))  # change first letter to upper case
 				self._update_selected_object(new_obj)
