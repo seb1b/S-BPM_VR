@@ -94,14 +94,16 @@ class Controller:
 					new_obj = self.view.get_cur_scene().addSubject()
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos)
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
-					new_obj.setMetaContent("Date", time.strftime("%c"))
+					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addSubject()
 					pos_norm_2d = self.view.local_to_world_2d(self.drag_position)
+					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+				new_obj.setMetaContent("Date", time.strftime("%c"))
 				new_obj.label.append("New Subject")
 				self._update_selected_object(new_obj)
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
@@ -159,6 +161,7 @@ class Controller:
 					else:
 						new_obj = self.view.get_cur_scene().addSendState()
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos)
+					self.log.info("Creating {} at local {} / world {}".format(message, self.highlighted_pos, pos_norm_2d))
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
 					new_obj.setMetaContent("Date", time.strftime("%c"))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
