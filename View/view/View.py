@@ -82,8 +82,7 @@ class View():
 		self.HANDLE.setMaterial(VR.Material('sample material'))
 
 		self.HANDLE_ARROW = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
-		self.HANDLE_ARROW.setScale([10, 10, 10])
-		self.HANDLE_ARROW.setFrom([0, 0, 0])
+		self.HANDLE_ARROW.setScale([5, 5, 5])
 
 		self.menubar_entries = {
 			'edit': self.MenuBar('edit'),
@@ -1574,7 +1573,90 @@ class View():
 		r = self.message_dict[message][1]
 		assert s is not None and r is not None, "sender and receiver must not be None"
 		print 'sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label
-		start_pos = s.getFrom()
+		s_pos = s.getFrom()
+		m_pos = message.getFrom()
+		r_pos = r.getFrom()
+
+		#calc directions
+		s_dir = [0.0, 0.0]
+		m_dir_1 = [0.0, 0.0]
+		m_dir_2 = [0.0, 0.0]
+		r_dir = [0.0, 0.0]
+		#calc handel start_pos and mid_pos
+		if s_pos[0] < m_pos[0]:
+			#start_pos handle right
+			s_dir = [-1.0, 0.0]
+			if s_pos[1] < m_pos[1]:
+				#mes_pos handle bottom
+				m_dir_1 = [0.0, 1.0]
+			elif s_pos[1] == m_pos[1]:
+				#mes_pos handle left
+				m_dir_1 = [1.0, 0.0]
+			else:
+				#mes_pos handle top
+				m_dir_1 = [0.0, -1.0]
+		elif s_pos[0] == m_pos[0]:
+			#start_pos handle middle
+			if s_pos[1] < m_pos[1]:
+				#start_pos middle top
+				m_dir_1 = [0.0, 1.0]
+				s_dir = [0.0, -1.0]
+			else:
+				#start_pos middle bottom
+				m_dir_1 = [0.0, -1.0]
+				s_dir = [0.0, 1.0]
+		else:
+			#start_pos handle left
+			s_dir = [1.0, 0.0]
+			if s_pos[1] < m_pos[1]:
+				#mes_pos handle bottom
+				m_dir_1 = [0.0, 1.0]
+			elif s_pos[1] == m_pos[1]:
+				#mes_pos handle right
+				m_dir_1 = [-1.0, 0.0]
+			else:
+				#mes_pos handle top
+				m_dir_1 = [0.0, -1.0]
+		#calc handel end_pos and mid_pos
+		if r_pos[0] < m_pos[0]:
+			#end_pos handle right
+			r_dir = [-1.0, 0.0]
+			if r_pos[1] < m_pos[1]:
+				#mes_pos handle bottom
+				m_dir_2 = [0.0, 1.0]
+			elif r_pos[1] == m_pos[1]:
+				#mes_pos handle left
+				m_dir_2 = [1.0, 0.0]
+			else:
+				#mes_pos handle top
+				m_dir_2 = [0.0, -1.0]
+		elif r_pos[0] == m_pos[0]:
+			#end_pos handle middle
+			if r_pos[1] < m_pos[1]:
+				#end_pos middle top
+				m_dir_2 = [0.0, 1.0]
+				r_dir = [0.0, -1.0]
+			else:
+				#start_pos middle bottom
+				m_dir_2 = [0.0, -1.0]
+				r_dir = [0.0, 1.0]
+		else:
+			#end_pos handle left
+			r_dir = [1.0, 0.0]
+			if s_pos[1] < m_pos[1]:
+				#mes_pos handle bottom
+				m_dir_2 = [0.0, 1.0]
+			elif s_pos[1] == m_pos[1]:
+				#mes_pos handle right
+				m_dir_2 = [-1.0, 0.0]
+			else:
+				#mes_pos handle top
+				m_dir_2 = [0.0, -1.0]
+		
+		print 's', s_dir, 'm_1', m_dir_1, 'm_2', m_dir_2, 'r', r_dir
+		
+		'''	
+		sender_pos = s.getFrom()
 		mid_pos = message.getFrom()
 		end_pos = r.getFrom()
 
@@ -1611,6 +1693,7 @@ class View():
 			mid_dir[0] = 1.0
 		else:
 			mid_dir[0] = -1.0
+		'''
 
 		#print "draw_line: ", s, " => ", r
 
@@ -1620,13 +1703,13 @@ class View():
 		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
-		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
-		handles[0].setPickable(False)
 		handles[0].setFrom(0, 0, 0)
+		handles[0].setPickable(False)
+		handles[0].setDir(s_dir[0], s_dir[1], 0.0)
 		s.addChild(handles[0])
 		handles[1].setFrom(0, 0, 0)
 		handles[1].setPickable(False)
-		handles[1].setDir(1.0, 0.0, 0.0)
+		handles[1].setDir(m_dir_1[0], m_dir_1[1], 0.0)
 		message.addChild(handles[1])
 
 		#set path to receiver
@@ -1636,14 +1719,16 @@ class View():
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setFrom(0, 0, 0)
 		handles[0].setPickable(False)
-		handles[0].setDir(1.0, 0.0, 0.0)
+		handles[0].setDir(m_dir_2[0], m_dir_2[1], 0.0)
 		message.addChild(handles[0])
-		handles[1].setFrom(-1, 0, 0)
-		handles[1].setFrom(0, 0, 0)
-		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
+		#handles[1].setUp(0,1,0)
+		handles[1].setFrom(-r_dir[0] * self.OBJECT_SCALE[0], -r_dir[1] * self.OBJECT_SCALE[1], 0)
+		print 'getFrom', handles[1].getFrom()		
 		handles[1].setPickable(False)
+		handles[1].setDir(r_dir[0], r_dir[1], 0.0)
 		handles[1].addChild(VR.loadGeometry(self.BLENDER_PATHS['arrow_tip']))
 		r.addChild(handles[1])
+		
 		self.message_dict[message][2] = m_paths
 		VR.ptool.update()
 
