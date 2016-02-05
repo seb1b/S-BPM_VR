@@ -3,10 +3,10 @@
   <asset>
     <contributor>
       <author>Blender User</author>
-      <authoring_tool>Blender 2.71.0 commit date:2014-06-12, commit time:18:39, hash:169c95b</authoring_tool>
+      <authoring_tool>Blender 2.70.5 commit date:2014-05-04, commit time:02:37, hash:fd80ac4</authoring_tool>
     </contributor>
-    <created>2016-02-04T21:26:41</created>
-    <modified>2016-02-04T21:26:41</modified>
+    <created>2016-02-05T14:50:54</created>
+    <modified>2016-02-05T14:50:54</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -83,7 +83,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="closedHand" name="closedHand" type="NODE">
-        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <matrix sid="transform">0.003 0 0 0 0 0.003 0 0 0 0 0.003 0 0 0 0 1</matrix>
         <instance_geometry url="#Cube-mesh">
           <bind_material>
             <technique_common>
