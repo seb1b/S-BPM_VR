@@ -211,6 +211,11 @@ class Controller:
 			self.view.press(user_id, is_left)  # show closed hand in view
 			obj = self.view.get_object(user_id, is_left)
 			if obj is not None and self.pressed_user_id is None and self._check_active_users(user_id):
+				# force remove highlight from passive user
+				for p_user_id, p_obj in self.passive_selected_objects:
+					if p_obj is obj:
+						self._update_passive_highlight(None, p_user_id)
+
 				if isinstance(obj, View.MenuBar):
 					# CASE: click on menu bar -> trigger cursor click
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
@@ -218,19 +223,15 @@ class Controller:
 				else:
 					self.log.info("Unimportant object returned on press(): {}".format(obj))
 
-				if self._check_active_users(user_id):
-					self._update_selected_object(obj)
-					self.log.debug("Setting new pressed_object: {}".format(obj))
-					self.pressed_object = obj
-					self.pressed_is_left = is_left
-					self.drag_position = pos
-					self.pressed_user_id = user_id
-				else:
-					self.log.debug("User {} is no active user - do not set pressed_object".format(user_id))
-
-			elif obj is not None and obj not in self.passive_selected_objects:
+				self._update_selected_object(obj)
+				self.log.debug("Setting new pressed_object: {}".format(obj))
+				self.pressed_object = obj
+				self.pressed_is_left = is_left
+				self.drag_position = pos
+				self.pressed_user_id = user_id
+			elif obj is not None and obj not in self.passive_selected_objects and obj is not self.selected_object:
 				# CASE: press on object from passive user
-				self._update_passive_highlight(obj, True)
+				self._update_passive_highlight(obj, user_id)
 
 		self.press_position[user_id] = pos
 		return None
