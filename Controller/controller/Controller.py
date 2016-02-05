@@ -93,23 +93,22 @@ class Controller:
 					assert self.highlighted_pos_obj is not None, "WTF"
 					new_obj = self.view.get_cur_scene().addSubject()
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addSubject()
+					self.pressed_object = new_obj
 					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
 					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+				new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 				new_obj.setMetaContent("Date", time.strftime("%c"))
 				new_obj.label.append("New Subject")
 				self._update_selected_object(new_obj)
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
-				self.pressed_object = new_obj
 				self._update_selected_object(self.pressed_object)
 			elif message == "exsubject":
 				# TODO: implement
@@ -160,23 +159,24 @@ class Controller:
 						new_obj = self.view.get_cur_scene().addReceiveState()
 					else:
 						new_obj = self.view.get_cur_scene().addSendState()
+					self.pressed_object = new_obj
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
 					self.log.info("Creating {} at local {} / world {}".format(message, self.highlighted_pos, pos_norm_2d))
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
-					new_obj.setMetaContent("Date", time.strftime("%c"))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addFunctionState()
 					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
+					self.log.info("Creating {} at local {} / world {}".format(message, self.drag_position, pos_norm_2d))
+				new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
+				new_obj.setMetaContent("Date", time.strftime("%c"))
+				assert new_obj.hasMetaContent is not None and len(new_obj.hasMetaContent) >= 1, "The setMetaContent did not work!"
 				new_obj.label.append("New {}{}".format(message[0].upper(), message[1:]))  # change first letter to upper case
 				self._update_selected_object(new_obj)
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
-				self.pressed_object = new_obj
 				self._update_selected_object(self.pressed_object)
 			# TODO: "transition"
 		else:
