@@ -92,14 +92,16 @@ class Controller:
 				if self.highlighted_pos_obj is not None:
 					assert self.highlighted_pos_obj is not None, "WTF"
 					new_obj = self.view.get_cur_scene().addSubject()
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.highlighted_pos[0], self.highlighted_pos[1])
+					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos)
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 					new_obj.setMetaContent("Date", time.strftime("%c"))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addSubject()
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position)
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 				new_obj.label.append("New Subject")
 				self._update_selected_object(new_obj)
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
@@ -156,14 +158,16 @@ class Controller:
 						new_obj = self.view.get_cur_scene().addReceiveState()
 					else:
 						new_obj = self.view.get_cur_scene().addSendState()
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.highlighted_pos[0], self.highlighted_pos[1])
+					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos)
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
 					new_obj.setMetaContent("Date", time.strftime("%c"))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addFunctionState()
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.drag_position[0], self.drag_position[1])
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position)
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
 				new_obj.label.append("New {}{}".format(message[0].upper(), message[1:]))  # change first letter to upper case
 				self._update_selected_object(new_obj)
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
