@@ -69,17 +69,20 @@ class View():
 		self.BLENDER_PATHS['closed_hand_left'] = '../../View/Blender/Cursor/Closed_Hand_Left.dae'
 		self.BLENDER_PATHS['open_hand_right'] = '../../View/Blender/Cursor/Open_Hand_Right.dae'
 		self.BLENDER_PATHS['closed_hand_right'] = '../../View/Blender/Cursor/Closed_Hand_Right.dae'
-
-		self.HANDLE = VR.Geometry('handle')
-		self.HANDLE.setPrimitive('Box 0.001 0.001 0.001 1 1 1')
-		self.HANDLE.setMaterial(VR.Material('sample material'))
+		self.BLENDER_PATHS['arrow_tip'] = '../../View/Blender/Pfeil/Pfeil.dae'
 
 		self.PLANE_SIZE = 0.4
 		self.OBJECT_SCALE = [0.4, 0.4, 0.4]
 		self.TEXT_SIZE = 0.05
 		self.BORDER_ANGLE = 0.005
 
-		#TODO add path for missing elements
+		self.HANDLE = VR.Geometry('handle')
+		self.HANDLE.setPrimitive('Box 0.001 0.001 0.001 1 1 1')
+		self.HANDLE.setMaterial(VR.Material('sample material'))
+
+		self.HANDLE_ARROW = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
+		self.HANDLE_ARROW.setScale([10, 10, 10])
+		self.HANDLE_ARROW.setFrom([0, 0, 0])
 
 		self.menubar_entries = {
 			'edit': self.MenuBar('edit'),
@@ -123,9 +126,11 @@ class View():
 		self.cam_navigation.setAt(self.camera_at)
 		self.cam_navigation.setDir(self.camera_dir)
 		self.cam_navigation.setFov(self.camera_fov)
+		VR.view_root.addChild(self.HANDLE_ARROW)
 
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
+		#VR.ptool.setHandleGeometry(self.HANDLE_ARROW)
 		VR.ptool.setHandleGeometry(self.HANDLE)
 
 		#setup offsets
@@ -438,6 +443,8 @@ class View():
 		self.annotation_engine.setBackground([255, 255, 255, 1])
 		self.annotation_engine.setSize(self.TEXT_SIZE)
 		self.annotation_engine.setScale([1, 1, 1])
+		#VR.view_root.addChild(self.HANDLE_ARROW)
+
 
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
@@ -726,38 +733,44 @@ class View():
 		if user_id not in VR.view_user_cursors:
 			assert len(VR.view_user_cursors) < self.MAX_USERS
 			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
-			#cursor_left = VR.Geometry('dev_l')
-			#cursor_left.setPrimitive('Sphere 0.008 5')
-			#cursor_left.setMaterial(VR.Material('sample material'))
-			#cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
-			#cursor_left.addTag(str([user_id, True]))
+			cursor_container_left = VR.Transform('Cursor_Container_Left')
+			cursor_container_left.addTag(str([user_id, True]))
+			cursor_container_left.setFrom(0.3, 0, self.CURSOR_DIST)
+			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
+			cursor_left_open.setFrom(0, 0, 0)
+			cursor_left_open.setVisible(True)
+			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
+			cursor_left_closed.setFrom(0, 0, 0)
+			cursor_left_closed.setVisible(False)
 			#cursor_left.setColors([VR.view_user_colors[user_id]])
-			cursor_left = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
-			cursor_left.setFrom(0.3, 0, self.CURSOR_DIST)
-			cursor_left.addTag(str([user_id, True]))
-			cursor_left.setScale([0.003, 0.003, 0.003])
-			#cursor_left.setColors([VR.view_user_colors[user_id]])
-			VR.cam.addChild(cursor_left)
-			#cursor_right = VR.Geometry('dev_r')
-			#cursor_right.setPrimitive('Sphere 0.008 5')
-			#cursor_right.setMaterial(VR.Material('sample material'))
-			#cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
-			#cursor_right.addTag(str([user_id, False]))
+			cursor_container_left.addChild(cursor_left_open)
+			cursor_container_left.addChild(cursor_left_closed)
+			VR.cam.addChild(cursor_container_left)
+			cursor_container_right = VR.Transform('Cursor_Container_Right')
+			cursor_container_right.addTag(str([user_id, False]))
+			cursor_container_right.setFrom(1.5, 0, self.CURSOR_DIST)
+			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
+			cursor_right_open.setFrom(0, 0, 0)
+			cursor_right_open.setVisible(True)
 			#cursor_right.setColors([VR.view_user_colors[user_id]])
-			cursor_right = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
-			cursor_right.setFrom(1.5, 0, self.CURSOR_DIST)
-			cursor_right.addTag(str([user_id, False]))
-			cursor_right.setScale([0.003, 0.003, 0.003])
-			#cursor_right.setColors([VR.view_user_colors[user_id]])
-			VR.cam.addChild(cursor_right)
+			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
+			cursor_right_closed.setFrom(0, 0, 0)
+			cursor_right_closed.setVisible(False)
+			cursor_container_right.addChild(cursor_right_open)
+			cursor_container_right.addChild(cursor_right_closed)
+			print "cursor container right", cursor_container_right.getChildren()
+			print "cursor container left", cursor_container_left.getChildren()
+			VR.cam.addChild(cursor_container_right)
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
-			mydev_l.setBeacon(cursor_left)
+			mydev_l.setBeacon(cursor_container_left)
 			mydev_l.addIntersection(self.edit_node)
 			mydev_l.addIntersection(self.meta_plane)
 			mydev_l.addIntersection(VR.view_root)
 			mydev_r = VR.Device('mydev')
-			mydev_r.setBeacon(cursor_right)
+			mydev_r.setBeacon(cursor_container_right)
+			print "cursor container right", mydev_r.getBeacon().getChildren()
+			print "cursor container left", mydev_l.getBeacon().getChildren()
 			mydev_r.addIntersection(self.edit_node)
 			mydev_r.addIntersection(self.meta_plane)
 			mydev_r.addIntersection(VR.view_root)
@@ -900,40 +913,21 @@ class View():
 
 	def release(self, user_id, is_left):
 		mydev = VR.view_user_cursors[user_id][is_left]
-		pos = mydev.getBeacon().getFrom()
-		if is_left:
-			cursor = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
-			cursor.addTag(str([user_id, True]))
-			cursor.setFrom(pos)
-			cursor.setScale([0.003, 0.003, 0.003])
-		else:
-			cursor = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
-			cursor.addTag(str([user_id, False]))
-			cursor.setFrom(pos)
-			cursor.setScale([0.003, 0.003, 0.003])
-		mydev.getBeacon().destroy()
-		VR.cam.addChild(cursor)
-		mydev.setBeacon(cursor)
+		beacon_children = mydev.getBeacon().getChildren()
+		assert len(beacon_children) > 1, "Beacon must have at least two children"
+		beacon_children[0].setVisible(True)
+		beacon_children[1].setVisible(False)
+
+	def press(self, user_id, is_left):
+		mydev = VR.view_user_cursors[user_id][is_left]
+		beacon_children = mydev.getBeacon().getChildren()
+		assert len(beacon_children) > 1, "Beacon must have at least two children"
+		beacon_children[0].setVisible(False)
+		beacon_children[1].setVisible(True)
 
 	def get_object(self, user_id, is_left):
 		self.log.info('get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
-		#print 'beacon', mydev.getBeacon().getType()
-		#VR.Geometry(mydev.getBeacon()).setColors([[0,0,0]])
-		pos = mydev.getBeacon().getFrom()
-		if is_left:
-			cursor = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
-			cursor.addTag(str([user_id, True]))
-			cursor.setFrom(pos)
-			cursor.setScale([0.003, 0.003, 0.003])
-		else:
-			cursor = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
-			cursor.addTag(str([user_id, False]))
-			cursor.setFrom(pos)
-			cursor.setScale([0.003, 0.003, 0.003])
-		mydev.getBeacon().destroy()
-		VR.cam.addChild(cursor)
-		mydev.setBeacon(cursor)
 		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
@@ -1592,9 +1586,9 @@ class View():
 		#print "draw_line: ", s, " => ", r
 
 		#set path to sender
-		m_paths = []  #TODO @Kai
+		m_paths = []
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
-		m_paths.append(self.paths[-1])  #TODO @Kai
+		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
@@ -1608,26 +1602,21 @@ class View():
 
 		#set path to receiver
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
-		m_paths.append(self.paths[-1])  #TODO @Kai
+		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setFrom(0, 0, 0)
 		handles[0].setPickable(False)
 		handles[0].setDir(1.0, 0.0, 0.0)
 		message.addChild(handles[0])
+		#handles[1].setFrom(-1, 0, 0)
 		handles[1].setFrom(0, 0, 0)
 		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
 		handles[1].setPickable(False)
+		handles[1].setScale([10, 10, 10])
 		r.addChild(handles[1])
-		self.message_dict[message][2] = m_paths  #TODO @Kai
+		self.message_dict[message][2] = m_paths
 		VR.ptool.update()
-		
-	#def move_object(self, obj, pos_ws):
-		#self.log.info('move_object')
-		#assert len(pos_ws) == 2
-		#o = self.object_dict[obj]
-		#assert isinstance(o, VR.Object)
-		#o.setFrom((pos_ws[0] - 0.5) * self.scale_x, (pos_ws[1] - 0.5) * self.scale_y, 0.0)
 
 	def set_message_line(self, user_id, set_line):
 		print "drawing line"
