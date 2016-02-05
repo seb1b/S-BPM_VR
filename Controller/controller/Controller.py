@@ -63,21 +63,21 @@ class Controller:
 		return False
 		
 	def _update_selected_object(self, obj):
-		if self.selected_object is not None and isinstance(self.selected_object, PASS.PassProcessModelElement):
+		if self.selected_object is not None and isinstance(self.selected_object, PASS.PASSProcessModelElement):
 			if not self.view.set_highlight(self.selected_object, False):
 				self.log.warning("Deselecting object {} failed".format(self.selected_object))
 		self.selected_object = obj
-		if self.selected_object is not None and isinstance(self.selected_object, PASS.PassProcessModelElement):
+		if self.selected_object is not None and isinstance(self.selected_object, PASS.PASSProcessModelElement):
 			if not self.view.set_highlight(self.selected_object, True):
 				self.log.warning("Selecting object {} failed".format(self.selected_object))
 
 	def _update_passive_highlight(self, obj, user_id):
-		if isinstance(obj, PASS.PassProcessModelElement):
-			if self.passive_selected_objects[user_id] is not None and isinstance(self.passive_selected_objects[user_id], PASS.PassProcessModelElement):
+		if isinstance(obj, PASS.PASSProcessModelElement):
+			if self.passive_selected_objects[user_id] is not None and isinstance(self.passive_selected_objects[user_id], PASS.PASSProcessModelElement):
 				if not self.view.set_highlight(self.passive_selected_objects[user_id], False):
 					self.log.warning("Deselecting passive object {} failed".format(self.passive_selected_objects[user_id]))
 			self.passive_selected_objects[user_id] = obj
-			if self.passive_selected_objects[user_id] is not None and isinstance(self.passive_selected_objects[user_id], PASS.PassProcessModelElement):
+			if self.passive_selected_objects[user_id] is not None and isinstance(self.passive_selected_objects[user_id], PASS.PASSProcessModelElement):
 				if not self.view.set_highlight(self.passive_selected_objects[user_id], True):
 					self.log.warning("Selecting passive object {} failed".format(self.passive_selected_objects[user_id]))
 
@@ -189,7 +189,7 @@ class Controller:
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
 					self.view.trigger(user_id, is_left)
 				else:
-					self.log.info("Unhandled object returned on press(): {}".format(obj))
+					self.log.info("Unimportant object returned on press(): {}".format(obj))
 
 				if self._check_active_users(user_id):
 					self._update_selected_object(obj)
