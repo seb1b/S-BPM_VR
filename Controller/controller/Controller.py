@@ -49,7 +49,7 @@ class Controller:
 		self.highlighted_pos = None
 		self.highlighted_pos_obj = None
 
-		self.passive_selected_objects = collections.defaultdict(None)  # user_id is key
+		self.passive_selected_objects = collections.defaultdict(lambda: None)  # user_id is key
 
 		self.hw_main = VRHardware(self)
 
@@ -234,7 +234,7 @@ class Controller:
 				self.pressed_is_left = is_left
 				self.drag_position = pos
 				self.pressed_user_id = user_id
-			elif obj is not None and obj not in self.passive_selected_objects and obj is not self.selected_object:
+			elif obj is not None and obj not in self.passive_selected_objects and obj is not self.selected_object and not self._check_active_users(user_id):
 				# CASE: press on object from passive user
 				self._update_passive_highlight(obj, user_id)
 
