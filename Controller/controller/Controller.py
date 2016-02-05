@@ -92,6 +92,8 @@ class Controller:
 				if self.highlighted_pos_obj is not None:
 					assert self.highlighted_pos_obj is not None, "WTF"
 					new_obj = self.view.get_cur_scene().addSubject()
+					self.pressed_object = None
+					self.pressed_user_id = None
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
 					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
@@ -159,7 +161,8 @@ class Controller:
 						new_obj = self.view.get_cur_scene().addReceiveState()
 					else:
 						new_obj = self.view.get_cur_scene().addSendState()
-					self.pressed_object = new_obj
+					self.pressed_object = None
+					self.pressed_user_id = None
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
 					self.log.info("Creating {} at local {} / world {}".format(message, self.highlighted_pos, pos_norm_2d))
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
@@ -167,6 +170,7 @@ class Controller:
 					self.highlighted_pos_obj = None
 				else:
 					new_obj = self.view.get_cur_scene().addFunctionState()
+					self.pressed_object = new_obj
 					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
 					self.log.info("Creating {} at local {} / world {}".format(message, self.drag_position, pos_norm_2d))
 				new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
@@ -287,7 +291,6 @@ class Controller:
 					if self.pressed_menu_bar_item == "subject":
 						assert isinstance(self.released_object, PASS.Subject), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add subject was released on field
-						pass
 					#elif isinstance(self.released_object, PASS.ExternalSubject):
 					elif self.pressed_menu_bar_item == "exsubject":
 						assert isinstance(self.released_object, PASS.ExternalSubject), "Inconsistency between pressed_menu_bar_item and released_object"
