@@ -119,6 +119,7 @@ class Controller:
 		# TODO: implement rest
 		elif self.pressed_object.name == "edit":
 			if message == "delete" and self.selected_object is not None:
+				self.log.warning("Deleting {}".format(self.selected_object))
 				if isinstance(self.selected_object, PASS.ActiveProcessComponent):  # subject
 					self.view.get_cur_scene().removeActiveComponent(self.selected_object, True)
 					self._update_selected_object(None)
