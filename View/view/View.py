@@ -895,7 +895,8 @@ class View():
 		highlighted_point.setFrom(w_pos[0], w_pos[1], 0.0)
 		highlighted_point.setPlaneConstraints([0, 0, 1])
 		highlighted_point.setRotationConstraints([1, 1, 1])
-		highlighted_point.setColors([1, 0, 0]) #TODO change color?!
+		# TODO: set color, this does not work
+		#highlighted_point.setColors([1, 0, 0]) #TODO change color?!
 		highlighted_point.setPickable(False)
 		highlighted_point.addTag('highlight')
 		VR.view_root.addChild(highlighted_point)
