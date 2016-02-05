@@ -739,10 +739,11 @@ class View():
 			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
 			cursor_left_open.setFrom(0, 0, 0)
 			cursor_left_open.setVisible(True)
+			cursor_left_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
 			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
 			cursor_left_closed.setFrom(0, 0, 0)
 			cursor_left_closed.setVisible(False)
-			#cursor_left.setColors([VR.view_user_colors[user_id]])
+			cursor_left_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
 			cursor_container_left.addChild(cursor_left_open)
 			cursor_container_left.addChild(cursor_left_closed)
 			VR.cam.addChild(cursor_container_left)
@@ -752,10 +753,12 @@ class View():
 			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
 			cursor_right_open.setFrom(0, 0, 0)
 			cursor_right_open.setVisible(True)
+			cursor_right_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
 			#cursor_right.setColors([VR.view_user_colors[user_id]])
 			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
 			cursor_right_closed.setFrom(0, 0, 0)
 			cursor_right_closed.setVisible(False)
+			cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
 			cursor_container_right.addChild(cursor_right_open)
 			cursor_container_right.addChild(cursor_right_closed)
 			print "cursor container right", cursor_container_right.getChildren()
@@ -906,6 +909,7 @@ class View():
 
 	def trigger(self, user_id, is_left):
 		self.log.info('trigger')
+		print "trigger"
 		mydev = VR.view_user_cursors[user_id][is_left]
 		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 0)
