@@ -111,7 +111,6 @@ class Controller:
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
-				self._update_selected_object(self.pressed_object)
 			elif message == "exsubject":
 				# TODO: implement
 				pass
@@ -181,8 +180,10 @@ class Controller:
 				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
-				self._update_selected_object(self.pressed_object)
-			# TODO: "transition"
+			elif message == "transition":
+				self.pressed_menu_bar = self.pressed_object
+				self.pressed_menu_bar_item = message
+				self.view.set_message_line(self.pressed_user_id, True)
 		else:
 			self.log.warning("invalid pressed_object: {}".format(self.pressed_object))
 
@@ -316,6 +317,13 @@ class Controller:
 						else:
 							self.log.info("User {} trying to create message on invalid targets".format(user_id))
 						self.view.set_message_line(user_id, False)
+					elif self.pressed_menu_bar_item == "transition":
+						assert isinstance(self.released_object, View.MenuBar), "Inconsistency between pressed_menu_bar_item and released_object"
+						# CASE: add message was released on field
+						#lo = self.view.get_object(user_id, True)
+						#ro = self.view.get_object(user_id, False)
+					if isinstance(lo, PASS.Subject) and isinstance(ro, PASS.Subject):
+						pass
 					else:
 						self.log.warning("Invalid MenuBar type")
 					self.pressed_menu_bar = None
