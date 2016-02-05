@@ -43,6 +43,7 @@ class View():
 		self.BLENDER_PATHS['subject_meta_highlight'] = '../../View/Blender/Prozess/Subjekt_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['message'] = '../../View/Blender/Prozess/Message.dae'
 		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag.dae'
+		#self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/TEST_Message_Hashtag.dae'
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub.dae'
@@ -690,11 +691,11 @@ class View():
 		index_list = self.annotation_dict[subject]
 		#print 'annotation: index_list before', index_list, split
 		if len(index_list) < len(split):
-			for i in xrange(0, (split - index_list)):
+			for i in xrange(0, (len(split) - len(index_list))):
 				index_list.append(self.annotation_index + 1)
 				self.annotation_index = self.annotation_index +1
 		elif len(index_list) > len(split):
-			for i in (0, (index_list - split)):
+			for i in xrange(0, (len(index_list) - len(split))):
 				index_list.remove(self.annotation_index + 1)
 		self.annotation_dict[subject] = index_list
 		#print 'annotation: index_list after', index_list	
@@ -717,7 +718,7 @@ class View():
 		return level
 
 	def move_cursor(self, pos_ws, user_id, is_left):
-		self.log.info('move_cursor')
+		self.log.debug('move_cursor')
 
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
@@ -1010,6 +1011,7 @@ class View():
 						poly_sub.setScale(self.OBJECT_SCALE)
 						poly_sub.setVisible(False)
 						subject_node.addChild(poly_sub)
+					print "meta content", object.hasMetaContent
 					if len(object.hasMetaContent) == 0:
 						subject_node.getChildren()[0].setVisible(True)
 					else:
@@ -1025,6 +1027,29 @@ class View():
 					poly_obj.setFrom(pos_x, pos_y, 0)
 					# name changed
 					self.refresh_annotation_engine_entry(object)
+					# meta data changed
+					subject_node = self.object_dict[object]
+					children = subject_node.getChildren()
+					if len(object.hasMetaContent) == 0:
+						for i, c in enumerate(children):
+							if c.isVisible():
+								if i == 0:
+									c.setVisible(False)
+									children[2].setVisible(True)
+								elif i == 2:
+									c.setVisible(False)
+									children[0].setVisible(True)
+								break
+					else:
+						for i, c in enumerate(children):
+							if c.isVisible():
+								if i == 1:
+									c.setVisible(False)
+									children[3].setVisible(True)
+								elif i == 3:
+									c.setVisible(False)
+									children[1].setVisible(True)
+								break
 					#refresh paths
 					#attached_message = self._get_attached_message(object)
 					#if attached_message is not None:
@@ -1613,11 +1638,11 @@ class View():
 		handles[0].setPickable(False)
 		handles[0].setDir(1.0, 0.0, 0.0)
 		message.addChild(handles[0])
-		#handles[1].setFrom(-1, 0, 0)
+		handles[1].setFrom(-1, 0, 0)
 		handles[1].setFrom(0, 0, 0)
 		handles[1].setDir(end_dir[0], end_dir[1], 0.0)
 		handles[1].setPickable(False)
-		handles[1].setScale([10, 10, 10])
+		handles[1].addChild(VR.loadGeometry(self.BLENDER_PATHS['arrow_tip']))
 		r.addChild(handles[1])
 		self.message_dict[message][2] = m_paths
 		VR.ptool.update()
