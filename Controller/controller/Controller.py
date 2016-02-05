@@ -208,6 +208,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self.view.press(user_id, is_left)  # show closed hand in view
 			obj = self.view.get_object(user_id, is_left)
 			if obj is not None and self.pressed_user_id is None and self._check_active_users(user_id):
 				if isinstance(obj, View.MenuBar):
