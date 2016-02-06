@@ -376,10 +376,13 @@ class Resource(object):
 		for k, v in self.__dict__.items():
 			if(k != "_fireChangeEvents"):
 				if k in shallowAttr:
+					print("Shallow: " + k)
 					setattr(result, k, v)
 				elif k in self._uniqueAttr():
+					print("Unique: " + k)
 					setattr(result, k, self._uniqueAttr()[k])
 				else:
+					print("Deeps: " + k)
 					setattr(result, k, deepcopy(v, memo))
 			else:
 				tmpChangeEvent = v

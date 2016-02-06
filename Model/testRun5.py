@@ -40,6 +40,9 @@ def buildHelper(manager, model):
 	print layer.getBoundingBox2D()
 	print layer.getBoundingBox3D()
 
+	behavior2.setMetaContent("Test", "Test")
+	behavior2.setMetaContent("Test", "Test2")
+
 
 def changeListener(object, attrName):
 	global i

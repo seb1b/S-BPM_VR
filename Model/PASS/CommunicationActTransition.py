@@ -40,3 +40,9 @@ class CommunicationActTransition(TransitionEdge):
 		else:
 			return TransitionEdge.getAttrMultiplicity(self, attributeName)
 
+
+	def _shallowAttr(self):
+		result = PASSProcessModelElement._shallowAttr(self)
+		result.append("refersTo")
+		return result;
+

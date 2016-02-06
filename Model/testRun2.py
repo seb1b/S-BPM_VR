@@ -20,6 +20,7 @@ def buildHelper(manager, model):
 	newState3 = behavior2.addReceiveState()
 	behavior2.addSendTransition(newState2, newState3, messageExchange)
 	behavior2.addReceiveTransition(newState3, newState1, messageExchange2)
+	
 
 
 #Create manager

@@ -179,7 +179,7 @@ class PASSProcessModelElement(Resource):
 					
 	
 	def _uniqueAttr(self):
-		result = {}
+		result = Resource._uniqueAttr(self)
 		result["hasComponentID"] = randomXMLName()
 		return result
 
