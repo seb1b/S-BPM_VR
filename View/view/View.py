@@ -769,7 +769,7 @@ class View():
 			else:
 				#print 'view: object'
 				
-				p = i.getParent().getParent()
+				p = i.getParent().getParent().getParent()
 				if p.hasTag('obj'):
 					#print 'Object found', p
 					return self.object_dict[p]
