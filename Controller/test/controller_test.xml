@@ -252,17 +252,23 @@
     </Script>
     <Script name_suffix="0" base_name="debug_mouse_click" name_space="__script__" type="Python" mobile="">
       <core>
-	return
 	import VR
 	assert hasattr(VR, "controller")
 
 	k = None
 	if dev is not None:
 		k = dev.getKey()
-		print("dev.getKey(): %i") % k
+		s = dev.getKeyState(k)
+		print(("dev.getKey(): {} state: {}".format(k, s)))
 
 	if k is None:
 		return
+	if s is 0: 
+		# release
+		return
+
+	# TODO: remove if necessary
+	return
 
 	b = dev.getBeacon()
 	d = b.getDir()
@@ -294,6 +300,7 @@
 
 </core>
       <trig type="on_device" dev="mouse" state="Pressed" param="0" key="-1" name_suffix="1" base_name="trigger" name_space="__global__"/>
+      <trig type="on_device" dev="mouse" state="Released" param="0" key="-1" name_suffix="9" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="debug_mouse_move" name_space="__script__" type="Python" mobile="">
       <core>
@@ -539,9 +546,9 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="addDiv"&gt;
-			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseDownFunction(this)" style="background-image: url(img/subject.png)"&gt;Subject&lt;/div&gt;
-			&lt;div id="exsubject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseDownFunction(this)" style="background-image: url(img/exsubject.png)"&gt;External Subject&lt;/div&gt;
-			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseDownFunction(this)" style="background-image: url(img/message.png);"&gt;Message&lt;/div&gt;
+			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/subject.png)"&gt;Subject&lt;/div&gt;
+			&lt;div id="exsubject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/exsubject.png)"&gt;External Subject&lt;/div&gt;
+			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/message.png);"&gt;Message&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
@@ -550,17 +557,17 @@
 
 		function clickFunction(element) {
 			websocket.send(element.id);
-			alert(element.id);
+			//alert(element.id);
 		};
 
 		function mouseDownFunction(element) {
 			websocket.send(element.id.concat("_down"));
-			alert(element.id);
+			//alert(element.id.concat("_down"));
 		};
 		
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
-			alert(element.id);
+			//alert(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
