@@ -1368,4 +1368,4 @@ class View():
 	def local_to_world_2d(self, local_pos):
 		#transformation
 		assert len(local_pos) == 2, "local_pos must have a length of 2"
-		return [(local_pos[0] - 0.5) * self.scale_x, (local_pos[1] - 0.5) * self.scale_y]
+		return [(local_pos[0] - 0.5) * self.scale_x + VR.cam.getFrom()[0], (local_pos[1] - 0.5) * self.scale_y + VR.cam.getFrom()[1]]
