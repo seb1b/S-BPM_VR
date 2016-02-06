@@ -12,6 +12,15 @@ class View():
 		def __init__(self, name):
 			self.name = name
 
+	class InitScreenEntry():
+		def __init__(self, display_name, file_name, image_file_name):
+			self.display_name = display_name
+			self.file_name = file_name
+			self.image_file_name = image_file_name
+
+		def __str__(self):
+			return "InitScreenEntry: {}, {}, {}".format(self.display_name, self.file_name, self.image_file_name)
+
 	def __init__(self):
 		self.log = logging.getLogger()
 		#self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
@@ -31,11 +40,12 @@ class View():
 		self.CAM_INIT_DIST = 10
 		self.VALID_USER_COLORS = []
 		#setup valid user colors
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])
-		self.VALID_USER_COLORS.append([0.81, 0.77, 0.66])
-		self.VALID_USER_COLORS.append([0.25, 0.19, 0.47])
-		self.VALID_USER_COLORS.append([0.98, 0.98, 0.62])
-		self.VALID_USER_COLORS.append([0.85, 0.59, 0.98])
+		self.VALID_USER_COLORS.append([1, 0, 0])
+		self.VALID_USER_COLORS.append([0.91, 0.54, 0.05])
+		self.VALID_USER_COLORS.append([0.45, 0.05, 0.91])
+		self.VALID_USER_COLORS.append([1, 0.98, 0.05])
+		self.VALID_USER_COLORS.append([0, 0.7, 0.2])
+		self.PATH_COLOR = 0.27
 
 		self.BLENDER_PATHS = {}
 		self.BLENDER_PATHS['subject'] = '../../View/Blender/Prozess/Subjekt.dae'
@@ -44,7 +54,6 @@ class View():
 		self.BLENDER_PATHS['subject_meta_highlight'] = '../../View/Blender/Prozess/Subjekt_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['message'] = '../../View/Blender/Prozess/Message.dae'
 		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag.dae'
-		#self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/TEST_Message_Hashtag.dae'
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub.dae'
@@ -71,11 +80,15 @@ class View():
 		self.BLENDER_PATHS['closed_hand_left'] = '../../View/Blender/Cursor/Closed_Hand_Left.dae'
 		self.BLENDER_PATHS['open_hand_right'] = '../../View/Blender/Cursor/Open_Hand_Right.dae'
 		self.BLENDER_PATHS['closed_hand_right'] = '../../View/Blender/Cursor/Closed_Hand_Right.dae'
+		self.BLENDER_PATHS['open_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae'
+		self.BLENDER_PATHS['closed_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae' #TODO
+		self.BLENDER_PATHS['open_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae'
+		self.BLENDER_PATHS['closed_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae' #TODO
 		self.BLENDER_PATHS['arrow_tip'] = '../../View/Blender/Pfeil/Pfeil.dae'
 
 		self.PLANE_SIZE = 0.4
 		self.OBJECT_SCALE = [0.4, 0.4, 0.4]
-		self.TEXT_SIZE = 0.05
+		self.TEXT_SIZE = 0.5
 		self.BORDER_ANGLE = 0.005
 
 		self.HANDLE = VR.Geometry('handle')
@@ -95,7 +108,6 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
-		self.annotation_dict = {}  # key: object, 1. entry: list(index)
 		self.elements = []
 
 		#stores user_id and corresponding color
@@ -127,6 +139,14 @@ class View():
 		self.cam_navigation.setAt(self.camera_at)
 		self.cam_navigation.setDir(self.camera_dir)
 		self.cam_navigation.setFov(self.camera_fov)
+		
+		#setup cursors
+		if not hasattr(VR, 'view_user_cursors'):
+			VR.view_user_cursors = {}
+		if not hasattr(VR, 'view_user_colors'):
+			VR.view_user_colors = {}
+		if not hasattr(VR, 'view_user_positions'):
+			VR.view_user_positions = {}
 
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
@@ -434,17 +454,8 @@ class View():
 		#setup path tool
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
-		VR.ptool.getPathMaterial().setDiffuse(0,0,0)
-		#setup annotation engine
-		self.annotation_index = 1
-		self.annotation_engine = VR.AnnotationEngine('annotation_engine')
-		VR.view_root.addChild(self.annotation_engine)
-		self.annotation_engine.setColor([0, 0, 0, 1])
-		self.annotation_engine.setPickable(False)
-		self.annotation_engine.setBackground([255, 255, 255, 1])
-		self.annotation_engine.setSize(self.TEXT_SIZE)
-		self.annotation_engine.setScale([1, 1, 1])
-		#VR.view_root.addChild(self.HANDLE_ARROW)
+		VR.ptool.getPathMaterial().setDiffuse(self.PATH_COLOR, self.PATH_COLOR, self.PATH_COLOR)
+		VR.ptool.getPathMaterial().setTransparency(0.8)
 
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
@@ -475,41 +486,6 @@ class View():
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
-	def _create_annotation_engine_entry(self, subject):
-		assert subject is not None, "create_annotation_engine_entry given subject has not to be None"
-		text = ''
-		for t in subject.label:
-			text = text + t
-		split = text.split(' ')
-		index_list = []
-		for s in split:
-			index_list.append(split.index(s) + self.annotation_index)
-		self.annotation_dict[subject] = index_list
-		#print 'annotation: index_list create', index_list, split
-		for i in index_list:
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
-		self.annotation_index = self.annotation_index + len(index_list)
-		
-	def refresh_annotation_engine_entry(self, subject):
-		assert subject is not None, "refresh_annotation_engine_entry given subject has not to be None"
-		text = ''
-		for t in subject.label:
-			text = text + t
-		split = text.split(' ')
-		index_list = self.annotation_dict[subject]
-		#print 'annotation: index_list before', index_list, split
-		if len(index_list) < len(split):
-			for i in xrange(0, (len(split) - len(index_list))):
-				index_list.append(self.annotation_index + 1)
-				self.annotation_index = self.annotation_index +1
-		elif len(index_list) > len(split):
-			for i in xrange(0, (len(index_list) - len(split))):
-				index_list.remove(self.annotation_index + 1)
-		self.annotation_dict[subject] = index_list
-		#print 'annotation: index_list after', index_list	
-		for i in index_list:
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
-
 	def zoom(self, level):
 		self.log.info('zoom')
 		print(("Zoom level: {}".format(self.current_zoom_level())))
@@ -524,89 +500,85 @@ class View():
 		level = int(float(self.MAX_DIST - VR.cam.getFrom()[2]) / self.ZOOM_STEP)
 		assert(level >= 0)
 		return level
+		
+	def add_new_user(self, user_id, is_active):
+		self.log.info('add_new_user({}, {})'.format(user_id, is_active))
+		assert len(VR.view_user_cursors) < self.MAX_USERS
+		
+		VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
+		cursor_container_left = VR.Transform('Cursor_Container_Left')
+		cursor_container_left.addTag(str([user_id, True]))
+		cursor_container_left.setFrom(0.3, 0, self.CURSOR_DIST)
+		if is_active:
+			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
+			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
+			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
+			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
+		else:
+			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_left'])
+			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_left'])
+			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_right'])
+			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_right'])
+		cursor_left_open.setFrom(0, 0, 0)
+		cursor_left_open.setVisible(True)
+		cursor_left_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])	
+		cursor_left_closed.setFrom(0, 0, 0)
+		cursor_left_closed.setVisible(False)
+		cursor_left_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+		cursor_container_left.addChild(cursor_left_open)
+		cursor_container_left.addChild(cursor_left_closed)
+		VR.cam.addChild(cursor_container_left)
+		cursor_container_right = VR.Transform('Cursor_Container_Right')
+		cursor_container_right.addTag(str([user_id, False]))
+		cursor_container_right.setFrom(1.5, 0, self.CURSOR_DIST)		
+		cursor_right_open.setFrom(0, 0, 0)
+		cursor_right_open.setVisible(True)
+		cursor_right_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+		#cursor_right.setColors([VR.view_user_colors[user_id]])		
+		cursor_right_closed.setFrom(0, 0, 0)
+		cursor_right_closed.setVisible(False)
+		cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+		cursor_container_right.addChild(cursor_right_open)
+		cursor_container_right.addChild(cursor_right_closed)
+		print "cursor container right", cursor_container_right.getChildren()
+		print "cursor container left", cursor_container_left.getChildren()
+		VR.cam.addChild(cursor_container_right)
+		
+		VR.view_user_cursors[user_id] = {}
+		mydev_l = VR.Device('mydev')
+		mydev_l.setBeacon(cursor_container_left)
+		mydev_l.addIntersection(self.edit_node)
+		mydev_l.addIntersection(self.meta_plane)
+		mydev_l.addIntersection(VR.view_root)
+		mydev_r = VR.Device('mydev')
+		mydev_r.setBeacon(cursor_container_right)
+		print "cursor container right", mydev_r.getBeacon().getChildren()
+		print "cursor container left", mydev_l.getBeacon().getChildren()
+		mydev_r.addIntersection(self.edit_node)
+		mydev_r.addIntersection(self.meta_plane)
+		mydev_r.addIntersection(VR.view_root)
+		self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
+		self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
+		self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
+		self.meta_site.addMouse(mydev_r, self.meta_plane, 0, 2, 3, 4)
+		self.layer_add_site.addMouse(mydev_l, self.layer_add_plane, 0, 2, 3, 4)
+		self.layer_add_site.addMouse(mydev_r, self.layer_add_plane, 0, 2, 3, 4)
+		self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
+		self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
+		VR.view_user_cursors[user_id][True] = mydev_l
+		VR.view_user_cursors[user_id][False] = mydev_r
+		VR.view_user_positions[user_id] = {}
+		VR.view_user_positions[user_id][True] = [0, 0, 0]
+		VR.view_user_positions[user_id][False] = [0, 0, 0]
+		print 'init new user done'	
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		self.log.debug('move_cursor')
-
+		
 		assert isinstance(is_left, bool)
 		assert isinstance(user_id, int)
 		pos_ws = [(pos_ws[0] - 0.5) * self.scale_cursor_x, (pos_ws[1] - 0.5) * self.scale_cursor_y, self.CURSOR_DIST]
 		#print 'View: pos_ws: ', pos_ws
-		if not hasattr(VR, 'view_user_cursors'):
-			VR.view_user_cursors = {}
-		if not hasattr(VR, 'view_user_colors'):
-			VR.view_user_colors = {}
-		if not hasattr(VR, 'view_user_positions'):
-			VR.view_user_positions = {}
-
-		if user_id not in VR.view_user_cursors:
-			assert len(VR.view_user_cursors) < self.MAX_USERS
-			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
-			cursor_container_left = VR.Transform('Cursor_Container_Left')
-			cursor_container_left.addTag(str([user_id, True]))
-			cursor_container_left.setFrom(0.3, 0, self.CURSOR_DIST)
-			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
-			cursor_left_open.setFrom(0, 0, 0)
-			cursor_left_open.setVisible(True)
-			cursor_left_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
-			cursor_left_closed.setFrom(0, 0, 0)
-			cursor_left_closed.setVisible(False)
-			cursor_left_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			cursor_container_left.addChild(cursor_left_open)
-			cursor_container_left.addChild(cursor_left_closed)
-			VR.cam.addChild(cursor_container_left)
-			cursor_container_right = VR.Transform('Cursor_Container_Right')
-			cursor_container_right.addTag(str([user_id, False]))
-			cursor_container_right.setFrom(1.5, 0, self.CURSOR_DIST)
-			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
-			cursor_right_open.setFrom(0, 0, 0)
-			cursor_right_open.setVisible(True)
-			cursor_right_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			#cursor_right.setColors([VR.view_user_colors[user_id]])
-			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
-			cursor_right_closed.setFrom(0, 0, 0)
-			cursor_right_closed.setVisible(False)
-			cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			cursor_container_right.addChild(cursor_right_open)
-			cursor_container_right.addChild(cursor_right_closed)
-			print "cursor container right", cursor_container_right.getChildren()
-			print "cursor container left", cursor_container_left.getChildren()
-			VR.cam.addChild(cursor_container_right)
-			VR.view_user_cursors[user_id] = {}
-			mydev_l = VR.Device('mydev')
-			mydev_l.setBeacon(cursor_container_left)
-			mydev_l.addIntersection(self.edit_node)
-			mydev_l.addIntersection(self.meta_plane)
-			mydev_l.addIntersection(VR.view_root)
-			mydev_r = VR.Device('mydev')
-			mydev_r.setBeacon(cursor_container_right)
-			print "cursor container right", mydev_r.getBeacon().getChildren()
-			print "cursor container left", mydev_l.getBeacon().getChildren()
-			mydev_r.addIntersection(self.edit_node)
-			mydev_r.addIntersection(self.meta_plane)
-			mydev_r.addIntersection(VR.view_root)
-			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
-			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
-			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
-			self.meta_site.addMouse(mydev_r, self.meta_plane, 0, 2, 3, 4)
-			self.layer_add_site.addMouse(mydev_l, self.layer_add_plane, 0, 2, 3, 4)
-			self.layer_add_site.addMouse(mydev_r, self.layer_add_plane, 0, 2, 3, 4)
-			self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
-			self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
-			VR.view_user_cursors[user_id][True] = mydev_l
-			VR.view_user_cursors[user_id][False] = mydev_r
-			VR.view_user_positions[user_id] = {}
-			VR.view_user_positions[user_id][True] = [0, 0, 0]
-			VR.view_user_positions[user_id][False] = [0, 0, 0]
-			print 'init new user done'
-
-		#delta = [p_new - p_old for p_new, p_old in zip(pos_ws, VR.view_user_positions[user_id][is_left])]
-		#length = math.sqrt(sum(d * d for d in delta))
-		#if length > 0:
-		#	direction = [d / length for d in delta]
-		#else:
-		#	direction = [0, 1, 0]
 
 		cursor = next((c for c in VR.cam.getChildren() if c.hasTag(str([user_id, is_left]))), None)
 		assert cursor is not None
@@ -702,14 +674,13 @@ class View():
 		assert len(pos) == 2
 
 		highlighted_point = VR.Geometry('sphere')
-		highlighted_point.setPrimitive('Sphere 0.05 5')
+		highlighted_point.setPrimitive('Sphere 0.1 5')
 		highlighted_point.setMaterial(VR.Material('sample material'))
 		w_pos = self.local_to_world_2d(pos)
 		highlighted_point.setFrom(w_pos[0], w_pos[1], 0.0)
 		highlighted_point.setPlaneConstraints([0, 0, 1])
 		highlighted_point.setRotationConstraints([1, 1, 1])
-		# TODO: set color, this does not work
-		#highlighted_point.setColors([1, 0, 0]) #TODO change color?!
+		highlighted_point.setColors([[0.21, 0.57, 0.83]])
 		highlighted_point.setPickable(False)
 		highlighted_point.addTag('highlight')
 		VR.view_root.addChild(highlighted_point)
@@ -721,12 +692,16 @@ class View():
 		if isinstance(highlight_point, VR.Object):
 			highlight_point.destroy()
 
-	def trigger(self, user_id, is_left):
-		self.log.info('trigger')
-		print "trigger"
+	def trigger_down(self, user_id, is_left):
+		self.log.warning('trigger_down({}{})'.format(user_id, is_left))
 		mydev = VR.view_user_cursors[user_id][is_left]
 		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 0)
+
+	def trigger_up(self, user_id, is_left):
+		self.log.warning('trigger_up({}{})'.format(user_id, is_left))
+		mydev = VR.view_user_cursors[user_id][is_left]
+		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 1)
 
 	def release(self, user_id, is_left):
@@ -816,10 +791,23 @@ class View():
 			subject_node.getChildren()[0].setVisible(True)
 		else:
 			subject_node.getChildren()[1].setVisible(True)
+		
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(pass_sub.label) == 0:
+			label = ''
+		else:
+			label = pass_sub.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		subject_node.addChild(sprite)
+		
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
-		self._create_annotation_engine_entry(pass_sub)
-		VR.view_root.addChild(subject_node)
+		VR.view_root.addChild(subject_node) 
+		#VR.view_root.addChild(sprite)
 
 	def _create_message(self, pass_mes):
 		assert isinstance(pass_mes, PASS.MessageExchange)
@@ -845,10 +833,22 @@ class View():
 			message_node.getChildren()[0].setVisible(True)
 		else:
 			message_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(pass_mes.label) == 0:
+			label = ''
+		else:
+			label = pass_mes.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		message_node.addChild(sprite)
+		
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
-		self._create_annotation_engine_entry(pass_mes)
 		self.connect(message_node)
 		VR.view_root.addChild(message_node)
 
@@ -875,9 +875,21 @@ class View():
 			subject_node.getChildren()[0].setVisible(True)
 		else:
 			subject_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(pass_exsub.label) == 0:
+			label = ''
+		else:
+			label = pass_exsub.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		subject_node.addChild(sprite)
+		
 		self.object_dict[pass_exsub] = subject_node
 		self.object_dict[subject_node] = pass_exsub
-		self._create_annotation_engine_entry(pass_exsub)
 		VR.view_root.addChild(subject_node)
 
 	def _create_function_state(self, state):
@@ -904,9 +916,21 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(state.label) == 0:
+			label = ''
+		else:
+			label = state.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		state_node.addChild(sprite)
+		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_send_state(self, state):
@@ -932,9 +956,21 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(state.label) == 0:
+			label = ''
+		else:
+			label = state.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		state_node.addChild(sprite)
+		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_receive_state(self, state):
@@ -960,9 +996,21 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(state.label) == 0:
+			label = ''
+		else:
+			label = state.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		state_node.addChild(sprite)
+		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_transition_edge(self, edge):
@@ -989,11 +1037,23 @@ class View():
 			transition_node.getChildren()[0].setVisible(True)
 		else:
 			transition_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(edge.label) == 0:
+			label = ''
+		else:
+			label = edge.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		transition_node.addChild(sprite)
+		
 		self.object_dict[edge] = transition_node
 		self.object_dict[transition_node] = edge
 		self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
 		self.connect(transition_node)
-		self._create_annotation_engine_entry(edge)
 		VR.view_root.addChild(transition_node)
 
 	def on_change(self, object, attr):
@@ -1052,29 +1112,32 @@ class View():
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				elif attr == 'label':  # name changed
-					self.refresh_annotation_engine_entry(object)
-				#TODO meta data changed
-				children = poly_obj.getChildren()
-				if len(object.hasMetaContent) == 0:
+					if len(object.label) == 0:
+						label = ''
+					else:
+						label = object.label[0]
+					poly_obj.getChildren()[4].setText(label)
+				elif attr == 'hasMetaContent':
+					#TODO meta data changed
+					children = poly_obj.getChildren()
+					
 					for i, c in enumerate(children):
 						if c.isVisible():
-							if i == 0:
+							if i == 0 or i == 1:
 								c.setVisible(False)
-								children[2].setVisible(True)
-							elif i == 2:
+								if len(object.hasMetaContent) == 0:
+									children[0].setVisible(True)
+								else:
+									children[1].setVisible(True)
+							elif i == 2 or i == 3:
 								c.setVisible(False)
-								children[0].setVisible(True)
+								if len(object.hasMetaContent) == 0:
+									children[2].setVisible(True)
+								else:
+									children[3].setVisible(True)
 							break
 				else:
-					for i, c in enumerate(children):
-						if c.isVisible():
-							if i == 1:
-								c.setVisible(False)
-								children[3].setVisible(True)
-							elif i == 3:
-								c.setVisible(False)
-								children[1].setVisible(True)
-							break
+					print 'Invalid attribute in on_change'
 
 		elif isinstance(self.cur_scene, PASS.Behavior) and (isinstance(object, PASS.State) or isinstance(object, PASS.TransitionEdge)):
 			if not isinstance(object, PASS.Behavior) and not object in self.object_dict:  # create new layer object
@@ -1113,12 +1176,36 @@ class View():
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
-				if attr == 'hasVisualRepresentation':  # position changed
+				if attr == 'hasAbstractVisualRepresentation':  # position changed
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				elif attr == 'label':  # name changed
-					self.refresh_annotation_engine_entry(object)
-				#TODO meta data changed
+					if len(object.label) == 0:
+						label = ''
+					else:
+						label = object.label[0]
+					poly_obj.getChildren()[4].setText(label)
+				elif attr == 'hasMetaContent':
+					#TODO meta data changed
+					children = poly_obj.getChildren()
+					
+					for i, c in enumerate(children):
+						if c.isVisible():
+							if i == 0 or i == 1:
+								c.setVisible(False)
+								if len(object.hasMetaContent) == 0:
+									children[0].setVisible(True)
+								else:
+									children[1].setVisible(True)
+							elif i == 2 or i == 3:
+								c.setVisible(False)
+								if len(object.hasMetaContent) == 0:
+									children[2].setVisible(True)
+								else:
+									children[3].setVisible(True)
+							break
+				else:
+					print 'Invalid attribute in on_change'
 		elif isinstance(self.cur_scene, PASS.Layer) or isinstance(self.cur_scene, PASS.Behavior):
 			self.log.info("Ignoring weird on_change object: {}".format(object))
 		else:
@@ -1134,95 +1221,95 @@ class View():
 		return None
 
 	def connect(self, message):
-		self.log.info('connect')
+		self.log.info('connect({})'.format(message))
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
 		s = self.message_dict[message][0]
 		r = self.message_dict[message][1]
 		assert s is not None and r is not None, "sender and receiver must not be None"
-		print 'sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label
 		s_pos = s.getFrom()
 		m_pos = message.getFrom()
 		r_pos = r.getFrom()
 
 		#calc directions
-		s_dir = [0.0, 0.0]
-		m_dir_1 = [0.0, 0.0]
-		m_dir_2 = [0.0, 0.0]
-		r_dir = [0.0, 0.0]
+		s_dir = [0, 0]
+		m_dir_1 = [0, 0]
+		m_dir_2 = [0, 0]
+		r_dir = [0, 0]
 		#calc handel start_pos and mid_pos
 		if s_pos[0] < m_pos[0]:
 			#start_pos handle right
-			s_dir = [-1.0, 0.0]
+			s_dir = [-1, 0]
 			if s_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_1 = [0.0, 1.0]
+				m_dir_1 = [0, 1]
 			elif s_pos[1] == m_pos[1]:
 				#mes_pos handle left
-				m_dir_1 = [1.0, 0.0]
+				m_dir_1 = [1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_1 = [0.0, -1.0]
+				m_dir_1 = [0, -1]
 		elif s_pos[0] == m_pos[0]:
 			#start_pos handle middle
 			if s_pos[1] < m_pos[1]:
 				#start_pos middle top
-				m_dir_1 = [0.0, 1.0]
-				s_dir = [0.0, -1.0]
+				m_dir_1 = [0, 1]
+				s_dir = [0, -1]
 			else:
 				#start_pos middle bottom
-				m_dir_1 = [0.0, -1.0]
-				s_dir = [0.0, 1.0]
+				m_dir_1 = [0, -1]
+				s_dir = [0, 1]
 		else:
 			#start_pos handle left
-			s_dir = [1.0, 0.0]
+			s_dir = [1, 0]
 			if s_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_1 = [0.0, 1.0]
+				m_dir_1 = [0, 1]
 			elif s_pos[1] == m_pos[1]:
 				#mes_pos handle right
-				m_dir_1 = [-1.0, 0.0]
+				m_dir_1 = [-1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_1 = [0.0, -1.0]
+				m_dir_1 = [0, -1]
 		#calc handel end_pos and mid_pos
 		if r_pos[0] < m_pos[0]:
 			#end_pos handle right
-			r_dir = [-1.0, 0.0]
+			r_dir = [-1, 0]
 			if r_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_2 = [0.0, 1.0]
+				m_dir_2 = [0, 1]
 			elif r_pos[1] == m_pos[1]:
 				#mes_pos handle left
-				m_dir_2 = [1.0, 0.0]
+				m_dir_2 = [1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_2 = [0.0, -1.0]
+				m_dir_2 = [0, -1]
 		elif r_pos[0] == m_pos[0]:
 			#end_pos handle middle
 			if r_pos[1] < m_pos[1]:
 				#end_pos middle top
-				m_dir_2 = [0.0, 1.0]
-				r_dir = [0.0, -1.0]
+				m_dir_2 = [0, 1]
+				r_dir = [0, -1]
 			else:
 				#start_pos middle bottom
-				m_dir_2 = [0.0, -1.0]
-				r_dir = [0.0, 1.0]
+				m_dir_2 = [0, -1]
+				r_dir = [0, 1]
 		else:
 			#end_pos handle left
-			r_dir = [1.0, 0.0]
-			if s_pos[1] < m_pos[1]:
+			r_dir = [1, 0]
+			if r_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_2 = [0.0, 1.0]
-			elif s_pos[1] == m_pos[1]:
+				m_dir_2 = [0, 1]
+			elif r_pos[1] == m_pos[1]:
 				#mes_pos handle right
-				m_dir_2 = [-1.0, 0.0]
+				m_dir_2 = [-1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_2 = [0.0, -1.0]
-		
-		print 's', s_dir, 'm_1', m_dir_1, 'm_2', m_dir_2, 'r', r_dir
+				m_dir_2 = [0, -1]
+				
+		self.log.debug("View:", 's_pos', s_pos, 'm_pos', m_pos, 'r_pos', r_pos)
+		self.log.debug("View:", 's_dir', s_dir, 'm_dir_1', m_dir_1, 'm_dir_2', m_dir_2, 'r_dir', r_dir)
 		
 		'''	
 		sender_pos = s.getFrom()
@@ -1266,51 +1353,20 @@ class View():
 
 		#print "draw_line: ", s, " => ", r
 
-		#set path to sender
+		#set path from sender
 		m_paths = []
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
-		#handles[0].setFrom(s_dir[0] * self.OBJECT_SCALE[0] * 1.3, s_dir[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[0].setFrom(0, 0, 0)
+		handles[0].setFrom(-s_dir[0] * self.OBJECT_SCALE[0] * 1.3, -s_dir[1] * self.OBJECT_SCALE[0] * 1.3, 0)
+		handles[0].setUp(-20 * s_dir[1], s_dir[0], 0.0)
 		handles[0].setPickable(False)
-		handles[0].setDir(s_dir[0], s_dir[1], 0.0)
 		s.addChild(handles[0])
-		#handles[1].setFrom(m_dir_1[0] * self.OBJECT_SCALE[0] * 1.3, m_dir_1[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[1].setFrom(0, 0, 0)
+		handles[1].setFrom(-m_dir_1[0] * self.OBJECT_SCALE[0] * 0.6, -m_dir_1[1] * self.OBJECT_SCALE[1] * 0.6, 0)
+		handles[1].setUp(-20 * m_dir_1[1], m_dir_1[0], 0.0)
 		handles[1].setPickable(False)
-		handles[1].setDir(m_dir_1[0], m_dir_1[1], 0.0)
 		message.addChild(handles[1])
-		
-		'''
-		#set path to receiver
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
-		m_paths.append(self.paths[-1])
-		#VR.ptool.extrude(None, self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
-		assert len(handles) == 2, "invalid number of handles"
-		#handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 1.3, -m_dir_2[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[0].setFrom(0, 0, 0)
-		handles[0].setPickable(False)
-		handles[0].setDir(m_dir_2[0], m_dir_2[1], 0.0)
-		message.addChild(handles[0])
-		#handles[1].setUp(0,1,0)
-		handles[1].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 1.3, -r_dir[1] * self.OBJECT_SCALE[1] * 1.3, 0)
-		#handles[1].setFrom(0, 0, 0)
-		handles[1].setPickable(False)
-		handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
-		#handles[2].setUp(0,1,0)
-		#handles[2].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 1.3, -r_dir[1] * self.OBJECT_SCALE[1] * 1.3, 0)
-		#handles[2].setPickable(False)
-		#handles[2].setUp(-20 * r_dir[1], r_dir[0], 0.0)
-		handle_arrow = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
-		handle_arrow.setScale(0.7, 0.7, 0.7)
-		#handle_arrow = self.HANDLE_ARROW
-		#handle_arrow.getParent().setColors(195, 100, 20)
-		handles[1].addChild(handle_arrow)
-		r.addChild(handles[1])
-		'''
 
 		#set path to receiver
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
@@ -1318,18 +1374,16 @@ class View():
 		VR.ptool.extrude(None, self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 3, "invalid number of handles"
-		#handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 1.3, -m_dir_2[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[0].setFrom(0, 0, 0)
+		handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 0.6, -m_dir_2[1] * self.OBJECT_SCALE[0] * 0.6, 0)
+		handles[0].setUp(-20 * m_dir_2[1], m_dir_2[0], 0.0)
 		handles[0].setPickable(False)
-		handles[0].setDir(m_dir_2[0], m_dir_2[1], 0.0)
 		message.addChild(handles[0])
 		handles[1].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 2, -r_dir[1] * self.OBJECT_SCALE[1] * 2, 0)
-		#handles[1].setFrom(0, 0, 0)
+		handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
 		handles[1].setPickable(False)
-		#handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
 		handles[2].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 1.3, -r_dir[1] * self.OBJECT_SCALE[1] * 1.3, 0)
-		handles[2].setPickable(False)
 		handles[2].setUp(-20 * r_dir[1], r_dir[0], 0.0)
+		handles[2].setPickable(False)
 		handle_arrow = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
 		handle_arrow.setScale(0.7, 0.7, 0.7)
 		#handle_arrow = copy.deepcopy(self.HANDLE_ARROW)
@@ -1369,3 +1423,11 @@ class View():
 		#transformation
 		assert len(local_pos) == 2, "local_pos must have a length of 2"
 		return [(local_pos[0] - 0.5) * self.scale_x + VR.cam.getFrom()[0], (local_pos[1] - 0.5) * self.scale_y + VR.cam.getFrom()[1]]
+
+	def show_init_screen(self, init_list):
+		self.log.info("show_init_screen({})".format(init_list))
+		for i in init_list:
+			assert isinstance(i, self.InitScreenEntry)
+
+		# TODO: show items on screen
+		pass

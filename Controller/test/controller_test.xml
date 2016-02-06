@@ -539,17 +539,27 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="addDiv"&gt;
-			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/subject.png)"&gt;Subject&lt;/div&gt;
-			&lt;div id="exsubject" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/exsubject.png)"&gt;External Subject&lt;/div&gt;
-			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/message.png);"&gt;Message&lt;/div&gt;
+			&lt;div id="subject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseDownFunction(this)" style="background-image: url(img/subject.png)"&gt;Subject&lt;/div&gt;
+			&lt;div id="exsubject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseDownFunction(this)" style="background-image: url(img/exsubject.png)"&gt;External Subject&lt;/div&gt;
+			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseDownFunction(this)" style="background-image: url(img/message.png);"&gt;Message&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
 		// Create websocket for communication with python code
 		var websocket = new WebSocket('ws://localhost:5500');			
 
-		function clickFunction(element) {				
+		function clickFunction(element) {
 			websocket.send(element.id);
+			alert(element.id);
+		};
+
+		function mouseDownFunction(element) {
+			websocket.send(element.id.concat("_down"));
+			alert(element.id);
+		};
+		
+		function mouseUpFunction(element) {
+			websocket.send(element.id.concat("_up"));
 			alert(element.id);
 		};
 	&lt;/script&gt;
@@ -800,6 +810,17 @@
 		VR.controller.process()
 </core>
       <trig type="on_timeout" dev="" state="Pressed" param="0" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
+    </Script>
+    <Script name_suffix="0" base_name="save_model" name_space="__script__" type="Python" mobile="">
+      <core>
+	return # TODO: remove to enable saving model
+	print("VR: save_model")
+	import VR
+	if hasattr(VR, "controller"):
+		VR.controller.save_model()
+</core>
+      <trig type="on_timeout" dev="" state="Pressed" param="60000" key="0" name_suffix="7" base_name="trigger" name_space="__global__"/>
+      <trig type="on_scene_close" dev="" state="Pressed" param="0" key="0" name_suffix="8" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="start" name_space="__script__" type="HTML" mobile="mobile">
       <core>
