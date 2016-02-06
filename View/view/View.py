@@ -72,6 +72,8 @@ class View():
 		self.BLENDER_PATHS['closed_hand_left'] = '../../View/Blender/Cursor/Closed_Hand_Left.dae'
 		self.BLENDER_PATHS['open_hand_right'] = '../../View/Blender/Cursor/Open_Hand_Right.dae'
 		self.BLENDER_PATHS['closed_hand_right'] = '../../View/Blender/Cursor/Closed_Hand_Right.dae'
+		self.BLENDER_PATHS['pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae'
+		self.BLENDER_PATHS['pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae'
 		self.BLENDER_PATHS['arrow_tip'] = '../../View/Blender/Pfeil/Pfeil.dae'
 
 		self.PLANE_SIZE = 0.4
@@ -436,7 +438,6 @@ class View():
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
 		VR.ptool.getPathMaterial().setDiffuse(self.PATH_COLOR, self.PATH_COLOR, self.PATH_COLOR)
-		VR.ptool.getPathMaterial().setShininess(0.9)
 		VR.ptool.getPathMaterial().setTransparency(0.8)
 		#setup annotation engine
 		self.annotation_index = 1
@@ -548,23 +549,11 @@ class View():
 		level = int(float(self.MAX_DIST - VR.cam.getFrom()[2]) / self.ZOOM_STEP)
 		assert(level >= 0)
 		return level
-
-	def move_cursor(self, pos_ws, user_id, is_left):
-		self.log.debug('move_cursor')
-
-		assert isinstance(is_left, bool)
-		assert isinstance(user_id, int)
-		pos_ws = [(pos_ws[0] - 0.5) * self.scale_cursor_x, (pos_ws[1] - 0.5) * self.scale_cursor_y, self.CURSOR_DIST]
-		#print 'View: pos_ws: ', pos_ws
-		if not hasattr(VR, 'view_user_cursors'):
-			VR.view_user_cursors = {}
-		if not hasattr(VR, 'view_user_colors'):
-			VR.view_user_colors = {}
-		if not hasattr(VR, 'view_user_positions'):
-			VR.view_user_positions = {}
-
-		if user_id not in VR.view_user_cursors:
-			assert len(VR.view_user_cursors) < self.MAX_USERS
+		
+	def add_new_user(self, user_id, is_active):
+		assert len(VR.view_user_cursors) < self.MAX_USERS
+		
+		if is_active:
 			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
 			cursor_container_left = VR.Transform('Cursor_Container_Left')
 			cursor_container_left.addTag(str([user_id, True]))
@@ -597,6 +586,7 @@ class View():
 			print "cursor container right", cursor_container_right.getChildren()
 			print "cursor container left", cursor_container_left.getChildren()
 			VR.cam.addChild(cursor_container_right)
+			
 			VR.view_user_cursors[user_id] = {}
 			mydev_l = VR.Device('mydev')
 			mydev_l.setBeacon(cursor_container_left)
@@ -623,14 +613,36 @@ class View():
 			VR.view_user_positions[user_id] = {}
 			VR.view_user_positions[user_id][True] = [0, 0, 0]
 			VR.view_user_positions[user_id][False] = [0, 0, 0]
-			print 'init new user done'
+			print 'init new active user done'
+		else:
+			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
+			pointer_left = VR.loadGeometry(self.BLENDER_PATHS['pointer_left'])
+			pointer_left.addTag(str([user_id, True]))
+			pointer_left.setFrom(0.3, 0, self.CURSOR_DIST)
+			pointer_left.setVisible(True)
+			pointer_left.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+			VR.cam.addChild(pointer_left)
+			pointer_right = VR.loadGeometry(self.BLENDER_PATHS['pointer_right'])
+			pointer_right.addTag(str([user_id, False]))
+			pointer_right.setFrom(1.5, 0, self.CURSOR_DIST)
+			pointer_right.setVisible(True)
+			pointer_right.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+			VR.cam.addChild(pointer_right)
+			print 'init new passive user done'			
 
-		#delta = [p_new - p_old for p_new, p_old in zip(pos_ws, VR.view_user_positions[user_id][is_left])]
-		#length = math.sqrt(sum(d * d for d in delta))
-		#if length > 0:
-		#	direction = [d / length for d in delta]
-		#else:
-		#	direction = [0, 1, 0]
+	def move_cursor(self, pos_ws, user_id, is_left):
+		self.log.debug('move_cursor')
+		
+		assert isinstance(is_left, bool)
+		assert isinstance(user_id, int)
+		pos_ws = [(pos_ws[0] - 0.5) * self.scale_cursor_x, (pos_ws[1] - 0.5) * self.scale_cursor_y, self.CURSOR_DIST]
+		#print 'View: pos_ws: ', pos_ws
+		if not hasattr(VR, 'view_user_cursors'):
+			VR.view_user_cursors = {}
+		if not hasattr(VR, 'view_user_colors'):
+			VR.view_user_colors = {}
+		if not hasattr(VR, 'view_user_positions'):
+			VR.view_user_positions = {}
 
 		cursor = next((c for c in VR.cam.getChildren() if c.hasTag(str([user_id, is_left]))), None)
 		assert cursor is not None
