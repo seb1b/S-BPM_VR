@@ -31,11 +31,12 @@ class View():
 		self.CAM_INIT_DIST = 10
 		self.VALID_USER_COLORS = []
 		#setup valid user colors
-		self.VALID_USER_COLORS.append([0.65, 0.09, 0.49])
-		self.VALID_USER_COLORS.append([0.81, 0.77, 0.66])
-		self.VALID_USER_COLORS.append([0.25, 0.19, 0.47])
-		self.VALID_USER_COLORS.append([0.98, 0.98, 0.62])
-		self.VALID_USER_COLORS.append([0.85, 0.59, 0.98])
+		self.VALID_USER_COLORS.append([1, 0, 0])
+		self.VALID_USER_COLORS.append([0.91, 0.54, 0.05])
+		self.VALID_USER_COLORS.append([0.45, 0.05, 0.91])
+		self.VALID_USER_COLORS.append([1, 0.98, 0.05])
+		self.VALID_USER_COLORS.append([0, 0.7, 0.2])
+		self.PATH_COLOR = 0.27
 
 		self.BLENDER_PATHS = {}
 		self.BLENDER_PATHS['subject'] = '../../View/Blender/Prozess/Subjekt.dae'
@@ -434,7 +435,9 @@ class View():
 		#setup path tool
 		VR.ptool = VR.Pathtool()
 		VR.ptool.setHandleGeometry(self.HANDLE)
-		VR.ptool.getPathMaterial().setDiffuse(0,0,0)
+		VR.ptool.getPathMaterial().setDiffuse(self.PATH_COLOR, self.PATH_COLOR, self.PATH_COLOR)
+		VR.ptool.getPathMaterial().setShininess(0.9)
+		VR.ptool.getPathMaterial().setTransparency(0.8)
 		#setup annotation engine
 		self.annotation_index = 1
 		self.annotation_engine = VR.AnnotationEngine('annotation_engine')
@@ -490,7 +493,7 @@ class View():
 			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
 		self.annotation_index = self.annotation_index + len(index_list)
 		
-	def refresh_annotation_engine_entry(self, subject):
+	def _refresh_annotation_engine_entry_pos(self, subject):
 		assert subject is not None, "refresh_annotation_engine_entry given subject has not to be None"
 		text = ''
 		for t in subject.label:
@@ -509,6 +512,27 @@ class View():
 		#print 'annotation: index_list after', index_list	
 		for i in index_list:
 			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
+
+	def _refresh_annotation_engine_entry_content(self, subject):
+		assert subject is not None, "refresh_annotation_engine_entry given subject has not to be None"
+		text = ''
+		for t in subject.label:
+			text = text + t
+		split = text.split(' ')
+		index_list = self.annotation_dict[subject]
+		#print 'annotation: index_list before', index_list, split
+		if len(index_list) < len(split):
+			for i in xrange(0, (len(split) - len(index_list))):
+				index_list.append(self.annotation_index + 1)
+				self.annotation_index = self.annotation_index +1
+		elif len(index_list) > len(split):
+			for i in xrange(0, (len(index_list) - len(split))):
+				index_list.remove(self.annotation_index + 1)
+		self.annotation_dict[subject] = index_list
+		#print 'annotation: index_list after', index_list	
+		for i in index_list:
+			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
+
 
 	def zoom(self, level):
 		self.log.info('zoom')
@@ -702,14 +726,13 @@ class View():
 		assert len(pos) == 2
 
 		highlighted_point = VR.Geometry('sphere')
-		highlighted_point.setPrimitive('Sphere 0.05 5')
+		highlighted_point.setPrimitive('Sphere 0.1 5')
 		highlighted_point.setMaterial(VR.Material('sample material'))
 		w_pos = self.local_to_world_2d(pos)
 		highlighted_point.setFrom(w_pos[0], w_pos[1], 0.0)
 		highlighted_point.setPlaneConstraints([0, 0, 1])
 		highlighted_point.setRotationConstraints([1, 1, 1])
-		# TODO: set color, this does not work
-		#highlighted_point.setColors([1, 0, 0]) #TODO change color?!
+		highlighted_point.setColors([[0.21, 0.57, 0.83]])
 		highlighted_point.setPickable(False)
 		highlighted_point.addTag('highlight')
 		VR.view_root.addChild(highlighted_point)
