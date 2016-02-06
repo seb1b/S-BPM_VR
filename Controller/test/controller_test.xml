@@ -629,7 +629,7 @@
 				border-style: solid;
 				border-color: #000000;
 				border-width: 0px;
-				font-size: 50px;
+				font-size: 15px;
 			}
 			
 			.editable {
@@ -643,7 +643,7 @@
 			}
 			
 			td {
-				padding: 5px;			
+				padding: 0px;			
 			}
 			
 			tr {
@@ -651,7 +651,7 @@
 			}
 			
 			#heading {
-				font-size: 60px;
+				font-size: 20px;
 			}
 			
 		&lt;/style&gt;
