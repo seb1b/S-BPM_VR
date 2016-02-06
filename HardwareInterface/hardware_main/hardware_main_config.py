@@ -107,6 +107,7 @@ class VRHardware():
 		self.called_press_left_leap = False
 		self.called_press_right_leap = False
 		self.leap_filter = collections.deque(list(), self.leap_filter_n)
+		self.leap_filter_right = collections.deque(list(), self.leap_filter_n)
 
 		# Variables used for Myo control
 		self.called_press_myo = False
@@ -152,7 +153,10 @@ class VRHardware():
 				xyz = [float(x) for x in pos.split(",")]
 				# MOVE_MODEL
 				#print xyz
-				xyz = self.filter(xyz)
+				if hand_type == 'L':
+					xyz = self.filter(xyz,self.leap_filter)
+				else:
+					xyz = self.filter(xyz,self.leap_filter_right)
 				#print xyz
 				if (hand_type == 'L') :
 					xyz[0] += self.leap_offset_hand
@@ -295,13 +299,13 @@ class VRHardware():
 
 
 
-	def filter(self, pos):
-		self.leap_filter.append(pos)
+	def filter(self, pos, filter):
+		filter.append(pos)
 		filtered_pos = [0.0]*3
-		for i in range(len(self.leap_filter)):
-			filtered_pos[0] += self.leap_filter[i][0]
-			filtered_pos[1] += self.leap_filter[i][1]
-			filtered_pos[2] += self.leap_filter[i][2]
+		for i in range(len(filter)):
+			filtered_pos[0] += filter[i][0]
+			filtered_pos[1] += filter[i][1]
+			filtered_pos[2] += filter[i][2]
 
 		filtered_pos[0] = filtered_pos[0]/self.leap_filter_n
 		filtered_pos[1] = filtered_pos[1]/self.leap_filter_n
