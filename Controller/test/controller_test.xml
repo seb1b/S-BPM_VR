@@ -735,6 +735,7 @@
     </Script>
     <Script name_suffix="0" base_name="save_model" name_space="__script__" type="Python" mobile="">
       <core>
+	return # TODO: remove to enable saving model
 	print("VR: save_model")
 	import VR
 	if hasattr(VR, "controller"):

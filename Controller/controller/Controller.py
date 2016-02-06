@@ -204,6 +204,14 @@ class Controller:
 	def process(self):
 		self.hw_main.process()
 
+	def save_model(self):
+		if self.view is not None:
+			assert self.current_model is not None
+			file_path = self.models[self.current_model]
+			assert isinstance(file_path, basestring)
+			#self.current_model.saveAs("./tests/Beispielprozess_copy.owl")
+			self.current_model.saveAs(file_path)
+
 	def press(self, pos, user_id, is_left=False):
 		"""This function handles a push or press event
 
@@ -234,7 +242,7 @@ class Controller:
 		self.log.info(("press({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
-			assert self.current_model is not None
+			#assert self.current_model is not None
 			self._check_user(user_id)
 			self.view.press(user_id, is_left)  # show closed hand in view
 			obj = self.view.get_object(user_id, is_left)
@@ -617,6 +625,7 @@ class Controller:
 	def test_bsp_prozess(self):
 		file_path = "../../Model/tests/Beispielprozess.owl"
 		self.models[file_path] = PASS.ModelManager(file_path)
+		self.models[self.models[file_path]] = file_path
 		self.view = View()
 		self.current_model = self.models[file_path]
 
