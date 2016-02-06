@@ -1,9 +1,11 @@
 #!/usr/bin/env python2
-import math
+import os
 import sys
-import logging
+import math
 import PASS
 import time
+import Image
+import logging
 import collections
 
 from view import View
@@ -143,7 +145,10 @@ class Controller:
 					pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
 					pos[0] += 0.1
 					pos[1] -= 0.1
-					new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
+					if isinstance(self.selected_object, PASS.ActiveProcessComponent):
+						new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
+					else:
+						new_obj = self.view.get_cur_scene().duplicateState(self.selected_object)
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
 					self._update_selected_object(new_obj)
 			elif message == "cancel" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
