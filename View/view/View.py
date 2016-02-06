@@ -765,12 +765,16 @@ class View():
 		if isinstance(highlight_point, VR.Object):
 			highlight_point.destroy()
 
-	def trigger(self, user_id, is_left):
-		self.log.info('trigger')
-		print "trigger"
+	def trigger_down(self, user_id, is_left):
+		self.log.warning('trigger_down({}{})'.format(user_id, is_left))
 		mydev = VR.view_user_cursors[user_id][is_left]
 		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 0)
+
+	def trigger_up(self, user_id, is_left):
+		self.log.warning('trigger_up({}{})'.format(user_id, is_left))
+		mydev = VR.view_user_cursors[user_id][is_left]
+		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 1)
 
 	def release(self, user_id, is_left):
