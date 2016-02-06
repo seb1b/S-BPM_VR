@@ -1,0 +1,10 @@
+def init():
+	import VR
+	
+	path = "/home/lukas/git/S-BPM_VR/View/Blender/Lukas"
+	path = path + "/behavior/receive_state.dae"
+	test = VR.loadGeometry(path)
+	test.setPose([0.5,0,-1], [0,0,1], [0,1,0])
+	test.setScale([0.2, 0.2, 0.2])
+	l = VR.getRoot().find('Default')
+	l.addChild(test)
