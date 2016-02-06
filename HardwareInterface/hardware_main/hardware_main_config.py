@@ -291,11 +291,13 @@ class VRHardware():
 
 	def filter(self, pos):
 		self.leap_filter.append(pos)
-
+		filtered_pos = [0.0]*3
 		for i in range(len(self.leap_filter)):
     			filtered_pos += self.leap_filter[i]
 
-		filtered_pos = filtered_pos/self.leap_filter_n
+		filtered_pos[0] = filtered_pos[0]/self.leap_filter_n
+		filtered_pos[1] = filtered_pos[1]/self.leap_filter_n
+		filtered_pos[2] = filtered_pos[2]/self.leap_filter_n
 
 		return filtered_pos
 
