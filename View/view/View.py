@@ -1288,7 +1288,7 @@ class View():
 		return None
 
 	def connect(self, message):
-		self.log.info('View: connect - sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label')
+		self.log.info('connect({})'.format(message))
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
