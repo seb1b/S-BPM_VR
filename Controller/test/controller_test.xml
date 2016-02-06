@@ -550,24 +550,33 @@
 			&lt;div id="exsubject" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/exsubject.png)"&gt;External Subject&lt;/div&gt;
 			&lt;div id="message" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/message.png);"&gt;Message&lt;/div&gt;
 		&lt;/div&gt;
+		&lt;div id="test"&gt;
+		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
 		// Create websocket for communication with python code
-		var websocket = new WebSocket('ws://localhost:5500');			
+		var websocket = new WebSocket('ws://localhost:5500');
+					
 
 		function clickFunction(element) {
 			websocket.send(element.id);
 			//alert(element.id);
+			var test = document.getElementById('test');
+			test.appendChild(document.createTextNode("click"));
 		};
 
 		function mouseDownFunction(element) {
 			websocket.send(element.id.concat("_down"));
 			//alert(element.id.concat("_down"));
+			var test = document.getElementById('test');
+			test.appendChild(document.createTextNode("down"));
 		};
 		
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
 			//alert(element.id.concat("_up"));
+			var test = document.getElementById('test');
+			test.appendChild(document.createTextNode("up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
