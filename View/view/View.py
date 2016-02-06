@@ -3,6 +3,7 @@ import math
 import PASS
 import sys
 import logging
+import copy
 
 
 class View():
@@ -128,9 +129,9 @@ class View():
 		self.cam_navigation.setFov(self.camera_fov)
 
 		#setup pathtool
-		self.ptool = VR.Pathtool()
-		#self.ptool.setHandleGeometry(self.HANDLE_ARROW)
-		self.ptool.setHandleGeometry(self.HANDLE)
+		VR.ptool = VR.Pathtool()
+		#VR.ptool.setHandleGeometry(self.HANDLE_ARROW)
+		VR.ptool.setHandleGeometry(self.HANDLE)
 
 		#setup offsets
 		#screen
@@ -431,9 +432,9 @@ class View():
 		self.message_dict.clear()
 		self.elements = []
 		#setup path tool
-		self.ptool = VR.Pathtool()
-		self.ptool.setHandleGeometry(self.HANDLE)
-		self.ptool.getPathMaterial().setDiffuse(0,0,0)
+		VR.ptool = VR.Pathtool()
+		VR.ptool.setHandleGeometry(self.HANDLE)
+		VR.ptool.getPathMaterial().setDiffuse(0,0,0)
 		#setup annotation engine
 		self.annotation_index = 1
 		self.annotation_engine = VR.AnnotationEngine('annotation_engine')
@@ -684,6 +685,7 @@ class View():
 			label = label + l
 		if len(label) == 0:
 			#label = 'Layer'
+			pass
 		params = 'label=' + str(label) + '&'
 		metaKeys = obj.getMetaKeys()
 		i = 0
@@ -1020,7 +1022,7 @@ class View():
 								mes = self.object_dict[poly_mes]
 								paths_to_delete = self.message_dict[poly_mes][2]
 								for p in paths_to_delete:
-									self.ptool.remPath(p)
+									VR.ptool.remPath(p)
 								del self.object_dict[mes]
 								del self.object_dict[poly_mes]
 								del self.message_dict[poly_mes]
@@ -1035,7 +1037,7 @@ class View():
 							poly_obj = self.object_dict[element_to_delete[0]]
 							paths_to_delete = self.message_dict[poly_obj][2]
 							for p in paths_to_delete:
-								self.ptool.remPath(p)
+								VR.ptool.remPath(p)
 							del self.object_dict[poly_obj]
 							del self.object_dict[element_to_delete[0]]
 							del self.message_dict[poly_obj]
@@ -1101,7 +1103,7 @@ class View():
 							poly_obj = self.object_dict[element_to_delete[0]]
 							paths_to_delete = self.message_dict[poly_obj][2]
 							for p in paths_to_delete:
-								self.ptool.remPath(p)
+								VR.ptool.remPath(p)
 							del self.object_dict[poly_obj]
 							del self.object_dict[element_to_delete[0]]
 							del self.message_dict[poly_obj]
@@ -1266,9 +1268,9 @@ class View():
 
 		#set path to sender
 		m_paths = []
-		self.paths.append(self.ptool.newPath(None, VR.view_root))
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = self.ptool.getHandles(self.paths[-1])
+		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		#handles[0].setFrom(s_dir[0] * self.OBJECT_SCALE[0] * 1.3, s_dir[1] * self.OBJECT_SCALE[0] * 1.3, 0)
 		handles[0].setFrom(0, 0, 0)
@@ -1283,10 +1285,10 @@ class View():
 		
 		'''
 		#set path to receiver
-		self.paths.append(self.ptool.newPath(None, VR.view_root))
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		#self.ptool.extrude(None, self.paths[-1])
-		handles = self.ptool.getHandles(self.paths[-1])
+		#VR.ptool.extrude(None, self.paths[-1])
+		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		#handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 1.3, -m_dir_2[1] * self.OBJECT_SCALE[0] * 1.3, 0)
 		handles[0].setFrom(0, 0, 0)
@@ -1311,10 +1313,10 @@ class View():
 		'''
 
 		#set path to receiver
-		self.paths.append(self.ptool.newPath(None, VR.view_root))
+		self.paths.append(VR.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		self.ptool.extrude(None, self.paths[-1])
-		handles = self.ptool.getHandles(self.paths[-1])
+		VR.ptool.extrude(None, self.paths[-1])
+		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 3, "invalid number of handles"
 		#handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 1.3, -m_dir_2[1] * self.OBJECT_SCALE[0] * 1.3, 0)
 		handles[0].setFrom(0, 0, 0)
@@ -1330,22 +1332,22 @@ class View():
 		handles[2].setUp(-20 * r_dir[1], r_dir[0], 0.0)
 		handle_arrow = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
 		handle_arrow.setScale(0.7, 0.7, 0.7)
-		#handle_arrow = self.HANDLE_ARROW
+		#handle_arrow = copy.deepcopy(self.HANDLE_ARROW)
 		#handle_arrow.getParent().setColors(195, 100, 20)
 		handles[2].addChild(handle_arrow)
 		r.addChild(handles[1])
 		r.addChild(handles[2])
 		
 		self.message_dict[message][2] = m_paths
-		self.ptool.update()
+		VR.ptool.update()
 
 	def set_message_line(self, user_id, set_line):
 		print "drawing line"
 		if set_line:
 			if self.new_message_path is not None:
 				return
-			self.paths.append(self.ptool.newPath(None, VR.view_root))
-			handles = self.ptool.getHandles(self.paths[-1])
+			self.paths.append(VR.ptool.newPath(None, VR.view_root))
+			handles = VR.ptool.getHandles(self.paths[-1])
 			assert len(handles) == 2, "invalid number of handles"
 			handles[0].setPickable(False)
 			handles[0].setFrom(0, 0, 0)
@@ -1354,11 +1356,11 @@ class View():
 			handles[1].setPickable(False)
 			VR.view_user_cursors[user_id][1].getBeacon().addChild(handles[1])
 			self.new_message_path = self.paths[-1]
-			self.ptool.update()
+			VR.ptool.update()
 		else:
 			if self.new_message_path is not None:
 				print 'delete'
-				self.ptool.remPath(self.new_message_path)
+				VR.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
 				print "Warning: no message path to be deleted..."
