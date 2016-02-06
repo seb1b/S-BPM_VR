@@ -6,14 +6,14 @@ import os.path
 if sys.path[0] != '../../Controller': sys.path.insert(0, '../../Controller')
 
 # Uncomment for standalone use
-import controller
+#import controller
 
 # from controller import Controller
 import threading
 import itertools
 
 # Uncomment for standalone use
-"""class Controller:
+class Controller:
 	def press(self, pos, user_id, is_left=False):
 		if is_left:
 			print("press with left at", pos)
@@ -45,7 +45,7 @@ import itertools
 		print("move_model at", pos)
 	def move_head(self, pos, degrees, user_id):
 		print("move_head")
-"""
+
 
 class VRHardware():
 
@@ -78,6 +78,11 @@ class VRHardware():
 		self.leap_zoom_in_cache = int(config.node.leapParameters.zoom_in_cache['id'])
 		self.leap_zoom_out_cache = int(config.node.leapParameters.zoom_out_cache['id'])
 
+		#leap parameters
+		self.zoom_factor = int(config.node.leapParameters.zoom_factor['id'])
+		self.leap_offset_hand = float(config.node.leapParameters.offset_hand['id'])
+		self.leap_filter_n = float(config.node.leapParameters.filter_n['id'])
+
 		# set myo control
 		self.myo_press = config.node.myoGestures.press['id']
 		self.myo_release = config.node.myoGestures.release['id']
@@ -101,6 +106,7 @@ class VRHardware():
 		self.cache_right = collections.deque(list(), 200)
 		self.called_press_left_leap = False
 		self.called_press_right_leap = False
+		self.leap_filter = collections.deque(list(), self.leap_filter_n)
 
 		# Variables used for Myo control
 		self.called_press_myo = False
@@ -144,6 +150,8 @@ class VRHardware():
 			if user_id >= self.LEAP_ID and user_id < self.MYO_ID:
 				xyz = [float(x) for x in pos.split(",")]
 				# MOVE_MODEL
+				xyz = self.filter(xyz)
+				xyz[0] += self.leap_offset_hand
 				if gesture == self.leap_move:
 					self.controller.move_model(xyz, user_id)
 
@@ -185,15 +193,15 @@ class VRHardware():
 						# n = 15
 						if is_left:
 							if self.last_gestures(self.leap_zoom_in_cache, self.leap_zoom_in, is_left):
-								self.controller.zoom(1, user_id)
+								self.controller.zoom(1*self.zoom_factor, user_id)
 							elif self.last_gestures(self.leap_zoom_out_cache, self.leap_zoom_out, is_left):
-								self.controller.zoom(-1, user_id)
+								self.controller.zoom(-1*self.zoom_factor, user_id)
 
 						else:
 							if self.last_gestures(self.leap_zoom_in_cache, self.leap_zoom_in, is_left):
-								self.controller.zoom(1, user_id)
+								self.controller.zoom(1*self.zoom_factor, user_id)
 							elif self.last_gestures(self.leap_zoom_out_cache, self.leap_zoom_out, is_left):
-								self.controller.zoom(-1, user_id)
+								self.controller.zoom(-1*self.zoom_factor, user_id)
 					elif gesture == self.leap_fade_in:
 						# n = 1
 						self.controller.fade_in(xyz, user_id, is_left)
@@ -280,6 +288,16 @@ class VRHardware():
 
 
 
+
+	def filter(self, pos):
+		self.leap_filter.append(pos)
+
+		for i in range(len(self.leap_filter)):
+    			filtered_pos += self.leap_filter[i]
+
+		filtered_pos = filtered_pos/self.leap_filter_n
+
+		return filtered_pos
 
 
 

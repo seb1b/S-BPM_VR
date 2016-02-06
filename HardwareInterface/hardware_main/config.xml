@@ -18,10 +18,13 @@
 </leapGestures>
 
 <leapParameters>
+  <zoom_factor id ="5"/>
+  <offset_hand id ="0.002"/>
   <zoom_in_cache id="15"/>
   <zoom_out_cache id="15"/>
   <release_cache id="5"/>
   <press_cache id="25"/>
+  <filter_n id="5.0"/>
 </leapParameters>
 
 
@@ -45,6 +48,7 @@
     <host_name id="localhost"/>
     <queue_name id="hello"/>
 </rabbitMq>
+
 
 
  </node>
