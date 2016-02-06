@@ -171,12 +171,12 @@
 				min-width: 100px;
 				height: 100%;
 				background-repeat: no-repeat;
-				background-size: 80% auto;
+				background-size: auto 70%;
 				background-position: center;
 				display: table-cell;
-				text-align: center;
-				vertical-align: middle;
-				font-size: 16px; 
+				text-align: center;				
+				vertical-align: bottom;
+				font-size: 16px;
 				font-size: 2.5vw;
 			}
 
@@ -359,8 +359,7 @@
 				border-width: 1px;
 				border-color: #b0b0b0;
 				padding: 10px;
-				background-color: white;
-				font-family: NeouBold;
+				background-color: white;				
 			}
 		
 			.editDiv{
@@ -370,55 +369,62 @@
 				height: 100%;
 				min-height: 100px;
 				display: table;
+			}
+			
+			.addItemsDiv{
+				min-height: 100px;
+				min-width: 100px;
+				height: 100%;
+				background-repeat: no-repeat;
+				background-size: auto 70%;
+				background-position: top;
+				display: table-cell;
+				text-align: center;				
+				vertical-align: bottom;
 				font-size: 16px;
 				font-size: 2.5vw;
 			}
 
-			.button{
-				background-color: #ffffff;
-				background-repeat: no-repeat;
-				background-size: 70% auto;
-				background-position: center;
+			div:first-child:nth-last-child(1) {
 				height: 100%;
-				display: table-cell;
-			}
-
-			button:first-child:nth-last-child(1) {
-				width: 100%;
 			}
 
 			/* two items */
-			button:first-child:nth-last-child(2),
-			button:first-child:nth-last-child(2) ~ button {
+			.addItemsDiv:first-child:nth-last-child(2),
+			.addItemsDiv:first-child:nth-last-child(2) ~ .addItemsDiv {
 				width: 50%;
 			}
 
 			/* three items */
-			button:first-child:nth-last-child(3),
-			button:first-child:nth-last-child(3) ~ button {
+			.addItemsDiv:first-child:nth-last-child(3),
+			.addItemsDiv:first-child:nth-last-child(3) ~ .addItemsDiv {
 				width: 33.3333%;
 			}
 
 			/* four items */
-			button:first-child:nth-last-child(4),
-			button:first-child:nth-last-child(4) ~ button {
+			.addItemsDiv:first-child:nth-last-child(4),
+			.addItemsDiv:first-child:nth-last-child(4) ~ .addItemsDiv {
 				width: 25%;
 			}
 
 			/* Five items */
-			button:first-child:nth-last-child(5),
-			button:first-child:nth-last-child(5) ~ button {
-			width: 20%;
+			.addItemsDiv:first-child:nth-last-child(5),
+			.addItemsDiv:first-child:nth-last-child(5) ~ .addItemsDiv {
+				width: 20%;
 			}
 		&lt;/style&gt;
 		&lt;title&gt;Edit&lt;/title&gt;
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="editDiv"&gt;
+			&lt;div id="delete" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/delete.png)"&gt;Delete&lt;/div&gt;
+			&lt;div id="copy" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/copy.png)"&gt;Copy&lt;/div&gt;
+			&lt;div id="cancel" class="addItemsDiv" onclick="clickFunction(this)" onmousedown="mouseDownFunction(this)" onmouseup="mouseUpFunction(this)" style="background-image: url(img/cancel.png);"&gt;Cancel&lt;/div&gt;
+			&lt;!--
 			&lt;button id="delete" class="button" onclick="clickFunction(this)" style="background-image: url(img/delete.png)"&gt;Delete&lt;/button&gt;
-			&lt;!-- &lt;button id="edit" class="button" onclick="clickFunction(this)" style="background-image: url(img/edit.png)"&gt;&lt;/button&gt; --&gt;
 			&lt;button id="copy" class="button" onclick="clickFunction(this)" style="background-image: url(img/copy.png)"&gt;Copy&lt;/button&gt;
 			&lt;button id="cancel" class="button" onclick="clickFunction(this)" style="background-image: url(img/cancel.png)"&gt;Cancel&lt;/button&gt;
+			--&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
@@ -427,7 +433,17 @@
 
 		function clickFunction(element) {
 			websocket.send(element.id);
-			//alert(element.id);
+			alert(element.id);
+		};
+
+		function mouseDownFunction(element) {
+			websocket.send(element.id.concat("_down"));
+			//alert(element.id.concat("_down"));
+		};
+		
+		function mouseUpFunction(element) {
+			websocket.send(element.id.concat("_up"));
+			//alert(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
@@ -557,7 +573,6 @@
 		// Create websocket for communication with python code
 		var websocket = new WebSocket('ws://localhost:5500');
 					
-
 		function clickFunction(element) {
 			websocket.send(element.id);
 			//alert(element.id);
