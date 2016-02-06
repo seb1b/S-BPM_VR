@@ -126,7 +126,6 @@ class View():
 		self.cam_navigation.setAt(self.camera_at)
 		self.cam_navigation.setDir(self.camera_dir)
 		self.cam_navigation.setFov(self.camera_fov)
-		VR.view_root.addChild(self.HANDLE_ARROW)
 
 		#setup pathtool
 		self.ptool = VR.Pathtool()
@@ -1474,11 +1473,13 @@ class View():
 		handles[0].setDir(m_dir_2[0], m_dir_2[1], 0.0)
 		message.addChild(handles[0])
 		#handles[1].setUp(0,1,0)
-		handles[1].setFrom(-r_dir[0] * self.OBJECT_SCALE[0], -r_dir[1] * self.OBJECT_SCALE[1], 0)
-		print 'getFrom', handles[1].getFrom()		
+		handles[1].setFrom(-r_dir[0] * (self.OBJECT_SCALE[0] + self.OBJECT_SCALE[0] * 0.3), -r_dir[1] * (self.OBJECT_SCALE[1]  + self.OBJECT_SCALE[1] * 0.3), 0)
 		handles[1].setPickable(False)
-		handles[1].setDir(r_dir[0], r_dir[1], 0.0)
-		handles[1].addChild(VR.loadGeometry(self.BLENDER_PATHS['arrow_tip']))
+		handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
+		handle_arrow = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
+		handle_arrow.setScale(0.7, 0.7, 0.7)
+		#handle_arrow.getParent().setColors(195, 100, 20)
+		handles[1].addChild(handle_arrow)
 		r.addChild(handles[1])
 		
 		self.message_dict[message][2] = m_paths
