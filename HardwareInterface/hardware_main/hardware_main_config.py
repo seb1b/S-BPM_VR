@@ -6,12 +6,12 @@ import os.path
 if sys.path[0] != '../../Controller': sys.path.insert(0, '../../Controller')
 
 # Uncomment for standalone use
-#import controller
+import controller
 
 # from controller import Controller
 import threading
 import itertools
-
+"""
 # Uncomment for standalone use
 class Controller:
 	def press(self, pos, user_id, is_left=False):
@@ -45,7 +45,7 @@ class Controller:
 		print("move_model at", pos)
 	def move_head(self, pos, degrees, user_id):
 		print("move_head")
-
+"""
 
 class VRHardware():
 
@@ -130,6 +130,7 @@ class VRHardware():
 	def process(self):
 		self.connection.process_data_events()
 
+
 	def callback(self, ch, method, properties, body):
 		if body:
 			# Split the body string
@@ -150,8 +151,13 @@ class VRHardware():
 			if user_id >= self.LEAP_ID and user_id < self.MYO_ID:
 				xyz = [float(x) for x in pos.split(",")]
 				# MOVE_MODEL
+				#print xyz
 				xyz = self.filter(xyz)
-				xyz[0] += self.leap_offset_hand
+				#print xyz
+				if (hand_type == 'L') :
+					xyz[0] += self.leap_offset_hand
+				else :
+					xyz[0] -= self.leap_offset_hand
 				if gesture == self.leap_move:
 					self.controller.move_model(xyz, user_id)
 
@@ -236,14 +242,14 @@ class VRHardware():
 					print("Myo zoom: " + str(rot[0]))
 					if ~is_left:
 						if rot[0] > 0.2:
-							self.controller.zoom(1, user_id)
-						elif rot[0] < -0.5:
-							self.controller.zoom(-1, user_id)
+							self.controller.zoom(100, user_id)
+						elif rot[0] < -0.2:
+							self.controller.zoom(-100, user_id)
 					else:
 						if rot[0] > -0.2:
-							self.controller.zoom(1, user_id)
-						elif rot[0] < 0.5:
-							self.controller.zoom(-1, user_id)
+							self.controller.zoom(100, user_id)
+						elif rot[0] < 0.2:
+							self.controller.zoom(-100, user_id)
 				# FADE_IN
 				elif gesture == self.myo_fade_in:
 					#print("Myo fade_in")
@@ -293,7 +299,9 @@ class VRHardware():
 		self.leap_filter.append(pos)
 		filtered_pos = [0.0]*3
 		for i in range(len(self.leap_filter)):
-    			filtered_pos += self.leap_filter[i]
+			filtered_pos[0] += self.leap_filter[i][0]
+			filtered_pos[1] += self.leap_filter[i][1]
+			filtered_pos[2] += self.leap_filter[i][2]
 
 		filtered_pos[0] = filtered_pos[0]/self.leap_filter_n
 		filtered_pos[1] = filtered_pos[1]/self.leap_filter_n

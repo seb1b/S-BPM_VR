@@ -22,7 +22,7 @@ def getChange(edge):
 
 	#x = math.atan(myo.rotYaw()) * 1.67 + 0.5
 	x = min(max(math.atan(myo.rotYaw()) * 1.67 + 0.5, 0.0), 1.0)
-	y = min(max(math.atan(myo.rotPitch()) * 1.67 + 0.5, 0.0), 1.0)
+	y = 1-min(max(math.atan(myo.rotPitch()) * 1.67 + 0.5, 0.0), 1.0)
 	z = 0
 
 	zRot = myo.rotYaw()
@@ -33,9 +33,9 @@ def getChange(edge):
 	hand = ""
 	h = myo.getArm()
 	if (h == "left"): 
-		hand = "L"
-	elif (h == "right"):
 		hand = "R"
+	elif (h == "right"):
+		hand = "L"
 	else:
 		hand = "unknown"
 
