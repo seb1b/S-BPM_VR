@@ -244,7 +244,7 @@ class Layer(PASSProcessModelElement):
 		@author
 		"""
 		if(not isinstance(behaviorToRemove, Behavior)):
-			raise Exception("BehaviorToRemove must be of type Behavior!")
+			raise Exception("BehaviorToRemove must be of type Behavior! Actual item: {}".format(behaviorToRemove))
 		for a in self.activeComponents:
 			if(isinstance(a, Actor) and (a.hasBehavior is behaviorToRemove)):
 				a.hasBehavior = None
