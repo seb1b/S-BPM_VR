@@ -51,5 +51,13 @@ class MetaContent(Resource):
 		else:
 			return Resource.getAttrMultiplicity(self, attributeName)
 
+	def fireChangeEvent(self, attrName = None):
+		if(self._fireChangeEvents):
+			#Also fire a change event for the class that owns the abstract visual representation to make the use for the view more easy
+			parentObject = self.getParent(None, 1)
+			if(parentObject is not None):
+				parentObject.fireChangeEvent("hasMetaContent")
+			Resource.fireChangeEvent(self, attrName)
+
 
 

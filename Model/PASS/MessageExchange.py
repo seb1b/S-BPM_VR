@@ -64,3 +64,8 @@ class MessageExchange(PASSProcessModelElement):
 			return AttributeMultiplicity.UNIQUE
 		else:
 			return PASSProcessModelElement.getAttrMultiplicity(self, attributeName)
+
+	def _shallowAttr(self):
+		result = PASSProcessModelElement._shallowAttr(self)
+		result.append("hasType")
+		return result;

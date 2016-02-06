@@ -37,26 +37,26 @@ def buildHelper(manager, model):
 	test = deepcopy(subject2)
 	subject2.hasBehavior.hasState[0].setMetaContent("test", 1)
 	test.hasBehavior.hasState[0].setMetaContent("test", 2)
-	print(subject2.hasBehavior.hasState[0].getMetaContent("test"))
-	print(test.hasBehavior.hasState[0].getMetaContent("test"))
+	#print(subject2.hasBehavior.hasState[0].getMetaContent("test"))
+	#print(test.hasBehavior.hasState[0].getMetaContent("test"))
 	print("==================================")
 
-	print("==================================")
-	test = layer.duplicateActiveProcessComponent(subject2)
-	subject2.hasBehavior.hasState[0].label.append("Test1")
-	test.hasBehavior.hasState[0].label.append("Test2")
-	print(subject2.hasBehavior.hasState[0].label)
-	print(test.hasBehavior.hasState[0].label)
-	print("==================================")
-	print(test.hasBehavior)
+	#print("==================================")
+	#test = layer.duplicateActiveProcessComponent(subject2)
+	#subject2.hasBehavior.hasState[0].label.append("Test1")
+	#test.hasBehavior.hasState[0].label.append("Test2")
+	#print(subject2.hasBehavior.hasState[0].label)
+	#print(test.hasBehavior.hasState[0].label)
+	#print("==================================")
+	#print(test.hasBehavior)
 
 	test2 = test.hasBehavior.duplicateState(test.hasBehavior.hasState[0])
 
 
 def changeListener(obj, attrName):
 	global i
-	print(("==> Object changed: " + str(obj) + " with attribute " + str(attrName) + "!"))
-	print(("==> Parent: " + str(obj.getParent()) + "!"))
+	#print(("==> Object changed: " + str(obj) + " with attribute " + str(attrName) + "!"))
+	#print(("==> Parent: " + str(obj.getParent()) + "!"))
 	i += 1
 
 
