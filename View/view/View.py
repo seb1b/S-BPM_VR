@@ -430,6 +430,7 @@ class View():
 			child.destroy()
 		self.object_dict.clear()
 		self.message_dict.clear()
+		self.elements.clear()
 		#setup path tool
 		self.ptool = VR.Pathtool()
 		self.ptool.setHandleGeometry(self.HANDLE)
