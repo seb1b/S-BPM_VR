@@ -1178,14 +1178,13 @@ class View():
 		return None
 
 	def connect(self, message):
-		self.log.info('connect')
+		self.log.info('View: connect - sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label')
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
 		s = self.message_dict[message][0]
 		r = self.message_dict[message][1]
 		assert s is not None and r is not None, "sender and receiver must not be None"
-		print 'sender :', self.object_dict[s].label, 'receiver: ', self.object_dict[r].label
 		s_pos = s.getFrom()
 		m_pos = message.getFrom()
 		r_pos = r.getFrom()
@@ -1266,8 +1265,8 @@ class View():
 				#mes_pos handle top
 				m_dir_2 = [0, -1]
 				
-		print 's', s_dir, 'm_1', m_dir_1, 'm_2', m_dir_2, 'r', r_dir
-		print 's', s_dir, 'm_1', m_dir_1, 'm_2', m_dir_2, 'r', r_dir
+		self.log.debug("View:", 's_pos', s_pos, 'm_pos', m_pos, 'r_pos', r_pos)
+		self.log.debug("View:", 's_dir', s_dir, 'm_dir_1', m_dir_1, 'm_dir_2', m_dir_2, 'r_dir', r_dir)
 		
 		'''	
 		sender_pos = s.getFrom()
