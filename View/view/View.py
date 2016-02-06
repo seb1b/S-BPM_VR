@@ -1170,81 +1170,82 @@ class View():
 		r_pos = r.getFrom()
 
 		#calc directions
-		s_dir = [0.0, 0.0]
-		m_dir_1 = [0.0, 0.0]
-		m_dir_2 = [0.0, 0.0]
-		r_dir = [0.0, 0.0]
+		s_dir = [0, 0]
+		m_dir_1 = [0, 0]
+		m_dir_2 = [0, 0]
+		r_dir = [0, 0]
 		#calc handel start_pos and mid_pos
 		if s_pos[0] < m_pos[0]:
 			#start_pos handle right
-			s_dir = [-1.0, 0.0]
+			s_dir = [-1, 0]
 			if s_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_1 = [0.0, 1.0]
+				m_dir_1 = [0, 1]
 			elif s_pos[1] == m_pos[1]:
 				#mes_pos handle left
-				m_dir_1 = [1.0, 0.0]
+				m_dir_1 = [1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_1 = [0.0, -1.0]
+				m_dir_1 = [0, -1]
 		elif s_pos[0] == m_pos[0]:
 			#start_pos handle middle
 			if s_pos[1] < m_pos[1]:
 				#start_pos middle top
-				m_dir_1 = [0.0, 1.0]
-				s_dir = [0.0, -1.0]
+				m_dir_1 = [0, 1]
+				s_dir = [0, -1]
 			else:
 				#start_pos middle bottom
-				m_dir_1 = [0.0, -1.0]
-				s_dir = [0.0, 1.0]
+				m_dir_1 = [0, -1]
+				s_dir = [0, 1]
 		else:
 			#start_pos handle left
-			s_dir = [1.0, 0.0]
+			s_dir = [1, 0]
 			if s_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_1 = [0.0, 1.0]
+				m_dir_1 = [0, 1]
 			elif s_pos[1] == m_pos[1]:
 				#mes_pos handle right
-				m_dir_1 = [-1.0, 0.0]
+				m_dir_1 = [-1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_1 = [0.0, -1.0]
+				m_dir_1 = [0, -1]
 		#calc handel end_pos and mid_pos
 		if r_pos[0] < m_pos[0]:
 			#end_pos handle right
-			r_dir = [-1.0, 0.0]
+			r_dir = [-1, 0]
 			if r_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_2 = [0.0, 1.0]
+				m_dir_2 = [0, 1]
 			elif r_pos[1] == m_pos[1]:
 				#mes_pos handle left
-				m_dir_2 = [1.0, 0.0]
+				m_dir_2 = [1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_2 = [0.0, -1.0]
+				m_dir_2 = [0, -1]
 		elif r_pos[0] == m_pos[0]:
 			#end_pos handle middle
 			if r_pos[1] < m_pos[1]:
 				#end_pos middle top
-				m_dir_2 = [0.0, 1.0]
-				r_dir = [0.0, -1.0]
+				m_dir_2 = [0, 1]
+				r_dir = [0, -1]
 			else:
 				#start_pos middle bottom
-				m_dir_2 = [0.0, -1.0]
-				r_dir = [0.0, 1.0]
+				m_dir_2 = [0, -1]
+				r_dir = [0, 1]
 		else:
 			#end_pos handle left
-			r_dir = [1.0, 0.0]
-			if s_pos[1] < m_pos[1]:
+			r_dir = [1, 0]
+			if r_pos[1] < m_pos[1]:
 				#mes_pos handle bottom
-				m_dir_2 = [0.0, 1.0]
-			elif s_pos[1] == m_pos[1]:
+				m_dir_2 = [0, 1]
+			elif r_pos[1] == m_pos[1]:
 				#mes_pos handle right
-				m_dir_2 = [-1.0, 0.0]
+				m_dir_2 = [-1, 0]
 			else:
 				#mes_pos handle top
-				m_dir_2 = [0.0, -1.0]
-		
+				m_dir_2 = [0, -1]
+				
+		print 's', s_dir, 'm_1', m_dir_1, 'm_2', m_dir_2, 'r', r_dir
 		print 's', s_dir, 'm_1', m_dir_1, 'm_2', m_dir_2, 'r', r_dir
 		
 		'''	
@@ -1289,21 +1290,19 @@ class View():
 
 		#print "draw_line: ", s, " => ", r
 
-		#set path to sender
+		#set path from sender
 		m_paths = []
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
-		#handles[0].setFrom(s_dir[0] * self.OBJECT_SCALE[0] * 1.3, s_dir[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[0].setFrom(0, 0, 0)
+		handles[0].setFrom(-s_dir[0] * self.OBJECT_SCALE[0] * 1.3, -s_dir[1] * self.OBJECT_SCALE[0] * 1.3, 0)
+		handles[0].setUp(-20 * s_dir[1], s_dir[0], 0.0)
 		handles[0].setPickable(False)
-		handles[0].setDir(s_dir[0], s_dir[1], 0.0)
 		s.addChild(handles[0])
-		#handles[1].setFrom(m_dir_1[0] * self.OBJECT_SCALE[0] * 1.3, m_dir_1[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[1].setFrom(0, 0, 0)
+		handles[1].setFrom(-m_dir_1[0] * self.OBJECT_SCALE[0] * 0.6, -m_dir_1[1] * self.OBJECT_SCALE[1] * 0.6, 0)
+		handles[1].setUp(-20 * m_dir_1[1], m_dir_1[0], 0.0)
 		handles[1].setPickable(False)
-		handles[1].setDir(m_dir_1[0], m_dir_1[1], 0.0)
 		message.addChild(handles[1])
 		
 		'''
@@ -1341,18 +1340,16 @@ class View():
 		VR.ptool.extrude(None, self.paths[-1])
 		handles = VR.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 3, "invalid number of handles"
-		#handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 1.3, -m_dir_2[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[0].setFrom(0, 0, 0)
+		handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 0.6, -m_dir_2[1] * self.OBJECT_SCALE[0] * 0.6, 0)
+		handles[0].setUp(-20 * m_dir_2[1], m_dir_2[0], 0.0)
 		handles[0].setPickable(False)
-		handles[0].setDir(m_dir_2[0], m_dir_2[1], 0.0)
 		message.addChild(handles[0])
 		handles[1].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 2, -r_dir[1] * self.OBJECT_SCALE[1] * 2, 0)
-		#handles[1].setFrom(0, 0, 0)
+		handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
 		handles[1].setPickable(False)
-		#handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
 		handles[2].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 1.3, -r_dir[1] * self.OBJECT_SCALE[1] * 1.3, 0)
-		handles[2].setPickable(False)
 		handles[2].setUp(-20 * r_dir[1], r_dir[0], 0.0)
+		handles[2].setPickable(False)
 		handle_arrow = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
 		handle_arrow.setScale(0.7, 0.7, 0.7)
 		#handle_arrow = copy.deepcopy(self.HANDLE_ARROW)
