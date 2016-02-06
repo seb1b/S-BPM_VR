@@ -595,27 +595,41 @@
 				padding: 10px;
 				background-color: white;
 				font-family: NeouBold;
+				color: #3692d3;
 			}
 			
-			.dataDiv{				
-				background: #ffffff;
+			.dataDiv{
 				width: 100%;
 				height: 100%;
 			}
 			
 			.cellKey{
-				font-weight: bold;
+				#font-weight: bold;
 				width: 20%;
 			}
 			
 			.cellValue{
-				font-style: italic;
+				#font-style: italic;
 				width: 80%;
 			}
 			
 			table {
 				border-collapse: collapse;
 				width: 100%;
+				border-style: solid;
+				border-color: #000000;
+				border-width: 0px;
+				font-size: 50px;
+			}
+			
+			.editable {
+				border-style: solid;
+				border-color: #3692d3;
+				border-width: 0px;
+			}
+			
+			.editable:hover {
+				border-width: 1px;
 			}
 			
 			td {
@@ -623,17 +637,19 @@
 			}
 			
 			tr {
-				height: 60px;
+				height: 50px;
 			}
-				
-			table, th, td {
-				border: 1px solid black;
+			
+			#heading {
+				font-size: 60px;
 			}
+			
 		&lt;/style&gt;
 		&lt;title&gt;Metadata&lt;/title&gt;
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="dataDiv"&gt;
+			
 			&lt;h1 id="heading"&gt;
 				&lt;!-- will be filled by javascript depending on URI params --&gt;
 			&lt;/h1&gt;
@@ -644,74 +660,136 @@
 			&lt;/table&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
-	&lt;script&gt;	
+	&lt;script&gt;
+		function Heading(value, editable) {
+			this.value = value;
+			this.editable = editable;
+			this.editIcon = null;
+			this.text = null;
+			
+			var self = this;
+			
+			//View this element
+			this.displayElement = function(parent) {
+				if(this.editable) {
+					this.editIcon = document.createElement("img");
+					this.editIcon.setAttribute("src", "img/edit.png");
+					this.editIcon.setAttribute("style", "float: left; width: 60px; height: 60px; padding: 5px;");
+					parent.appendChild(this.editIcon);
+				}
+				this.text = document.createElement("div");
+				this.text.textContent = this.value;
+				if(this.editable) {
+					this.text.setAttribute('contenteditable', 'true');
+					this.text.addEventListener('click', self.click, false);
+					this.text.addEventListener('blur', self.blur, false);
+					this.text.setAttribute("class", "editable");
+					this.editIcon.addEventListener('click', self.click, false);
+				}
+				parent.appendChild(this.text);
+			};
+			
+			this.click = function(event) {
+				//Set color
+				self.text.style.backgroundColor = "#FFF90D";
+				self.text.focus();
+			};
+			
+			this.blur = function(event) {
+				var newText = self.text.textContent.trim() || self.text.innerText.trim(); 
+				if(newText != value) {
+					websocket.send("metaContent[id] -&gt; sbpm_label: '" + self.value + "' -&gt; '" + newText + "'");
+					alert("metaContent[sbpm_label] changed: '" + self.value + "' -&gt; '" + newText + "'");
+					self.value = newText;
+				}
+				self.text.style.backgroundColor = "transparent";
+				console.log(self);
+			};
+		}
+	
+		function MetaContentPair(key, value) {
+			this.key = key;
+			this.value = value;
+			this.row = null;
+			this.keyCol = null;
+			this.valueCol = null;
+			var self = this;
+			
+			//View this element
+			this.displayElement = function(parentTable) {
+				this.row = parentTable.insertRow(parentTable.rows.length - 1);
+				this.keyCol = this.row.insertCell(0);
+				this.keyCol.innerHTML = this.key;
+				this.keyCol.setAttribute("class", "cellKey");
+				this.valueCol = this.row.insertCell(1);
+				this.valueCol.innerHTML = this.value;
+				this.valueCol.addEventListener('click', self.click, false);
+				this.valueCol.addEventListener('blur', self.blur, false);
+				this.valueCol.setAttribute('contenteditable','true');
+				this.valueCol.setAttribute("class", "editable cellValue");
+			};
+			
+			this.click = function(event) {
+				//Set color
+				self.valueCol.style.backgroundColor = "#FFF90D";
+			};
+			
+			this.blur = function(event) {
+				console.log(self.valueCol.innerHTML);
+				var newText = self.valueCol.textContent.trim() || self.valueCol.innerText.trim(); 
+				if(newText != value) {
+					websocket.send("metaContent[id] -&gt; " + self.key + ": '" + self.value + "' -&gt; '" + newText + "'");
+					alert("metaContent[" + self.key + "] changed: '" + self.value + "' -&gt; '" + newText + "'");
+					self.value = newText;
+				}
+				self.valueCol.style.backgroundColor = "transparent";
+				console.log(self);
+			};
+		}
+	
+	
 		// Create websocket for communication with python code
 		var websocket = new WebSocket('ws://localhost:5500');			
 		
-		// Get params from URI
-		var QueryString = function () {			
-			var query_string = {};
-			var query = window.location.search.substring(1);
-			var vars = query.split("&amp;");
-			for (var i=0;i&lt;vars.length;i++) {
-				var pair = vars[i].split("=");
-				query_string[i] = pair;
-			} 
-			return query_string;
-		}();
-		
-		// Set label as heading
-		var labelHeading = document.getElementById('heading');
-		labelHeading.appendChild(document.createTextNode(QueryString[0][1]));
+		// Interprete the query
+		var search = window.location.search.substring(1);
+		var params = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&amp;/g, '","').replace(/=/g,'":"') + '"}')
 		
 		// Add cells depending on params from URI
 		var tableRef = document.getElementById('metaTable').getElementsByTagName('tbody')[0];
-		// set metadata
-		for(i = 1; i &lt; Object.keys(QueryString).length; i = i + 1) {	
-			var newRow   = tableRef.insertRow(tableRef.rows.length);
-			var newCellKey  = newRow.insertCell(-1);
-			var newCellValue  = newRow.insertCell(-1);
-			newCellKey.appendChild(document.createTextNode(QueryString[i][0]));
-			newCellKey.setAttribute('class','cellKey');
-			newCellValue.appendChild(document.createTextNode(QueryString[i][1]));				
-			newCellValue.setAttribute('id','cellValue' + (i));
-			newCellValue.setAttribute('class','cellValue');
-			newCellValue.setAttribute('contenteditable','true');
-		}
-
-		
-		// Add EventListeners to cells
-		cells = document.querySelectorAll("[id^=cellValue]")
-		var oldValue = "";
-		var newValue = "";
-		
-		for(var i = 0; i &lt; cells.length; i++) {
-			// Save value before editing
-			cells[i].addEventListener('click', function(event) {
-				targetElement = event.target || event.srcElement;
-				oldValue = targetElement.textContent.trim() || targetElement.innerText.trim();
-				targetElement.style.backgroundColor = "yellow";
-				console.log("hi");
-			}, false);
-			
-			// Get new value and send change if necessary
-			cells[i].addEventListener('blur', function(event) {
-				targetElement = event.target || event.srcElement;
-				key = targetElement.previousSibling.textContent || targetElement.previousSibling.innerText;
-				newValue = targetElement.textContent.trim() || targetElement.innerText.trim(); 
-				while(targetElement.hasChildNodes()) {
-						targetElement.removeChild(targetElement.firstChild);					
-					}
-				targetElement.appendChild(document.createTextNode(newValue));
-				if(oldValue != newValue) {
-					websocket.send("metaContent[" + "id" + "] -&gt; " + targetElement.id + ": '" + oldValue + "' -&gt; '" + newValue + "'");
-					alert("metaContent[" + key + "] changed: '" + oldValue + "' -&gt; '" + newValue + "'");
+		var headingRef = document.getElementById('heading');
+		for (var key in params) {
+			//Check whether it is a special parameter
+			if(key.lastIndexOf("sbpm_") == 0) {
+				if(key == "sbpm_label") {
+					//Set the label here
+					var label = new Heading(params[key], true);
+					label.displayElement(headingRef);
+				} else if(key == "sbpm_noEditLabel") {
+					var label = new Heading(params[key], false);
+					label.displayElement(headingRef);
 				}
-				targetElement.style.backgroundColor = "transparent";
-			}, false);
+			} else {
+				var meta = new MetaContentPair(key, params[key]);
+				meta.displayElement(tableRef);
+			}
 		}
+		
 	&lt;/script&gt;	
 &lt;/html&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
 </core>
     </Script>
     <Script name_suffix="0" base_name="pika_update" name_space="__script__" type="Python" mobile="">
