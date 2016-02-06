@@ -1179,29 +1179,32 @@ class View():
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				elif attr == 'label':  # name changed
-					self.refresh_annotation_engine_entry(object)
-				#TODO meta data changed
-				children = poly_obj.getChildren()
-				if len(object.hasMetaContent) == 0:
+					if len(object.label) == 0:
+						label = ''
+					else:
+						label = object.label[0]
+					poly_obj.getChildren()[4].setText(label)
+				elif attr == 'hasMetaContent':
+					#TODO meta data changed
+					children = poly_obj.getChildren()
+					
 					for i, c in enumerate(children):
 						if c.isVisible():
-							if i == 0:
+							if i == 0 or i == 1:
 								c.setVisible(False)
-								children[2].setVisible(True)
-							elif i == 2:
+								if len(object.hasMetaContent) == 0:
+									children[0].setVisible(True)
+								else:
+									children[1].setVisible(True)
+							elif i == 2 or i == 3:
 								c.setVisible(False)
-								children[0].setVisible(True)
+								if len(object.hasMetaContent) == 0:
+									children[2].setVisible(True)
+								else:
+									children[3].setVisible(True)
 							break
 				else:
-					for i, c in enumerate(children):
-						if c.isVisible():
-							if i == 1:
-								c.setVisible(False)
-								children[3].setVisible(True)
-							elif i == 3:
-								c.setVisible(False)
-								children[1].setVisible(True)
-							break
+					print 'Invalid attribute in on_change'
 
 		elif isinstance(self.cur_scene, PASS.Behavior) and (isinstance(object, PASS.State) or isinstance(object, PASS.TransitionEdge)):
 			if not isinstance(object, PASS.Behavior) and not object in self.object_dict:  # create new layer object
@@ -1240,12 +1243,36 @@ class View():
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
-				if attr == 'hasVisualRepresentation':  # position changed
+				if attr == 'hasAbstractVisualRepresentation':  # position changed
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				elif attr == 'label':  # name changed
-					self.refresh_annotation_engine_entry(object)
-				#TODO meta data changed
+					if len(object.label) == 0:
+						label = ''
+					else:
+						label = object.label[0]
+					poly_obj.getChildren()[4].setText(label)
+				elif attr == 'hasMetaContent':
+					#TODO meta data changed
+					children = poly_obj.getChildren()
+					
+					for i, c in enumerate(children):
+						if c.isVisible():
+							if i == 0 or i == 1:
+								c.setVisible(False)
+								if len(object.hasMetaContent) == 0:
+									children[0].setVisible(True)
+								else:
+									children[1].setVisible(True)
+							elif i == 2 or i == 3:
+								c.setVisible(False)
+								if len(object.hasMetaContent) == 0:
+									children[2].setVisible(True)
+								else:
+									children[3].setVisible(True)
+							break
+				else:
+					print 'Invalid attribute in on_change'
 		elif isinstance(self.cur_scene, PASS.Layer) or isinstance(self.cur_scene, PASS.Behavior):
 			self.log.info("Ignoring weird on_change object: {}".format(object))
 		else:
