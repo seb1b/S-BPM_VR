@@ -223,8 +223,8 @@ class View():
 		self.layer_add_site = VR.CEF()
 		self.layer_add_site.setMaterial(self.layer_add_plane.getMaterial())
 		self.layer_add_site.open('http://localhost:5500/layerAdd')
-		self.layer_add_site.setResolution(512)
-		self.layer_add_site.setAspectRatio(4)
+		self.layer_add_site.setResolution(1024)
+		self.layer_add_site.setAspectRatio(6)
 
 		self.layer_add_plane.setVisible(False)
 		self.edit_node.addChild(self.layer_add_plane)
@@ -690,6 +690,7 @@ class View():
 			i = i + 1
 			if(i != len(metaKeys)):
 				params = params + '&'
+		print params
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
