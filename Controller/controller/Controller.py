@@ -19,7 +19,7 @@ class Controller:
 		ch = logging.StreamHandler(sys.stdout)
 		ch.setLevel(logging.WARNING)
 		#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-		formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
+		formatter = logging.Formatter('%(asctime)s.%(msecs)03d - {%(pathname)s:%(lineno)d} %(levelname)s: %(message)s','%H:%M:%S')
 		ch.setFormatter(formatter)
 		self.log.addHandler(ch)
 
@@ -63,6 +63,9 @@ class Controller:
 		return False
 		
 	def _update_selected_object(self, obj):
+		if obj is not None and not isinstance(obj, PASS.PASSProcessModelElement):
+			self.log.warning("Ignoring select on object {}".format(obj))
+			return
 		if self.selected_object is not None and isinstance(self.selected_object, PASS.PASSProcessModelElement):
 			if not self.view.set_highlight(self.selected_object, False):
 				self.log.warning("Deselecting object {} failed".format(self.selected_object))
@@ -237,7 +240,7 @@ class Controller:
 					self.log.info("Unimportant object returned on press(): {}".format(obj))
 
 				self._update_selected_object(obj)
-				self.log.debug("Setting new pressed_object: {}".format(obj))
+				self.log.info("Setting new pressed_object: {}".format(obj))
 				self.pressed_object = obj
 				self.pressed_is_left = is_left
 				self.drag_position = pos
@@ -283,7 +286,7 @@ class Controller:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_is_left == is_left and self.pressed_user_id == user_id:
 				# CASE: some object was released -> drag or select?
-				assert self.pressed_object is self.selected_object
+				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
 				self.released_object = self.pressed_object
 				self.pressed_object = None
 				self.pressed_user_id = None
@@ -391,7 +394,7 @@ class Controller:
 		if self.view is not None:
 			assert self.current_model is not None
 			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
-				assert self.pressed_object is self.selected_object
+				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
 				if not isinstance(self.pressed_object, View.MenuBar):
 					assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
 					self.log.info("Moving object to {}".format(pos))

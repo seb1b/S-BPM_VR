@@ -129,9 +129,9 @@ class View():
 		VR.view_root.addChild(self.HANDLE_ARROW)
 
 		#setup pathtool
-		VR.ptool = VR.Pathtool()
-		#VR.ptool.setHandleGeometry(self.HANDLE_ARROW)
-		VR.ptool.setHandleGeometry(self.HANDLE)
+		self.ptool = VR.Pathtool()
+		#self.ptool.setHandleGeometry(self.HANDLE_ARROW)
+		self.ptool.setHandleGeometry(self.HANDLE)
 
 		#setup offsets
 		#screen
@@ -431,9 +431,9 @@ class View():
 		self.object_dict.clear()
 		self.message_dict.clear()
 		#setup path tool
-		VR.ptool = VR.Pathtool()
-		VR.ptool.setHandleGeometry(self.HANDLE)
-		VR.ptool.getPathMaterial().setDiffuse(0,0,0)
+		self.ptool = VR.Pathtool()
+		self.ptool.setHandleGeometry(self.HANDLE)
+		self.ptool.getPathMaterial().setDiffuse(0,0,0)
 		#setup annotation engine
 		self.annotation_index = 1
 		self.annotation_engine = VR.AnnotationEngine('annotation_engine')
@@ -992,7 +992,7 @@ class View():
 		VR.view_root.addChild(transition_node)
 
 	def on_change(self, object, attr):
-		self.log.info('on_change')
+		self.log.info('on_change: obj: {} attr: {}'.format(object, attr))
 		if isinstance(self.cur_scene, PASS.Layer) and (isinstance(object, PASS.Layer) or isinstance(object, PASS.Subject) \
 				or isinstance(object, PASS.ExternalSubject) or isinstance(object, PASS.MessageExchange)):
 			if not isinstance(object, PASS.Layer) and not object in self.object_dict:  # create new layer object
@@ -1008,6 +1008,7 @@ class View():
 					list_of_elements = object.hasModelComponent
 					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
 					element_to_delete = set(self.elements) - set(list_of_elements)
+					element_to_delete = list(element_to_delete)
 					assert len(element_to_delete) < 2, "More than one element to delete"
 					if len(element_to_delete) == 1:
 						if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
@@ -1042,7 +1043,7 @@ class View():
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
-				if attr == 'hasVisualRepresentation':  # position changed
+				if attr == 'hasAbstractVisualRepresentation':  # position changed
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 				elif attr == 'label':  # name changed
@@ -1113,9 +1114,11 @@ class View():
 				elif attr == 'label':  # name changed
 					self.refresh_annotation_engine_entry(object)
 				#TODO meta data changed
+		elif isinstance(self.cur_scene, PASS.Layer) or isinstance(self.cur_scene, PASS.Behavior):
+			self.log.info("Ignoring weird on_change object: {}".format(object))
 		else:
-			print 'VIEW ERROR: self.cur_scene must be of type Layer or Behavior'	
-	
+			self.log.warning('VIEW ERROR: self.cur_scene must be of type Layer or Behavior but is: {}'.format(self.cur_scene))
+
 	def _get_attached_message(self, subject):
 		print 'object', subject
 		poly_sub = self.object_dict[subject]
@@ -1233,9 +1236,9 @@ class View():
 		#set all paths
 		m_paths = []
 		#set path sender -> mid
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(start_dir[0], start_dir[1], 0.0)
 		handles[0].setPickable(False)
@@ -1247,9 +1250,9 @@ class View():
 		mid_1.addChild(handles[1])
 		
 		#set path mid -> message
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(mes_dir[0], mes_dir[1], 0.0)
 		handles[0].setPickable(False)
@@ -1261,9 +1264,9 @@ class View():
 		message.addChild(handles[1])
 
 		#set path message -> mid
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(mes_dir[0], mes_dir[1], 0.0)
 		handles[0].setPickable(False)
@@ -1275,9 +1278,9 @@ class View():
 		mid_2.addChild(handles[1])
 		
 		#set path mid -> receiver
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setDir(end_dir[0], end_dir[1], 0.0)
 		handles[0].setPickable(False)
@@ -1289,7 +1292,7 @@ class View():
 		r.addChild(handles[1])
 
 		self.message_dict[message][2] = m_paths
-		VR.ptool.update()
+		self.ptool.update()
 
 	def connect_refresh(self, message):
 		print 'Refresh paths'
@@ -1447,9 +1450,9 @@ class View():
 
 		#set path to sender
 		m_paths = []
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setFrom(0, 0, 0)
 		handles[0].setPickable(False)
@@ -1461,9 +1464,9 @@ class View():
 		message.addChild(handles[1])
 
 		#set path to receiver
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
+		self.paths.append(self.ptool.newPath(None, VR.view_root))
 		m_paths.append(self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
+		handles = self.ptool.getHandles(self.paths[-1])
 		assert len(handles) == 2, "invalid number of handles"
 		handles[0].setFrom(0, 0, 0)
 		handles[0].setPickable(False)
@@ -1478,15 +1481,15 @@ class View():
 		r.addChild(handles[1])
 		
 		self.message_dict[message][2] = m_paths
-		VR.ptool.update()
+		self.ptool.update()
 
 	def set_message_line(self, user_id, set_line):
 		print "drawing line"
 		if set_line:
 			if self.new_message_path is not None:
 				return
-			self.paths.append(VR.ptool.newPath(None, VR.view_root))
-			handles = VR.ptool.getHandles(self.paths[-1])
+			self.paths.append(self.ptool.newPath(None, VR.view_root))
+			handles = self.ptool.getHandles(self.paths[-1])
 			assert len(handles) == 2, "invalid number of handles"
 			handles[0].setPickable(False)
 			handles[0].setFrom(0, 0, 0)
@@ -1495,11 +1498,11 @@ class View():
 			handles[1].setPickable(False)
 			VR.view_user_cursors[user_id][1].getBeacon().addChild(handles[1])
 			self.new_message_path = self.paths[-1]
-			VR.ptool.update()
+			self.ptool.update()
 		else:
 			if self.new_message_path is not None:
 				print 'delete'
-				VR.ptool.remPath(self.new_message_path)
+				self.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
 				print "Warning: no message path to be deleted..."
