@@ -858,10 +858,23 @@ class View():
 			subject_node.getChildren()[0].setVisible(True)
 		else:
 			subject_node.getChildren()[1].setVisible(True)
+		
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(pass_sub.label) == 0:
+			label = ''
+		else:
+			label = pass_sub.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		subject_node.addChild(sprite)
+		
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
-		self._create_annotation_engine_entry(pass_sub)
-		VR.view_root.addChild(subject_node)
+		VR.view_root.addChild(subject_node) 
+		#VR.view_root.addChild(sprite)
 
 	def _create_message(self, pass_mes):
 		assert isinstance(pass_mes, PASS.MessageExchange)
@@ -887,10 +900,22 @@ class View():
 			message_node.getChildren()[0].setVisible(True)
 		else:
 			message_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(pass_mes.label) == 0:
+			label = ''
+		else:
+			label = pass_mes.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		message_node.addChild(sprite)
+		
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
-		self._create_annotation_engine_entry(pass_mes)
 		self.connect(message_node)
 		VR.view_root.addChild(message_node)
 
@@ -917,9 +942,21 @@ class View():
 			subject_node.getChildren()[0].setVisible(True)
 		else:
 			subject_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(pass_exsub.label) == 0:
+			label = ''
+		else:
+			label = pass_exsub.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		subject_node.addChild(sprite)
+		
 		self.object_dict[pass_exsub] = subject_node
 		self.object_dict[subject_node] = pass_exsub
-		self._create_annotation_engine_entry(pass_exsub)
 		VR.view_root.addChild(subject_node)
 
 	def _create_function_state(self, state):
@@ -946,9 +983,21 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(state.label) == 0:
+			label = ''
+		else:
+			label = state.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		state_node.addChild(sprite)
+		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_send_state(self, state):
@@ -974,9 +1023,21 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(state.label) == 0:
+			label = ''
+		else:
+			label = state.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		state_node.addChild(sprite)
+		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_receive_state(self, state):
@@ -1002,9 +1063,21 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(state.label) == 0:
+			label = ''
+		else:
+			label = state.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		state_node.addChild(sprite)
+		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_transition_edge(self, edge):
@@ -1031,11 +1104,23 @@ class View():
 			transition_node.getChildren()[0].setVisible(True)
 		else:
 			transition_node.getChildren()[1].setVisible(True)
+			
+		# create label
+		sprite = VR.Sprite('label')
+		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		if len(edge.label) == 0:
+			label = ''
+		else:
+			label = edge.label[0]
+		sprite.setSize(0.1 * len(label), 0.1)
+		#print 'label', label
+		sprite.setText(label)
+		transition_node.addChild(sprite)
+		
 		self.object_dict[edge] = transition_node
 		self.object_dict[transition_node] = edge
 		self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
 		self.connect(transition_node)
-		self._create_annotation_engine_entry(edge)
 		VR.view_root.addChild(transition_node)
 
 	def on_change(self, object, attr):
@@ -1322,35 +1407,6 @@ class View():
 		handles[1].setUp(-20 * m_dir_1[1], m_dir_1[0], 0.0)
 		handles[1].setPickable(False)
 		message.addChild(handles[1])
-		
-		'''
-		#set path to receiver
-		self.paths.append(VR.ptool.newPath(None, VR.view_root))
-		m_paths.append(self.paths[-1])
-		#VR.ptool.extrude(None, self.paths[-1])
-		handles = VR.ptool.getHandles(self.paths[-1])
-		assert len(handles) == 2, "invalid number of handles"
-		#handles[0].setFrom(-m_dir_2[0] * self.OBJECT_SCALE[0] * 1.3, -m_dir_2[1] * self.OBJECT_SCALE[0] * 1.3, 0)
-		handles[0].setFrom(0, 0, 0)
-		handles[0].setPickable(False)
-		handles[0].setDir(m_dir_2[0], m_dir_2[1], 0.0)
-		message.addChild(handles[0])
-		#handles[1].setUp(0,1,0)
-		handles[1].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 1.3, -r_dir[1] * self.OBJECT_SCALE[1] * 1.3, 0)
-		#handles[1].setFrom(0, 0, 0)
-		handles[1].setPickable(False)
-		handles[1].setUp(-20 * r_dir[1], r_dir[0], 0.0)
-		#handles[2].setUp(0,1,0)
-		#handles[2].setFrom(-r_dir[0] * self.OBJECT_SCALE[0] * 1.3, -r_dir[1] * self.OBJECT_SCALE[1] * 1.3, 0)
-		#handles[2].setPickable(False)
-		#handles[2].setUp(-20 * r_dir[1], r_dir[0], 0.0)
-		handle_arrow = VR.loadGeometry(self.BLENDER_PATHS['arrow_tip'])
-		handle_arrow.setScale(0.7, 0.7, 0.7)
-		#handle_arrow = self.HANDLE_ARROW
-		#handle_arrow.getParent().setColors(195, 100, 20)
-		handles[1].addChild(handle_arrow)
-		r.addChild(handles[1])
-		'''
 
 		#set path to receiver
 		self.paths.append(VR.ptool.newPath(None, VR.view_root))
