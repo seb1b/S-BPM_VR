@@ -148,8 +148,10 @@
 			
 			body {
 				margin: 0;
-				border-style: none;
-				border-width: 2px;
+				border-right-style: solid;
+				border-top-style: solid;
+				border-width: 1px;
+				border-color: #b0b0b0;
 				padding: 10px;
 				background-color: white;
 				font-family: NeouBold;
@@ -175,7 +177,7 @@
 				text-align: center;
 				vertical-align: middle;
 				font-size: 16px; 
-				font-size: 3vw;
+				font-size: 2.5vw;
 			}
 
 			div:first-child:nth-last-child(1) {
@@ -210,9 +212,9 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="addDiv"&gt;
-			&lt;div id="functionState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/fState.png)"&gt;Function&lt;br/&gt;State&lt;/div&gt;
-			&lt;div id="receiveState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/rState.png)"&gt;Receive&lt;br/&gt;State&lt;/div&gt;
-			&lt;div id="sendState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/sState.png)"&gt;Send&lt;br/&gt;State&lt;/div&gt;
+			&lt;div id="functionState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/fState.png)"&gt;Function State&lt;/div&gt;
+			&lt;div id="receiveState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/rState.png)"&gt;Receive State&lt;/div&gt;
+			&lt;div id="sendState" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/sState.png)"&gt;Send State&lt;/div&gt;
 			&lt;div id="transition" class="addItemsDiv" onclick="clickFunction(this)" style="background-image: url(img/transition.png)"&gt;Transition&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
@@ -333,12 +335,25 @@
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
+			@font-face {
+				font-family: NeouBold;
+				src: url("fonts/Neou-Bold.otf");
+			}
+			
+			@font-face {
+				font-family: NeouThin;
+				src: url("fonts/Neou-Thin.otf")
+			}
+			
 		    body {
 				margin: 0;
-				border-style: none;
-				border-width: 2px;
+				border-right-style: solid;
+				border-top-style: solid;
+				border-width: 1px;
+				border-color: #b0b0b0;
 				padding: 10px;
 				background-color: white;
+				font-family: NeouBold;
 			}
 		
 			.editDiv{
@@ -348,6 +363,8 @@
 				height: 100%;
 				min-height: 100px;
 				display: table;
+				font-size: 16px;
+				font-size: 2.5vw;
 			}
 
 			.button{
@@ -391,10 +408,10 @@
 	&lt;/head&gt;
 	&lt;body&gt;		
 		&lt;div class="editDiv"&gt;
-			&lt;button id="delete" class="button" onclick="clickFunction(this)" style="background-image: url(img/delete.png)"&gt;&lt;/button&gt;
+			&lt;button id="delete" class="button" onclick="clickFunction(this)" style="background-image: url(img/delete.png)"&gt;Delete&lt;/button&gt;
 			&lt;!-- &lt;button id="edit" class="button" onclick="clickFunction(this)" style="background-image: url(img/edit.png)"&gt;&lt;/button&gt; --&gt;
-			&lt;button id="copy" class="button" onclick="clickFunction(this)" style="background-image: url(img/copy.png)"&gt;&lt;/button&gt;
-			&lt;button id="cancel" class="button" onclick="clickFunction(this)" style="background-image: url(img/cancel.png)"&gt;&lt;/button&gt;
+			&lt;button id="copy" class="button" onclick="clickFunction(this)" style="background-image: url(img/copy.png)"&gt;Copy&lt;/button&gt;
+			&lt;button id="cancel" class="button" onclick="clickFunction(this)" style="background-image: url(img/cancel.png)"&gt;Cancel&lt;/button&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
@@ -456,10 +473,12 @@
 				src: url("fonts/Neou-Thin.otf")
 			}
 		
-			body {
+			body {				
 				margin: 0;
-				border-style: none;
-				border-width: 2px;
+				border-right-style: solid;
+				border-top-style: solid;
+				border-width: 1px;
+				border-color: #b0b0b0;
 				padding: 10px;
 				background-color: white;
 				font-family: NeouBold;
@@ -484,6 +503,7 @@
 				display: table-cell;
 				text-align: center;				
 				vertical-align: bottom;
+				font-size: 16px;
 				font-size: 2.5vw;
 			}
 
@@ -568,8 +588,10 @@
 			
 			body {
 				margin: 0;
-				border-style: none;
-				border-width: 2px;
+				border-left-style: solid;
+				border-bottom-style: solid;
+				border-width: 1px;
+				border-color: #b0b0b0;
 				padding: 10px;
 				background-color: white;
 				font-family: NeouBold;
