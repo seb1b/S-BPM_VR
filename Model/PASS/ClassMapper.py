@@ -88,6 +88,13 @@ class ClassMapper(object):
 		return ClassMapper.DEFAULT_CLASS
 		
 	def getClassResource(self, className):
+		"""
+		 Returns the resource uri name that should be associated with the given class name.
+
+		@param string className : The name of the class the uri is requested for
+		@return string : uri string
+		@author
+		"""
 		#To prevent resources from having another type
 		if(className == "Resource"):
 			return None

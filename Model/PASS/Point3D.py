@@ -53,13 +53,14 @@ class Point3D(Resource):
 		
 		
 	def fireChangeEvent(self, attrName = None):
-		#Also fire a change event for the class that owns the abstract visual representation to make the use for the view more easy
-		abstractVisualRepresentation = self.getParent(None, 1)
-		if(abstractVisualRepresentation is not None):
-			owner = abstractVisualRepresentation.getParent(None, 1)
-			if(owner is not None):
-				owner.fireChangeEvent("hasAbstractVisualRepresentation")
-		Resource.fireChangeEvent(self, attrName)
+		if(self._fireChangeEvents):
+			#Also fire a change event for the class that owns the abstract visual representation to make the use for the view more easy
+			abstractVisualRepresentation = self.getParent(None, 1)
+			if(abstractVisualRepresentation is not None):
+				owner = abstractVisualRepresentation.getParent(None, 1)
+				if(owner is not None):
+					owner.fireChangeEvent("hasAbstractVisualRepresentation")
+			Resource.fireChangeEvent(self, attrName)
 
 
 

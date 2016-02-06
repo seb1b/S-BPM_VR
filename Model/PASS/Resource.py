@@ -1,6 +1,7 @@
 import RDF
 
 from ListenerList import *
+from copy import deepcopy
 
 class Resource(object):
 
@@ -122,7 +123,7 @@ class Resource(object):
 			if(not hasattr(self, "type")):
 				self.type = ListenerList([], self, "type")
 			ownClassUri = self.modelManager.classMapper.getClassResource(type(self).__name__)
-			#Does not work because they are of type resource
+			#Do this typing stuff and check if the type is not a resource
 			found = False
 			for r in self.type:
 				try:
@@ -346,6 +347,67 @@ class Resource(object):
 		"""
 		
 		return self.modelManager.getParent(self, classType, recursionDepth)
+		
+		
+	def __copy__(self):
+		#Create the new class
+		classType = self.__class__
+		result = classType.__new__(classType)
+		#Make a shallow copy of the dictionary
+		result.__dict__.update(self.__dict__)
+		return result
+		
+	def __deepcopy__(self, memo):
+		#Create the new class
+		classType = self.__class__
+		result = classType.__new__(classType)
+		memo[id(self)] = result
+		
+		#Register at model manager
+		self.modelManager.registerResource(result)
+		
+		#Problems may arise here with change listener, so just ignore it and set it later on
+		result._fireChangeEvents = False
+		tmpChangeEvent = False
+		
+		#Load all variable names that should no be deepcopied
+		shallowAttr = self._shallowAttr();
+		#Start deepcopy of whole dictionary
+		for k, v in self.__dict__.items():
+			if(k != "_fireChangeEvents"):
+				if k in shallowAttr:
+					setattr(result, k, v)
+				elif k in self._uniqueAttr():
+					setattr(result, k, self._uniqueAttr()[k])
+				else:
+					setattr(result, k, deepcopy(v, memo))
+			else:
+				tmpChangeEvent = v
+		
+		#Now set the change event to the right resource and potentially fire it
+		result._fireChangeEvents = tmpChangeEvent
+		if(result._fireChangeEvents == True):
+			result.fireChangeEvent()
+		return result
+		
+	def _shallowAttr(self):
+		"""
+		Returns a list of attribute names as a string that should not be deepcopied
+		
+		@return  :
+		@author
+		"""
+		return ["_modelManager"];
+		
+	def _uniqueAttr(self):
+		"""
+		Returns a dictionary of attribute names as keys and undef as values that replace the new value
+		
+		@return  :
+		@author
+		"""
+		return {}
+
 
 
 

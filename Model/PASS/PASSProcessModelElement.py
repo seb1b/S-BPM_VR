@@ -82,7 +82,6 @@ class PASSProcessModelElement(Resource):
 		
 	@property
 	def uri(self):
-		#ToDo: Nachher rausnehmen
 		return self.modelManager.getBaseUri() + "#" + type(self).__name__ + "-" + self.hasComponentID
 		
 	@uri.setter
@@ -177,6 +176,11 @@ class PASSProcessModelElement(Resource):
 				#Stop deleting if we only want to delete the first occurence
 				if(onlyFirst):
 					break
-
+					
+	
+	def _uniqueAttr(self):
+		result = {}
+		result["hasComponentID"] = randomXMLName()
+		return result
 
 

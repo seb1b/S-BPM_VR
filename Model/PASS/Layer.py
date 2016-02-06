@@ -10,6 +10,7 @@ from PASSProcessModel import *
 from AttributeMultiplicity import *
 from ListenerList import *
 from ActiveProcessComponent import *
+from copy import deepcopy
 
 import math
 
@@ -250,6 +251,18 @@ class Layer(PASSProcessModelElement):
 				a.hasBehavior = None
 				print("WARNING! Behavior was removed that belonged to a subject!")
 		self.hasModelComponent.remove(behaviorToRemove)
+		
+	def duplicateActiveProcessComponent(self, component):
+		"""
+		 Duplicates a given active process component and adds it again to this layer.
+
+		@param ActiveProcessComponent component : The component to duplicate.
+		@return  :
+		@author
+		"""
+		result = deepcopy(component)
+		self.hasModelComponent.append(result)
+		return result
 		
 	def getBoundingBox2D(self):
 		"""

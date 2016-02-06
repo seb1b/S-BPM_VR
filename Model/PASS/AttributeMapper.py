@@ -78,7 +78,7 @@ class AttributeMapper(object):
 		else:
 			#Get the appendix of the attribute mapping
 			newAttrName = uri.split("/")[-1]
-			#ToDo: Use regex here
+			#Mayber better to use regex here?
 			newAttrName = newAttrName.split("#")[-1]
 			#Now check if the attribute already exists in the mapping set
 			while(newAttrName in self._attributeMapping):

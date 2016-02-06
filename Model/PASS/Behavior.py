@@ -208,7 +208,19 @@ class Behavior(PASSProcessModelElement):
 			if(eState is state):
 				#Set to initial state
 				eState.type.append(initState)
-				
+	
+	def duplicateState(self, state):
+		"""
+		 Duplicates a given state and adds it again to this behavior.
+
+		@param State state : The state to duplicate.
+		@return  :
+		@author
+		"""
+		result = deepcopy(state)
+		self.hasState.append(result)
+		return result
+	
 	def getBoundingBox2D(self):
 		"""
 		 Returns the bounding box of all state elements in their 2D coordinate system.
