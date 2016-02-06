@@ -651,14 +651,19 @@ class View():
 
 	def _create_url_params_from_object(self, obj):
 		self.log.info('create_url_params_from_metacontent')
-
-		label = ''
-		for l in obj.label:
-			label = label + l
-		if len(label) == 0:
-			#label = 'Layer'
-			pass
-		params = 'label=' + str(label) + '&'
+		
+		label_key = 'sbpm_label'
+		label_value = ''
+		if isinstance(obj, PASS.Layer):
+			label_value = 'Layer'
+			label_key = 'sbpm_noEditLabel'
+		elif isinstance(obj, PASS.Behavior):				
+			label_value = 'Behavior'
+			label_key = 'sbpm_noEditLabel'
+		elif len(obj.label) > 0:
+			label_value = obj.label[0]
+		
+		params = label_key + '=' + label_value + '&'
 		metaKeys = obj.getMetaKeys()
 		i = 0
 		while i < len(metaKeys):
@@ -666,7 +671,7 @@ class View():
 			i = i + 1
 			if(i != len(metaKeys)):
 				params = params + '&'
-		print params
+		print 'parameter website', params
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
