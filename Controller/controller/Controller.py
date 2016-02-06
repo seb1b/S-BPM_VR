@@ -618,12 +618,32 @@ class Controller:
 		#	self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
-		file_path = "/tmp/temp_model.owl"
-		self.models[file_path] = PASS.ModelManager()
 		self.view = View()
-		self.current_model = self.models[file_path]
-		self.current_model.addChangeListener(self.view.on_change)
-		# TODO: init model
+		self.current_model = None
+
+		# Format: [InitScreenEntry, InitScreenEntry, ...]
+		model_files = []
+
+		files = []
+
+		for dirpath, _, filenames in os.walk("./pass_models/"):
+			for f in filenames:
+				files.append(os.path.join(dirpath, f))
+
+		self.log.info("Files: {}".format(files))
+
+		for fi in [f for f in files if f.endswith(".owl")]:
+			basename = os.path.basename(fi)
+			dispname = os.path.splitext(basename)[0]
+			image_file_name = "{}{}".format(os.path.splitext(fi)[0], ".png")
+			self.log.info("Searching for logo file {}".format(image_file_name))
+			if image_file_name not in files:
+				image_file_name = "IMI_LOGO.png"
+			t = View.InitScreenEntry(dispname, fi, image_file_name)
+			self.log.info("Appending to model files list: {}".format(t.__str__()))
+			model_files.append(t)
+
+		self.view.show_init_screen(model_files)
 
 
 if __name__ == "__main__":

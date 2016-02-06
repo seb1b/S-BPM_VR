@@ -12,6 +12,15 @@ class View():
 		def __init__(self, name):
 			self.name = name
 
+	class InitScreenEntry():
+		def __init__(self, display_name, file_name, image_file_name):
+			self.display_name = display_name
+			self.file_name = file_name
+			self.image_file_name = image_file_name
+
+		def __str__(self):
+			return "InitScreenEntry: {}, {}, {}".format(self.display_name, self.file_name, self.image_file_name)
+
 	def __init__(self):
 		self.log = logging.getLogger()
 		#self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
@@ -1392,3 +1401,11 @@ class View():
 		#transformation
 		assert len(local_pos) == 2, "local_pos must have a length of 2"
 		return [(local_pos[0] - 0.5) * self.scale_x + VR.cam.getFrom()[0], (local_pos[1] - 0.5) * self.scale_y + VR.cam.getFrom()[1]]
+
+	def show_init_screen(self, init_list):
+		self.log.info("show_init_screen({})".format(init_list))
+		for i in init_list:
+			assert isinstance(i, self.InitScreenEntry)
+
+		# TODO: show items on screen
+		pass
