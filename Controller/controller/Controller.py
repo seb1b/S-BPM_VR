@@ -542,7 +542,7 @@ class Controller:
 				self.log.debug("Inactive user {} trying to move_model".format(user_id))
 				return None
 			# normalize to [-1,1]
-			self.view.move_scene([pos[0] * 2.0 - 1.0, (1 - pos[1]) * 2.0 - 1.0])
+			self.view.move_scene([pos[0] * 2.0 - 1.0, pos[1] * 2.0 - 1.0])
 
 		return None
 
