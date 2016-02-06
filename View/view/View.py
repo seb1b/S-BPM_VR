@@ -397,7 +397,7 @@ class View():
 		self.start_page_plane.setVisible(False)
 		# show menus
 		self.meta_plane.setVisible(True)
-		params = self.create_url_params_from_metacontent(self.cur_scene)
+		params = self._create_url_params_from_object(self.cur_scene)
 		self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		self.navigation_plane.setVisible(True)
 		for c in self.edit_node.getChildren():
@@ -474,7 +474,7 @@ class View():
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
 
-	def create_annotation_engine_entry(self, subject):
+	def _create_annotation_engine_entry(self, subject):
 		assert subject is not None, "create_annotation_engine_entry given subject has not to be None"
 		text = ''
 		for t in subject.label:
@@ -641,7 +641,7 @@ class View():
 			self.edit_node.getChildren()[2].setVisible(True)
 			pass
 			# set edit gui element
-			params = self.create_url_params_from_metacontent(obj)
+			params = self._create_url_params_from_object(obj)
 			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[0].isVisible() is True:
@@ -663,7 +663,7 @@ class View():
 				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
 
 			#set metaContent on gui element meta to parent
-			params = self.create_url_params_from_metacontent(self.cur_scene)
+			params = self._create_url_params_from_object(self.cur_scene)
 			self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 
 			if children[2].isVisible() is True:
@@ -676,12 +676,14 @@ class View():
 				return True
 		return False
 
-	def create_url_params_from_metacontent(self, obj):
+	def _create_url_params_from_object(self, obj):
 		self.log.info('create_url_params_from_metacontent')
 
 		label = ''
 		for l in obj.label:
 			label = label + l
+		if len(label) == 0:
+			#label = 'Layer'
 		params = 'label=' + str(label) + '&'
 		metaKeys = obj.getMetaKeys()
 		i = 0
@@ -814,7 +816,7 @@ class View():
 			subject_node.getChildren()[1].setVisible(True)
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
-		self.create_annotation_engine_entry(pass_sub)
+		self._create_annotation_engine_entry(pass_sub)
 		VR.view_root.addChild(subject_node)
 
 	def _create_message(self, pass_mes):
@@ -844,7 +846,7 @@ class View():
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
-		self.create_annotation_engine_entry(pass_mes)
+		self._create_annotation_engine_entry(pass_mes)
 		self.connect(message_node)
 		VR.view_root.addChild(message_node)
 
@@ -873,7 +875,7 @@ class View():
 			subject_node.getChildren()[1].setVisible(True)
 		self.object_dict[pass_exsub] = subject_node
 		self.object_dict[subject_node] = pass_exsub
-		self.create_annotation_engine_entry(pass_exsub)
+		self._create_annotation_engine_entry(pass_exsub)
 		VR.view_root.addChild(subject_node)
 
 	def _create_function_state(self, state):
@@ -902,7 +904,7 @@ class View():
 			state_node.getChildren()[1].setVisible(True)
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self.create_annotation_engine_entry(state)
+		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_send_state(self, state):
@@ -930,7 +932,7 @@ class View():
 			state_node.getChildren()[1].setVisible(True)
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self.create_annotation_engine_entry(state)
+		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_receive_state(self, state):
@@ -958,7 +960,7 @@ class View():
 			state_node.getChildren()[1].setVisible(True)
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
-		self.create_annotation_engine_entry(state)
+		self._create_annotation_engine_entry(state)
 		VR.view_root.addChild(state_node)
 
 	def _create_transition_edge(self, edge):
@@ -989,7 +991,7 @@ class View():
 		self.object_dict[transition_node] = edge
 		self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
 		self.connect(transition_node)
-		self.create_annotation_engine_entry(edge)
+		self._create_annotation_engine_entry(edge)
 		VR.view_root.addChild(transition_node)
 
 	def on_change(self, object, attr):
