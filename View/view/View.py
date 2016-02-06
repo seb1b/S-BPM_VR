@@ -428,7 +428,7 @@ class View():
 		elif isinstance(cur_scene, PASS.Behavior):  # is instance of Pass.Behavior
 			self.edit_node.getChildren()[1].setVisible(True)
 		else:
-			print 'set_cur_scene neither layer nor behavior'
+			self.log.info('set_cur_scene neither layer nor behavior')
 
 		##VR.cam.addChild(self.active_gui_element) #TODO
 		#self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
@@ -484,7 +484,7 @@ class View():
 			for edge in edges:
 				self._create_transition_edge(edge)
 		else:
-			print 'Failed to load current scene: has to be level or behavior'
+			self.log.info('Failed to load current scene: has to be level or behavior')
 
 	def zoom(self, level):
 		self.log.info('zoom')
@@ -540,8 +540,8 @@ class View():
 		cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
 		cursor_container_right.addChild(cursor_right_open)
 		cursor_container_right.addChild(cursor_right_closed)
-		print "cursor container right", cursor_container_right.getChildren()
-		print "cursor container left", cursor_container_left.getChildren()
+		#print "cursor container right", cursor_container_right.getChildren()
+		#print "cursor container left", cursor_container_left.getChildren()
 		VR.cam.addChild(cursor_container_right)
 		
 		VR.view_user_cursors[user_id] = {}
@@ -552,8 +552,8 @@ class View():
 		mydev_l.addIntersection(VR.view_root)
 		mydev_r = VR.Device('mydev')
 		mydev_r.setBeacon(cursor_container_right)
-		print "cursor container right", mydev_r.getBeacon().getChildren()
-		print "cursor container left", mydev_l.getBeacon().getChildren()
+		#print "cursor container right", mydev_r.getBeacon().getChildren()
+		#print "cursor container left", mydev_l.getBeacon().getChildren()
 		mydev_r.addIntersection(self.edit_node)
 		mydev_r.addIntersection(self.meta_plane)
 		mydev_r.addIntersection(VR.view_root)
@@ -570,7 +570,7 @@ class View():
 		VR.view_user_positions[user_id] = {}
 		VR.view_user_positions[user_id][True] = [0, 0, 0]
 		VR.view_user_positions[user_id][False] = [0, 0, 0]
-		print 'init new user done'	
+		self.log.info('init new user done')
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		self.log.debug('move_cursor')
@@ -633,7 +633,7 @@ class View():
 			elif isinstance(self.cur_scene, PASS.Behavior):
 				self.edit_node.getChildren()[1].setVisible(True)
 			else:
-				print 'ERROR (view): Current scene neither of type Layer nor Behavior'
+				self.log.error('ERROR (view): Current scene neither of type Layer nor Behavior')
 
 			#set metaContent on gui element meta to parent
 			params = self._create_url_params_from_object(self.cur_scene)
@@ -671,7 +671,7 @@ class View():
 			i = i + 1
 			if(i != len(metaKeys)):
 				params = params + '&'
-		print 'parameter website', params
+		self.log.info('parameter website {}'.format(params))
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
@@ -729,24 +729,24 @@ class View():
 		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
-			print 'View tags: ', tags, 'name: ', i.getName(), 'id:', i.getID(), i
+			self.log.info( 'View tags: {} name: {} id {} {}'.format(tags, i.getName(), i.getID(), i))
 			if i.hasTag('edit'):
-				print 'view: edit'
+				self.log.info('view: edit')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['edit']
 			elif i.hasTag('meta'):
-				print 'view: meta'
+				self.log.info('view: meta')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['meta']
 			elif i.hasTag('layer_add'):
-				print 'view: layer_add'
+				self.log.info('view: layer_add')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['layer_add']
 			elif i.hasTag('behavior_add'):
-				print 'view: behavior_add'
+				self.log.info('view: behavior_add')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['behavior_add']
@@ -756,15 +756,13 @@ class View():
 				
 				p = i.getParent().getParent().getParent()
 				if p.hasTag('obj'):
-					#print 'Object found', p
 					return self.object_dict[p]
 				elif i.hasTag('obj'):
-					#print 'Object found', i
 					return self.object_dict[i]
 				else:
-					print 'No valid intersected object in get_object'
+					self.log.info('No valid intersected object in get_object')
 		else:
-			print 'No intersection. Empty space clicked.'
+			self.log.info('No intersection. Empty space clicked.')
 		return None
 
 	def rotate(self, degrees):
@@ -1073,7 +1071,7 @@ class View():
 				elif isinstance(object, PASS.ExternalSubject):
 					self._create_external_subject(object)
 			elif isinstance(object, PASS.Layer):
-				print 'onchange layer'
+				self.log.info('onchange layer')
 				if attr == "hasModelComponent":
 					list_of_elements = object.hasModelComponent
 					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
@@ -1109,7 +1107,7 @@ class View():
 							self.elements.remove(element_to_delete[0])
 							poly_obj.destroy()
 					else:
-						print 'Skip, Element added.'
+						self.log.info('Skip, Element added.')
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
@@ -1142,7 +1140,7 @@ class View():
 									children[3].setVisible(True)
 							break
 				else:
-					print 'Invalid attribute in on_change'
+					self.log.info('Invalid attribute in on_change')
 
 		elif isinstance(self.cur_scene, PASS.Behavior) and (isinstance(object, PASS.State) or isinstance(object, PASS.TransitionEdge)):
 			if not isinstance(object, PASS.Behavior) and not object in self.object_dict:  # create new layer object
@@ -1155,7 +1153,7 @@ class View():
 				elif isinstance(object, PASS.TransitionEdge):
 					self._create_transition_edge(object)
 			elif isinstance(object, PASS.Behavior):
-				print 'onchange behavior'
+				self.log.info('onchange behavior')
 				if attr == "hasModelComponent":
 					list_of_elements = object.hasModelComponent
 					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
@@ -1177,7 +1175,7 @@ class View():
 							del self.message_dict[poly_obj]
 							poly_obj.destroy()
 					else:
-						print 'Skip, Element added.'
+						self.log.info('Skip, Element added.')
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
@@ -1210,18 +1208,18 @@ class View():
 									children[3].setVisible(True)
 							break
 				else:
-					print 'Invalid attribute in on_change'
+					self.log.info('Invalid attribute in on_change')
 		elif isinstance(self.cur_scene, PASS.Layer) or isinstance(self.cur_scene, PASS.Behavior):
 			self.log.info("Ignoring weird on_change object: {}".format(object))
 		else:
 			self.log.warning('VIEW ERROR: self.cur_scene must be of type Layer or Behavior but is: {}'.format(self.cur_scene))
 
 	def _get_attached_message(self, subject):
-		print 'object', subject
+		self.log.info('object {}'.format(subject))
 		poly_sub = self.object_dict[subject]
 		for i in self.message_dict:
 			if self.message_dict[i][0] is poly_sub or self.message_dict[i][1] is poly_sub:
-				print 'attached message', i
+				self.log.info('attached message {}'.format(i))
 				return i
 		return None
 
@@ -1401,7 +1399,7 @@ class View():
 		VR.ptool.update()
 
 	def set_message_line(self, user_id, set_line):
-		print "drawing line"
+		self.log.info("drawing line")
 		if set_line:
 			if self.new_message_path is not None:
 				return
@@ -1418,11 +1416,11 @@ class View():
 			VR.ptool.update()
 		else:
 			if self.new_message_path is not None:
-				print 'delete'
+				self.log.info('delete')
 				VR.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
-				print "Warning: no message path to be deleted..."
+				self.log.info("Warning: no message path to be deleted...")
 
 	def local_to_world_2d(self, local_pos):
 		#transformation
