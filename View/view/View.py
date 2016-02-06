@@ -54,7 +54,6 @@ class View():
 		self.BLENDER_PATHS['subject_meta_highlight'] = '../../View/Blender/Prozess/Subjekt_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['message'] = '../../View/Blender/Prozess/Message.dae'
 		self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/Message_Hashtag.dae'
-		#self.BLENDER_PATHS['message_meta'] = '../../View/Blender/Prozess/TEST_Message_Hashtag.dae'
 		self.BLENDER_PATHS['message_highlight'] = '../../View/Blender/Prozess/Message_Highlight.dae'
 		self.BLENDER_PATHS['message_meta_highlight'] = '../../View/Blender/Prozess/Message_Highlight_Hashtag.dae'
 		self.BLENDER_PATHS['external_subject'] = '../../View/Blender/Prozess/Sub.dae'
@@ -81,13 +80,15 @@ class View():
 		self.BLENDER_PATHS['closed_hand_left'] = '../../View/Blender/Cursor/Closed_Hand_Left.dae'
 		self.BLENDER_PATHS['open_hand_right'] = '../../View/Blender/Cursor/Open_Hand_Right.dae'
 		self.BLENDER_PATHS['closed_hand_right'] = '../../View/Blender/Cursor/Closed_Hand_Right.dae'
-		self.BLENDER_PATHS['pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae'
-		self.BLENDER_PATHS['pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae'
+		self.BLENDER_PATHS['open_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae'
+		self.BLENDER_PATHS['closed_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae' #TODO
+		self.BLENDER_PATHS['open_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae'
+		self.BLENDER_PATHS['closed_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae' #TODO
 		self.BLENDER_PATHS['arrow_tip'] = '../../View/Blender/Pfeil/Pfeil.dae'
 
 		self.PLANE_SIZE = 0.4
 		self.OBJECT_SCALE = [0.4, 0.4, 0.4]
-		self.TEXT_SIZE = 0.05
+		self.TEXT_SIZE = 0.5
 		self.BORDER_ANGLE = 0.005
 
 		self.HANDLE = VR.Geometry('handle')
@@ -139,6 +140,14 @@ class View():
 		self.cam_navigation.setAt(self.camera_at)
 		self.cam_navigation.setDir(self.camera_dir)
 		self.cam_navigation.setFov(self.camera_fov)
+		
+		#setup cursors
+		if not hasattr(VR, 'view_user_cursors'):
+			VR.view_user_cursors = {}
+		if not hasattr(VR, 'view_user_colors'):
+			VR.view_user_colors = {}
+		if not hasattr(VR, 'view_user_positions'):
+			VR.view_user_positions = {}
 
 		#setup pathtool
 		VR.ptool = VR.Pathtool()
@@ -560,84 +569,75 @@ class View():
 		return level
 		
 	def add_new_user(self, user_id, is_active):
+		self.log.info('add_new_user({}, {})'.format(user_id, is_active))
 		assert len(VR.view_user_cursors) < self.MAX_USERS
 		
+		VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
+		cursor_container_left = VR.Transform('Cursor_Container_Left')
+		cursor_container_left.addTag(str([user_id, True]))
+		cursor_container_left.setFrom(0.3, 0, self.CURSOR_DIST)
 		if is_active:
-			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
-			cursor_container_left = VR.Transform('Cursor_Container_Left')
-			cursor_container_left.addTag(str([user_id, True]))
-			cursor_container_left.setFrom(0.3, 0, self.CURSOR_DIST)
 			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
-			cursor_left_open.setFrom(0, 0, 0)
-			cursor_left_open.setVisible(True)
-			cursor_left_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
 			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
-			cursor_left_closed.setFrom(0, 0, 0)
-			cursor_left_closed.setVisible(False)
-			cursor_left_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			cursor_container_left.addChild(cursor_left_open)
-			cursor_container_left.addChild(cursor_left_closed)
-			VR.cam.addChild(cursor_container_left)
-			cursor_container_right = VR.Transform('Cursor_Container_Right')
-			cursor_container_right.addTag(str([user_id, False]))
-			cursor_container_right.setFrom(1.5, 0, self.CURSOR_DIST)
 			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
-			cursor_right_open.setFrom(0, 0, 0)
-			cursor_right_open.setVisible(True)
-			cursor_right_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			#cursor_right.setColors([VR.view_user_colors[user_id]])
 			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
-			cursor_right_closed.setFrom(0, 0, 0)
-			cursor_right_closed.setVisible(False)
-			cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			cursor_container_right.addChild(cursor_right_open)
-			cursor_container_right.addChild(cursor_right_closed)
-			print "cursor container right", cursor_container_right.getChildren()
-			print "cursor container left", cursor_container_left.getChildren()
-			VR.cam.addChild(cursor_container_right)
-			
-			VR.view_user_cursors[user_id] = {}
-			mydev_l = VR.Device('mydev')
-			mydev_l.setBeacon(cursor_container_left)
-			mydev_l.addIntersection(self.edit_node)
-			mydev_l.addIntersection(self.meta_plane)
-			mydev_l.addIntersection(VR.view_root)
-			mydev_r = VR.Device('mydev')
-			mydev_r.setBeacon(cursor_container_right)
-			print "cursor container right", mydev_r.getBeacon().getChildren()
-			print "cursor container left", mydev_l.getBeacon().getChildren()
-			mydev_r.addIntersection(self.edit_node)
-			mydev_r.addIntersection(self.meta_plane)
-			mydev_r.addIntersection(VR.view_root)
-			self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
-			self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
-			self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
-			self.meta_site.addMouse(mydev_r, self.meta_plane, 0, 2, 3, 4)
-			self.layer_add_site.addMouse(mydev_l, self.layer_add_plane, 0, 2, 3, 4)
-			self.layer_add_site.addMouse(mydev_r, self.layer_add_plane, 0, 2, 3, 4)
-			self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
-			self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
-			VR.view_user_cursors[user_id][True] = mydev_l
-			VR.view_user_cursors[user_id][False] = mydev_r
-			VR.view_user_positions[user_id] = {}
-			VR.view_user_positions[user_id][True] = [0, 0, 0]
-			VR.view_user_positions[user_id][False] = [0, 0, 0]
-			print 'init new active user done'
 		else:
-			VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
-			pointer_left = VR.loadGeometry(self.BLENDER_PATHS['pointer_left'])
-			pointer_left.addTag(str([user_id, True]))
-			pointer_left.setFrom(0.3, 0, self.CURSOR_DIST)
-			pointer_left.setVisible(True)
-			pointer_left.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			VR.cam.addChild(pointer_left)
-			pointer_right = VR.loadGeometry(self.BLENDER_PATHS['pointer_right'])
-			pointer_right.addTag(str([user_id, False]))
-			pointer_right.setFrom(1.5, 0, self.CURSOR_DIST)
-			pointer_right.setVisible(True)
-			pointer_right.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-			VR.cam.addChild(pointer_right)
-			print 'init new passive user done'			
+			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_left'])
+			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_left'])
+			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_right'])
+			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_right'])
+		cursor_left_open.setFrom(0, 0, 0)
+		cursor_left_open.setVisible(True)
+		cursor_left_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])	
+		cursor_left_closed.setFrom(0, 0, 0)
+		cursor_left_closed.setVisible(False)
+		cursor_left_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+		cursor_container_left.addChild(cursor_left_open)
+		cursor_container_left.addChild(cursor_left_closed)
+		VR.cam.addChild(cursor_container_left)
+		cursor_container_right = VR.Transform('Cursor_Container_Right')
+		cursor_container_right.addTag(str([user_id, False]))
+		cursor_container_right.setFrom(1.5, 0, self.CURSOR_DIST)		
+		cursor_right_open.setFrom(0, 0, 0)
+		cursor_right_open.setVisible(True)
+		cursor_right_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+		#cursor_right.setColors([VR.view_user_colors[user_id]])		
+		cursor_right_closed.setFrom(0, 0, 0)
+		cursor_right_closed.setVisible(False)
+		cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
+		cursor_container_right.addChild(cursor_right_open)
+		cursor_container_right.addChild(cursor_right_closed)
+		print "cursor container right", cursor_container_right.getChildren()
+		print "cursor container left", cursor_container_left.getChildren()
+		VR.cam.addChild(cursor_container_right)
+		
+		VR.view_user_cursors[user_id] = {}
+		mydev_l = VR.Device('mydev')
+		mydev_l.setBeacon(cursor_container_left)
+		mydev_l.addIntersection(self.edit_node)
+		mydev_l.addIntersection(self.meta_plane)
+		mydev_l.addIntersection(VR.view_root)
+		mydev_r = VR.Device('mydev')
+		mydev_r.setBeacon(cursor_container_right)
+		print "cursor container right", mydev_r.getBeacon().getChildren()
+		print "cursor container left", mydev_l.getBeacon().getChildren()
+		mydev_r.addIntersection(self.edit_node)
+		mydev_r.addIntersection(self.meta_plane)
+		mydev_r.addIntersection(VR.view_root)
+		self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
+		self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
+		self.meta_site.addMouse(mydev_l, self.meta_plane, 0, 2, 3, 4)
+		self.meta_site.addMouse(mydev_r, self.meta_plane, 0, 2, 3, 4)
+		self.layer_add_site.addMouse(mydev_l, self.layer_add_plane, 0, 2, 3, 4)
+		self.layer_add_site.addMouse(mydev_r, self.layer_add_plane, 0, 2, 3, 4)
+		self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
+		self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
+		VR.view_user_cursors[user_id][True] = mydev_l
+		VR.view_user_cursors[user_id][False] = mydev_r
+		VR.view_user_positions[user_id] = {}
+		VR.view_user_positions[user_id][True] = [0, 0, 0]
+		VR.view_user_positions[user_id][False] = [0, 0, 0]
+		print 'init new user done'	
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		self.log.debug('move_cursor')
@@ -646,12 +646,6 @@ class View():
 		assert isinstance(user_id, int)
 		pos_ws = [(pos_ws[0] - 0.5) * self.scale_cursor_x, (pos_ws[1] - 0.5) * self.scale_cursor_y, self.CURSOR_DIST]
 		#print 'View: pos_ws: ', pos_ws
-		if not hasattr(VR, 'view_user_cursors'):
-			VR.view_user_cursors = {}
-		if not hasattr(VR, 'view_user_colors'):
-			VR.view_user_colors = {}
-		if not hasattr(VR, 'view_user_positions'):
-			VR.view_user_positions = {}
 
 		cursor = next((c for c in VR.cam.getChildren() if c.hasTag(str([user_id, is_left]))), None)
 		assert cursor is not None
