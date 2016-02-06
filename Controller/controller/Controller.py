@@ -34,6 +34,7 @@ class Controller:
 		self.current_model = None
 		self.view = None
 
+		self.users = []
 		self.active_users = []
 
 		self.press_position = {}
@@ -56,6 +57,7 @@ class Controller:
 		self.hw_main = VRHardware(self)
 
 	def _check_active_users(self, user_id):
+		assert user_id in self.users
 		if user_id in self.active_users:
 			return True
 		if user_id not in self.active_users and len(self.active_users) < self.MAX_ACTIVE_USERS:
@@ -63,7 +65,13 @@ class Controller:
 			self.active_users.append(user_id)
 			return True
 		return False
-		
+
+	def _check_user(self, user_id):
+		if user_id not in self.users:
+			self.users.append(user_id)
+			is_active = self._check_active_users(user_id)
+			self.view.add_new_user(user_id, is_active)
+
 	def _update_selected_object(self, obj):
 		if obj is not None and not isinstance(obj, PASS.PASSProcessModelElement):
 			self.log.warning("Ignoring select on object {}".format(obj))
@@ -227,6 +235,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			self.view.press(user_id, is_left)  # show closed hand in view
 			obj = self.view.get_object(user_id, is_left)
 			if obj is not None and self.pressed_user_id is None and self._check_active_users(user_id):
@@ -287,6 +296,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_is_left == is_left and self.pressed_user_id == user_id:
 				# CASE: some object was released -> drag or select?
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
@@ -396,6 +406,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
 				if not isinstance(self.pressed_object, View.MenuBar):
@@ -425,6 +436,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to zoom".format(user_id))
 				return None
@@ -455,6 +467,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			print(("Controller level: {}".format(self.view.current_zoom_level())))
 			i = 1000
 			while self.view.current_zoom_level() > 10 and i > 0:
@@ -495,6 +508,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to fade_in".format(user_id))
 				return None
@@ -538,6 +552,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to move_model".format(user_id))
 				return None
