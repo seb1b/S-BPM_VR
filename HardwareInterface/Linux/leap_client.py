@@ -97,7 +97,6 @@ class SampleListener(Leap.Listener):
                 handtype = "L" if hand.is_left else "R"
 
 
-
                 # Use handpalm
                 current_handpalm_position_x = str(box.normalize_point(hand.palm_position).x)
                 current_handpalm_position_y = str(box.normalize_point(hand.palm_position).y)

@@ -160,8 +160,12 @@ class VRHardware():
 				#print xyz
 				if (hand_type == 'L') :
 					xyz[0] += self.leap_offset_hand
+					if(xyz[0]  > 1.0):
+						xyz[0]= 1.0
 				else :
 					xyz[0] -= self.leap_offset_hand
+					if(xyz[0]  < 0.0):
+						xyz[0]= 0.0
 				if gesture == self.leap_move:
 					self.controller.move_model(xyz, user_id)
 
