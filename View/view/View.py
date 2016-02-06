@@ -108,7 +108,6 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
-		self.annotation_dict = {}  # key: object, 1. entry: list(index)
 		self.elements = []
 
 		#stores user_id and corresponding color
@@ -457,16 +456,6 @@ class View():
 		VR.ptool.setHandleGeometry(self.HANDLE)
 		VR.ptool.getPathMaterial().setDiffuse(self.PATH_COLOR, self.PATH_COLOR, self.PATH_COLOR)
 		VR.ptool.getPathMaterial().setTransparency(0.8)
-		#setup annotation engine
-		self.annotation_index = 1
-		self.annotation_engine = VR.AnnotationEngine('annotation_engine')
-		VR.view_root.addChild(self.annotation_engine)
-		self.annotation_engine.setColor([0, 0, 0, 1])
-		self.annotation_engine.setPickable(False)
-		self.annotation_engine.setBackground([255, 255, 255, 1])
-		self.annotation_engine.setSize(self.TEXT_SIZE)
-		self.annotation_engine.setScale([1, 1, 1])
-		#VR.view_root.addChild(self.HANDLE_ARROW)
 
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
@@ -496,62 +485,6 @@ class View():
 				self._create_transition_edge(edge)
 		else:
 			print 'Failed to load current scene: has to be level or behavior'
-
-	def _create_annotation_engine_entry(self, subject):
-		assert subject is not None, "create_annotation_engine_entry given subject has not to be None"
-		text = ''
-		for t in subject.label:
-			text = text + t
-		split = text.split(' ')
-		index_list = []
-		for s in split:
-			index_list.append(split.index(s) + self.annotation_index)
-		self.annotation_dict[subject] = index_list
-		#print 'annotation: index_list create', index_list, split
-		for i in index_list:
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
-		self.annotation_index = self.annotation_index + len(index_list)
-		
-	def _refresh_annotation_engine_entry_pos(self, subject):
-		assert subject is not None, "refresh_annotation_engine_entry given subject has not to be None"
-		text = ''
-		for t in subject.label:
-			text = text + t
-		split = text.split(' ')
-		index_list = self.annotation_dict[subject]
-		#print 'annotation: index_list before', index_list, split
-		if len(index_list) < len(split):
-			for i in xrange(0, (len(split) - len(index_list))):
-				index_list.append(self.annotation_index + 1)
-				self.annotation_index = self.annotation_index +1
-		elif len(index_list) > len(split):
-			for i in xrange(0, (len(index_list) - len(split))):
-				index_list.remove(self.annotation_index + 1)
-		self.annotation_dict[subject] = index_list
-		#print 'annotation: index_list after', index_list	
-		for i in index_list:
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
-
-	def _refresh_annotation_engine_entry_content(self, subject):
-		assert subject is not None, "refresh_annotation_engine_entry given subject has not to be None"
-		text = ''
-		for t in subject.label:
-			text = text + t
-		split = text.split(' ')
-		index_list = self.annotation_dict[subject]
-		#print 'annotation: index_list before', index_list, split
-		if len(index_list) < len(split):
-			for i in xrange(0, (len(split) - len(index_list))):
-				index_list.append(self.annotation_index + 1)
-				self.annotation_index = self.annotation_index +1
-		elif len(index_list) > len(split):
-			for i in xrange(0, (len(index_list) - len(split))):
-				index_list.remove(self.annotation_index + 1)
-		self.annotation_dict[subject] = index_list
-		#print 'annotation: index_list after', index_list	
-		for i in index_list:
-			self.annotation_engine.set(int(i), [self.object_dict[subject].getFrom()[0] - (0.4*self.TEXT_SIZE*len(split[index_list.index(int(i))])), self.object_dict[subject].getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
-
 
 	def zoom(self, level):
 		self.log.info('zoom')
