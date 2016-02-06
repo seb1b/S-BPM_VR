@@ -1,9 +1,11 @@
 #!/usr/bin/env python2
-import math
+import os
 import sys
-import logging
+import math
 import PASS
 import time
+import Image
+import logging
 import collections
 
 from view import View
@@ -32,6 +34,7 @@ class Controller:
 		self.current_model = None
 		self.view = None
 
+		self.users = []
 		self.active_users = []
 
 		self.press_position = {}
@@ -54,6 +57,7 @@ class Controller:
 		self.hw_main = VRHardware(self)
 
 	def _check_active_users(self, user_id):
+		assert user_id in self.users
 		if user_id in self.active_users:
 			return True
 		if user_id not in self.active_users and len(self.active_users) < self.MAX_ACTIVE_USERS:
@@ -61,7 +65,13 @@ class Controller:
 			self.active_users.append(user_id)
 			return True
 		return False
-		
+
+	def _check_user(self, user_id):
+		if user_id not in self.users:
+			self.users.append(user_id)
+			is_active = self._check_active_users(user_id)
+			self.view.add_new_user(user_id, is_active)
+
 	def _update_selected_object(self, obj):
 		if obj is not None and not isinstance(obj, PASS.PASSProcessModelElement):
 			self.log.warning("Ignoring select on object {}".format(obj))
@@ -143,7 +153,10 @@ class Controller:
 					pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
 					pos[0] += 0.1
 					pos[1] -= 0.1
-					new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
+					if isinstance(self.selected_object, PASS.ActiveProcessComponent):
+						new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
+					else:
+						new_obj = self.view.get_cur_scene().duplicateState(self.selected_object)
 					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
 					self._update_selected_object(new_obj)
 			elif message == "cancel" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
@@ -222,6 +235,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			self.view.press(user_id, is_left)  # show closed hand in view
 			obj = self.view.get_object(user_id, is_left)
 			if obj is not None and self.pressed_user_id is None and self._check_active_users(user_id):
@@ -282,6 +296,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_is_left == is_left and self.pressed_user_id == user_id:
 				# CASE: some object was released -> drag or select?
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
@@ -391,6 +406,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
 				if not isinstance(self.pressed_object, View.MenuBar):
@@ -420,6 +436,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to zoom".format(user_id))
 				return None
@@ -450,6 +467,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			print(("Controller level: {}".format(self.view.current_zoom_level())))
 			i = 1000
 			while self.view.current_zoom_level() > 10 and i > 0:
@@ -490,6 +508,7 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to fade_in".format(user_id))
 				return None
@@ -533,11 +552,12 @@ class Controller:
 
 		if self.view is not None:
 			assert self.current_model is not None
+			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to move_model".format(user_id))
 				return None
 			# normalize to [-1,1]
-			self.view.move_scene([pos[0] * 2.0 - 1.0, (1 - pos[1]) * 2.0 - 1.0])
+			self.view.move_scene([pos[0] * 2.0 - 1.0, pos[1] * 2.0 - 1.0])
 
 		return None
 
@@ -613,12 +633,32 @@ class Controller:
 		#	self.current_model.model.hasModelComponent[0].subjects[1])
 
 	def init_empty(self):
-		file_path = "/tmp/temp_model.owl"
-		self.models[file_path] = PASS.ModelManager()
 		self.view = View()
-		self.current_model = self.models[file_path]
-		self.current_model.addChangeListener(self.view.on_change)
-		# TODO: init model
+		self.current_model = None
+
+		# Format: [InitScreenEntry, InitScreenEntry, ...]
+		model_files = []
+
+		files = []
+
+		for dirpath, _, filenames in os.walk("./pass_models/"):
+			for f in filenames:
+				files.append(os.path.join(dirpath, f))
+
+		self.log.info("Files: {}".format(files))
+
+		for fi in [f for f in files if f.endswith(".owl")]:
+			basename = os.path.basename(fi)
+			dispname = os.path.splitext(basename)[0]
+			image_file_name = "{}{}".format(os.path.splitext(fi)[0], ".png")
+			self.log.info("Searching for logo file {}".format(image_file_name))
+			if image_file_name not in files:
+				image_file_name = "IMI_LOGO.png"
+			t = View.InitScreenEntry(dispname, fi, image_file_name)
+			self.log.info("Appending to model files list: {}".format(t.__str__()))
+			model_files.append(t)
+
+		self.view.show_init_screen(model_files)
 
 
 if __name__ == "__main__":
