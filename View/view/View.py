@@ -61,7 +61,7 @@ class View():
 		#formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s')
 		#ch.setFormatter(formatter)
 		#self.log.addHandler(ch)
-		self.log.info("Starting view")
+		self.log.info("VIEW: Starting view")
 
 		self.ZOOM_STEP = 0.05
 		self.MOVE_STEP = 0.01
@@ -217,7 +217,7 @@ class View():
 
 		@return  : None
 		"""
-		self.log.info('setup_start_page')
+		self.log.info('VIEW: setup_start_page')
 		#setup menu bar behaviorAdd
 		self.start_page_plane = VR.Geometry('startPage')
 		s = 'Plane '
@@ -251,7 +251,7 @@ class View():
 
 		@return  : None
 		"""
-		self.log.info('setup_menu_bar')
+		self.log.info('VIEW: setup_menu_bar')
 		self.edit_plane = None
 		self.edit_site = None
 		self.meta_plane = None
@@ -437,11 +437,11 @@ class View():
 		@param PASS.Layer or PASS.Behavior cur_scene : The scene to set.
 		@return  : None
 		"""
-		self.log.info('set_cur_scene')
+		self.log.info('VIEW: set_cur_scene')
 		assert isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior), cur_scene
 		self.cur_scene = cur_scene
 		#set offsets
-		#print 'bb: ', self.cur_scene.getBoundingBox2D()
+		#print 'boundingbox: ', self.cur_scene.getBoundingBox2D()
 		bb = self.cur_scene.getBoundingBox2D()
 		self.model_offset_x = bb[0][0]
 		self.model_offset_y = bb[0][1]
@@ -474,7 +474,7 @@ class View():
 		elif isinstance(cur_scene, PASS.Behavior):  # is instance of Pass.Behavior
 			self.edit_node.getChildren()[1].setVisible(True)
 		else:
-			self.log.info('set_cur_scene neither layer nor behavior')
+			self.log.info('VIEW: set_cur_scene neither layer nor behavior')
 
 		##VR.cam.addChild(self.active_gui_element) #TODO
 		#self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
@@ -488,7 +488,7 @@ class View():
 
 		@return PASS.Layer or PASS.Behavior : The current scene.
 		"""
-		self.log.info('get_cur_scene')
+		self.log.info('VIEW: get_cur_scene')
 		return self.cur_scene
 
 	def _update_all(self):
@@ -497,7 +497,7 @@ class View():
 
 		@return  : None
 		"""
-		self.log.info('update_all')
+		self.log.info('VIEW: update_all')
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
 		for child in scene_children:
@@ -538,7 +538,7 @@ class View():
 			for edge in edges:
 				self._create_transition_edge(edge)
 		else:
-			self.log.info('Failed to load current scene: has to be level or behavior')
+			self.log.info('VIEW: Failed to load current scene: has to be level or behavior')
 
 	def zoom(self, level):
 		"""
@@ -547,8 +547,8 @@ class View():
 		@param int level : The level to zoom.
 		@return  : None
 		"""
-		self.log.info('zoom')
-		print(("Zoom level: {}".format(self.current_zoom_level())))
+		self.log.info('VIEW: zoom')
+		self.log.info("VIEW: Zoom level: {}".format(self.current_zoom_level())))
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
 			VR.cam.setFrom(new_cam_pos)
@@ -561,7 +561,7 @@ class View():
 
 		@return int : The current zoom level
 		"""
-		self.log.info('current_zoom_level')
+		self.log.info('VIEW: current_zoom_level')
 		level = int(float(self.MAX_DIST - VR.cam.getFrom()[2]) / self.ZOOM_STEP)
 		assert(level >= 0)
 		return level
@@ -574,7 +574,7 @@ class View():
 		@param bool is_active : Indication if new user is active or passive.
 		@return  : None
 		"""
-		self.log.info('add_new_user({}, {})'.format(user_id, is_active))
+		self.log.info('VIEW: add_new_user({}, {})'.format(user_id, is_active))
 		assert len(VR.view_user_cursors) < self.MAX_USERS
 		
 		VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
@@ -651,7 +651,7 @@ class View():
 		VR.view_user_positions[user_id] = {}
 		VR.view_user_positions[user_id][True] = [0, 0, 0]
 		VR.view_user_positions[user_id][False] = [0, 0, 0]
-		self.log.info('init new user done')
+		self.log.info('VIEW: init new user done')
 
 	def move_cursor(self, pos_ws, user_id, is_left):
 		"""
@@ -688,7 +688,7 @@ class View():
 		@param float[] translation : The x- and y-translation by which the scene should be moved.
 		@return  : None
 		"""
-		self.log.info('move_scene')
+		self.log.info('VIEW: move_scene')
 		cam_pos = VR.cam.getFrom()
 		assert len(cam_pos) == 3
 		assert len(translation) == 2
@@ -703,7 +703,7 @@ class View():
 		@param bool highlight : Indication if the given object should be highlighted or not.
 		@return bool : Indication of success of the highlight action.
 		"""
-		self.log.info('set_highlight')
+		self.log.info('VIEW: set_highlight')
 
 		assert isinstance(highlight, bool)
 		pass_obj = self.object_dict[obj]
@@ -758,7 +758,7 @@ class View():
 		@param object obj : The object to create a URL for.
 		@return str : The parmas for the meta menu bar URL.
 		"""
-		self.log.info('create_url_params_from_metacontent')
+		self.log.info('VIEW: create_url_params_from_metacontent')
 		
 		label_key = 'sbpm_label'
 		label_value = ''
@@ -779,7 +779,7 @@ class View():
 			i = i + 1
 			if(i != len(metaKeys)):
 				params = params + '&'
-		self.log.info('parameter website {}'.format(params))
+		self.log.info('VIEW: parameter website {}'.format(params))
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
@@ -789,7 +789,7 @@ class View():
 		@param float[] pos : The position that should be highlighted.
 		@return object : The added highlight object.
 		"""
-		self.log.info('highlight_pos')
+		self.log.info('VIEW: highlight_pos')
 		assert len(pos) == 2
 
 		highlighted_point = VR.Geometry('sphere')
@@ -813,7 +813,7 @@ class View():
 		@param object highlight_point : The highlight object to remove.
 		@return  : None
 		"""
-		self.log.info('remove_highlight_pos')
+		self.log.info('VIEW: remove_highlight_pos')
 		if isinstance(highlight_point, VR.Object):
 			highlight_point.destroy()
 
@@ -879,34 +879,34 @@ class View():
 		@param bool is_left : Indication which cursor of the given user to to intersect.
 		@return object : The intersected object.
 		"""
-		self.log.info('get_object')
+		self.log.info('VIEW: get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
 		if mydev.intersect():
 			i = mydev.getIntersected()
 			tags = i.getTags()
 			self.log.info( 'View tags: {} name: {} id {} {}'.format(tags, i.getName(), i.getID(), i))
 			if i.hasTag('edit'):
-				self.log.info('view: edit')
+				self.log.info('View: edit')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['edit']
 			elif i.hasTag('meta'):
-				self.log.info('view: meta')
+				self.log.info('View: meta')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['meta']
 			elif i.hasTag('layer_add'):
-				self.log.info('view: layer_add')
+				self.log.info('View: layer_add')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['layer_add']
 			elif i.hasTag('behavior_add'):
-				self.log.info('view: behavior_add')
+				self.log.info('View: behavior_add')
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['behavior_add']
 			elif i.hasTag('start_page'):
-				self.log.info('view: start_page')
+				self.log.info('View: start_page')
 				return self.menubar_entries['start_page']
 			#elif 'obj' in tags:
 			else:
@@ -918,13 +918,13 @@ class View():
 				elif i.hasTag('obj'):
 					return self.object_dict[i]
 				else:
-					self.log.info('No valid intersected object in get_object')
+					self.log.info('VIEW: No valid intersected object in get_object')
 		else:
-			self.log.info('No intersection. Empty space clicked.')
+			self.log.info('VIEW: No intersection. Empty space clicked.')
 		return None
 
 	def rotate(self, degrees):
-		self.log.info('rotate')
+		self.log.info('VIEW: rotate')
 		pass
 
 	def _create_subject(self, pass_sub):
@@ -1271,7 +1271,7 @@ class View():
 		@param str attr : The attribute of the object which changed.
 		@return  : None
 		"""
-		self.log.info('on_change: obj: {} attr: {}'.format(object, attr))
+		self.log.info('VIEW: on_change: obj: {} attr: {}'.format(object, attr))
 		if isinstance(self.cur_scene, PASS.Layer) and (isinstance(object, PASS.Layer) or isinstance(object, PASS.Subject) \
 				or isinstance(object, PASS.ExternalSubject) or isinstance(object, PASS.MessageExchange)):
 			if not isinstance(object, PASS.Layer) and not object in self.object_dict:  # create new layer object
@@ -1282,7 +1282,7 @@ class View():
 				elif isinstance(object, PASS.ExternalSubject):
 					self._create_external_subject(object)
 			elif isinstance(object, PASS.Layer):
-				self.log.info('onchange layer')
+				self.log.info('VIEW: onchange layer')
 				if attr == "hasModelComponent":
 					list_of_elements = object.hasModelComponent
 					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
@@ -1318,7 +1318,7 @@ class View():
 							self.elements.remove(element_to_delete[0])
 							poly_obj.destroy()
 					else:
-						self.log.info('Skip, Element added.')
+						self.log.info('VIEW: Skip, Element added.')
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
@@ -1351,7 +1351,7 @@ class View():
 									children[3].setVisible(True)
 							break
 				else:
-					self.log.info('Invalid attribute in on_change')
+					self.log.info('VIEW: Invalid attribute in on_change')
 
 		elif isinstance(self.cur_scene, PASS.Behavior) and (isinstance(object, PASS.State) or isinstance(object, PASS.TransitionEdge)):
 			if not isinstance(object, PASS.Behavior) and not object in self.object_dict:  # create new layer object
@@ -1364,7 +1364,7 @@ class View():
 				elif isinstance(object, PASS.TransitionEdge):
 					self._create_transition_edge(object)
 			elif isinstance(object, PASS.Behavior):
-				self.log.info('onchange behavior')
+				self.log.info('VIEW: onchange behavior')
 				if attr == "hasModelComponent":
 					list_of_elements = object.hasModelComponent
 					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
@@ -1386,7 +1386,7 @@ class View():
 							del self.message_dict[poly_obj]
 							poly_obj.destroy()
 					else:
-						self.log.info('Skip, Element added.')
+						self.log.info('VIEW: Skip, Element added.')
 			else:
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
@@ -1419,7 +1419,7 @@ class View():
 									children[3].setVisible(True)
 							break
 				else:
-					self.log.info('Invalid attribute in on_change')
+					self.log.info('VIEW: Invalid attribute in on_change')
 		elif isinstance(self.cur_scene, PASS.Layer) or isinstance(self.cur_scene, PASS.Behavior):
 			self.log.info("Ignoring weird on_change object: {}".format(object))
 		else:
@@ -1432,11 +1432,11 @@ class View():
 		@param object subject : The subject to which the attached messsage exchangewill be returned.
 		@return object : The attached message exchange of the given subject.
 		"""
-		self.log.info('object {}'.format(subject))
+		self.log.info('VIEW: object {}'.format(subject))
 		poly_sub = self.object_dict[subject]
 		for i in self.message_dict:
 			if self.message_dict[i][0] is poly_sub or self.message_dict[i][1] is poly_sub:
-				self.log.info('attached message {}'.format(i))
+				self.log.info('VIEW: attached message {}'.format(i))
 				return i
 		return None
 
@@ -1447,7 +1447,7 @@ class View():
 		@param object message : The object in the middle of the path to create.
 		@return  : None
 		"""
-		self.log.info('connect({})'.format(message))
+		self.log.info('VIEW: connect({})'.format(message))
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
 
@@ -1605,7 +1605,7 @@ class View():
 			VR.ptool.update()
 		else:
 			if self.new_message_path is not None:
-				self.log.info('delete')
+				self.log.info('VIEW: delete')
 				VR.ptool.remPath(self.new_message_path)
 				self.new_message_path = None
 			else:
@@ -1637,6 +1637,6 @@ class View():
 			if(init_list.index(i) != len(init_list) - 1):
 				params = params + '&'
 
-		self.log.info('parameter website {}'.format(params))
+		self.log.info('VIEW: parameter website {}'.format(params))
 		self.start_page_site.open('http://localhost:5500/start' + '?' + params)
 		self.start_page_plane.setVisible(True)
