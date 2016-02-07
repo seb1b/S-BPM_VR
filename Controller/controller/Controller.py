@@ -29,6 +29,7 @@ class Controller:
 
 		self.MAX_ACTIVE_USERS = 2  # ROFL!!
 
+		self.model_files = []
 		# dictionaries of model and view, file path is key
 		self.models = {}
 		self.current_model = None
@@ -169,35 +170,58 @@ class Controller:
 				self.log.warning("invalid mesage: {}".format(message))
 		# TODO: implement rest
 		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "edit") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "edit")):
-			if message == "delete" and self.selected_object is not None:
-				self.log.warning("Deleting {}".format(self.selected_object))
-				if isinstance(self.selected_object, PASS.ActiveProcessComponent):  # subject
-					self.view.get_cur_scene().removeActiveComponent(self.selected_object, True)
-					self._update_selected_object(None)
-				elif isinstance(self.selected_object, PASS.MessageExchange):
-					self.view.get_cur_scene().removeMessageExchange(self.selected_object)
-					self._update_selected_object(None)
-				elif isinstance(self.selected_object, PASS.State):
-					self.view.get_cur_scene().removeState(self.selected_object)
-					self._update_selected_object(None)
-				elif isinstance(self.selected_object, PASS.TransitionEdge):
-					self.view.get_cur_scene().removeTransitionEdge(self.selected_object)
-					self._update_selected_object(None)
-			elif message == "copy" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
-					pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
-					pos[0] += 0.1
-					pos[1] -= 0.1
-					if isinstance(self.selected_object, PASS.ActiveProcessComponent):
-						new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
-					else:
-						new_obj = self.view.get_cur_scene().duplicateState(self.selected_object)
-					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
-					self._update_selected_object(new_obj)
-			elif message == "cancel" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
+			assert self.selected_object is not None and isinstance(self.selected_object, PASS.PASSProcessModelElement), "{}".format(self.selected_object)
+			self.log.info("process_menu_bar: editing {}".format(self.selected_object))
+			if message == "delete_down":
+				self.log.info("Setting pressed_menu_bar for subject/state/message/transaction deletion")
+				self.pressed_menu_bar = self.pressed_object
+				self.pressed_menu_bar_item = message
+			elif message == "delete_up":
+				self.log.info("Deleting {}".format(self.selected_object))
+				old_obj = self.selected_object
+				self._update_selected_object(None)
+				if isinstance(old_obj, PASS.ActiveProcessComponent):  # subject
+					self.view.get_cur_scene().removeActiveComponent(old_obj, True)
+				elif isinstance(old_obj, PASS.MessageExchange):
+					self.view.get_cur_scene().removeMessageExchange(old_obj)
+				elif isinstance(old_obj, PASS.State):
+					self.view.get_cur_scene().removeState(old_obj)
+				elif isinstance(old_obj, PASS.TransitionEdge):
+					self.view.get_cur_scene().removeTransitionEdge(old_obj)
+				self.pressed_menu_bar = None
+				self.pressed_menu_bar_item = None
+			elif message == "copy_down" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
+				self.log.info("Setting pressed_menu_bar for copy")
+				self.pressed_menu_bar = self.pressed_object
+				self.pressed_menu_bar_item = message
+			elif  message == "copy_up" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
+				self.log.info("Copying {}".format(self.selected_object))
+				pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
+				pos[0] += 0.1
+				pos[1] -= 0.1
+				if isinstance(self.selected_object, PASS.ActiveProcessComponent):
+					new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
+				else:
+					new_obj = self.view.get_cur_scene().duplicateState(self.selected_object)
+				new_obj.hasAbstractVisualRepresentation.setPoint2D(pos[0], pos[1])
+				self._update_selected_object(new_obj)
+				self.pressed_menu_bar = None
+				self.pressed_menu_bar_item = None
+			elif message == "cancel_down" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
 				or isinstance(self.selected_object, PASS.MessageExchange)
 				or isinstance(self.selected_object, PASS.State)
 				or isinstance(self.selected_object, PASS.TransitionEdge)):
+				self.log.info("Setting pressed_menu_bar for cancel")
+				self.pressed_menu_bar = self.pressed_object
+				self.pressed_menu_bar_item = message
+			elif message == "cancel_up" and (isinstance(self.selected_object, PASS.ActiveProcessComponent)
+				or isinstance(self.selected_object, PASS.MessageExchange)
+				or isinstance(self.selected_object, PASS.State)
+				or isinstance(self.selected_object, PASS.TransitionEdge)):
+				self.log.info("Canceling {}".format(self.selected_object))
 				self._update_selected_object(None)
+				self.pressed_menu_bar = None
+				self.pressed_menu_bar_item = None
 		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "behavior_add") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "behavior_add")):
 			if message in ["functionState", "receiveState", "sendState"]:
 				if self.highlighted_pos_obj is not None:
@@ -289,7 +313,7 @@ class Controller:
 				if isinstance(obj, View.MenuBar):
 					# CASE: click on menu bar -> trigger cursor click
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
-					if self.highlighted_pos_obj is None:
+					if self.highlighted_pos_obj is None and (obj.name == "layer_add" or obj.name == "behavior_add"):  # otherwise "edit" or "meta"
 						self.pressed_menu_bar_user_id = user_id
 						self.pressed_menu_bar_is_left = is_left
 					self.view.press(user_id, is_left)
@@ -356,7 +380,7 @@ class Controller:
 				self.pressed_user_id = None
 
 				if isinstance(self.pressed_menu_bar, View.MenuBar):  # NOTE: this was set in handle_menu_bar!!!!!!
-					# CASE: item was created with highlight point
+					# CASE: item was created with highlight point or "delete" was pressed with selected_object
 					self.log.info("Release previous MenuBar: {}".format(self.pressed_menu_bar.name))
 					obj = self.view.get_object(user_id, is_left)
 					self.log.info("Release current object: {}".format(obj))
@@ -364,6 +388,7 @@ class Controller:
 						self.log.info("Release current object name: {}".format(obj.name))
 
 					if self.pressed_menu_bar_item == "subject_down" or self.pressed_menu_bar_item == "exsubject_down":
+						# subject down was pressed before, now released
 						if obj is not self.pressed_menu_bar:
 							self.log.warning("User dragged off from menu bar during click!")
 							self.pressed_menu_bar = None
@@ -394,6 +419,13 @@ class Controller:
 						# CASE: add message was released on field
 						#lo = self.view.get_object(user_id, True)
 						#ro = self.view.get_object(user_id, False)
+					elif self.pressed_menu_bar_item == "delete_down":
+						# delete was pressed before, now released
+						if obj is not self.pressed_menu_bar:
+							self.log.warning("User dragged off from menu bar during click!")
+							self.pressed_menu_bar = None
+							self.pressed_menu_bar_item = None
+						self.view.trigger_up(user_id, is_left)
 					else:
 						self.log.warning("Invalid MenuBar type or so")
 					#self.pressed_menu_bar = None
@@ -694,8 +726,12 @@ class Controller:
 		self.current_model = None
 
 		# Format: [InitScreenEntry, InitScreenEntry, ...]
-		model_files = []
 
+		new_name = "New Process {}".format(time.strftime("%c"))
+		new_image = "IMI_LOGO.png"
+		new_entry = View.InitScreenEntry(new_name, "./pass_models/{}.owl".format(new_name), new_image, uuid.uuid4())
+		self.log.info("Appending to model files list: {}".format(new_entry.__str__()))
+		self.model_files = [new_entry]
 		files = []
 
 		for dirpath, _, filenames in os.walk("./pass_models/"):
@@ -710,12 +746,12 @@ class Controller:
 			image_file_name = "{}{}".format(os.path.splitext(fi)[0], ".png")
 			self.log.info("Searching for logo file {}".format(image_file_name))
 			if image_file_name not in files:
-				image_file_name = "IMI_LOGO.png"
-			t = View.InitScreenEntry(dispname, fi, image_file_name)
+				image_file_name = new_image
+			t = View.InitScreenEntry(dispname, fi, image_file_name, uuid.uuid4())
 			self.log.info("Appending to model files list: {}".format(t.__str__()))
-			model_files.append(t)
+			self.model_files.append(t)
 
-		self.view.show_init_screen(model_files)
+		self.view.show_init_screen(self.model_files)
 
 
 if __name__ == "__main__":

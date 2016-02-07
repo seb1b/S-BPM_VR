@@ -263,14 +263,16 @@
 
 	if k is None:
 		return
-	if s is 0: 
+	if s == 0: 
 		# release
-		return
+		#return
+		pass
 
 	# TODO: remove if necessary
 	return
 
-	b = dev.getBeacon()
+	#b = dev.getBeacon()
+	b = VR.b
 	d = b.getDir()
 	p = b.getFrom()	
 	for i in range(3): p[i] = d[i]*2 - p[i]
@@ -293,10 +295,15 @@
 	if k == 3:  # wheel_up
 		VR.controller.zoom(1)
 	if k == 0:  # left click
-		VR.controller.press(p, 1001, True)
-		pass
+		if s == 1:
+			VR.controller.press(p, 1001, False)
+		elif s == 0:
+			VR.controller.release(p, 1001, False)
 	if k == 2:  # right click
-		VR.controller.press(p, 1001, False)
+		if s == 1:
+			VR.controller.press(p, 1001, True)
+		elif s == 0:
+			VR.controller.release(p, 1001, True)
 
 </core>
       <trig type="on_device" dev="mouse" state="Pressed" param="0" key="-1" name_suffix="1" base_name="trigger" name_space="__global__"/>
@@ -312,9 +319,9 @@
 
 	c = VR.controller
 	
-	b = m.getBeacon()
-	d = b.getDir()
-	p = b.getFrom()	
+	VR.b = m.getBeacon()
+	d = VR.b.getDir()
+	p = VR.b.getFrom()	
 	for i in range(3): p[i] = d[i]*2 - p[i]
 	
 	#print p, d
@@ -602,6 +609,7 @@
       <core>
 	import VR
 	message = dev.getMessage()
+	print("VR: ", message)
 	#dev.answer('blub')
 
 	if hasattr(VR, "controller"):
