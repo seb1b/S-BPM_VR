@@ -1396,7 +1396,7 @@ class View():
 		params = ''
 		for i in init_list:
 			assert isinstance(i, self.InitScreenEntry)
-			params = params + str(i.display_name) + '=' + str(i.image_file_name) + '=' + str(model_id)
+			params = params + str(i.display_name) + '=' + str(i.image_file_name) + '=' + str(i.model_id)
 			if(init_list.index(i) != len(init_list) - 1):
 				params = params + '&'
 
