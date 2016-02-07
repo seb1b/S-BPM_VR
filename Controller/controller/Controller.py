@@ -43,8 +43,12 @@ class Controller:
 
 		self.selected_object = None
 		self.pressed_object = None
+
 		self.pressed_menu_bar = None
 		self.pressed_menu_bar_item = None
+		self.pressed_menu_bar_user_id = None
+		self.pressed_menu_bar_is_left = None
+
 		self.released_object = None
 		self.pressed_is_left = False
 		self.pressed_user_id = None
@@ -96,14 +100,42 @@ class Controller:
 
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
-		if not isinstance(self.pressed_object, View.MenuBar):
-			return
-
 		self.log.info("process_menu_bar({})".format(message))
-		if self.pressed_object.name == "layer_add":
-			if message == "subject":
-				if self.highlighted_pos_obj is not None:
-					assert self.highlighted_pos_obj is not None, "WTF"
+		self.log.info("process_menu_bar: self.pressed_menu_bar: {}".format(self.pressed_menu_bar))
+		self.log.info("process_menu_bar: self.pressed_object: {}".format(self.pressed_object))
+		if isinstance(self.pressed_menu_bar, View.MenuBar):
+			self.log.info("process_menu_bar: self.pressed_menu_bar.name: {}".format(self.pressed_menu_bar.name))
+		if isinstance(self.pressed_object, View.MenuBar):
+			self.log.info("process_menu_bar: self.pressed_object.name: {}".format(self.pressed_object.name))
+
+		if ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "layer_add") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "layer_add")):
+			if message == "subject_down":
+				if not isinstance(self.pressed_object, View.MenuBar):
+					self.log.warning("process_menu_bar({}): pressed object is NOT MenuBar - returning".format(message))
+					return
+				if self.highlighted_pos_obj is None:
+					assert self.highlighted_pos is None, "WTF"
+					new_obj = self.view.get_cur_scene().addSubject()
+					self.pressed_object = new_obj
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
+					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					new_obj.label.append("New Subject")
+					self._update_selected_object(new_obj)
+					self.pressed_menu_bar = None
+					self.pressed_menu_bar_item = None
+					assert self.pressed_menu_bar_user_id is not None
+					assert self.pressed_menu_bar_is_left is not None
+					self.view.trigger_up(self.pressed_menu_bar_user_id, self.pressed_menu_bar_is_left)
+				else:
+					self.log.info("Setting pressed_menu_bar for subject creation")
+					self.pressed_menu_bar = self.pressed_object
+					self.pressed_menu_bar_item = message
+			elif message == "subject_up":
+				if self.highlighted_pos_obj is not None and self.pressed_menu_bar is not None:
+					assert isinstance(self.pressed_menu_bar, View.MenuBar)
+					assert self.highlighted_pos is not None, "WTF"
 					new_obj = self.view.get_cur_scene().addSubject()
 					self.pressed_object = None
 					self.pressed_user_id = None
@@ -112,29 +144,31 @@ class Controller:
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
-				else:
-					new_obj = self.view.get_cur_scene().addSubject()
-					self.pressed_object = new_obj
-					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
-					self.log.info("Creating subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
-				new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
-				new_obj.setMetaContent("Date", time.strftime("%c"))
-				new_obj.label.append("New Subject")
-				self._update_selected_object(new_obj)
-				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
-				self.pressed_menu_bar = self.pressed_object
-				self.pressed_menu_bar_item = message
-			elif message == "exsubject":
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					new_obj.label.append("New Subject")
+					self._update_selected_object(new_obj)
+				self.pressed_menu_bar = None
+				self.pressed_menu_bar_item = None
+				self.pressed_menu_bar_user_id = None
+				self.pressed_menu_bar_is_left = None
+			elif message == "exsubject_down":
 				# TODO: implement
 				pass
-			elif message == "message":
+			elif message == "exsubject_up":
+				# TODO: implement
+				pass
+			elif message == "message_down":
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
+			elif message == "message_up":
+				# TODO: implement
+				pass
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
 		# TODO: implement rest
-		elif self.pressed_object.name == "edit":
+		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "edit") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "edit")):
 			if message == "delete" and self.selected_object is not None:
 				self.log.warning("Deleting {}".format(self.selected_object))
 				if isinstance(self.selected_object, PASS.ActiveProcessComponent):  # subject
@@ -164,7 +198,7 @@ class Controller:
 				or isinstance(self.selected_object, PASS.State)
 				or isinstance(self.selected_object, PASS.TransitionEdge)):
 				self._update_selected_object(None)
-		elif self.pressed_object.name == "behavior_add":
+		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "behavior_add") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "behavior_add")):
 			if message in ["functionState", "receiveState", "sendState"]:
 				if self.highlighted_pos_obj is not None:
 					assert self.highlighted_pos_obj is not None, "WTF"
@@ -255,7 +289,16 @@ class Controller:
 				if isinstance(obj, View.MenuBar):
 					# CASE: click on menu bar -> trigger cursor click
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
-					self.view.trigger(user_id, is_left)
+					if self.highlighted_pos_obj is None:
+						self.pressed_menu_bar_user_id = user_id
+						self.pressed_menu_bar_is_left = is_left
+					self.view.press(user_id, is_left)
+					self.view.trigger_down(user_id, is_left)
+				elif isinstance(obj, View.InitScreenEntry):
+					# CASE: click on init screen
+					self.log.info(("Press on InitScreenEntry: {}".format(obj.__str__)))
+					self.view.press(user_id, is_left)
+					self.view.trigger_down(user_id, is_left)
 				else:
 					self.log.info("Unimportant object returned on press(): {}".format(obj))
 
@@ -311,16 +354,21 @@ class Controller:
 				self.released_object = self.pressed_object
 				self.pressed_object = None
 				self.pressed_user_id = None
+
 				if isinstance(self.pressed_menu_bar, View.MenuBar):  # NOTE: this was set in handle_menu_bar!!!!!!
-					# CASE: menu bar item was released on field
-					if self.pressed_menu_bar_item == "subject":
-						assert isinstance(self.released_object, PASS.Subject), "Inconsistency between pressed_menu_bar_item and released_object"
-						# CASE: add subject was released on field
-					#elif isinstance(self.released_object, PASS.ExternalSubject):
-					elif self.pressed_menu_bar_item == "exsubject":
-						assert isinstance(self.released_object, PASS.ExternalSubject), "Inconsistency between pressed_menu_bar_item and released_object"
-						# CASE: add external subject was released on field
-						pass
+					# CASE: item was created with highlight point
+					self.log.info("Release previous MenuBar: {}".format(self.pressed_menu_bar.name))
+					obj = self.view.get_object(user_id, is_left)
+					self.log.info("Release current object: {}".format(obj))
+					if isinstance(obj, View.MenuBar):
+						self.log.info("Release current object name: {}".format(obj.name))
+
+					if self.pressed_menu_bar_item == "subject_down" or self.pressed_menu_bar_item == "exsubject_down":
+						if obj is not self.pressed_menu_bar:
+							self.log.warning("User dragged off from menu bar during click!")
+							self.pressed_menu_bar = None
+							self.pressed_menu_bar_item = None
+						self.view.trigger_up(user_id, is_left)
 					elif self.pressed_menu_bar_item == "message":
 						assert isinstance(self.released_object, View.MenuBar), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add message was released on field
@@ -346,12 +394,10 @@ class Controller:
 						# CASE: add message was released on field
 						#lo = self.view.get_object(user_id, True)
 						#ro = self.view.get_object(user_id, False)
-					if isinstance(lo, PASS.Subject) and isinstance(ro, PASS.Subject):
-						pass
 					else:
-						self.log.warning("Invalid MenuBar type")
-					self.pressed_menu_bar = None
-					self.pressed_menu_bar_item = None
+						self.log.warning("Invalid MenuBar type or so")
+					#self.pressed_menu_bar = None
+					#self.pressed_menu_bar_item = None
 				elif sum([x ** 2 for x in [a - b for a, b in zip(self.press_position[user_id], pos)]]) < 10.0:
 					# CASE: some field object was selected
 					# nothing to do LOL
@@ -417,7 +463,9 @@ class Controller:
 			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
-				if not isinstance(self.pressed_object, View.MenuBar):
+				#if not isinstance(self.pressed_object, View.MenuBar):
+				# TODO: the drag position is not set here. WTF?
+				if isinstance(self.pressed_object, PASS.PASSProcessModelElement):
 					assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
 					self.log.info("Moving object to {}".format(pos))
 					pos_norm_2d = self.view.local_to_world_2d(pos[:2])
