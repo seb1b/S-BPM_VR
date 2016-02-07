@@ -1,9 +1,7 @@
 import VR
 import math
 import PASS
-import sys
 import logging
-import copy
 
 
 class View():
@@ -175,12 +173,13 @@ class View():
 		#node for all edit planes
 		self.edit_node = VR.Transform('edit_node')
 		self.edit_node.setFrom(-(self.scale_plane_x / 4) / 2, -0.5 * self.scale_plane_y + 0.2, -11)
-		self.setup_menu_bar()
+		self._setup_menu_bar()
 
 		# start page
-		self.setup_start_page()
+		self._setup_start_page()
 
-	def setup_start_page(self):
+	def _setup_start_page(self):
+		self.log.info('setup_start_page')
 		#setup menu bar behaviorAdd
 		self.start_page_plane = VR.Geometry('startPage')
 		s = 'Plane '
@@ -208,7 +207,7 @@ class View():
 		self.start_page_plane.setVisible(False)
 		VR.view_root.addChild(self.start_page_plane)
 
-	def setup_menu_bar(self):
+	def _setup_menu_bar(self):
 		self.log.info('setup_menu_bar')
 		self.edit_plane = None
 		self.edit_site = None
@@ -431,7 +430,7 @@ class View():
 		##VR.cam.addChild(self.active_gui_element) #TODO
 		#self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
 		#self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
-		self.update_all()
+		self._update_all()
 		#VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
 
 
@@ -440,7 +439,7 @@ class View():
 		return self.cur_scene
 
 	# update entire scene based on given scene self.cur_scene
-	def update_all(self):
+	def _update_all(self):
 		self.log.info('update_all')
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
@@ -817,7 +816,7 @@ class View():
 		
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
-		VR.view_root.addChild(subject_node) 
+		VR.view_root.addChild(subject_node)
 		#VR.view_root.addChild(sprite)
 
 	def _create_message(self, pass_mes):
@@ -861,7 +860,7 @@ class View():
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
-		self.connect(message_node)
+		self._connect(message_node)
 		VR.view_root.addChild(message_node)
 
 	def _create_external_subject(self, pass_exsub):
@@ -1065,7 +1064,7 @@ class View():
 		self.object_dict[edge] = transition_node
 		self.object_dict[transition_node] = edge
 		self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
-		self.connect(transition_node)
+		self._connect(transition_node)
 		VR.view_root.addChild(transition_node)
 
 	def on_change(self, object, attr):
@@ -1232,7 +1231,7 @@ class View():
 				return i
 		return None
 
-	def connect(self, message):
+	def _connect(self, message):
 		self.log.info('connect({})'.format(message))
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
