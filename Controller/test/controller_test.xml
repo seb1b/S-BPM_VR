@@ -4,7 +4,7 @@
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1"/>
       <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="0 -0.25 40.8956" at="0 -0.25 39.8956" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="0 0 10" at="0 0 9" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
@@ -263,14 +263,16 @@
 
 	if k is None:
 		return
-	if s is 0: 
+	if s == 0: 
 		# release
-		return
+		#return
+		pass
 
 	# TODO: remove if necessary
 	return
 
-	b = dev.getBeacon()
+	#b = dev.getBeacon()
+	b = VR.b
 	d = b.getDir()
 	p = b.getFrom()	
 	for i in range(3): p[i] = d[i]*2 - p[i]
@@ -293,10 +295,15 @@
 	if k == 3:  # wheel_up
 		VR.controller.zoom(1)
 	if k == 0:  # left click
-		VR.controller.press(p, 1001, True)
-		pass
+		if s == 1:
+			VR.controller.press(p, 1001, False)
+		elif s == 0:
+			VR.controller.release(p, 1001, False)
 	if k == 2:  # right click
-		VR.controller.press(p, 1001, False)
+		if s == 1:
+			VR.controller.press(p, 1001, True)
+		elif s == 0:
+			VR.controller.release(p, 1001, True)
 
 </core>
       <trig type="on_device" dev="mouse" state="Pressed" param="0" key="-1" name_suffix="1" base_name="trigger" name_space="__global__"/>
@@ -312,9 +319,9 @@
 
 	c = VR.controller
 	
-	b = m.getBeacon()
-	d = b.getDir()
-	p = b.getFrom()	
+	VR.b = m.getBeacon()
+	d = VR.b.getDir()
+	p = VR.b.getFrom()	
 	for i in range(3): p[i] = d[i]*2 - p[i]
 	
 	#print p, d
@@ -359,7 +366,8 @@
 				border-width: 1px;
 				border-color: #b0b0b0;
 				padding: 10px;
-				background-color: white;				
+				background-color: white;
+				font-family: NeouBold;				
 			}
 		
 			.editDiv{
@@ -433,7 +441,7 @@
 
 		function clickFunction(element) {
 			websocket.send(element.id);
-			alert(element.id);
+			//alert(element.id);
 		};
 
 		function mouseDownFunction(element) {
@@ -474,8 +482,8 @@
 
 	#VR.controller.test()
 	#VR.controller.init_debug_setup()
-	VR.controller.test_bsp_prozess()
-	#VR.controller.init_empty()
+	#VR.controller.test_bsp_prozess()
+	VR.controller.init_empty()
 </core>
       <arg type="VRPyDeviceType" value="keyboard" name_suffix="0" base_name="keyboard" name_space="init"/>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
@@ -601,6 +609,7 @@
       <core>
 	import VR
 	message = dev.getMessage()
+	print("VR: ", message)
 	#dev.answer('blub')
 
 	if hasattr(VR, "controller"):
@@ -636,7 +645,7 @@
 				padding: 10px;
 				background-color: white;
 				font-family: NeouBold;
-				color: #3692d3;
+				color: #3692d3;				
 			}
 			
 			.dataDiv{
@@ -646,12 +655,14 @@
 			
 			.cellKey{
 				#font-weight: bold;
-				width: 20%;
+				width: 25%;
 			}
 			
 			.cellValue{
 				#font-style: italic;
-				width: 80%;
+				width: 75%;
+				word-break: break-all;
+				padding-left: 5%;
 			}
 			
 			table {
@@ -788,7 +799,6 @@
 			};
 		}
 	
-	
 		// Create websocket for communication with python code
 		var websocket = new WebSocket('ws://localhost:5500');			
 		
@@ -873,6 +883,10 @@
 				height: 100%;
 			}
 			
+			img { 
+				border:1px solid #b0b0b0;
+			}
+			
 			table {
 				border-collapse: collapse;
 				width: 100%;
@@ -907,90 +921,81 @@
 		var websocket = new WebSocket('ws://localhost:5500');			
 		
 		// Get params from URI
-		var QueryString = function () {			
-			var query_string = {};
-			var query = window.location.search.substring(1);
-			var vars = query.split("&amp;");
-			for (var i=0;i&lt;vars.length;i++) {
-				var pair = vars[i].split("=");
-				if (typeof query_string[pair[0]] === "undefined") {
-					query_string[pair[0]] = decodeURIComponent(pair[1]);
-					// If second entry with this name
-				} else if (typeof query_string[pair[0]] === "string") {
-					var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-					query_string[pair[0]] = arr;
-				} else {
-					query_string[pair[0]].push(decodeURIComponent(pair[1]));
-				}
-			} 
-			return query_string;
+   		var QueryString = function () {                 
+		var query_string = {};
+		var query = window.location.search.substring(1);
+		var vars = query.split("&amp;");
+		for (var i=0;i &lt; vars.length;i++) {
+			var pair = vars[i].split("=");
+			query_string[i] = pair;
+		}
+		return query_string;
 		}();
-		
+                
 		// Add cells depending on params from URI
-		var tableRef = document.getElementById('startTable').getElementsByTagName('tbody')[0];		
-		var itemsPerRow = 4
-		// Add 'NEW' item
-		var newRow = tableRef.insertRow(-1);
-		var newCell  = newRow.insertCell(-1);
-		var img = document.createElement("img");
-		img.src = "Cancel.png";
-		img.style.width = '50px';
+		var itemsPerRow = 4;
+		var tableRef = document.getElementById('startTable').getElementsByTagName('tbody')[0];
+        var newRow = tableRef.insertRow(-1);
+        var newCell = newRow.insertCell(-1);
+        var img = document.createElement("img");
+		img.src = "img/bg.png";
+		img.style.width = '200px';
 		newCell.appendChild(img);
 		linebreak = document.createElement("br");
 		newCell.appendChild(linebreak);
-		newCell.appendChild(document.createTextNode('add NEW...'));			
+        newCell.appendChild(document.createTextNode('add NEW...'));     
 		// Add exisiting items
 		if(Object.keys(QueryString).length &gt; 0) {
-			for(i = 1; i &lt; Object.keys(QueryString).length + 1; i = i + 1) {	
+			for(i = 1; i &lt; Object.keys(QueryString).length + 1; i = i+1) {
 				var itemInRowCount = i % itemsPerRow;
 				if(itemInRowCount == 0) {
 					newRow = tableRef.insertRow(-1);
 				}
 				var newCell = newRow.insertCell(-1);
 				var img = document.createElement("img");
-				img.src = "Copy.png";
+				img.src = QueryString[Object.keys(QueryString)][0];
 				img.style.width = '50px';
 				newCell.appendChild(img);
 				linebreak = document.createElement("br");
 				newCell.appendChild(linebreak);
-				newCell.appendChild(document.createTextNode(QueryString[Object.keys(QueryString)[i - 1]]));				
+				newCell.appendChild(document.createTextNode(QueryString[Object.keys(QueryString)][1]));
 			}
-		}
-		
+		}             
+	
 		// Set table width
 		var tableRef = document.getElementById('startTable');
 		var itemWidth = 100/itemsPerRow;
 		var lengthQueryString = Object.keys(QueryString).length;
 		if (lengthQueryString == 0) {
-				tableRef.style.width = itemWidth + '%';
-			}
+			tableRef.style.width = itemWidth + '%';
+		}
 		else if (lengthQueryString == 1) {
-				tableRef.style.width = 2 * itemWidth + '%';
-			}
+			tableRef.style.width = 2 * itemWidth + '%';
+		}
 		else if (lengthQueryString == 2) {
-				tableRef.style.width = 3 * itemWidth +  '%';
-			}
+			tableRef.style.width = 3 * itemWidth +  '%';
+		}
 		else {
 			tableRef.style.width = '100%';
 		}
-		
+		     
 		// Add EventListeners to cells
-		cells = document.querySelectorAll("td")		
+		cells = document.querySelectorAll("td")         
 		for(var i = 0; i &lt; cells.length; i++) {
 			cells[i].addEventListener('click', function(event) {
 				var element = event.target || event.srcElement;
 				var content;
 				if(element.tagName.indexOf('IMG') &gt; -1) {
-					content = element.parentNode.textContent.trim() || element.parentNode.innerText.trim();
+					content = element.parentNode.textContent
 				}
 				else {
-				 content = element.textContent.trim() || element.innerText.trim();
+					content = element.textContent.trim() || element
 				}
-						
-				websocket.send(content);
-				alert(content);
-			}, false);
-		}
+                                          
+			websocket.send(content);
+			alert(content);
+		}, false);
+	}
 	&lt;/script&gt;
 &lt;/html&gt;
 </core>
