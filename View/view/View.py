@@ -5,22 +5,55 @@ import logging
 
 
 class View():
-
+	"""
+	This class creates the view of the application and handels all interaction with it.
+	
+	:version: 2016-02-10
+	:author: Mirjam Joechner and Kai Hartung
+	"""
+	
 	class MenuBar():
+		"""
+		TODO
+		
+		"""
 		def __init__(self, name):
 			self.name = name
 
 	class InitScreenEntry():
+		"""
+		TODO
+		
+		"""
 		def __init__(self, display_name, file_name, image_file_name, model_id):
+			"""
+			Constructor of InitScreenEntry.
+
+			@param str display_name : The name that is displayed in the application.
+			@param str file_name : The URI where the file is located.
+			@param str image_file_name : The file name of the according image.
+			@param str model_id : The unique model id.
+			@return  : None
+			"""
 			self.display_name = display_name
 			self.file_name = file_name
 			self.image_file_name = image_file_name
 			self.model_id = model_id
 
 		def __str__(self):
+			"""
+			This function returns a str-representation.
+
+			@return str : String representation of InitScreenEntry.
+			"""
 			return "InitScreenEntry: {}, {}, {}".format(self.display_name, self.file_name, self.image_file_name)
 
 	def __init__(self):
+		"""
+		Constructor of View.
+
+		@return  : None
+		"""
 		self.log = logging.getLogger()
 		#self.log.setLevel(logging.DEBUG)  # DEBUG INFO WARNING ...
 		#ch = logging.StreamHandler(sys.stdout)
@@ -179,6 +212,11 @@ class View():
 		self._setup_start_page()
 
 	def _setup_start_page(self):
+		"""
+		This function creates a start page to select an existing model or to create a new one.
+
+		@return  : None
+		"""
 		self.log.info('setup_start_page')
 		#setup menu bar behaviorAdd
 		self.start_page_plane = VR.Geometry('startPage')
@@ -208,6 +246,11 @@ class View():
 		VR.view_root.addChild(self.start_page_plane)
 
 	def _setup_menu_bar(self):
+		"""
+		This function creates the menu bars when a model is selected.
+
+		@return  : None
+		"""
 		self.log.info('setup_menu_bar')
 		self.edit_plane = None
 		self.edit_site = None
@@ -388,6 +431,12 @@ class View():
 		VR.cam.addChild(self.edit_node)
 
 	def set_cur_scene(self, cur_scene):
+		"""
+		This function sets the current scene of the selected model.
+
+		@param PASS.Layer or PASS.Behavior cur_scene : The scene to set.
+		@return  : None
+		"""
 		self.log.info('set_cur_scene')
 		assert isinstance(cur_scene, PASS.Layer) or isinstance(cur_scene, PASS.Behavior), cur_scene
 		self.cur_scene = cur_scene
@@ -433,13 +482,21 @@ class View():
 		self._update_all()
 		#VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
 
-
 	def get_cur_scene(self):
+		"""
+		This function returns the current scene.
+
+		@return PASS.Layer or PASS.Behavior : The current scene.
+		"""
 		self.log.info('get_cur_scene')
 		return self.cur_scene
 
-	# update entire scene based on given scene self.cur_scene
 	def _update_all(self):
+		"""
+		This function updates the entire scene based on the given self.cur_scene.
+
+		@return  : None
+		"""
 		self.log.info('update_all')
 		#delete current scene
 		scene_children = VR.view_root.getChildren()
@@ -484,6 +541,12 @@ class View():
 			self.log.info('Failed to load current scene: has to be level or behavior')
 
 	def zoom(self, level):
+		"""
+		This function moves the camera to create a zoom effect.
+
+		@param int level : The level to zoom.
+		@return  : None
+		"""
 		self.log.info('zoom')
 		print(("Zoom level: {}".format(self.current_zoom_level())))
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
@@ -493,12 +556,24 @@ class View():
 		self.scale_x = self.scale_y / self.win_size[1] * self.win_size[0]
 
 	def current_zoom_level(self):
+		"""
+		This function return the current zoom level.
+
+		@return int : The current zoom level
+		"""
 		self.log.info('current_zoom_level')
 		level = int(float(self.MAX_DIST - VR.cam.getFrom()[2]) / self.ZOOM_STEP)
 		assert(level >= 0)
 		return level
 		
 	def add_new_user(self, user_id, is_active):
+		"""
+		This function adds a new user to the view.
+
+		@param int user_id : The user id of the new user.
+		@param bool is_active : Indication if new user is active or passive.
+		@return  : None
+		"""
 		self.log.info('add_new_user({}, {})'.format(user_id, is_active))
 		assert len(VR.view_user_cursors) < self.MAX_USERS
 		
@@ -575,6 +650,14 @@ class View():
 		self.log.info('init new user done')
 
 	def move_cursor(self, pos_ws, user_id, is_left):
+		"""
+		This function moves a cursor of a user to a  new position.
+
+		@param float[] pos_ws : The new position to set.
+		@param int user_id : The user id of the user.
+		@param bool is_left : Indication if cursor is the left or right one of the given user.
+		@return  : None
+		"""
 		self.log.debug('move_cursor')
 		
 		assert isinstance(is_left, bool)
@@ -595,6 +678,12 @@ class View():
 		#print 'done'
 
 	def move_scene(self, translation):
+		"""
+		This function moves the camera to create a shifting effect of the entire scene.
+
+		@param float[] translation : The x- and y-translation by which the scene should be moved.
+		@return  : None
+		"""
 		self.log.info('move_scene')
 		cam_pos = VR.cam.getFrom()
 		assert len(cam_pos) == 3
@@ -603,6 +692,13 @@ class View():
 		VR.cam.setFrom(new_cam_pos)
 
 	def set_highlight(self, obj, highlight):
+		"""
+		This function sets a highlight effect to the given object.
+
+		@param object obj : The object which should be highlighted.
+		@param bool highlight : Indication if the given object should be highlighted or not.
+		@return bool : Indication of success of the highlight action.
+		"""
 		self.log.info('set_highlight')
 
 		assert isinstance(highlight, bool)
@@ -652,6 +748,12 @@ class View():
 		return False
 
 	def _create_url_params_from_object(self, obj):
+		"""
+		This function creates the params for the URL for passing data to the meta menu bar.
+
+		@param object obj : The object to create a URL for.
+		@return str : The parmas for the meta menu bar URL.
+		"""
 		self.log.info('create_url_params_from_metacontent')
 		
 		label_key = 'sbpm_label'
@@ -677,6 +779,12 @@ class View():
 		return params
 
 	def highlight_pos(self, pos):  # returns the added highlight
+		"""
+		This function highlights a position on the scene.
+
+		@param float[] pos : The position that should be highlighted.
+		@return object : The added highlight object.
+		"""
 		self.log.info('highlight_pos')
 		assert len(pos) == 2
 
@@ -694,24 +802,51 @@ class View():
 
 		return highlighted_point
 
-	def remove_highlight_point(self, highlight_point):  # remove the given highlighted object from scene
+	def remove_highlight_point(self, highlight_point):
+		"""
+		This function removes a given highlight object from the scene.
+
+		@param object highlight_point : The highlight object to remove.
+		@return  : None
+		"""
 		self.log.info('remove_highlight_pos')
 		if isinstance(highlight_point, VR.Object):
 			highlight_point.destroy()
 
 	def trigger_down(self, user_id, is_left):
+		"""
+		This function simulates a trigger down on the current position of the given cursor.
+
+		@param int user_id : The user id of the user.
+		@param bool is_left : Indication which cursor of the given user to trigger.
+		@return  : None
+		"""
 		self.log.warning('trigger_down({}, {})'.format(user_id, is_left))
 		mydev = VR.view_user_cursors[user_id][is_left]
 		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 1)
 
 	def trigger_up(self, user_id, is_left):
+		"""
+		This function simulates a trigger up on the current position of the given cursor.
+
+		@param int user_id : The user id of the user.
+		@param bool is_left : Indication which cursor of the given user to trigger.
+		@return  : None
+		"""
 		self.log.warning('trigger_up({}, {})'.format(user_id, is_left))
 		mydev = VR.view_user_cursors[user_id][is_left]
 		assert mydev is not None, 'user {} has no VR device (is_left={})'.format(user_id, is_left)
 		mydev.trigger(0, 0)
 
 	def release(self, user_id, is_left):
+		"""
+		This function simulates a release on the current position of the given cursor.
+
+		@param int user_id : The user id of the user.
+		@param bool is_left : Indication which cursor of the given user to release.
+		@return  : None
+		"""
 		mydev = VR.view_user_cursors[user_id][is_left]
 		beacon_children = mydev.getBeacon().getChildren()
 		assert len(beacon_children) > 1, "Beacon must have at least two children"
@@ -719,6 +854,13 @@ class View():
 		beacon_children[1].setVisible(False)
 
 	def press(self, user_id, is_left):
+		"""
+		This function simulates a press down on the current position of the given cursor.
+
+		@param int user_id : The user id of the user.
+		@param bool is_left : Indication which cursor of the given user to press.
+		@return  : None
+		"""
 		mydev = VR.view_user_cursors[user_id][is_left]
 		beacon_children = mydev.getBeacon().getChildren()
 		assert len(beacon_children) > 1, "Beacon must have at least two children"
@@ -726,6 +868,13 @@ class View():
 		beacon_children[1].setVisible(True)
 
 	def get_object(self, user_id, is_left):
+		"""
+		This function returns the intersected object of the given cursor.
+
+		@param int user_id : The user id of the user.
+		@param bool is_left : Indication which cursor of the given user to to intersect.
+		@return object : The intersected object.
+		"""
 		self.log.info('get_object')
 		mydev = VR.view_user_cursors[user_id][is_left]
 		if mydev.intersect():
@@ -775,6 +924,12 @@ class View():
 		pass
 
 	def _create_subject(self, pass_sub):
+		"""
+		This function creates a VR object based on a pass subject.
+
+		@param PASS.Subject : The PASS.Subject to create in the scene.
+		@return  : None
+		"""
 		assert isinstance(pass_sub, PASS.Subject)
 		self.elements.append(pass_sub)
 		pos = pass_sub.hasAbstractVisualRepresentation.hasPoint2D
@@ -820,6 +975,12 @@ class View():
 		#VR.view_root.addChild(sprite)
 
 	def _create_message(self, pass_mes):
+		"""
+		This function creates a VR object based on a pass message exchange.
+
+		@param PASS.MessageExchange : The PASS.MessageExchange to create in the scene.
+		@return  : None
+		"""
 		assert isinstance(pass_mes, PASS.MessageExchange)
 		self.elements.append(pass_mes)
 		pos = pass_mes.hasAbstractVisualRepresentation.hasPoint2D
@@ -864,6 +1025,13 @@ class View():
 		VR.view_root.addChild(message_node)
 
 	def _create_external_subject(self, pass_exsub):
+		"""
+		This function creates a VR object based on a pass external subject.
+
+		@param PASS.ExternalSubject : The PASS.ExternalSubject to create in the scene.
+		@return  : None
+		"""
+		assert isinstance(pass_exsub, PASS.ExternalSubject)
 		pos = pass_exsub.hasAbstractVisualRepresentation.hasPoint2D
 		self.elements.append(pass_exsub)
 		subject_node = VR.Transform('External_Subject_Container')
@@ -904,6 +1072,12 @@ class View():
 		VR.view_root.addChild(subject_node)
 
 	def _create_function_state(self, state):
+		"""
+		This function creates a VR object based on a pass function state.
+
+		@param PASS.State : The PASS.State to create in the scene.
+		@return  : None
+		"""
 		assert isinstance(state, PASS.State)
 		self.elements.append(state)
 		pos = state.hasAbstractVisualRepresentation.hasPoint2D
@@ -945,6 +1119,12 @@ class View():
 		VR.view_root.addChild(state_node)
 
 	def _create_send_state(self, state):
+		"""
+		This function creates a VR object based on a pass send sate.
+
+		@param PASS.State : The PASS.State to create in the scene.
+		@return  : None
+		"""
 		assert isinstance(state, PASS.State)
 		self.elements.append(state)
 		pos = state.hasAbstractVisualRepresentation.hasPoint2D
@@ -985,6 +1165,12 @@ class View():
 		VR.view_root.addChild(state_node)
 
 	def _create_receive_state(self, state):
+		"""
+		This function creates a VR object based on a pass receive state.
+
+		@param PASS.State : The PASS.State to create in the scene.
+		@return  : None
+		"""
 		assert isinstance(state, PASS.State)
 		self.elements.append(state)
 		pos = state.hasAbstractVisualRepresentation.hasPoint2D
@@ -1025,6 +1211,12 @@ class View():
 		VR.view_root.addChild(state_node)
 
 	def _create_transition_edge(self, edge):
+		"""
+		This function creates a VR object based on a pass transition edge.
+
+		@param PASS.TransitionEdge : The PASS.TransitionEdge to create in the scene.
+		@return  : None
+		"""
 		assert isinstance(edge, PASS.TransitionEdge)
 		self.elements.append(edge)
 		pos = edge.hasAbstractVisualRepresentation.hasPoint2D
@@ -1068,6 +1260,13 @@ class View():
 		VR.view_root.addChild(transition_node)
 
 	def on_change(self, object, attr):
+		"""
+		This function processes all changes to a object in the current scene.
+
+		@param object object : The object which changed.
+		@param str attr : The attribute of the object which changed.
+		@return  : None
+		"""
 		self.log.info('on_change: obj: {} attr: {}'.format(object, attr))
 		if isinstance(self.cur_scene, PASS.Layer) and (isinstance(object, PASS.Layer) or isinstance(object, PASS.Subject) \
 				or isinstance(object, PASS.ExternalSubject) or isinstance(object, PASS.MessageExchange)):
@@ -1223,6 +1422,12 @@ class View():
 			self.log.warning('VIEW ERROR: self.cur_scene must be of type Layer or Behavior but is: {}'.format(self.cur_scene))
 
 	def _get_attached_message(self, subject):
+		"""
+		This function returns the attached message exchange of a subject.
+
+		@param object subject : The subject to which the attached messsage exchangewill be returned.
+		@return object : The attached message exchange of the given subject.
+		"""
 		self.log.info('object {}'.format(subject))
 		poly_sub = self.object_dict[subject]
 		for i in self.message_dict:
@@ -1232,6 +1437,12 @@ class View():
 		return None
 
 	def _connect(self, message):
+		"""
+		This function adds paths between the objects belonging to the given message.
+
+		@param object message : The object in the middle of the path to create.
+		@return  : None
+		"""
 		self.log.info('connect({})'.format(message))
 		assert isinstance(message, VR.Transform), "parameter must be of VR.Transform type"
 		assert message in self.message_dict, "parameter must be in message_dict"
@@ -1366,6 +1577,13 @@ class View():
 		VR.ptool.update()
 
 	def set_message_line(self, user_id, set_line):
+		"""
+		This function displayes a direkt path between the left and right cursor of a given user.
+
+		@param int user_id : The user id of the given user.
+		@param bool set_line : Indication if the line should be set or not.
+		@return  : None
+		"""
 		self.log.info("drawing line")
 		if set_line:
 			if self.new_message_path is not None:
@@ -1390,11 +1608,23 @@ class View():
 				self.log.info("Warning: no message path to be deleted...")
 
 	def local_to_world_2d(self, local_pos):
+		"""
+		This function translates 2D local positions into world coordinates.
+
+		@param float[] local_pos : The 2D local position to translate.
+		@return float[] : The calculated world position.
+		"""
 		#transformation
 		assert len(local_pos) == 2, "local_pos must have a length of 2"
 		return [(local_pos[0] - 0.5) * self.scale_x + VR.cam.getFrom()[0], (local_pos[1] - 0.5) * self.scale_y + VR.cam.getFrom()[1]]
 
 	def show_init_screen(self, init_list):
+		"""
+		This function shows the initial start screen.
+
+		@param InitScreenEntry[] init_list : List of InitScreenEntries to show on the start screen.
+		@return  : None
+		"""
 		self.log.info("show_init_screen({})".format(init_list))
 		params = ''
 		for i in init_list:
