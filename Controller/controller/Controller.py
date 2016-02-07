@@ -492,9 +492,9 @@ class Controller:
 		self.log.debug(("move({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
-			assert self.current_model is not None
 			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
+				assert self.current_model is not None
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
 				#if not isinstance(self.pressed_object, View.MenuBar):
 				# TODO: the drag position is not set here. WTF?
