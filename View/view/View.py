@@ -103,7 +103,8 @@ class View():
 			'edit': self.MenuBar('edit'),
 			'meta': self.MenuBar('meta'),
 			'layer_add': self.MenuBar('layer_add'),
-			'behavior_add': self.MenuBar('behavior_add')
+			'behavior_add': self.MenuBar('behavior_add'),
+			'start_page': self.MenuBar('start_page')
 		}
 
 		#stores polyVR objects and related PASS objects and vise versa
@@ -752,6 +753,9 @@ class View():
 				#mydev.trigger(0, 0)
 				#mydev.trigger(0, 1)
 				return self.menubar_entries['behavior_add']
+			elif i.hasTag('start_page'):
+				self.log.info('view: start_page')
+				return self.menubar_entries['start_page']
 			#elif 'obj' in tags:
 			else:
 				#print 'view: object'
