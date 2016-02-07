@@ -1,11 +1,11 @@
 #!/usr/bin/env python2
 import os
+import VR
 import sys
 import math
 import PASS
 import uuid
 import time
-import Image
 import logging
 import collections
 
@@ -60,7 +60,7 @@ class Controller:
 
 		self.passive_selected_objects = collections.defaultdict(lambda: None)  # user_id is key
 
-		self.hw_main = VRHardware(self)
+		VR.hw_main = VRHardware(self)
 
 	def _check_active_users(self, user_id):
 		assert user_id in self.users
@@ -257,18 +257,57 @@ class Controller:
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
+		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "start_page") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "start_page")):
+			# click on start screen -> open item
+			# NOTE: start_page will send click only (no mousedown/up)
+			self.log.info("Searching start screen object UUID: {} in {}".format(message, self.model_files))
+			for entry in self.model_files:
+				self.log.info("type({}): {} == type({}): {}".format(type(entry.model_id), entry.model_id, type(message), message))
+				if entry.model_id == message:
+					self.log.info("Found! - opening start screen object UUID: {}".format(message))
+					new_model = False
+					if not os.path.isfile(entry.file_name):
+						self.log.info("New file - create empty model")
+						new_model = True
+						new_name = "New Process {}".format(time.strftime("%c"))
+						new_image = "imi_logo.png"
+						new_entry = View.InitScreenEntry(new_name, "./pass_models/{}.owl".format(new_name), new_image, str(uuid.uuid4()))
+						self.log.info("Appending to model files list: {}".format(new_entry.__str__()))
+						self.model_files.insert(0, new_entry)  # add new new_file to model_files
+					self.load_model(entry.file_name, new_model)
+					assert self.current_model is not None
+					break
+			self.pressed_menu_bar = None
+			self.pressed_menu_bar_item = None
 		else:
 			self.log.warning("invalid pressed_object: {}".format(self.pressed_object))
 
-	def process(self):
-		self.hw_main.process()
+	def process_hardware(self):
+		VR.hw_main.process()
+
+	def load_model(self, file_path, new=False):
+		self.log.info("open_model({}, {})".format(file_path, new))
+		assert self.view is not None
+
+		if new:
+			self.current_model = PASS.ModelManager()
+			self.current_model.saveAs(file_path)
+		elif file_path in self.models:
+			self.current_model = self.models[file_path]
+		else:
+			self.current_model = PASS.ModelManager(file_path)
+
+		self.models[file_path] = self.current_model
+		self.models[self.models[file_path]] = file_path
+
+		self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
+		self.current_model.addChangeListener(self.view.on_change)
 
 	def save_model(self):
 		if self.view is not None:
 			assert self.current_model is not None
 			file_path = self.models[self.current_model]
 			assert isinstance(file_path, basestring)
-			#self.current_model.saveAs("./tests/Beispielprozess_copy.owl")
 			self.current_model.saveAs(file_path)
 
 	def press(self, pos, user_id, is_left=False):
@@ -301,7 +340,6 @@ class Controller:
 		self.log.info(("press({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
-			#assert self.current_model is not None
 			self._check_user(user_id)
 			self.view.press(user_id, is_left)  # show closed hand in view
 			obj = self.view.get_object(user_id, is_left)
@@ -315,13 +353,9 @@ class Controller:
 					# CASE: click on menu bar -> trigger cursor click
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
 					if self.highlighted_pos_obj is None and (obj.name == "layer_add" or obj.name == "behavior_add"):  # otherwise "edit" or "meta"
+						assert self.current_model is not None
 						self.pressed_menu_bar_user_id = user_id
 						self.pressed_menu_bar_is_left = is_left
-					self.view.press(user_id, is_left)
-					self.view.trigger_down(user_id, is_left)
-				elif isinstance(obj, View.InitScreenEntry):
-					# CASE: click on init screen
-					self.log.info(("Press on InitScreenEntry: {}".format(obj.__str__)))
 					self.view.press(user_id, is_left)
 					self.view.trigger_down(user_id, is_left)
 				else:
@@ -371,7 +405,6 @@ class Controller:
 		self.log.info(("release({}, {}, {})".format(pos, user_id, is_left)))
 
 		if self.view is not None:
-			assert self.current_model is not None
 			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_is_left == is_left and self.pressed_user_id == user_id:
 				# CASE: some object was released -> drag or select?
@@ -380,10 +413,14 @@ class Controller:
 				self.pressed_object = None
 				self.pressed_user_id = None
 
-				if isinstance(self.pressed_menu_bar, View.MenuBar):  # NOTE: this was set in handle_menu_bar!!!!!!
-					# CASE: item was created with highlight point or "delete" was pressed with selected_object
-					self.log.info("Release previous MenuBar: {}".format(self.pressed_menu_bar.name))
-					obj = self.view.get_object(user_id, is_left)
+				obj = self.view.get_object(user_id, is_left)
+
+				if (isinstance(self.pressed_menu_bar, View.MenuBar) or isinstance(obj, View.MenuBar)):  # NOTE: this was set in handle_menu_bar!!!!!!
+					# CASE: item was created with highlight point
+					# or "delete" was pressed with selected_object
+					# or message was created
+					if isinstance(self.pressed_menu_bar, View.MenuBar):
+						self.log.info("Release previous MenuBar: {}".format(self.pressed_menu_bar.name))
 					self.log.info("Release current object: {}".format(obj))
 					if isinstance(obj, View.MenuBar):
 						self.log.info("Release current object name: {}".format(obj.name))
@@ -395,7 +432,7 @@ class Controller:
 							self.pressed_menu_bar = None
 							self.pressed_menu_bar_item = None
 						self.view.trigger_up(user_id, is_left)
-					elif self.pressed_menu_bar_item == "message":
+					elif self.pressed_menu_bar_item == "message_down":
 						assert isinstance(self.released_object, View.MenuBar), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add message was released on field
 						lo = self.view.get_object(user_id, True)
@@ -414,7 +451,10 @@ class Controller:
 							self.released_object = new_obj
 						else:
 							self.log.info("User {} trying to create message on invalid targets".format(user_id))
+						self.pressed_menu_bar = None
+						self.pressed_menu_bar_item = None
 						self.view.set_message_line(user_id, False)
+						self.view.trigger_up(user_id, is_left)
 					elif self.pressed_menu_bar_item == "transition":
 						assert isinstance(self.released_object, View.MenuBar), "Inconsistency between pressed_menu_bar_item and released_object"
 						# CASE: add message was released on field
@@ -427,19 +467,26 @@ class Controller:
 							self.pressed_menu_bar = None
 							self.pressed_menu_bar_item = None
 						self.view.trigger_up(user_id, is_left)
+					elif obj.name == "start_page":
+						# click on start page (no mouseup/down here, handle a click (up/down at once)
+						self.pressed_menu_bar = obj
+						self.pressed_menu_bar_item = obj.name
+						self.view.trigger_up(user_id, is_left)
 					else:
 						self.log.warning("Invalid MenuBar type or so")
 					#self.pressed_menu_bar = None
 					#self.pressed_menu_bar_item = None
-				elif sum([x ** 2 for x in [a - b for a, b in zip(self.press_position[user_id], pos)]]) < 10.0:
-					# CASE: some field object was selected
-					# nothing to do LOL
-					pass
+				#elif sum([x ** 2 for x in [a - b for a, b in zip(self.press_position[user_id], pos)]]) < 10.0:
+				#	# CASE: some field object was selected
+				#	# nothing to do LOL
+				#	pass
 				else:
 					# CASE: some field object was dragged/moved
 					# nothing to do
+					assert self.current_model is not None, "Why is this happending? O_o double check"
 					pass
 			elif self.pressed_object is None and self._check_active_users(user_id):
+				assert self.current_model is not None
 				# CASE: release on field without object -> deselect everything and whatnot
 				if self.selected_object is None and self.highlighted_pos_obj is None:
 					# set highlight on empty field (for creating new object from menubar combo-command)
@@ -454,6 +501,7 @@ class Controller:
 					# remove highlight from object
 					self._update_selected_object(None)
 			else:
+				#assert self.current_model is not None
 				# passive user release -> remove passive highlight from user
 				self._update_passive_highlight(None, user_id)
 
@@ -494,11 +542,11 @@ class Controller:
 		if self.view is not None:
 			self._check_user(user_id)
 			if self.pressed_object is not None and self.pressed_user_id == user_id and self.pressed_is_left == is_left:
-				assert self.current_model is not None
 				#assert self.pressed_object is self.selected_object  # this is no longer true, MenuBar is not selected
 				#if not isinstance(self.pressed_object, View.MenuBar):
 				# TODO: the drag position is not set here. WTF?
 				if isinstance(self.pressed_object, PASS.PASSProcessModelElement):
+					assert self.current_model is not None
 					assert hasattr(self.pressed_object, "hasAbstractVisualRepresentation")
 					self.log.info("Moving object to {}".format(pos))
 					pos_norm_2d = self.view.local_to_world_2d(pos[:2])
@@ -524,10 +572,12 @@ class Controller:
 		self.log.info(("zoom({})".format(level)))
 
 		if self.view is not None:
-			assert self.current_model is not None
 			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to zoom".format(user_id))
+				return None
+			if self.current_model is None:
+				self.log.debug("No current model, ignore zoom")
 				return None
 			if level < 0:
 				if self.view.current_zoom_level() == 0:
@@ -596,7 +646,6 @@ class Controller:
 		self.log.info(("fade_in({})".format(pos)))
 
 		if self.view is not None:
-			assert self.current_model is not None
 			self._check_user(user_id)
 			if not self._check_active_users(user_id):
 				self.log.debug("Inactive user {} trying to fade_in".format(user_id))
@@ -605,6 +654,7 @@ class Controller:
 			if obj is not None and self.pressed_user_id is None:
 				assert self.pressed_object is None, "Inconsistent pressed_* variables"
 				if isinstance(obj, PASS.Subject):
+					assert self.current_model is not None
 					self.log.info("fade_in: got subject")
 					behavior = obj.hasBehavior
 					assert behavior is not None, "Invalid Subject, Behavior is none"
@@ -729,8 +779,8 @@ class Controller:
 		# Format: [InitScreenEntry, InitScreenEntry, ...]
 
 		new_name = "New Process {}".format(time.strftime("%c"))
-		new_image = "IMI_LOGO.png"
-		new_entry = View.InitScreenEntry(new_name, "./pass_models/{}.owl".format(new_name), new_image, uuid.uuid4())
+		new_image = "imi_logo.png"
+		new_entry = View.InitScreenEntry(new_name, "./pass_models/{}.owl".format(new_name), new_image, str(uuid.uuid4()))
 		self.log.info("Appending to model files list: {}".format(new_entry.__str__()))
 		self.model_files = [new_entry]
 		files = []
@@ -748,7 +798,7 @@ class Controller:
 			self.log.info("Searching for logo file {}".format(image_file_name))
 			if image_file_name not in files:
 				image_file_name = new_image
-			t = View.InitScreenEntry(dispname, fi, image_file_name, uuid.uuid4())
+			t = View.InitScreenEntry(dispname, fi, image_file_name, str(uuid.uuid4()))
 			self.log.info("Appending to model files list: {}".format(t.__str__()))
 			self.model_files.append(t)
 

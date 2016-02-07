@@ -857,8 +857,11 @@
       <core>
 	import VR
 	
-	if hasattr(VR, "controller"):
-		VR.controller.process()
+	#if hasattr(VR, "controller"):
+	#	VR.controller.process()
+
+	if hasattr(VR, "hw_main"):
+		VR.hw_main.process()
 </core>
       <trig type="on_timeout" dev="" state="Pressed" param="0" key="0" name_suffix="3" base_name="trigger" name_space="__global__"/>
     </Script>
@@ -1013,8 +1016,8 @@
 					id = element.getAttribute("id")
 				}
                                           
-			websocket.send(content + " " + id);
-			alert(content + " " + id);
+			websocket.send(/*content + " " +*/ id);
+			alert(/*content + " " +*/ id);
 		}, false);
 	}
 	&lt;/script&gt;

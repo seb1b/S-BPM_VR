@@ -626,6 +626,7 @@ class View():
 		mydev_l.setBeacon(cursor_container_left)
 		mydev_l.addIntersection(self.edit_node)
 		mydev_l.addIntersection(self.meta_plane)
+		mydev_l.addIntersection(self.start_page_plane)
 		mydev_l.addIntersection(VR.view_root)
 		mydev_r = VR.Device('mydev')
 		mydev_r.setBeacon(cursor_container_right)
@@ -633,6 +634,7 @@ class View():
 		#print "cursor container left", mydev_l.getBeacon().getChildren()
 		mydev_r.addIntersection(self.edit_node)
 		mydev_r.addIntersection(self.meta_plane)
+		mydev_r.addIntersection(self.start_page_plane)
 		mydev_r.addIntersection(VR.view_root)
 		self.edit_site.addMouse(mydev_l, self.edit_plane, 0, 2, 3, 4)
 		self.edit_site.addMouse(mydev_r, self.edit_plane, 0, 2, 3, 4)
@@ -642,6 +644,8 @@ class View():
 		self.layer_add_site.addMouse(mydev_r, self.layer_add_plane, 0, 2, 3, 4)
 		self.behavior_add_site.addMouse(mydev_l, self.behavior_add_plane, 0, 2, 3, 4)
 		self.behavior_add_site.addMouse(mydev_r, self.behavior_add_plane, 0, 2, 3, 4)
+		self.start_page_site.addMouse(mydev_l, self.start_page_plane, 0, 2, 3, 4)
+		self.start_page_site.addMouse(mydev_r, self.start_page_plane, 0, 2, 3, 4)
 		VR.view_user_cursors[user_id][True] = mydev_l
 		VR.view_user_cursors[user_id][False] = mydev_r
 		VR.view_user_positions[user_id] = {}
