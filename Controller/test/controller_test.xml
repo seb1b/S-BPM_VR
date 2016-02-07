@@ -484,8 +484,8 @@
 
 	#VR.controller.test()
 	#VR.controller.init_debug_setup()
-	#VR.controller.test_bsp_prozess()
-	VR.controller.init_empty()
+	VR.controller.test_bsp_prozess()
+	#VR.controller.init_empty()
 </core>
       <arg type="VRPyDeviceType" value="keyboard" name_suffix="0" base_name="keyboard" name_space="init"/>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
