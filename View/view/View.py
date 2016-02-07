@@ -13,10 +13,11 @@ class View():
 			self.name = name
 
 	class InitScreenEntry():
-		def __init__(self, display_name, file_name, image_file_name):
+		def __init__(self, display_name, file_name, image_file_name, model_id):
 			self.display_name = display_name
 			self.file_name = file_name
 			self.image_file_name = image_file_name
+			self.model_id = model_id
 
 		def __str__(self):
 			return "InitScreenEntry: {}, {}, {}".format(self.display_name, self.file_name, self.image_file_name)
@@ -314,6 +315,7 @@ class View():
 		self.navigation_plane_back.setDir(0, 0, 1)
 		self.navigation_plane_back.setScale(1, -1, 1)
 		self.navigation_plane_back.setPickable(False)
+		self.navigation_plane_back.setVisible(False)
 		self.navigation_plane_back.addTag('navigationBack')
 
 		self.navigation_plane = VR.Geometry('navigation')
@@ -415,6 +417,7 @@ class View():
 		params = self._create_url_params_from_object(self.cur_scene)
 		self.meta_site.open('http://localhost:5500/meta' + '?' + params)
 		self.navigation_plane.setVisible(True)
+		self.navigation_plane_back.setVisible(True)
 		for c in self.edit_node.getChildren():
 			c.setVisible(False)
 		if isinstance(cur_scene, PASS.Layer):
@@ -1388,7 +1391,7 @@ class View():
 		params = ''
 		for i in init_list:
 			assert isinstance(i, self.InitScreenEntry)
-			params = params + str(i.display_name) + '=' + str(i.image_file_name)
+			params = params + str(i.display_name) + '=' + str(i.image_file_name) + '=' + str(model_id)
 			if(init_list.index(i) != len(init_list) - 1):
 				params = params + '&'
 
