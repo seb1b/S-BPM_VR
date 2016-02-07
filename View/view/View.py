@@ -81,9 +81,9 @@ class View():
 		self.BLENDER_PATHS['open_hand_right'] = '../../View/Blender/Cursor/Open_Hand_Right.dae'
 		self.BLENDER_PATHS['closed_hand_right'] = '../../View/Blender/Cursor/Closed_Hand_Right.dae'
 		self.BLENDER_PATHS['open_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae'
-		self.BLENDER_PATHS['closed_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left.dae' #TODO
+		self.BLENDER_PATHS['closed_pointer_left'] = '../../View/Blender/Cursor/Pointer_Hand_Left_Click.dae'
 		self.BLENDER_PATHS['open_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae'
-		self.BLENDER_PATHS['closed_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right.dae' #TODO
+		self.BLENDER_PATHS['closed_pointer_right'] = '../../View/Blender/Cursor/Pointer_Hand_Right_Click.dae'
 		self.BLENDER_PATHS['arrow_tip'] = '../../View/Blender/Pfeil/Pfeil.dae'
 
 		self.PLANE_SIZE = 0.4
@@ -194,20 +194,14 @@ class View():
 		self.start_page_plane.setUp(0, -1, 0)
 		self.start_page_plane.setAt(0, 0, 1)
 		self.start_page_plane.setDir(0, 0, 1)
-		self.start_page_plane.setPickable(False)
+		self.start_page_plane.setPickable(False)		
 		self.start_page_plane.addTag('start_page')
 
 		self.start_page_site = VR.CEF()
 		self.start_page_site.setMaterial(self.start_page_plane.getMaterial())
 		self.start_page_site.open('http://localhost:5500/start')
 		self.start_page_site.setResolution(1024)
-		self.start_page_site.setAspectRatio(2)
-
-		self.start_page_plane.setVisible(True)
-		self.start_page_site.setMaterial(self.behavior_add_plane.getMaterial())
-		self.start_page_site.open('http://localhost:5500/behaviorAdd')
-		self.start_page_site.setResolution(512)
-		self.start_page_site.setAspectRatio(4)
+		self.start_page_site.setAspectRatio(1)
 
 		self.start_page_plane.setVisible(False)
 		VR.view_root.addChild(self.start_page_plane)
@@ -796,16 +790,18 @@ class View():
 			subject_node.getChildren()[1].setVisible(True)
 		
 		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
 		if len(pass_sub.label) == 0:
 			label = ''
 		else:
 			label = pass_sub.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		subject_node.addChild(sprite)
+		label_split = str.split(label)
+		for l in label_split:
+			sprite = VR.Sprite('label')
+			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l), self.TEXT_SIZE)
+			sprite.setSize(0.1 * len(l), 0.1)
+			#print 'label', l
+			sprite.setText(l)
+			subject_node.addChild(sprite)	
 		
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
@@ -837,18 +833,19 @@ class View():
 		else:
 			message_node.getChildren()[1].setVisible(True)
 			
-		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
+		# create label		
 		if len(pass_mes.label) == 0:
 			label = ''
 		else:
 			label = pass_mes.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		message_node.addChild(sprite)
-		
+		label_split = str.split(label)
+		for l in label_split:
+			sprite = VR.Sprite('label')
+			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l) * 10, self.TEXT_SIZE)
+			sprite.setSize(0.1 * len(l), 0.1)
+			#print 'label', l
+			sprite.setText(l)
+			message_node.addChild(sprite)		
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
@@ -1313,48 +1310,7 @@ class View():
 				
 		self.log.debug("View:", 's_pos', s_pos, 'm_pos', m_pos, 'r_pos', r_pos)
 		self.log.debug("View:", 's_dir', s_dir, 'm_dir_1', m_dir_1, 'm_dir_2', m_dir_2, 'r_dir', r_dir)
-		
-		'''	
-		sender_pos = s.getFrom()
-		mid_pos = message.getFrom()
-		end_pos = r.getFrom()
-
-		#calc directions
-		start_dir = [0.0, 0.0]
-		mid_dir = [1.0, 0.0]
-		end_dir = [0.0, 0.0]
-		if start_pos[0] > mid_pos[1]:
-			start_dir[1] = -1.0
-		elif start_pos[1] < mid_pos[1]:
-			start_dir[1] = 1.0
-		else:
-			if start_pos[0] > mid_pos[0]:
-				start_dir[0] = 1.0
-			else:
-				start_dir[0] = -1.0
-
-		if mid_pos[1] > end_pos[1]:
-			end_dir[1] = 1.0
-		elif mid_pos[1] < mid_pos[1]:
-			end_dir[1] = -1.0
-		else:
-			if end_pos[0] > mid_pos[0]:
-				end_dir[0] = -1.0
-			else:
-				end_dir[0] = 1.0
-
-		if mid_pos[0] == start_pos[0] or mid_pos[0] == end_pos[0]:
-			if mid_pos[1] < start_pos[1]:
-				mid_dir[1] = -1.0
-			else:
-				mid_dir[1] = 1.0
-		elif mid_pos[0] > start_pos[0]:
-			mid_dir[0] = 1.0
-		else:
-			mid_dir[0] = -1.0
-		'''
-
-		#print "draw_line: ", s, " => ", r
+		self.log.debug("View:", "draw_line: ", s, " => ", message, " => ", r)
 
 		#set path from sender
 		m_paths = []
@@ -1429,8 +1385,13 @@ class View():
 
 	def show_init_screen(self, init_list):
 		self.log.info("show_init_screen({})".format(init_list))
+		params = ''
 		for i in init_list:
 			assert isinstance(i, self.InitScreenEntry)
+			params = params + str(i.display_name) + '=' + str(i.image_file_name)
+			if(init_list.index(i) != len(init_list) - 1):
+				params = params + '&'
 
-		# TODO: show items on screen
-		pass
+		self.log.info('parameter website {}'.format(params))
+		self.start_page_site.open('http://localhost:5500/start' + '?' + params)
+		self.start_page_plane.setVisible(True)
