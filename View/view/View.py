@@ -960,6 +960,7 @@ class View():
 			subject_node.getChildren()[1].setVisible(True)
 		
 		# create label
+		'''
 		if len(pass_sub.label) == 0:
 			label = ''
 		else:
@@ -967,16 +968,18 @@ class View():
 		label_split = str.split(label)
 		for l in label_split:
 			sprite = VR.Sprite('label')
+			sprite.setMaterial(VR.Material('labelMat'))
 			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l), self.TEXT_SIZE)
 			sprite.setSize(0.1 * len(l), 0.1)
-			#print 'label', l
+			print 'label', l
 			sprite.setText(l)
-			subject_node.addChild(sprite)	
+			subject_node.addChild(sprite)
+		'''
+		self._create_label_for_object(pass_sub, subject_node)
 		
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
 		VR.view_root.addChild(subject_node)
-		#VR.view_root.addChild(sprite)
 
 	def _create_message(self, pass_mes):
 		"""
@@ -1010,17 +1013,8 @@ class View():
 			message_node.getChildren()[1].setVisible(True)
 			
 		# create label
-		if len(pass_mes.label) == 0:
-			label_split = ['']
-		else:
-			label_split = str.split(pass_mes.label[0])
-		for l in label_split:
-			sprite = VR.Sprite('label')
-			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l) * 10, self.TEXT_SIZE)
-			sprite.setSize(0.1 * len(l), 0.1)
-			#print 'label', l
-			sprite.setText(l)
-			message_node.addChild(sprite)
+		self._create_label_for_object(pass_mes, message_node)
+		
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
@@ -1059,16 +1053,7 @@ class View():
 			subject_node.getChildren()[1].setVisible(True)
 			
 		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
-		if len(pass_exsub.label) == 0:
-			label = ''
-		else:
-			label = pass_exsub.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		subject_node.addChild(sprite)
+		self._create_label_for_object(pass_exsub, subject_node)
 		
 		self.object_dict[pass_exsub] = subject_node
 		self.object_dict[subject_node] = pass_exsub
@@ -1106,16 +1091,7 @@ class View():
 			state_node.getChildren()[1].setVisible(True)
 			
 		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
-		if len(state.label) == 0:
-			label = ''
-		else:
-			label = state.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		state_node.addChild(sprite)
+		self._create_label_for_object(state, state_node)
 		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
@@ -1152,16 +1128,7 @@ class View():
 			state_node.getChildren()[1].setVisible(True)
 			
 		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
-		if len(state.label) == 0:
-			label = ''
-		else:
-			label = state.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		state_node.addChild(sprite)
+		self._create_label_for_object(state, state_node)
 		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
@@ -1198,16 +1165,7 @@ class View():
 			state_node.getChildren()[1].setVisible(True)
 			
 		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
-		if len(state.label) == 0:
-			label = ''
-		else:
-			label = state.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		state_node.addChild(sprite)
+		self._create_label_for_object(state, state_node)
 		
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
@@ -1245,22 +1203,33 @@ class View():
 			transition_node.getChildren()[1].setVisible(True)
 			
 		# create label
-		sprite = VR.Sprite('label')
-		sprite.setFrom(self.TEXT_SIZE / 2, 0, self.TEXT_SIZE)
-		if len(edge.label) == 0:
-			label = ''
-		else:
-			label = edge.label[0]
-		sprite.setSize(0.1 * len(label), 0.1)
-		#print 'label', label
-		sprite.setText(label)
-		transition_node.addChild(sprite)
+		self._create_label_for_object(edge, transition_node)
 		
 		self.object_dict[edge] = transition_node
 		self.object_dict[transition_node] = edge
 		self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
 		self._connect(transition_node)
 		VR.view_root.addChild(transition_node)
+		
+	def _create_label_for_object(self, pass_obj, vr_obj):
+		"""
+		This function creates a label based on the pass object and adds it to the vr object.
+
+		@param object pass_obj : The pass object which contains the label information.
+		@param object vr_obj : The vr object to which the label should be attached.
+		@return  : None
+		"""
+		if len(pass_obj.label) == 0:
+			label_split = ['']
+		else:
+			label_split = str.split(pass_obj.label[0])
+		for l in label_split:
+			sprite = VR.Sprite('label')
+			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l) * 0.5, self.TEXT_SIZE)
+			sprite.setSize(0.1 * len(l), 0.1)
+			print 'label', l
+			sprite.setText(l)
+			vr_obj.addChild(sprite)
 
 	def on_change(self, object, attr):
 		"""
