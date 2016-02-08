@@ -816,8 +816,10 @@
 				console.log(self.valueCol.innerHTML);
 				var newText = self.valueCol.textContent.trim() || self.valueCol.innerText.trim(); 
 				if(newText != value) {
-					websocket.send("metaContent[id] -&gt; " + self.key + ": '" + self.value + "' -&gt; '" + newText + "'");
-					alert("metaContent[" + self.key + "] changed: '" + self.value + "' -&gt; '" + newText + "'");
+					//websocket.send("metaContent[id] -&gt; " + self.key + ": '" + self.value + "' -&gt; '" + newText + "'");
+					websocket.send("metaContent[id]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
+					//alert("metaContent[" + self.key + "] changed: '" + self.value + "' -&gt; '" + newText + "'");
+					alert("metaContent[id]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					self.value = newText;
 				}
 				self.valueCol.style.backgroundColor = "transparent";
