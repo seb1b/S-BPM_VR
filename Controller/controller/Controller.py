@@ -437,14 +437,15 @@ class Controller:
 						# CASE: add message was released on field
 						lo = self.view.get_object(user_id, True)
 						ro = self.view.get_object(user_id, False)
+						self.log.info("Trying to create new message between {} and {}".format(lo, ro))
 						if isinstance(lo, PASS.Subject) and isinstance(ro, PASS.Subject):
 							# CASE: adding message only possible if two subjects are selected
 							new_obj = self.view.get_cur_scene().addMessageExchange(lo, ro)
-							p1 = lo.hasAbstractVisualRepresentation.getPos2D()
-							p2 = ro.hasAbstractVisualRepresentation.getPos2D()
-							min_pos = [math.min(a, b) for a, b in zip(p1, p2)]
-							max_pos = [math.max(a, b) for a, b in zip(p1, p2)]
-							new_obj.hasAbstractVisualRepresentation.setPos2D([min_pos[0] + (max_pos[0] - min_pos[0]) / 2, min_pos[1] + (max_pos[1] - min_pos[1]) / 2])
+							p1 = lo.hasAbstractVisualRepresentation.getPoint2D()
+							p2 = ro.hasAbstractVisualRepresentation.getPoint2D()
+							min_pos = [min(a, b) for a, b in zip(p1, p2)]
+							max_pos = [max(a, b) for a, b in zip(p1, p2)]
+							new_obj.hasAbstractVisualRepresentation.setPoint2D(min_pos[0] + (max_pos[0] - min_pos[0]) / 2, min_pos[1] + (max_pos[1] - min_pos[1]) / 2)
 							new_obj.label.append("New Message")
 							new_obj.setMetaContent("Date", time.strftime("%c"))
 							self._update_selected_object(new_obj)

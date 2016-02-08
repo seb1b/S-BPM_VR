@@ -1009,19 +1009,18 @@ class View():
 		else:
 			message_node.getChildren()[1].setVisible(True)
 			
-		# create label		
+		# create label
 		if len(pass_mes.label) == 0:
-			label = ''
+			label_split = ['']
 		else:
-			label = pass_mes.label[0]
-		label_split = str.split(label)
+			label_split = str.split(pass_mes.label[0])
 		for l in label_split:
 			sprite = VR.Sprite('label')
 			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l) * 10, self.TEXT_SIZE)
 			sprite.setSize(0.1 * len(l), 0.1)
 			#print 'label', l
 			sprite.setText(l)
-			message_node.addChild(sprite)		
+			message_node.addChild(sprite)
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]

@@ -309,7 +309,10 @@
 		elif s == 0:
 			VR.controller.release(p, 1001, False)
 	if k == 2:  # right click
-		VR.controller.press(p, 1001, False)
+		if s == 1:
+			VR.controller.press(p, 1001, True)
+		elif s == 0:
+			VR.controller.release(p, 1001, True)
 
 </core>
       <trig type="on_device" dev="mouse" state="Pressed" param="0" key="-1" name_suffix="1" base_name="trigger" name_space="__global__"/>
@@ -325,6 +328,10 @@
 		return
 
 	c = VR.controller
+	
+	k = m.getKey()
+	is_left = (k == 2) # right mouse button
+	#print k, is_left
 	
 	VR.b = m.getBeacon()
 	d = VR.b.getDir()
@@ -344,7 +351,7 @@
 	
 	#print p
 	
-	c.move(p, 1001, False)
+	c.move(p, 1001, is_left)
 
 </core>
       <arg type="VRPyDeviceType" value="mouse" name_suffix="0" base_name="m" name_space="debug_mouse_move"/>
