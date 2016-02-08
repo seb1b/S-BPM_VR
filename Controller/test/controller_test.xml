@@ -308,6 +308,8 @@
 			VR.controller.press(p, 1001, False)
 		elif s == 0:
 			VR.controller.release(p, 1001, False)
+	if k == 1:  # middle mouse button
+		VR.controller.fade_in(p, 1001, False)
 	if k == 2:  # right click
 		if s == 1:
 			VR.controller.press(p, 1001, True)
