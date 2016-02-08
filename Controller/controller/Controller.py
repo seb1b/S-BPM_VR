@@ -80,7 +80,7 @@ class Controller:
 
 	def _update_selected_object(self, obj):
 		if obj is not None and not isinstance(obj, PASS.PASSProcessModelElement):
-			self.log.warning("Ignoring select on object {}".format(obj))
+			self.log.info("Ignoring select on object {}".format(obj))
 			return
 		if self.selected_object is not None and isinstance(self.selected_object, PASS.PASSProcessModelElement):
 			if not self.view.set_highlight(self.selected_object, False):
@@ -113,7 +113,7 @@ class Controller:
 		if ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "layer_add") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "layer_add")):
 			if message == "subject_down":
 				if not isinstance(self.pressed_object, View.MenuBar):
-					self.log.warning("process_menu_bar({}): pressed object is NOT MenuBar - returning".format(message))
+					self.log.info("process_menu_bar({}): pressed object is NOT MenuBar - returning".format(message))
 					return
 				if self.highlighted_pos_obj is None:
 					assert self.highlighted_pos is None, "WTF"
@@ -428,7 +428,7 @@ class Controller:
 					if self.pressed_menu_bar_item == "subject_down" or self.pressed_menu_bar_item == "exsubject_down":
 						# subject down was pressed before, now released
 						if obj is not self.pressed_menu_bar:
-							self.log.warning("User dragged off from menu bar during click!")
+							self.log.info("User dragged off from menu bar during click!")
 							self.pressed_menu_bar = None
 							self.pressed_menu_bar_item = None
 						self.view.trigger_up(user_id, is_left)
@@ -464,7 +464,7 @@ class Controller:
 					elif self.pressed_menu_bar_item == "delete_down":
 						# delete was pressed before, now released
 						if obj is not self.pressed_menu_bar:
-							self.log.warning("User dragged off from menu bar during click!")
+							self.log.info("User dragged off from menu bar during click!")
 							self.pressed_menu_bar = None
 							self.pressed_menu_bar_item = None
 						self.view.trigger_up(user_id, is_left)
@@ -552,7 +552,7 @@ class Controller:
 					self.log.info("Moving object to {}".format(pos))
 					pos_norm_2d = self.view.local_to_world_2d(pos[:2])
 					old_pos = self.pressed_object.hasAbstractVisualRepresentation.getPoint2D()
-					self.log.warning("Moving object from {} to {} in model".format(old_pos, pos_norm_2d))
+					self.log.info("Moving object from {} to {} in model".format(old_pos, pos_norm_2d))
 					self.pressed_object.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
 			self.view.move_cursor(pos, user_id, is_left)
 
