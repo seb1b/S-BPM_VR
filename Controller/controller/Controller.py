@@ -102,9 +102,10 @@ class Controller:
 
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
-		self.log.info("process_menu_bar({})".format(message))
+		self.log.info("process_menu_bar({}{}{})".format('"', message, '"'))
 		self.log.info("process_menu_bar: self.pressed_menu_bar: {}".format(self.pressed_menu_bar))
 		self.log.info("process_menu_bar: self.pressed_object: {}".format(self.pressed_object))
+		self.log.info("process_menu_bar: self.selected_object: {}".format(self.selected_object))
 		if isinstance(self.pressed_menu_bar, View.MenuBar):
 			self.log.info("process_menu_bar: self.pressed_menu_bar.name: {}".format(self.pressed_menu_bar.name))
 		if isinstance(self.pressed_object, View.MenuBar):
@@ -188,7 +189,7 @@ class Controller:
 				elif isinstance(old_obj, PASS.State):
 					self.view.get_cur_scene().removeState(old_obj)
 				elif isinstance(old_obj, PASS.TransitionEdge):
-					self.view.get_cur_scene().removeTransitionEdge(old_obj)
+					self.view.get_cur_scene().removeTransition(old_obj)
 				self.pressed_menu_bar = None
 				self.pressed_menu_bar_item = None
 			elif message == "copy_down" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
