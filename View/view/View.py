@@ -1341,11 +1341,7 @@ class View():
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					self._refresh_label_for_object(poly_obj)
 				elif attr == 'label':  # name changed
-					if len(object.label) == 0:
-						label = ''
-					else:
-						label = object.label[0]
-					poly_obj.getChildren()[4].setText(label)
+					self._refresh_label_for_object(poly_obj)
 				elif attr == 'hasMetaContent':  # meta data changed
 					children = poly_obj.getChildren()
 					
@@ -1411,11 +1407,7 @@ class View():
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					self._refresh_label_for_object(poly_obj)
 				elif attr == 'label':  # name changed
-					if len(object.label) == 0:
-						label = ''
-					else:
-						label = object.label[0]
-					poly_obj.getChildren()[4].setText(label)
+					self._refresh_label_for_object(poly_obj)
 				elif attr == 'hasMetaContent':  # meta data changed
 					children = poly_obj.getChildren()
 					
