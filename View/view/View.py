@@ -1098,6 +1098,7 @@ class View():
 		pos = state.hasAbstractVisualRepresentation.hasPoint2D
 		state_node = VR.Transform('State_Container')
 		state_node.addTag('send_state')
+		state_node.addTag('obj')
 		state_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 		state_node.setPlaneConstraints([0, 0, 1])
 		state_node.setRotationConstraints([1, 1, 1])
@@ -1135,6 +1136,7 @@ class View():
 		pos = state.hasAbstractVisualRepresentation.hasPoint2D
 		state_node = VR.Transform('State_Container')
 		state_node.addTag('receive_state')
+		state_node.addTag('obj')
 		state_node.setFrom(pos.hasXValue, pos.hasYValue, 0)
 		state_node.setPlaneConstraints([0, 0, 1])
 		state_node.setRotationConstraints([1, 1, 1])
