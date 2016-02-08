@@ -100,6 +100,37 @@ class Controller:
 				if not self.view.set_highlight(self.passive_selected_objects[user_id], True):
 					self.log.warning("Selecting passive object {} failed".format(self.passive_selected_objects[user_id]))
 
+	def _load_model(self, file_path, new=False):
+		self.log.info("open_model({}, {})".format(file_path, new))
+		assert self.view is not None
+
+		if new:
+			self.current_model = PASS.ModelManager()
+			self.current_model.saveAs(file_path)
+		elif file_path in self.models:
+			self.current_model = self.models[file_path]
+		else:
+			self.current_model = PASS.ModelManager(file_path)
+
+		self.models[file_path] = self.current_model
+		self.models[self.models[file_path]] = file_path
+
+		self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
+		self.current_model.addChangeListener(self.view.on_change)
+
+	def _save_model(self):
+		self.log.info("_save_model()")
+		if self.view is not None:
+			assert self.current_model is not None
+			file_path = self.models[self.current_model]
+			assert isinstance(file_path, basestring)
+			screenshot = VR.getSetup().getView(0).grab()
+			image_file_name = "{}{}".format(os.path.splitext(file_path)[0], ".png")
+			self.log.info("Saving screenshot {}".format(image_file_name))
+			screenshot.write(image_file_name)
+			self.log.info("Saving model file {}".format(file_path))
+			self.current_model.saveAs(file_path)
+
 	def process_menu_bar(self, message):
 		assert message is not None, "Message is None"
 		self.log.info("process_menu_bar({}{}{})".format('"', message, '"'))
@@ -307,7 +338,7 @@ class Controller:
 						new_entry = View.InitScreenEntry(new_name, "./pass_models/{}.owl".format(new_name), new_image, str(uuid.uuid4()))
 						self.log.info("Appending to model files list: {}".format(new_entry.__str__()))
 						self.model_files.insert(0, new_entry)  # add new new_file to model_files
-					self.load_model(entry.file_name, new_model)
+					self._load_model(entry.file_name, new_model)
 					assert self.current_model is not None
 					break
 			self.pressed_menu_bar = None
@@ -334,6 +365,15 @@ class Controller:
 				assert len(new_value) >= 2
 				new_value = new_value[0]
 				self.log.info("New value: {}".format(new_value))
+				# check existing meta data
+				if key in self.selected_object.getMetaKeys():
+					self.log.info("Found existing key {}".format(key))
+					self.selected_object.setMetaContent(key, new_value)
+					# TODO: enable to save on changing label value
+					#self._save_model()
+				else:
+					self.log.info("Key not found: {}".format(key))
+					# TODO: add new entry (probably?)
 			else:
 				self.log.warning("Received unhandled message from meta: {}".format(message))
 		else:
@@ -341,31 +381,6 @@ class Controller:
 
 	def process_hardware(self):
 		VR.hw_main.process()
-
-	def load_model(self, file_path, new=False):
-		self.log.info("open_model({}, {})".format(file_path, new))
-		assert self.view is not None
-
-		if new:
-			self.current_model = PASS.ModelManager()
-			self.current_model.saveAs(file_path)
-		elif file_path in self.models:
-			self.current_model = self.models[file_path]
-		else:
-			self.current_model = PASS.ModelManager(file_path)
-
-		self.models[file_path] = self.current_model
-		self.models[self.models[file_path]] = file_path
-
-		self.view.set_cur_scene(self.current_model.model.hasModelComponent[0])
-		self.current_model.addChangeListener(self.view.on_change)
-
-	def save_model(self):
-		if self.view is not None:
-			assert self.current_model is not None
-			file_path = self.models[self.current_model]
-			assert isinstance(file_path, basestring)
-			self.current_model.saveAs(file_path)
 
 	def press(self, pos, user_id, is_left=False):
 		"""This function handles a push or press event
