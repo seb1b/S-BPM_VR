@@ -474,12 +474,7 @@ class View():
 			self.edit_node.getChildren()[1].setVisible(True)
 		else:
 			self.log.info('VIEW: set_cur_scene neither layer nor behavior')
-
-		##VR.cam.addChild(self.active_gui_element) #TODO
-		#self.scale_y = 2 *self.CAM_INIT_DIST * math.tan(self.camera_fov * 0.5)
-		#self.scale_x = self.scale_y * self.win_size[0] / self.win_size[1]
 		self._update_all()
-		#VR.cam.setFrom(self.camera_from[0], self.camera_from[1], self.CAM_INIT_DIST + 10)
 
 	def get_cur_scene(self):
 		"""
@@ -1286,7 +1281,7 @@ class View():
 					self._create_message(object)
 				elif isinstance(object, PASS.ExternalSubject):
 					self._create_external_subject(object)
-			elif isinstance(object, PASS.Layer):
+			elif isinstance(object, PASS.Layer):  # delete element
 				self.log.info('VIEW: onchange layer')
 				if attr == "hasModelComponent":
 					list_of_elements = object.hasModelComponent
@@ -1349,8 +1344,7 @@ class View():
 					else:
 						label = object.label[0]
 					poly_obj.getChildren()[4].setText(label)
-				elif attr == 'hasMetaContent':
-					#TODO meta data changed
+				elif attr == 'hasMetaContent':  # meta data changed
 					children = poly_obj.getChildren()
 					
 					for i, c in enumerate(children):
@@ -1416,8 +1410,7 @@ class View():
 					else:
 						label = object.label[0]
 					poly_obj.getChildren()[4].setText(label)
-				elif attr == 'hasMetaContent':
-					#TODO meta data changed
+				elif attr == 'hasMetaContent':  # meta data changed
 					children = poly_obj.getChildren()
 					
 					for i, c in enumerate(children):
