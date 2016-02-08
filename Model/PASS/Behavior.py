@@ -105,7 +105,10 @@ class Behavior(PASSProcessModelElement):
 		if(not isinstance(state, State)):
 			raise Exception("The state must be of type State!")
 		#Delete incident edges
-		self.hasEdge[:] = [t for t in self.hasEdge if not ((t.hasSourceState is state) or (t.hasTargetState is state))]
+		tempEdges = list(self.hasEdge)
+		for e in tempEdges:
+			if ((e.hasSourceState is state) or (e.hasTargetState is state)):
+				self.removeTransition(e)
 		#Delete state
 		self.hasState.remove(state)
 		#Check if it was the initial state - if yes set another initial state if there are other states
