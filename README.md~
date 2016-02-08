@@ -21,6 +21,8 @@ https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html
 
 can be done on windows side with C# or Python and then on Linux side with Python
 
+sudo rabbitmqctl set_policy Ten "^queue_name$" '{"max-length":10}' --apply-to queues
+
 --MYO:
 using PyoConnect_v2.0 written by  Fernando Cosentino - http://www.fernandocosentino.net/pyoconnect
 For writing a  new application, put your python script in
