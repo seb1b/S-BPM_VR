@@ -477,6 +477,13 @@ class Controller:
 							self.pressed_menu_bar = None
 							self.pressed_menu_bar_item = None
 						self.view.trigger_up(user_id, is_left)
+					elif self.pressed_menu_bar_item == "cancel_down":
+						# cancel was pressed before, now released
+						if obj is not self.pressed_menu_bar:
+							self.log.info("User dragged off from menu bar during click!")
+							self.pressed_menu_bar = None
+							self.pressed_menu_bar_item = None
+						self.view.trigger_up(user_id, is_left)
 					elif obj.name == "start_page":
 						# click on start page (no mouseup/down here, handle a click (up/down at once)
 						self.pressed_menu_bar = obj
