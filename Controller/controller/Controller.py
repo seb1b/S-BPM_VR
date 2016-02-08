@@ -312,8 +312,32 @@ class Controller:
 					break
 			self.pressed_menu_bar = None
 			self.pressed_menu_bar_item = None
+		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "meta") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "meta")):
+			if not isinstance(self.selected_object, PASS.PASSProcessModelElement):
+				self.log.warning("Got change event from meta, but there is no selected_object to change! message: {}".format(message))
+			elif message.startswith("metaContent["):
+				key = message.split("[")
+				assert len(key) >= 2
+				key = key[1].split("]")
+				assert len(key) >= 2
+				key = key[0]
+				self.log.info("Meta key: {}".format(key))
+				old_value = message.split("%%%OLDSTART%%%")
+				assert len(old_value) >= 2
+				old_value = old_value[1].split("%%%OLDEND%%%")
+				assert len(old_value) >= 2
+				old_value = old_value[0]
+				self.log.info("Old value: {}".format(old_value))
+				new_value = message.split("%%%NEWSTART%%%")
+				assert len(new_value) >= 2
+				new_value = new_value[1].split("%%%NEWEND%%%")
+				assert len(new_value) >= 2
+				new_value = new_value[0]
+				self.log.info("New value: {}".format(new_value))
+			else:
+				self.log.warning("Received unhandled message from meta: {}".format(message))
 		else:
-			self.log.warning("invalid pressed_object: {}".format(self.pressed_object))
+			self.log.warning("invalid pressed_object: {} - message was {}".format(self.pressed_object, message))
 
 	def process_hardware(self):
 		VR.hw_main.process()
