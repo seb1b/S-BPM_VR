@@ -448,7 +448,10 @@ class View():
 		#print 'x dist ', self.model_width
 		#print 'y dist ', self.model_height
 		dist = 0.5 * self.model_width / math.tan((self.camera_fov - self.BORDER_ANGLE) * 0.5)
-		VR.cam.setFrom(self.model_offset_x + 0.5 * self.model_width, self.model_offset_y + 0.5 * self.model_height, dist)
+		if dist <= self.MAX_DIST and dist >= self.MIN_DIST:
+			VR.cam.setFrom(self.model_offset_x + 0.5 * self.model_width, self.model_offset_y + 0.5 * self.model_height, dist)
+		else:
+			VR.cam.setFrom(self.model_offset_x + 0.5 * self.model_width, self.model_offset_y + 0.5 * self.model_height, self.MAX_DIST)
 		self.scale_y = dist * math.tan(self.camera_fov * 0.5) * 2
 		self.scale_x = self.scale_y / self.win_size[1] * self.win_size[0]
 
