@@ -1377,7 +1377,7 @@ class View():
 					self._create_receive_state(object)
 				elif isinstance(object, PASS.TransitionEdge):
 					self._create_transition_edge(object)
-			elif isinstance(object, PASS.Behavior):
+			elif isinstance(object, PASS.Behavior):  # delete State or TransitionEdge
 				self.log.info('VIEW: onchange behavior')
 				if attr == "hasEdge" or attr == "hasState":
 					list_of_elements = object.hasEdge + object.hasState
@@ -1393,6 +1393,10 @@ class View():
 							ae_idx_list = self.annotation_dict[element_to_delete[0]]
 							for ae_idx in ae_idx_list:
 								self.annotation_engine.set(int(ae_idx), [0, 0, 0], '')
+							if isinstance(element_to_delete[0], PASS.TransitionEdge):
+								paths_to_delete = self.message_dict[poly_obj][2]
+								for p in paths_to_delete:
+									VR.ptool.remPath(p)
 							del self.object_dict[poly_obj]
 							del self.object_dict[element_to_delete[0]]
 							self.elements.remove(element_to_delete[0])
