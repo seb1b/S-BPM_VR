@@ -120,7 +120,7 @@ class View():
 
 		self.PLANE_SIZE = 0.4
 		self.OBJECT_SCALE = [0.4, 0.4, 0.4]
-		self.TEXT_SIZE = 0.5
+		self.TEXT_SIZE = 0.06
 		self.BORDER_ANGLE = 0.005
 
 		self.HANDLE = VR.Geometry('handle')
@@ -141,6 +141,7 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
+		self.annotation_dict = {} # key: object, 1. entry: list(index)
 		self.elements = []
 
 		#stores user_id and corresponding color
@@ -180,11 +181,6 @@ class View():
 			VR.view_user_colors = {}
 		if not hasattr(VR, 'view_user_positions'):
 			VR.view_user_positions = {}
-
-		#setup pathtool
-		VR.ptool = VR.Pathtool()
-		#VR.ptool.setHandleGeometry(self.HANDLE_ARROW)
-		VR.ptool.setHandleGeometry(self.HANDLE)
 
 		#setup offsets
 		#screen
@@ -510,6 +506,16 @@ class View():
 		VR.ptool.setHandleGeometry(self.HANDLE)
 		VR.ptool.getPathMaterial().setDiffuse(self.PATH_COLOR, self.PATH_COLOR, self.PATH_COLOR)
 		VR.ptool.getPathMaterial().setTransparency(0.8)
+		
+		#setup annotation engine
+		self.annotation_index = 1
+		self.annotation_engine = VR.AnnotationEngine('annotation_engine')
+		VR.view_root.addChild(self.annotation_engine)
+		self.annotation_engine.setColor([0, 0, 0, 1])
+		self.annotation_engine.setPickable(False)
+		#self.annotation_engine.setBackground([255, 255, 255, 1])
+		self.annotation_engine.setSize(self.TEXT_SIZE)
+		self.annotation_engine.setScale([1, 1, 1])
 
 		if isinstance(self.cur_scene, PASS.Layer):
 			subjects = self.cur_scene.subjects
@@ -958,28 +964,13 @@ class View():
 			subject_node.getChildren()[0].setVisible(True)
 		else:
 			subject_node.getChildren()[1].setVisible(True)
-		
-		# create label
-		'''
-		if len(pass_sub.label) == 0:
-			label = ''
-		else:
-			label = pass_sub.label[0]
-		label_split = str.split(label)
-		for l in label_split:
-			sprite = VR.Sprite('label')
-			sprite.setMaterial(VR.Material('labelMat'))
-			sprite.setFrom(self.TEXT_SIZE / 2, label_split.index(l), self.TEXT_SIZE)
-			sprite.setSize(0.1 * len(l), 0.1)
-			print 'label', l
-			sprite.setText(l)
-			subject_node.addChild(sprite)
-		'''
-		self._create_label_for_object(pass_sub, subject_node)
-		
+
 		self.object_dict[pass_sub] = subject_node
 		self.object_dict[subject_node] = pass_sub
 		VR.view_root.addChild(subject_node)
+
+		# create label
+		self._create_label_for_object(pass_sub)
 
 	def _create_message(self, pass_mes):
 		"""
@@ -1011,15 +1002,15 @@ class View():
 			message_node.getChildren()[0].setVisible(True)
 		else:
 			message_node.getChildren()[1].setVisible(True)
-			
-		# create label
-		self._create_label_for_object(pass_mes, message_node)
-		
+
 		self.object_dict[pass_mes] = message_node
 		self.object_dict[message_node] = pass_mes
 		self.message_dict[message_node] = [self.object_dict[pass_mes.sender], self.object_dict[pass_mes.receiver], None, None, None]
 		self._connect(message_node)
 		VR.view_root.addChild(message_node)
+
+		# create label
+		self._create_label_for_object(pass_mes)
 
 	def _create_external_subject(self, pass_exsub):
 		"""
@@ -1051,13 +1042,13 @@ class View():
 			subject_node.getChildren()[0].setVisible(True)
 		else:
 			subject_node.getChildren()[1].setVisible(True)
-			
-		# create label
-		self._create_label_for_object(pass_exsub, subject_node)
-		
+
 		self.object_dict[pass_exsub] = subject_node
 		self.object_dict[subject_node] = pass_exsub
 		VR.view_root.addChild(subject_node)
+
+		# create label
+		self._create_label_for_object(pass_exsub)
 
 	def _create_function_state(self, state):
 		"""
@@ -1089,13 +1080,13 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
-			
-		# create label
-		self._create_label_for_object(state, state_node)
-		
+
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
 		VR.view_root.addChild(state_node)
+
+		# create label
+		self._create_label_for_object(state)
 
 	def _create_send_state(self, state):
 		"""
@@ -1126,13 +1117,13 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
-			
-		# create label
-		self._create_label_for_object(state, state_node)
-		
+
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
 		VR.view_root.addChild(state_node)
+
+		# create label
+		self._create_label_for_object(state)
 
 	def _create_receive_state(self, state):
 		"""
@@ -1163,13 +1154,13 @@ class View():
 			state_node.getChildren()[0].setVisible(True)
 		else:
 			state_node.getChildren()[1].setVisible(True)
-			
-		# create label
-		self._create_label_for_object(state, state_node)
-		
+
 		self.object_dict[state] = state_node
 		self.object_dict[state_node] = state
 		VR.view_root.addChild(state_node)
+
+		#create label
+		self._create_label_for_object(state)
 
 	def _create_transition_edge(self, edge):
 		"""
@@ -1201,24 +1192,46 @@ class View():
 			transition_node.getChildren()[0].setVisible(True)
 		else:
 			transition_node.getChildren()[1].setVisible(True)
-			
-		# create label
-		self._create_label_for_object(edge, transition_node)
-		
+
 		self.object_dict[edge] = transition_node
 		self.object_dict[transition_node] = edge
 		self.message_dict[transition_node] = [self.object_dict[edge.hasSourceState], self.object_dict[edge.hasTargetState], None, None, None]
 		self._connect(transition_node)
 		VR.view_root.addChild(transition_node)
-		
-	def _create_label_for_object(self, pass_obj, vr_obj):
+
+		# create label
+		self._create_label_for_object(edge)
+
+	def _create_label_for_object(self, pass_obj):
 		"""
-		This function creates a label based on the pass object and adds it to the vr object.
+		This function creates a label based on the pass object.
 
 		@param object pass_obj : The pass object which contains the label information.
-		@param object vr_obj : The vr object to which the label should be attached.
 		@return  : None
 		"""
+		assert pass_obj is not None, "_create_label_for_object given pass_obj has not to be None"
+		poly_obj = self.object_dict[pass_obj]
+		text = ''
+		for t in pass_obj.label:
+			text = text + t
+		split = text.split(' ')
+		index_list = []
+		for s in split:
+			index_list.append(split.index(s) + self.annotation_index)
+		self.annotation_dict[pass_obj] = index_list
+		#print 'annotation: index_list create', index_list, split
+		for i in index_list:
+			self.annotation_engine.set(int(i), [poly_obj.getFrom()[0] - (0.455*self.TEXT_SIZE*len(split[index_list.index(int(i))])), poly_obj.getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
+		self.annotation_index = self.annotation_index + len(index_list)
+
+	def _refresh_label_for_object(self, poly_obj):
+		"""
+		This function refreshs a label based on the poly object.
+
+		@param object poly_obj : The poly object which was changed.
+		@return  : None
+		"""
+		'''
 		if len(pass_obj.label) == 0:
 			label_split = ['']
 		else:
@@ -1230,6 +1243,27 @@ class View():
 			print 'label', l
 			sprite.setText(l)
 			vr_obj.addChild(sprite)
+		'''
+		self.log.info('VIEW: _create_label_for_object')
+		assert poly_obj is not None, "_create_label_for_object given pass_obj has not to be None"
+		pass_obj = self.object_dict[poly_obj]
+		text = ''
+		for t in pass_obj.label:
+			text = text + t
+		split = text.split(' ')
+		index_list = self.annotation_dict[pass_obj]
+		#print 'annotation: index_list before', index_list, split
+		if len(index_list) < len(split):
+			for i in xrange(0, (len(split) - len(index_list))):
+				index_list.append(self.annotation_index + 1)
+				self.annotation_index = self.annotation_index +1
+		elif len(index_list) > len(split):
+			for i in xrange(0, (len(index_list) - len(split))):
+				index_list.remove(self.annotation_index + 1)
+		self.annotation_dict[pass_obj] = index_list
+		#print 'annotation: index_list after', index_list
+		for i in index_list:
+			self.annotation_engine.set(int(i), [poly_obj.getFrom()[0] - (0.455*self.TEXT_SIZE*len(split[index_list.index(int(i))])), poly_obj.getFrom()[1] - ((index_list.index(int(i)) - int(len(index_list) / 2)) * 2 * self.TEXT_SIZE), 10 * self.TEXT_SIZE], split[index_list.index(int(i))])
 
 	def on_change(self, object, attr):
 		"""
@@ -1293,6 +1327,7 @@ class View():
 				if attr == 'hasAbstractVisualRepresentation':  # position changed
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					self._refresh_label_for_object(poly_obj)
 				elif attr == 'label':  # name changed
 					if len(object.label) == 0:
 						label = ''
@@ -1361,6 +1396,7 @@ class View():
 				if attr == 'hasAbstractVisualRepresentation':  # position changed
 					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
+					self._refresh_label_for_object(poly_obj)
 				elif attr == 'label':  # name changed
 					if len(object.label) == 0:
 						label = ''
