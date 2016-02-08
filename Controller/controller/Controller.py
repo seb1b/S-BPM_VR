@@ -224,15 +224,51 @@ class Controller:
 				self.pressed_menu_bar = None
 				self.pressed_menu_bar_item = None
 		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "behavior_add") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "behavior_add")):
-			if message in ["functionState", "receiveState", "sendState"]:
-				if self.highlighted_pos_obj is not None:
-					assert self.highlighted_pos_obj is not None, "WTF"
-					if message == "functionState":
+			if message in ["functionState_down", "receiveState_down", "sendState_down"]:
+				if not isinstance(self.pressed_object, View.MenuBar):
+					self.log.info("process_menu_bar({}): pressed object is NOT MenuBar - returning".format(message))
+					return
+				if self.highlighted_pos_obj is None:
+					assert self.highlighted_pos_obj is None, "WTF"
+					if message == "functionState_down":
 						new_obj = self.view.get_cur_scene().addFunctionState()
-					elif message == "receiveState":
+					elif message == "receiveState_down":
 						new_obj = self.view.get_cur_scene().addReceiveState()
-					else:
+					elif message == "sendState_down":
 						new_obj = self.view.get_cur_scene().addSendState()
+					else:
+						assert False, "I think you forgot to add the new state above!!!!!!!"
+					self.pressed_object = None
+					self.pressed_user_id = None
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
+					self.log.info("Creating {} at local {} / world {}".format(message, self.highlighted_pos, pos_norm_2d))
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					label = message.split("_")[0]  # remove _up/_down
+					label = "New {}{}".format(label[0].upper(), label[1:])  # change first letter to upper case
+					new_obj.label.append(label)
+					self._update_selected_object(new_obj)
+					self.pressed_menu_bar = None
+					self.pressed_menu_bar_item = None
+					assert self.pressed_menu_bar_user_id is not None
+					assert self.pressed_menu_bar_is_left is not None
+					self.view.trigger_up(self.pressed_menu_bar_user_id, self.pressed_menu_bar_is_left)
+				else:
+					self.log.info("Setting pressed_menu_bar for {} creation".format(message))
+					self.pressed_menu_bar = self.pressed_object
+					self.pressed_menu_bar_item = message
+			elif message in ["functionState_up", "receiveState_up", "sendState_up"]:
+				if self.highlighted_pos_obj is not None and self.pressed_menu_bar is not None:
+					assert isinstance(self.pressed_menu_bar, View.MenuBar)
+					assert self.highlighted_pos is not None, "WTF"
+					if message == "functionState_up":
+						new_obj = self.view.get_cur_scene().addFunctionState()
+					elif message == "receiveState_up":
+						new_obj = self.view.get_cur_scene().addReceiveState()
+					elif message == "sendState_up":
+						new_obj = self.view.get_cur_scene().addSendState()
+					else:
+						assert False, "I think you forgot to add the new state above!!!!!!!"
 					self.pressed_object = None
 					self.pressed_user_id = None
 					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
@@ -240,19 +276,15 @@ class Controller:
 					self.view.remove_highlight_point(self.highlighted_pos_obj)
 					self.highlighted_pos = None
 					self.highlighted_pos_obj = None
-				else:
-					new_obj = self.view.get_cur_scene().addFunctionState()
-					self.pressed_object = new_obj
-					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
-					self.log.info("Creating {} at local {} / world {}".format(message, self.drag_position, pos_norm_2d))
-				new_obj.hasAbstractVisualRepresentation.setPoint2D(self.pos_norm_2d[0], self.pos_norm_2d[1])
-				new_obj.setMetaContent("Date", time.strftime("%c"))
-				assert new_obj.hasMetaContent is not None and len(new_obj.hasMetaContent) >= 1, "The setMetaContent did not work!"
-				new_obj.label.append("New {}{}".format(message[0].upper(), message[1:]))  # change first letter to upper case
-				self._update_selected_object(new_obj)
-				# currently the menu bar is the pressed_object -> change that to the new subject but remeber menu bar
-				self.pressed_menu_bar = self.pressed_object
-				self.pressed_menu_bar_item = message
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					label = message.split("_")[0]  # remove _up/_down
+					label = "New {}{}".format(label[0].upper(), label[1:])  # change first letter to upper case
+					new_obj.label.append(label)
+					self._update_selected_object(new_obj)
+				self.pressed_menu_bar = None
+				self.pressed_menu_bar_item = None
+				self.pressed_menu_bar_user_id = None
+				self.pressed_menu_bar_is_left = None
 			elif message == "transition":
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
@@ -479,6 +511,13 @@ class Controller:
 						self.view.trigger_up(user_id, is_left)
 					elif self.pressed_menu_bar_item == "cancel_down":
 						# cancel was pressed before, now released
+						if obj is not self.pressed_menu_bar:
+							self.log.info("User dragged off from menu bar during click!")
+							self.pressed_menu_bar = None
+							self.pressed_menu_bar_item = None
+						self.view.trigger_up(user_id, is_left)
+					elif self.pressed_menu_bar_item == "functionState_down" or self.pressed_menu_bar_item == "receiveState_down" or self.pressed_menu_bar_item == "sendState_down":
+						# *state down was pressed before, now released
 						if obj is not self.pressed_menu_bar:
 							self.log.info("User dragged off from menu bar during click!")
 							self.pressed_menu_bar = None
