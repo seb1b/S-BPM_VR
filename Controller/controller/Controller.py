@@ -198,8 +198,8 @@ class Controller:
 			elif  message == "copy_up" and (isinstance(self.selected_object, PASS.ActiveProcessComponent) or isinstance(self.selected_object, PASS.State)):
 				self.log.info("Copying {}".format(self.selected_object))
 				pos = self.selected_object.hasAbstractVisualRepresentation.getPoint2D()
-				pos[0] += 0.1
-				pos[1] -= 0.1
+				pos[0] += 0.3
+				pos[1] += 0.3
 				if isinstance(self.selected_object, PASS.ActiveProcessComponent):
 					new_obj = self.view.get_cur_scene().duplicateActiveProcessComponent(self.selected_object)
 				else:
@@ -352,7 +352,9 @@ class Controller:
 				if isinstance(obj, View.MenuBar):
 					# CASE: click on menu bar -> trigger cursor click
 					self.log.info(("Press on MenuBar: {}".format(obj.name)))
-					if self.highlighted_pos_obj is None and (obj.name == "layer_add" or obj.name == "behavior_add"):  # otherwise "edit" or "meta"
+					if self.highlighted_pos_obj is None and (obj.name == "layer_add" or obj.name == "behavior_add"):  # otherwise "edit" or "meta" or "start_page"
+						# here, we want to trigger_up in process_menu_bar() to ignore it (e.g., create subject on press),
+						# so we need to know the user_id/is_left in process_menu_bar() -> store it
 						assert self.current_model is not None
 						self.pressed_menu_bar_user_id = user_id
 						self.pressed_menu_bar_is_left = is_left
@@ -463,6 +465,13 @@ class Controller:
 						#ro = self.view.get_object(user_id, False)
 					elif self.pressed_menu_bar_item == "delete_down":
 						# delete was pressed before, now released
+						if obj is not self.pressed_menu_bar:
+							self.log.info("User dragged off from menu bar during click!")
+							self.pressed_menu_bar = None
+							self.pressed_menu_bar_item = None
+						self.view.trigger_up(user_id, is_left)
+					elif self.pressed_menu_bar_item == "copy_down":
+						# copy was pressed before, now released
 						if obj is not self.pressed_menu_bar:
 							self.log.info("User dragged off from menu bar during click!")
 							self.pressed_menu_bar = None
