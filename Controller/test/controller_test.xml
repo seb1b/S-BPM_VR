@@ -718,6 +718,21 @@
 				height: 50px;
 			}
 			
+			.div_img {
+				text-align: center;
+				height: 70px;
+				width: 100%;				
+			}
+			
+			img {
+				width: 50px;
+				text-align: center;
+			}
+			
+			img:hover {
+				border-width: 1px;
+			}
+			
 			#heading {
 				font-size: 20px;
 			}
@@ -726,8 +741,7 @@
 		&lt;title&gt;Metadata&lt;/title&gt;
 	&lt;/head&gt;
 	&lt;body&gt;		
-		&lt;div class="dataDiv"&gt;
-			
+		&lt;div class="dataDiv"&gt;			
 			&lt;h1 id="heading"&gt;
 				&lt;!-- will be filled by javascript depending on URI params --&gt;
 			&lt;/h1&gt;
@@ -736,9 +750,16 @@
 					&lt;!-- will be filled by javascript depending on URI params --&gt;
 				&lt;/tbody&gt;
 			&lt;/table&gt;
+			&lt;div id="div_img"&gt;
+				&lt;img id="add" src="img/copy.png" alt="add"&gt;				
+				&lt;img id="delete" src="img/delete.png" alt="delete" style="visibility: hidden;"&gt;
+				&lt;br/&gt;
+			&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
+		var selectedCell;
+	
 		function Heading(value, editable) {
 			this.value = value;
 			this.editable = editable;
@@ -781,7 +802,7 @@
 					self.value = newText;
 				}
 				self.text.style.backgroundColor = "transparent";
-				console.log(self);
+				console.log(self);				
 			};
 		}
 	
@@ -795,12 +816,17 @@
 			
 			//View this element
 			this.displayElement = function(parentTable) {
-				this.row = parentTable.insertRow(parentTable.rows.length - 1);
+				this.row = parentTable.insertRow(parentTable.rows.length);
 				this.keyCol = this.row.insertCell(0);
 				this.keyCol.innerHTML = this.key;
 				this.keyCol.setAttribute("class", "cellKey");
+				this.keyCol.addEventListener('click', self.click, false);
+				this.keyCol.addEventListener('blur', self.blur, false);
+				this.keyCol.setAttribute('contenteditable','true');
+				this.keyCol.setAttribute("class", "editable cellKey");
 				this.valueCol = this.row.insertCell(1);
 				this.valueCol.innerHTML = this.value;
+				this.valueCol.setAttribute("class", "cellValue");
 				this.valueCol.addEventListener('click', self.click, false);
 				this.valueCol.addEventListener('blur', self.blur, false);
 				this.valueCol.setAttribute('contenteditable','true');
@@ -809,20 +835,29 @@
 			
 			this.click = function(event) {
 				//Set color
-				self.valueCol.style.backgroundColor = "#FFF90D";
+				target = event.target || event.srcElement;
+				target.style.backgroundColor = "#FFF90D";
+				document.getElementById('delete').style.visibility = "visible";
+				selectedCell = target;
 			};
 			
 			this.blur = function(event) {
-				console.log(self.valueCol.innerHTML);
-				var newText = self.valueCol.textContent.trim() || self.valueCol.innerText.trim(); 
-				if(newText != value) {
+				console.log(target.innerHTML);
+				target = event.target || event.srcElement;
+				var newText = target.textContent.trim() || target.innerText.trim(); 
+				if(newText != value &amp;&amp; self.keyCol == key) {
 					//websocket.send("metaContent[id] -&gt; " + self.key + ": '" + self.value + "' -&gt; '" + newText + "'");
 					websocket.send("metaContent[" + self.key + "]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					//alert("metaContent[" + self.key + "] changed: '" + self.value + "' -&gt; '" + newText + "'");
 					alert("metaContent[" + self.key + "]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					self.value = newText;
 				}
-				self.valueCol.style.backgroundColor = "transparent";
+				else if(newText != key &amp; self.valueCol == value) {
+					websocket.send("metaContent[KEY]%%%OLDSTART%%%" + self.key + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
+					alert("metaContent[KEY]%%%OLDSTART%%%" + self.key + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
+					self.key = newText;
+				}
+				target.style.backgroundColor = "transparent";
 				console.log(self);
 			};
 		}
@@ -853,6 +888,20 @@
 				meta.displayElement(tableRef);
 			}
 		}
+		
+		// Add event listener to images
+		document.getElementById("add").addEventListener("click", function(){
+			var meta = new MetaContentPair('new', ' ');
+			meta.displayElement(tableRef);
+			console.log("row added");
+		});
+		
+		document.getElementById("delete").addEventListener("click", function(){
+			i = selectedCell.parentNode.parentNode.rowIndex;
+			tableRef.deleteRow(i);
+			document.getElementById('delete').style.visibility = "hidden";
+			console.log("row deleted");
+		});
 		
 	&lt;/script&gt;	
 &lt;/html&gt;
