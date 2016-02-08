@@ -610,7 +610,7 @@ class Controller:
 				self.view.zoom(1)
 		return None
 
-	def fade_away(self):
+	def fade_away(self, user_id):
 		"""This function fades the view away
 
 		This fades the view away in one step (full zoom out) to give an broad

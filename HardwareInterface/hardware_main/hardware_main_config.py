@@ -33,7 +33,7 @@ class Controller:
 #			print("move with right at", pos)
 	def zoom(self, level, user_id):
 		print("zoom")
-	def fade_away(self):
+	def fade_away(self, user_id):
 		counter = 0
 		counter = counter+1
 		print("fade_away", counter)
@@ -266,7 +266,7 @@ class VRHardware():
 				# FADE_AWAY
 				elif gesture == self.myo_fade_away:
 					#print("Myo fade_in")
-					self.controller.fade_away()
+					self.controller.fade_away(user_id)
 
 				# MOVE_MODEL
 				elif gesture == self.myo_move_model:
