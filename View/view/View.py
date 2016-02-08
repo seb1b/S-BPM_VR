@@ -1371,7 +1371,7 @@ class View():
 				else:
 					self.log.info('VIEW: Invalid attribute in on_change')
 
-		elif isinstance(self.cur_scene, PASS.Behavior) and (isinstance(object, PASS.State) or isinstance(object, PASS.TransitionEdge)):
+		elif isinstance(self.cur_scene, PASS.Behavior) and (isinstance(object, PASS.Behavior) or isinstance(object, PASS.State) or isinstance(object, PASS.TransitionEdge)):
 			if not isinstance(object, PASS.Behavior) and not object in self.object_dict:  # create new layer object
 				if isinstance(object, PASS.SendState):
 					self._create_send_state(object)
@@ -1383,25 +1383,23 @@ class View():
 					self._create_transition_edge(object)
 			elif isinstance(object, PASS.Behavior):
 				self.log.info('VIEW: onchange behavior')
-				if attr == "hasModelComponent":
-					list_of_elements = object.hasModelComponent
-					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.Subject) or isinstance(x, PASS.MessageExchange) or isinstance(x, PASS.ExternalSubject)]
+				if attr == "hasEdge" or attr == "hasState":
+					list_of_elements = object.hasEdge + object.hasState
+					print 'list of elements for filter', list_of_elements
+					list_of_elements = [x for x in list_of_elements if isinstance(x, PASS.State) or isinstance(x, PASS.TransitionEdge)]
 					element_to_delete = set(self.elements) - set(list_of_elements)
+					element_to_delete = list(element_to_delete)
 					assert len(element_to_delete) < 2, "More than one element to delete"
 					if len(element_to_delete) == 1:
-						if isinstance(element_to_delete[0], PASS.Subject) or isinstance(element_to_delete[0], PASS.ExternalSubject):
+						if isinstance(element_to_delete[0], PASS.TransitionEdge) or isinstance(element_to_delete[0], PASS.State):							
 							poly_obj = self.object_dict[element_to_delete[0]]
+							# delete annotation engine entry/ set text to ''
+							ae_idx_list = self.annotation_dict[element_to_delete[0]]
+							for ae_idx in ae_idx_list:
+								self.annotation_engine.set(int(ae_idx), [0, 0, 0], '')
 							del self.object_dict[poly_obj]
 							del self.object_dict[element_to_delete[0]]
-							poly_obj.destroy()
-						elif isinstance(element_to_delete[0], PASS.MessageExchange):
-							poly_obj = self.object_dict[element_to_delete[0]]
-							paths_to_delete = self.message_dict[poly_obj][2]
-							for p in paths_to_delete:
-								VR.ptool.remPath(p)
-							del self.object_dict[poly_obj]
-							del self.object_dict[element_to_delete[0]]
-							del self.message_dict[poly_obj]
+							self.elements.remove(element_to_delete[0])
 							poly_obj.destroy()
 					else:
 						self.log.info('VIEW: Skip, Element added.')
