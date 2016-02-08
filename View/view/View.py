@@ -141,7 +141,7 @@ class View():
 		#stores polyVR objects and related PASS objects and vise versa
 		self.object_dict = {}
 		self.message_dict = {}  # key: poly_mess, 1. entry: poly_sender, 2. entry: poly_receiver, 3. entry: path
-		self.annotation_dict = {} # key: object, 1. entry: list(index)
+		self.annotation_dict = {} # key: pass object, 1. entry: list(index)
 		self.elements = []
 
 		#stores user_id and corresponding color
@@ -1296,6 +1296,10 @@ class View():
 							poly_mes = self._get_attached_message(element_to_delete[0])
 							if poly_mes is not None:  # delete attached message
 								mes = self.object_dict[poly_mes]
+								# delete annotation engine entry/ set text to ''
+								ae_idx_list = self.annotation_dict[self.object_dict[poly_mes]]
+								for ae_idx in ae_idx_list:
+									self.annotation_engine.set(int(ae_idx), [0, 0, 0], '')
 								paths_to_delete = self.message_dict[poly_mes][2]
 								for p in paths_to_delete:
 									VR.ptool.remPath(p)
@@ -1305,12 +1309,20 @@ class View():
 								self.elements.remove[mes]
 								poly_mes.destroy()
 							poly_obj = self.object_dict[element_to_delete[0]]
+							# delete annotation engine entry/ set text to ''
+							ae_idx_list = self.annotation_dict[element_to_delete[0]]
+							for ae_idx in ae_idx_list:
+								self.annotation_engine.set(int(ae_idx), [0, 0, 0], '')
 							del self.object_dict[poly_obj]
 							del self.object_dict[element_to_delete[0]]
 							self.elements.remove(element_to_delete[0])
 							poly_obj.destroy()
 						elif isinstance(element_to_delete[0], PASS.MessageExchange):
 							poly_obj = self.object_dict[element_to_delete[0]]
+							# delete annotation engine entry/ set text to ''
+							ae_idx_list = self.annotation_dict[element_to_delete[0]]
+							for ae_idx in ae_idx_list:
+								self.annotation_engine.set(int(ae_idx), [0, 0, 0], '')
 							paths_to_delete = self.message_dict[poly_obj][2]
 							for p in paths_to_delete:
 								VR.ptool.remPath(p)
