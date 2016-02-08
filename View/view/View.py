@@ -548,7 +548,7 @@ class View():
 		@return  : None
 		"""
 		self.log.info('VIEW: zoom')
-		self.log.info("VIEW: Zoom level: {}".format(self.current_zoom_level())))
+		self.log.info("VIEW: Zoom level: {}".format(self.current_zoom_level()))
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
 		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
 			VR.cam.setFrom(new_cam_pos)
