@@ -197,7 +197,6 @@ class Controller:
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
 			elif message == "message_up":
-				# TODO: implement
 				pass
 			else:
 				self.log.warning("invalid mesage: {}".format(message))
@@ -317,10 +316,14 @@ class Controller:
 				self.pressed_menu_bar_item = None
 				self.pressed_menu_bar_user_id = None
 				self.pressed_menu_bar_is_left = None
-			elif message == "transition":
+			elif message == "transition_down":
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
 				self.view.set_message_line(self.pressed_user_id, True)
+			elif message == "transition_up":
+				pass
+			else:
+				self.log.warning("invalid message: {}".format(message))
 		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "start_page") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "start_page")):
 			# click on start screen -> open item
 			# NOTE: start_page will send click only (no mousedown/up)
@@ -530,11 +533,29 @@ class Controller:
 						self.pressed_menu_bar_item = None
 						self.view.set_message_line(user_id, False)
 						self.view.trigger_up(user_id, is_left)
-					elif self.pressed_menu_bar_item == "transition":
+					elif self.pressed_menu_bar_item == "transition_down":
 						assert isinstance(self.released_object, View.MenuBar), "Inconsistency between pressed_menu_bar_item and released_object"
-						# CASE: add message was released on field
-						#lo = self.view.get_object(user_id, True)
-						#ro = self.view.get_object(user_id, False)
+						# CASE: add transition was released on field
+						lo = self.view.get_object(user_id, True)
+						ro = self.view.get_object(user_id, False)
+						self.log.info("Trying to create new transition edge between {} and {}".format(lo, ro))
+						if isinstance(lo, PASS.FunctionState) and isinstance(ro, PASS.State):
+							new_obj = self.view.get_cur_scene().addStandardTransition(lo, ro)
+							p1 = lo.hasAbstractVisualRepresentation.getPoint2D()
+							p2 = ro.hasAbstractVisualRepresentation.getPoint2D()
+							min_pos = [min(a, b) for a, b in zip(p1, p2)]
+							max_pos = [max(a, b) for a, b in zip(p1, p2)]
+							new_obj.hasAbstractVisualRepresentation.setPoint2D(min_pos[0] + (max_pos[0] - min_pos[0]) / 2, min_pos[1] + (max_pos[1] - min_pos[1]) / 2)
+							new_obj.label.append("New Standard Transition")
+							new_obj.setMetaContent("Date", time.strftime("%c"))
+							self._update_selected_object(new_obj)
+							self.released_object = new_obj
+						else:
+							self.log.info("User {} trying to create transition edge on invalid targets".format(user_id))
+						self.pressed_menu_bar = None
+						self.pressed_menu_bar_item = None
+						self.view.set_message_line(user_id, False)
+						self.view.trigger_up(user_id, is_left)
 					elif self.pressed_menu_bar_item == "delete_down":
 						# delete was pressed before, now released
 						if obj is not self.pressed_menu_bar:
