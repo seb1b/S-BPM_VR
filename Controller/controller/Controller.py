@@ -509,6 +509,7 @@ class Controller:
 
 		:return: None
 		"""
+		
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
 			assert isinstance(p, (float, int)), \
@@ -685,6 +686,11 @@ class Controller:
 
 		:return: None
 		"""
+
+		if hasattr(VR, "update_move") and VR.update_move == False:
+			return
+		VR.update_move = False
+
 		assert len(pos) == 3, "Position argument must be of length 3 (x,y,z)"
 		for p in pos:
 			assert isinstance(p, (float, int)), \
