@@ -13,16 +13,20 @@ class View():
 	
 	class MenuBar():
 		"""
-		TODO
-		
+		This class represtens an menu bar.
 		"""
 		def __init__(self, name):
+			"""
+			Constructor of InitScreenEntry.
+
+			@param str name : The name to set.
+			@return  : None
+			"""
 			self.name = name
 
 	class InitScreenEntry():
 		"""
-		TODO
-		
+		This class represents an single entry on the inital start screen.		
 		"""
 		def __init__(self, display_name, file_name, image_file_name, model_id):
 			"""
