@@ -3,7 +3,6 @@ import math
 import PASS
 import logging
 
-
 class View():
 	"""
 	This class creates the view of the application and handels all interaction with it.
@@ -587,29 +586,29 @@ class View():
 		assert len(VR.view_user_cursors) < self.MAX_USERS
 		
 		VR.view_user_colors[user_id] = self.VALID_USER_COLORS[len(VR.view_user_cursors)]
-		mat = VR.Material('cursor')
-		mat.setDiffuse([VR.view_user_colors[user_id]])
 		cursor_container_left = VR.Transform('Cursor_Container_Left')
 		cursor_container_left.addTag(str([user_id, True]))
 		cursor_container_left.setFrom(0.3, 0, self.CURSOR_DIST)
 		if is_active:
-			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'])
-			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'])
-			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'])
-			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'])
+			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_left'], 1)
+			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_left'], 1)
+			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_hand_right'], 1)
+			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_hand_right'], 1)
 		else:
-			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_left'])
-			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_left'])
-			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_right'])
-			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_right'])
+			cursor_left_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_left'], 1)
+			cursor_left_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_left'], 1)
+			cursor_right_open = VR.loadGeometry(self.BLENDER_PATHS['open_pointer_right'], 1)
+			cursor_right_closed = VR.loadGeometry(self.BLENDER_PATHS['closed_pointer_right'], 1)
 		cursor_left_open.setFrom(0, 0, 0)
 		cursor_left_open.setVisible(True)
-		cursor_left_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])	
-		#cursor_left_open.getChildren()[0].getChildren()[0].setMaterial(mat)
+		
+		mat = VR.Material('cursorMaterial'+str(user_id))
+		mat.setDiffuse(VR.view_user_colors[user_id])
+		
+		cursor_left_open.getChildren()[0].getChildren()[0].setMaterial(mat)
 		cursor_left_closed.setFrom(0, 0, 0)
 		cursor_left_closed.setVisible(False)
-		cursor_left_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-		#cursor_left_closed.getChildren()[0].getChildren()[0].setMaterial(mat)
+		cursor_left_closed.getChildren()[0].getChildren()[0].setMaterial(mat)
 		cursor_container_left.addChild(cursor_left_open)
 		cursor_container_left.addChild(cursor_left_closed)
 		VR.cam.addChild(cursor_container_left)
@@ -618,16 +617,12 @@ class View():
 		cursor_container_right.setFrom(1.5, 0, self.CURSOR_DIST)		
 		cursor_right_open.setFrom(0, 0, 0)
 		cursor_right_open.setVisible(True)
-		cursor_right_open.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-		#cursor_right_open.getChildren()[0].getChildren()[0].setMaterial(mat)
+		cursor_right_open.getChildren()[0].getChildren()[0].setMaterial(mat)
 		cursor_right_closed.setFrom(0, 0, 0)
 		cursor_right_closed.setVisible(False)
-		cursor_right_closed.getChildren()[0].getChildren()[0].setColors([VR.view_user_colors[user_id]])
-		#cursor_right_closed.getChildren()[0].getChildren()[0].setMaterial(mat)
+		cursor_right_closed.getChildren()[0].getChildren()[0].setMaterial(mat)
 		cursor_container_right.addChild(cursor_right_open)
 		cursor_container_right.addChild(cursor_right_closed)
-		#print "cursor container right", cursor_container_right.getChildren()
-		#print "cursor container left", cursor_container_left.getChildren()
 		VR.cam.addChild(cursor_container_right)
 		
 		VR.view_user_cursors[user_id] = {}
