@@ -443,6 +443,11 @@ class View():
 		self.model_offset_y = bb[0][1]
 		self.model_width = bb[1][0] - self.model_offset_x
 		self.model_height = bb[1][1] - self.model_offset_y
+		if self.model_height == 0:
+			self.model_height = 10
+		if self.model_width == 0:
+			self.model_width = 10
+
 		#print 'x min ', self.model_offset_x
 		#print 'y min ', self.model_offset_y
 		#print 'x dist ', self.model_width
@@ -1337,7 +1342,7 @@ class View():
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
 				if attr == 'hasAbstractVisualRepresentation':  # position changed
-					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
+					self.log.debug("moving subject to {}, {}, {}".format(pos.hasXValue, pos.hasYValue, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					self._refresh_label_for_object(poly_obj)
 				elif attr == 'label':  # name changed
@@ -1403,7 +1408,7 @@ class View():
 				pos = object.hasAbstractVisualRepresentation.hasPoint2D
 				poly_obj = self.object_dict[object]
 				if attr == 'hasAbstractVisualRepresentation':  # position changed
-					self.log.debug("moving subject to {}, {}, {}".format(((pos.hasXValue - self.model_offset_x ) / self.model_width - 0.5) * self.scale_x, ((pos.hasYValue - self.model_offset_y) / self.model_height - 0.5) * self.scale_y, 0.0))
+					self.log.debug("moving subject to {}, {}, {}".format(pos.hasXValue, pos.hasYValue, 0.0))
 					poly_obj.setFrom(pos.hasXValue, pos.hasYValue, 0)
 					self._refresh_label_for_object(poly_obj)
 				elif attr == 'label':  # name changed
