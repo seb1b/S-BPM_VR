@@ -4,7 +4,7 @@
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1"/>
       <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-1 0 51.1194" at="-1 0 50.1194" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-1 0 99.6194" at="-1 0 98.6194" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
@@ -519,8 +519,8 @@
 
 	#VR.controller.test()
 	#VR.controller.init_debug_setup()
-	#VR.controller.test_bsp_prozess()
-	VR.controller.init_empty()
+	VR.controller.test_bsp_prozess()
+	#VR.controller.init_empty()
 </core>
       <arg type="VRPyDeviceType" value="keyboard" name_suffix="0" base_name="keyboard" name_space="init"/>
       <trig type="on_scene_load" dev="" state="Pressed" param="" key="0" name_suffix="0" base_name="trigger" name_space="__global__"/>
@@ -855,20 +855,23 @@
 			this.blur = function(event) {
 				console.log(target.innerHTML);
 				target = event.target || event.srcElement;
-				var newText = target.textContent.trim() || target.innerText.trim(); 
-				if(newText != value &amp;&amp; self.keyCol == key) {
+				var newText = target.textContent.trim() || target.innerText.trim();
+				var cur_key = self.keyCol.textContent.trim() || self.keyCol.innerText.trim();
+				var cur_val = self.valueCol.textContent.trim() || self.valueCol.innerText.trim();
+				if(newText != value &amp;&amp; cur_key == self.key &amp;&amp; newText != self.key) {
 					//websocket.send("metaContent[id] -&gt; " + self.key + ": '" + self.value + "' -&gt; '" + newText + "'");
 					websocket.send("metaContent[" + self.key + "]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					//alert("metaContent[" + self.key + "] changed: '" + self.value + "' -&gt; '" + newText + "'");
 					alert("metaContent[" + self.key + "]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					self.value = newText;
 				}
-				else if(newText != key &amp; self.valueCol == value) {
+				else if(newText != key &amp;&amp; cur_val == self.value &amp;&amp; newText != self.value) {
 					websocket.send("metaContent[KEY]%%%OLDSTART%%%" + self.key + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					alert("metaContent[KEY]%%%OLDSTART%%%" + self.key + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					self.key = newText;
 				}
-				target.style.backgroundColor = "transparent";
+				target.style.backgroundColor = "transparent";	
+				document.getElementById('delete').style.visibility = "hidden";			
 				console.log(self);
 			};
 		}
@@ -902,13 +905,27 @@
 		
 		// Add event listener to images
 		document.getElementById("add").addEventListener("click", function(){
-			var meta = new MetaContentPair('new', ' ');
+			var i = document.getElementById('metaTable').rows.length - 1;
+			var meta = new MetaContentPair('new' + i, '');
 			meta.displayElement(tableRef);
+			websocket.send("metaContent[NEW]%%%OLDSTART%%%NEW" + i + "%%%OLDEND%%%%%%NEWSTART%%%NEW" + i + "%%%NEWEND%%%");
+			alert("metaContent[NEW]%%%OLDSTART%%%NEW" + i + "%%%OLDEND%%%%%%NEWSTART%%%NEW" + i + "%%%NEWEND%%%");		
 			console.log("row added");
 		});
 		
-		document.getElementById("delete").addEventListener("click", function(){
-			i = selectedCell.parentNode.parentNode.rowIndex;
+		document.getElementById("delete").addEventListener("mousedown", function(){
+			var i = selectedCell.parentNode.rowIndex;
+			var text = selectedCell.textContent.trim() || selectedCell.innerText.trim();
+			var sibling = selectedCell.previousSibling; //.firstElementChild.textContent.trim() || selectedCell.previousSibling.firstElementChild.innerText.trim();
+			if(sibling == null) { // text is key
+				websocket.send("metaContent[DEL]%%%OLDSTART%%%" + text + "%%%OLDEND%%%%%%NEWSTART%%%" + text + "%%%NEWEND%%%");
+				alert("metaContent[DEL]%%%OLDSTART%%%" + text + "%%%OLDEND%%%%%%NEWSTART%%%" + text + "%%%NEWEND%%%");
+			}
+			else { // text is value
+				var text_sibling = sibling.textContent.trim() || selectedCell.previousSibling.firstElementChild.innerText.trim();
+				websocket.send("metaContent[KEY]%%%OLDSTART%%%" + text_sibling + "%%%OLDEND%%%%%%NEWSTART%%%" + text_sibling + "%%%NEWEND%%%");
+				alert("metaContent[KEY]%%%OLDSTART%%%" + text_sibling + "%%%OLDEND%%%%%%NEWSTART%%%" + text_sibling + "%%%NEWEND%%%");		
+			}
 			tableRef.deleteRow(i);
 			document.getElementById('delete').style.visibility = "hidden";
 			console.log("row deleted");
