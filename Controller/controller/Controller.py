@@ -556,7 +556,7 @@ class Controller:
 						lo = self.view.get_object(user_id, True)
 						ro = self.view.get_object(user_id, False)
 						self.log.info("Trying to create new message between {} and {}".format(lo, ro))
-						if isinstance(lo, PASS.Subject) and isinstance(ro, PASS.Subject):
+						if isinstance(lo, PASS.ActiveProcessComponent) and isinstance(ro, PASS.ActiveProcessComponent):
 							# CASE: adding message only possible if two subjects are selected
 							new_obj = self.view.get_cur_scene().addMessageExchange(lo, ro)
 							p1 = lo.hasAbstractVisualRepresentation.getPoint2D()
