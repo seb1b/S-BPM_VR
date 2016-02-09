@@ -187,11 +187,52 @@ class Controller:
 				self.pressed_menu_bar_user_id = None
 				self.pressed_menu_bar_is_left = None
 			elif message == "exsubject_down":
-				# TODO: implement
-				pass
+				if not isinstance(self.pressed_object, View.MenuBar):
+					self.log.info("process_menu_bar({}): pressed object is NOT MenuBar - returning".format(message))
+					return
+				if self.highlighted_pos_obj is None:
+					assert self.highlighted_pos is None, "WTF"
+					new_obj = self.view.get_cur_scene().addExternalSubject("http://wtf")
+					self.pressed_object = new_obj
+					pos_norm_2d = self.view.local_to_world_2d(self.drag_position[:2])
+					self.log.info("Creating external subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					new_obj.setMetaContent("File", "./change/me.owl")
+					#new_obj.setMetaContent("File", "./pass_models/Beispielprozess der Zweite.owl")
+					new_obj.label.append("New External Subject")
+					self._update_selected_object(new_obj)
+					self.pressed_menu_bar = None
+					self.pressed_menu_bar_item = None
+					assert self.pressed_menu_bar_user_id is not None
+					assert self.pressed_menu_bar_is_left is not None
+					self.view.trigger_up(self.pressed_menu_bar_user_id, self.pressed_menu_bar_is_left)
+				else:
+					self.log.info("Setting pressed_menu_bar for external subject creation")
+					self.pressed_menu_bar = self.pressed_object
+					self.pressed_menu_bar_item = message
 			elif message == "exsubject_up":
-				# TODO: implement
-				pass
+				if self.highlighted_pos_obj is not None and self.pressed_menu_bar is not None:
+					assert isinstance(self.pressed_menu_bar, View.MenuBar)
+					assert self.highlighted_pos is not None, "WTF"
+					new_obj = self.view.get_cur_scene().addExternalSubject("http://wtf")
+					self.pressed_object = None
+					self.pressed_user_id = None
+					pos_norm_2d = self.view.local_to_world_2d(self.highlighted_pos[:2])
+					self.log.info("Creating external subject at local {} / world {}".format(self.highlighted_pos, pos_norm_2d))
+					self.view.remove_highlight_point(self.highlighted_pos_obj)
+					self.highlighted_pos = None
+					self.highlighted_pos_obj = None
+					new_obj.hasAbstractVisualRepresentation.setPoint2D(pos_norm_2d[0], pos_norm_2d[1])
+					new_obj.setMetaContent("Date", time.strftime("%c"))
+					new_obj.setMetaContent("File", "./change/me.owl")
+					#new_obj.setMetaContent("File", "./pass_models/Beispielprozess der Zweite.owl")
+					new_obj.label.append("New External Subject")
+					self._update_selected_object(new_obj)
+				self.pressed_menu_bar = None
+				self.pressed_menu_bar_item = None
+				self.pressed_menu_bar_user_id = None
+				self.pressed_menu_bar_is_left = None
 			elif message == "message_down":
 				self.pressed_menu_bar = self.pressed_object
 				self.pressed_menu_bar_item = message
@@ -784,6 +825,21 @@ class Controller:
 					behavior = obj.hasBehavior
 					assert behavior is not None, "Invalid Subject, Behavior is none"
 					self.view.set_cur_scene(behavior)
+				elif isinstance(obj, PASS.ExternalSubject):
+					assert self.current_model is not None
+					self.log.info("fade_in: got external subject")
+					file_name = obj.getMetaContent("File")
+					assert not isinstance(file_name, basestring) and len(file_name) >= 1, "invalid file name in external subject"
+					file_name = file_name[0]
+					if os.path.isfile(file_name):
+						# remove all highlights
+						for u in self.users:
+							self._update_passive_highlight(None, u)
+						self._update_selected_object(None)
+						self.log.info("Trying to open model: {}".format(file_name))
+						self._load_model(file_name)
+					else:
+						self.log.warning("Model file does not exist: {}".format(file_name))
 				else:
 					self.log.debug("fade_in: invalid object: {}".format(obj))
 		return None
