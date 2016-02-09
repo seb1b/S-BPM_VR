@@ -677,12 +677,16 @@ class Controller:
 				return None
 			if level < 0:
 				if self.view.current_zoom_level() == 0:
-					layer = self.view.get_cur_scene()
-					if layer is not None:
-						parent_layer = self.current_model.getParent(layer, PASS.Layer)
-						if parent_layer is not None:
-							assert isinstance(parent_layer, PASS.Layer), "Got invalid parent from Model"
-							self.view.set_cur_scene(parent_layer)
+					behavior = self.view.get_cur_scene()
+					if isinstance(behavior, PASS.Behavior):
+						layer = self.current_model.getParent(behavior, PASS.Layer)
+						if layer is not None:
+							assert isinstance(layer, PASS.Layer), "Got invalid parent from Model"
+							# remove all highlights
+							for u in self.users:
+								self._update_passive_highlight(None, u)
+							self._update_selected_object(None)
+							self.view.set_cur_scene(layer)
 				else:
 					self.view.zoom(-1)
 			elif level > 0:
@@ -750,6 +754,10 @@ class Controller:
 			if obj is not None and self.pressed_user_id is None:
 				assert self.pressed_object is None, "Inconsistent pressed_* variables"
 				if isinstance(obj, PASS.Subject):
+					# remove all highlights
+					for u in self.users:
+						self._update_passive_highlight(None, u)
+					self._update_selected_object(None)
 					assert self.current_model is not None
 					self.log.info("fade_in: got subject")
 					behavior = obj.hasBehavior
