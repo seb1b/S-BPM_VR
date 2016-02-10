@@ -4,7 +4,7 @@
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1"/>
       <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-2.92582 0.174835 70.8088" at="-2.92582 0.174835 69.8088" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-3.45912 0.357953 65.3564" at="-3.45912 0.357953 64.3564" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
@@ -627,17 +627,20 @@
 					
 		function clickFunction(element) {
 			websocket.send(element.id);
-			//alert(element.id);
+			console.log(element.id);
 		};
 
 		function mouseDownFunction(element) {
 			websocket.send(element.id.concat("_down"));
-			//alert(element.id.concat("_down"));
+			console.log(element.id.concat("_down"));
 		};
 		
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
-			//alert(element.id.concat("_up"));
+			element.style.border = "0px";
+			element.style.opacity = "1";
+			element.style.backgroundColor = "#ffffff";
+			console.log(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
