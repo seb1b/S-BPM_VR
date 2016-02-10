@@ -4,7 +4,7 @@
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1"/>
       <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-2.17957 0.174835 78.4385" at="-2.17957 0.174835 77.4385" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-2.92582 0.174835 70.8088" at="-2.92582 0.174835 69.8088" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
@@ -648,7 +648,7 @@
 	import VR
 	message = dev.getMessage()
 	#dev.answer('blub')
-	print(message)
+	print('MENU BAR: ' + message)
 
 	if hasattr(VR, "controller"):
 		VR.controller.process_menu_bar(message)
@@ -660,7 +660,6 @@
     </Script>
     <Script name_suffix="0" base_name="meta" name_space="__script__" type="HTML" mobile="mobile">
       <core>
-&lt;html lang="de"&gt;
 	&lt;head&gt;
 		&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"/&gt;
 		&lt;style&gt;
@@ -737,7 +736,7 @@
 			}
 			
 			img {
-				width: 50px;
+				width: 30px;
 				text-align: center;
 			}
 			
@@ -746,9 +745,9 @@
 			}
 			
 			#heading {
-				font-size: 20px;
+				font-size: 18px;
+				font-size: 12vw;
 			}
-			
 		&lt;/style&gt;
 		&lt;title&gt;Metadata&lt;/title&gt;
 	&lt;/head&gt;
@@ -763,13 +762,15 @@
 				&lt;/tbody&gt;
 			&lt;/table&gt;
 			&lt;div id="div_img"&gt;
-				&lt;img id="add" src="img/copy.png" alt="add"&gt;				
-				&lt;img id="delete" src="img/delete.png" alt="delete" style="visibility: hidden;"&gt;
+				&lt;img id="add" src="img/copy.png" alt="add" onclick="addFunction(this)"&gt;
+				&lt;img id="delete" src="img/delete.png" alt="delete" onclick="deleteFunction(this)" style="visibility: hidden;"&gt;
 				&lt;br/&gt;
 			&lt;/div&gt;
 		&lt;/div&gt;
 	&lt;/body&gt;
 	&lt;script&gt;
+		// Create websocket for communication with python code
+		var websocket = new WebSocket('ws://localhost:5500');
 		var selectedCell;
 	
 		function Heading(value, editable) {
@@ -781,13 +782,13 @@
 			var self = this;
 			
 			//View this element
-			this.displayElement = function(parent) {
+			this.displayElement = function(parent) {	
 				if(this.editable) {
 					this.editIcon = document.createElement("img");
 					this.editIcon.setAttribute("src", "img/edit.png");
-					this.editIcon.setAttribute("style", "float: left; width: 60px; height: 60px; padding: 5px;");
+					this.editIcon.setAttribute("style", "float: left; width: 30px; height: 30px; padding: 5px;");
 					parent.appendChild(this.editIcon);
-				}
+				}			
 				this.text = document.createElement("div");
 				this.text.textContent = this.value;
 				if(this.editable) {
@@ -809,7 +810,8 @@
 			this.blur = function(event) {
 				var newText = self.text.textContent.trim() || self.text.innerText.trim(); 
 				if(newText != value) {
-					websocket.send("metaContent[id] -&gt; sbpm_label: '" + self.value + "' -&gt; '" + newText + "'");
+					//websocket.send("metaContent[id] -&gt; sbpm_label: '" + self.value + "' -&gt; '" + newText + "'");
+					websocket.send("metaContent[sbpm_label] changed: '" + self.value + "' -&gt; '" + newText + "'");
 					alert("metaContent[sbpm_label] changed: '" + self.value + "' -&gt; '" + newText + "'");
 					self.value = newText;
 				}
@@ -847,15 +849,16 @@
 			
 			this.click = function(event) {
 				//Set color
+				console.log("click on meta");
 				target = event.target || event.srcElement;
 				target.style.backgroundColor = "#FFF90D";
 				document.getElementById('delete').style.visibility = "visible";
 				selectedCell = target;
+				console.log(self);
 			};
 			
 			this.blur = function(event) {				
 				target = event.target || event.srcElement;
-				console.log(target.innerHTML);
 				var newText = target.textContent.trim() || target.innerText.trim();
 				var cur_key = self.keyCol.textContent.trim() || self.keyCol.innerText.trim();
 				var cur_val = self.valueCol.textContent.trim() || self.valueCol.innerText.trim();
@@ -877,10 +880,7 @@
 				document.getElementById('delete').style.visibility = "hidden";			
 				console.log(self);
 			};
-		}
-	
-		// Create websocket for communication with python code
-		var websocket = new WebSocket('ws://localhost:5500');			
+		}				
 		
 		// Interprete the query
 		var search = window.location.search.substring(1);
@@ -906,8 +906,8 @@
 			}
 		}
 		
-		// Add event listener to images
-		document.getElementById("add").addEventListener("click", function(){
+		// function for images/buttons
+		function addFunction(element) {
 			console.log("row add start");
 			var i = document.getElementById('metaTable').rows.length - 1;
 			var meta = new MetaContentPair('new' + i, '');
@@ -915,9 +915,9 @@
 			websocket.send("metaContent[NEW]%%%OLDSTART%%%NEW" + i + "%%%OLDEND%%%%%%NEWSTART%%%NEW" + i + "%%%NEWEND%%%");
 			console.log("metaContent[NEW]%%%OLDSTART%%%NEW" + i + "%%%OLDEND%%%%%%NEWSTART%%%NEW" + i + "%%%NEWEND%%%");		
 			console.log("row added");
-		});
+		};
 		
-		document.getElementById("delete").addEventListener("mousedown", function(){
+		function deleteFunction(element) {
 			var i = selectedCell.parentNode.rowIndex;
 			var text = selectedCell.textContent.trim() || selectedCell.innerText.trim();
 			var sibling = selectedCell.previousSibling; //.firstElementChild.textContent.trim() || selectedCell.previousSibling.firstElementChild.innerText.trim();
@@ -933,8 +933,7 @@
 			tableRef.deleteRow(i);
 			document.getElementById('delete').style.visibility = "hidden";
 			console.log("row deleted");
-		});
-		
+		};		
 	&lt;/script&gt;	
 &lt;/html&gt;
 
@@ -997,10 +996,10 @@
 			}
 			
 			img { 
-				border:1px solid #b0b0b0;
-				-ms-transform: rotate(180deg); /* IE 9 */
-				-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-				transform: rotate(180deg);
+				-moz-transform: scaleY(-1);
+				-o-transform: scaleY(-1);
+				-webkit-transform: scaleY(-1);
+				transform: scaleY(-1);
 			}
 			
 			table {
@@ -1069,13 +1068,14 @@
 				var img = document.createElement("img");
 				img.src = QueryString[i][1];
 				img.style.height = '150px';
+				img.style.border='1px solid #b0b0b0';
 				newCell.appendChild(img);
 				linebreak = document.createElement("br");
 				newCell.appendChild(linebreak);
 				newCell.appendChild(document.createTextNode(QueryString[i][0]));
 			}
 		}             
-	
+
 		// Set table width
 		var tableRef = document.getElementById('startTable');
 		var itemWidth = 100/itemsPerRow;
