@@ -637,9 +637,6 @@
 		
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
-			element.style.border = "0px";
-			element.style.opacity = "1";
-			element.style.backgroundColor = "#ffffff";
 			console.log(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
