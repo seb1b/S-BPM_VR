@@ -244,17 +244,17 @@
 
 		function clickFunction(element) {				
 			websocket.send(element.id);
-			//alert(element.id);
+			console.log(element.id);
 		};
 
 		function mouseDownFunction(element) {
 			websocket.send(element.id.concat("_down"));
-			//alert(element.id.concat("_down"));
+			console.log(element.id.concat("_down"));
 		};
 
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
-			//alert(element.id.concat("_up"));
+			console.log(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
