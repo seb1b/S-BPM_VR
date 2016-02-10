@@ -2464,7 +2464,7 @@
     <ns0:hasBehavior xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/Beispielprozess der Zweite.owl#Behavior-OnBZXVUuMTKP"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess der Zweite.owl#Subject-bFbMGqSUwPfD">
-    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Entwicklungsleiter</ns0:label>
+    <ns0:label xmlns:ns0="http://www.w3.org/2000/01/rdf-schema#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Leiter der Entwicklung</ns0:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/Beispielprozess der Zweite.owl#Subject-bFbMGqSUwPfD">
     <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bFbMGqSUwPfD</ns0:hasModelComponentID>

@@ -19,7 +19,7 @@ def buildHelper(manager, model):
 	sPruefer.setMetaContent("Creator", "Thomas")
 	sPruefer.hasAbstractVisualRepresentation.setPoint2D(-6, -2)
 	sEntwicklungsleiter = baseLayer.addSubject()
-	sEntwicklungsleiter.label.append("Entwicklungsleiter")
+	sEntwicklungsleiter.label.append("Leiter der Entwicklung")
 	sEntwicklungsleiter.setMetaContent("Date", "02.01.2016")
 	sEntwicklungsleiter.setMetaContent("Creator", "Max")
 	sEntwicklungsleiter.hasAbstractVisualRepresentation.setPoint2D(-1, 2)
