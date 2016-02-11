@@ -102,8 +102,8 @@ class VRHardware():
 
 
 		# Variables used for Leap control
-		self.cache_left = collections.deque(list(), 200)
-		self.cache_right = collections.deque(list(), 200)
+		self.cache_left = collections.deque(list(), 50)
+		self.cache_right = collections.deque(list(), 50)
 		self.called_press_left_leap = False
 		self.called_press_right_leap = False
 		self.leap_filter = collections.deque(list(), self.leap_filter_n)
@@ -250,14 +250,14 @@ class VRHardware():
 					print("Myo zoom: " + str(rot[0]))
 					if ~is_left:
 						if rot[0] > 0.2:
-							self.controller.zoom(100, user_id)
+							self.controller.zoom(1*self.zoom_factor, user_id)
 						elif rot[0] < -0.2:
-							self.controller.zoom(-100, user_id)
+							self.controller.zoom(-1*self.zoom_factor, user_id)
 					else:
 						if rot[0] > -0.2:
-							self.controller.zoom(100, user_id)
+							self.controller.zoom(1*self.zoom_factor, user_id)
 						elif rot[0] < 0.2:
-							self.controller.zoom(-100, user_id)
+							self.controller.zoom(-1*self.zoom_factor, user_id)
 				# FADE_IN
 				elif gesture == self.myo_fade_in:
 					#print("Myo fade_in")
@@ -279,22 +279,22 @@ class VRHardware():
 				#print xyz
 				if gesture == self.kinect_press:
 					if is_left:
-						print("Kinect left Press")
+						#print("Kinect left Press")
 						self.called_press_left_kinect = True
 						self.controller.press(xyz, user_id, is_left)
 					else:
-						print("Kinect right Press")
+						#print("Kinect right Press")
 						self.called_press_right_kinect = True
 						self.controller.press(xyz, user_id, is_left)
 
 				# #RELEASE
 				elif gesture == self.kinect_release:
 					if is_left and self.called_press_left_kinect:
-						print("Kinect left release")
+						#print("Kinect left release")
 						self.called_press_left_kinect = False
 						self.controller.release(xyz, user_id, is_left)
 					elif not(is_left) and self.called_press_right_kinect:
-						print ("Kinect right release")
+						#print ("Kinect right release")
 						self.called_press_right_kinect = False
 						self.controller.release(xyz, user_id, is_left)
 

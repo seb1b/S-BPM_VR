@@ -562,8 +562,12 @@ class View():
 		self.log.info('VIEW: zoom')
 		self.log.info("VIEW: Zoom level: {}".format(self.current_zoom_level()))
 		new_cam_pos = [p + d * self.ZOOM_STEP * level for p, d in zip(VR.cam.getFrom(), VR.cam.getDir())]
-		if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
-			VR.cam.setFrom(new_cam_pos)
+		#TODO Lukas hat was verbrochen
+		new_cam_pos[2] = max(min(new_cam_pos[2], self.MAX_DIST), self.MIN_DIST)
+		#print self.MAX_DIST
+		#print new_cam_pos[2]
+		#if not new_cam_pos[2] >= self.MAX_DIST and not new_cam_pos[2] <= self.MIN_DIST:
+		VR.cam.setFrom(new_cam_pos)
 		self.scale_y = new_cam_pos[2] * math.tan(self.camera_fov * 0.5) * 2
 		self.scale_x = self.scale_y / self.win_size[1] * self.win_size[0]
 
