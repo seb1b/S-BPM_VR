@@ -18,9 +18,9 @@ class Controller:
 	def __init__(self):
 		#logging.basicConfig(filename='controller.log', level=logging.INFO)
 		self.log = logging.getLogger()
-		self.log.setLevel(logging.WARNING)
+		self.log.setLevel(logging.INFO)
 		ch = logging.StreamHandler(sys.stdout)
-		ch.setLevel(logging.WARNING)
+		ch.setLevel(logging.INFO)
 		#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 		formatter = logging.Formatter('%(asctime)s.%(msecs)03d - {%(pathname)s:%(lineno)d} %(levelname)s: %(message)s','%H:%M:%S')
 		ch.setFormatter(formatter)
@@ -388,9 +388,8 @@ class Controller:
 			self.pressed_menu_bar = None
 			self.pressed_menu_bar_item = None
 		elif ((isinstance(self.pressed_menu_bar, View.MenuBar) and self.pressed_menu_bar.name == "meta") or (isinstance(self.pressed_object, View.MenuBar) and self.pressed_object.name == "meta")):
-			if not isinstance(self.selected_object, PASS.PASSProcessModelElement):
-				self.log.warning("Got change event from meta, but there is no selected_object to change! message: {}".format(message))
-			elif message.startswith("metaContent["):
+			if message.startswith("metaContent["):
+				self.log.info("Editing Meta Content: {}".format(message))
 				key = message.split("[")
 				assert len(key) >= 2
 				key = key[1].split("]")
@@ -410,14 +409,26 @@ class Controller:
 				new_value = new_value[0]
 				self.log.info("New value: {}".format(new_value))
 				# check existing meta data
-				if key in self.selected_object.getMetaKeys():
+				if not isinstance(self.selected_object, PASS.PASSProcessModelElement):
+					selected_obj = self.view.get_cur_scene()
+				else:
+					selected_obj = self.selected_object
+				if key in selected_obj.getMetaKeys():
 					self.log.info("Found existing key {}".format(key))
-					self.selected_object.setMetaContent(key, new_value)
-					# TODO: enable to save on changing label value
-					#self._save_model()
+					selected_obj.setMetaContent(key, new_value, True)
+				elif key == "sbpm_label":
+					self.log.info("Change label {}".format(key))
+					selected_obj.label[0] = new_value
+				elif key == "KEY":
+					self.log.info("Change key {}".format(old_value))
+					temp_value = selected_obj.getMetaContent(old_value)[0]
+					selected_obj.removeMetaContent(old_value)
+					selected_obj.setMetaContent(new_value, temp_value, False)
+				elif key == "NEW":
+					self.log.info("New Entry {}".format(key))
+					selected_obj.setMetaContent(new_value, "", True)
 				else:
 					self.log.info("Key not found: {}".format(key))
-					# TODO: add new entry (probably?)
 			else:
 				self.log.warning("Received unhandled message from meta: {}".format(message))
 		else:
@@ -626,13 +637,17 @@ class Controller:
 							self.pressed_menu_bar = None
 							self.pressed_menu_bar_item = None
 						self.view.trigger_up(user_id, is_left)
-					elif obj.name == "start_page":
+					elif hasattr(obj, 'name') and obj.name == "start_page":
 						# click on start page (no mouseup/down here, handle a click (up/down at once)
 						self.pressed_menu_bar = obj
 						self.pressed_menu_bar_item = obj.name
 						self.view.trigger_up(user_id, is_left)
+					elif hasattr(obj, 'name') and (obj.name == "meta"):
+						# click on meta page
+						self.pressed_menu_bar = obj
+						self.pressed_menu_bar_item = None
 					else:
-						self.log.warning("Invalid MenuBar type or so")
+						self.log.warning("Invalid MenuBar type or so: " + str(obj))
 					#self.pressed_menu_bar = None
 					#self.pressed_menu_bar_item = None
 				#elif sum([x ** 2 for x in [a - b for a, b in zip(self.press_position[user_id], pos)]]) < 10.0:
