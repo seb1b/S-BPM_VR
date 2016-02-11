@@ -4,7 +4,7 @@
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1"/>
       <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-2.92582 0.174835 70.8088" at="-2.92582 0.174835 69.8088" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-1 0 51.1194" at="-1 0 50.1194" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
@@ -244,17 +244,17 @@
 
 		function clickFunction(element) {				
 			websocket.send(element.id);
-			//alert(element.id);
+			console.log(element.id);
 		};
 
 		function mouseDownFunction(element) {
 			websocket.send(element.id.concat("_down"));
-			//alert(element.id.concat("_down"));
+			console.log(element.id.concat("_down"));
 		};
 
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
-			//alert(element.id.concat("_up"));
+			console.log(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
@@ -627,17 +627,17 @@
 					
 		function clickFunction(element) {
 			websocket.send(element.id);
-			//alert(element.id);
+			console.log(element.id);
 		};
 
 		function mouseDownFunction(element) {
 			websocket.send(element.id.concat("_down"));
-			//alert(element.id.concat("_down"));
+			console.log(element.id.concat("_down"));
 		};
 		
 		function mouseUpFunction(element) {
 			websocket.send(element.id.concat("_up"));
-			//alert(element.id.concat("_up"));
+			console.log(element.id.concat("_up"));
 		};
 	&lt;/script&gt;
 &lt;/html&gt;
@@ -656,6 +656,7 @@
 		print(message)
 
 </core>
+      <trig type="on_device" dev="mobile" state="Pressed" param="" key="0" name_suffix="10" base_name="trigger" name_space="__global__"/>
       <trig type="on_device" dev="mobile" state="Released" param="" key="-1" name_suffix="6" base_name="trigger" name_space="__global__"/>
     </Script>
     <Script name_suffix="0" base_name="meta" name_space="__script__" type="HTML" mobile="mobile">
@@ -795,6 +796,7 @@
 					this.text.setAttribute('contenteditable', 'true');
 					this.text.addEventListener('click', self.click, false);
 					this.text.addEventListener('blur', self.blur, false);
+					this.text.addEventListener('keyup', self.keyup, false);
 					this.text.setAttribute("class", "editable");
 					this.editIcon.addEventListener('click', self.click, false);
 				}
@@ -808,14 +810,18 @@
 			};
 			
 			this.blur = function(event) {
+				self.text.style.backgroundColor = "transparent";
+				console.log(self);				
+			};
+			
+			this.keyup = function(event) {
 				var newText = self.text.textContent.trim() || self.text.innerText.trim(); 
 				if(newText != value) {
 					//websocket.send("metaContent[id] -&gt; sbpm_label: '" + self.value + "' -&gt; '" + newText + "'");
-					websocket.send("metaContent[sbpm_label] changed: '" + self.value + "' -&gt; '" + newText + "'");
-					alert("metaContent[sbpm_label] changed: '" + self.value + "' -&gt; '" + newText + "'");
+					websocket.send("metaContent[sbpm_label]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
+					console.log("metaContent[sbpm_label]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					self.value = newText;
 				}
-				self.text.style.backgroundColor = "transparent";
 				console.log(self);				
 			};
 		}
@@ -836,6 +842,7 @@
 				this.keyCol.setAttribute("class", "cellKey");
 				this.keyCol.addEventListener('click', self.click, false);
 				this.keyCol.addEventListener('blur', self.blur, false);
+				this.keyCol.addEventListener('keyup', self.keyup, false);
 				this.keyCol.setAttribute('contenteditable','true');
 				this.keyCol.setAttribute("class", "editable cellKey");
 				this.valueCol = this.row.insertCell(1);
@@ -843,6 +850,7 @@
 				this.valueCol.setAttribute("class", "cellValue");
 				this.valueCol.addEventListener('click', self.click, false);
 				this.valueCol.addEventListener('blur', self.blur, false);
+				this.valueCol.addEventListener('keyup', self.keyup, false);
 				this.valueCol.setAttribute('contenteditable','true');
 				this.valueCol.setAttribute("class", "editable cellValue");
 			};
@@ -857,25 +865,34 @@
 				console.log(self);
 			};
 			
-			this.blur = function(event) {				
+			this.keyup = function(event) {				
 				target = event.target || event.srcElement;
 				var newText = target.textContent.trim() || target.innerText.trim();
 				var cur_key = self.keyCol.textContent.trim() || self.keyCol.innerText.trim();
 				var cur_val = self.valueCol.textContent.trim() || self.valueCol.innerText.trim();
-				if(newText != value &amp;&amp; cur_key == self.key &amp;&amp; newText != self.key) {
+				var old = "";
+				console.log(self.key + ", " + self.value + ", " + value + ", " + cur_key + ", " + cur_val);
+				if(newText != self.value &amp;&amp; cur_key == self.key &amp;&amp; newText != self.key) {
 					//websocket.send("metaContent[id] -&gt; " + self.key + ": '" + self.value + "' -&gt; '" + newText + "'");
 					console.log("Changes value of meta data");
 					websocket.send("metaContent[" + self.key + "]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					//alert("metaContent[" + self.key + "] changed: '" + self.value + "' -&gt; '" + newText + "'");
 					console.log("metaContent[" + self.key + "]%%%OLDSTART%%%" + self.value + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
-					self.value = newText;
+					old = self.value;
+					self.value = newText;					
 				}
-				else if(newText != key &amp;&amp; cur_val == self.value &amp;&amp; newText != self.value) {
+				else if(newText != self.key &amp;&amp; cur_val == self.value &amp;&amp; newText != self.value) {
 					console.log("Changes key of meta data");
 					websocket.send("metaContent[KEY]%%%OLDSTART%%%" + self.key + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
 					console.log("metaContent[KEY]%%%OLDSTART%%%" + self.key + "%%%OLDEND%%%%%%NEWSTART%%%" + newText + "%%%NEWEND%%%");
-					self.key = newText;
-				}
+					old = self.key;
+					self.key = newText;					
+				}		
+				console.log(self + "old: " + old + ", new: " + newText);
+			};
+			
+			this.blur = function(event) {		
+				target = event.target || event.srcElement;			
 				target.style.backgroundColor = "transparent";	
 				document.getElementById('delete').style.visibility = "hidden";			
 				console.log(self);

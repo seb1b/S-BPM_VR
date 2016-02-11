@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import weakref
+
 
 class ListenerList(list):
 	"""
@@ -11,13 +13,15 @@ class ListenerList(list):
 
 	def __init__(self, value, parent, attrName):
 		list.__init__(self, value)
-		self._parent = parent
+		self._parent = weakref.ref(parent)
 		self._attrName = attrName
 
 	def _callParent(self):
-		operation = getattr(self._parent, "fireChangeEvent", None)
-		if(callable(operation)):
-			self._parent.fireChangeEvent(self._attrName)
+		parent = self._parent()
+		if(parent is not None):
+			operation = getattr(parent, "fireChangeEvent", None)
+			if(callable(operation)):
+				parent.fireChangeEvent(self._attrName)
 
 	def __setitem__(self, key, value):
 		list.__setitem__(self, key, value)
