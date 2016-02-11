@@ -4,7 +4,7 @@
     <Object name_suffix="0" base_name="Root" name_space="__global__" type="Object" pickable="0" visible="1">
       <Object name_suffix="0" base_name="Headlight" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="Headlight_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1"/>
       <Object name_suffix="0" base_name="light" name_space="__global__" type="Light" pickable="0" visible="1" ambient="0.3 0.3 0.3 1" beacon="light_beacon" diffuse="1 1 1 1" lightType="point" on="1" shadow="0" shadowColor="0.1 0.1 0.1 1" shadowType="4096" specular="0.1 0.1 0.1 1">
-        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-1 0 51.1194" at="-1 0 50.1194" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
+        <Object name_suffix="0" base_name="Default" name_space="__global__" type="Camera" pickable="0" visible="1" from="-3.59292 0.357953 29.7244" at="-3.59292 0.357953 28.7244" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" accept_root="1" near="0.1" far="250" aspect="1" fov="0.2">
           <Object name_suffix="0" base_name="light_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="light"/>
           <Object name_suffix="0" base_name="Headlight_beacon" name_space="__global__" type="LightBeacon" pickable="0" visible="1" from="0 0 0" at="0 0 -1" up="0 1 0" scale="1 1 1" cT="0 1 0" cR="0 0 0" do_cT="0" do_cR="0" cT_mode="1" at_dir="1" light="Headlight"/>
         </Object>
@@ -13,123 +13,6 @@
   </Objects>
   <Rendering deferred_rendering="0" frustum_culling="1" occlusion_culling="0" ssao="0" ssao_kernel="4" ssao_noise="4" ssao_radius="0.02" two_sided="1"/>
   <Scripts>
-    <Script name_suffix="1" base_name="Script" name_space="__script__" type="Python" mobile="">
-      <core>
-	pass
-</core>
-    </Script>
-    <Script name_suffix="2" base_name="Script" name_space="__script__" type="Python" mobile="">
-      <core>
-	import VR
-	
-	HANDLE = VR.Geometry('handle')
-	HANDLE.setPrimitive('Box 0.03 0.03 0.03 1 1 1')
-	
-	mes = VR.Geometry('mes')
-	mes.setPrimitive('Box 0.2 0.1 0.2 1 1 1')
-	mes.setFrom(0.6, 0, 0)
-	mes.setPickable(True)
-#	mes.setPickable(False)
-
-	sub = VR.Geometry('sub')
-	sub.setPrimitive('Box 0.2 0.2 0.2 1 1 1')
-	sub.setFrom(1.2, 0.6, 0)
-	sub.setPickable(True)
-#	sub.setPickable(False)
-
-	mid = VR.Geometry('mid')
-	mid.setPrimitive('Box 0 0 0 1 1 1')
-	mid.setFrom(0.6, 0.6, 0)
-	mid.setPickable(True)
-#	mid.setPickable(False)
-				
-	VR.view_root.addChild(mes)
-	VR.view_root.addChild(sub)
-	VR.view_root.addChild(mid)
-	
-	VR.ptool = VR.Pathtool()
-	VR.ptool.getPathMaterial().setDiffuse(0,0,1)
-	VR.ptool.setHandleGeometry(HANDLE)
-	paths = []
-
-	paths.append(VR.ptool.newPath(None, VR.view_root))
-	handles1 = VR.ptool.getHandles(paths[0])
-	assert len(handles1) == 2, "invalid number of handles"
-	handles1[0].setDir(0.1, 0, 0.0)
-	#handles1[0].setUp(0, 1, 0)
-	handles1[0].setPickable(False)
-	handles1[0].setVisible(False)
-#	handles1[0].setPickable(True)
-	sub.addChild(handles1[0])
-#	handles1[0].addChild(sub)
-	handles1[1].setDir(0.1, 0, 0.0)
-	handles1[1].setPickable(False)
-#	handles1[1].setPickable(True)
-	handles1[1].setVisible(False)
-	mid.addChild(handles1[1])
-#	handles1[1].addChild(mes)
-
-	VR.ptool.remPath(paths[0])
-	
-	paths.append(VR.ptool.newPath(None, VR.view_root))
-	handles2 = VR.ptool.getHandles(paths[1])
-	assert len(handles2) == 2, "invalid number of handles"
-	handles2[0].setDir(0, 0.1, 0.0)
-	handles2[0].setPickable(False)
-#	handles2[0].setPickable(True)
-	handles2[0].setVisible(False)
-	mid.addChild(handles2[0])
-#	handles2[0].addChild(sub)
-	handles2[1].setDir(0, 0.1, 0.0)
-	handles2[1].setPickable(False)
-	handles2[1].setVisible(False)	
-#	handles2[1].setPickable(True)
-	mes.addChild(handles2[1])
-#	handles2[1].addChild(mes)
-	
-	
-	VR.ptool.update()
-	
-	print VR.view_root.getChildren()
-	#mes.destroy()
-	#print VR.view_root.getChildren()
-	
-</core>
-    </Script>
-    <Script name_suffix="3" base_name="Script" name_space="__script__" type="Python" mobile="">
-      <core>
-	import VR
-	
-	mes = VR.loadGeometry('../../View/Blender/Prozess/Message_Hashtag.dae')
-	mes.setScale(0.1, 0.1, 0.1)
-	mes.setPose([0, 0, 0], [0, 1, 0], [0, 0, 1])
-	VR.view_root.addChild(mes)
-</core>
-    </Script>
-    <Script name_suffix="4" base_name="Script" name_space="__script__" type="Python" mobile="">
-      <core>
-	import VR
-	
-	def beispiel1():
-		cam = VR.getRoot().find('Default')
-	
-		path = VR.Path()
-		path.set([0,0,20],[0,0,1],[0,1,0], [0,0,30],[0,0,1],[0,1,0], 80)
-	
-		cam.animate(path, 2, 0, False)
-		
-	def fly(t):
-		cam = VR.getRoot().find('Default')
-		p = [0,0,20+t*10]
-		cam.setFrom(p)
-		
-	a = VR.Animation('fly')
-	a.setCallback(fly)
-	a.setDuration(2)
-	
-	a.start()
-</core>
-    </Script>
     <Script name_suffix="0" base_name="auto_save_model" name_space="__script__" type="Python" mobile="">
       <core>
 	return # TODO: remove to enable saving model
@@ -282,6 +165,7 @@
     </Script>
     <Script name_suffix="0" base_name="debug_mouse_click" name_space="__script__" type="Python" mobile="">
       <core>
+	return
 	import VR
 	assert hasattr(VR, "controller")
 
@@ -344,7 +228,7 @@
     <Script name_suffix="0" base_name="debug_mouse_move" name_space="__script__" type="Python" mobile="">
       <core>
 	# TODO: remove return if necessary
-	#return
+	return
 	import VR
 
 	if not hasattr(VR, "controller"):
@@ -648,7 +532,7 @@
 	import VR
 	message = dev.getMessage()
 	#dev.answer('blub')
-	print('MENU BAR: ' + message)
+	#print('MENU BAR: ' + message)
 
 	if hasattr(VR, "controller"):
 		VR.controller.process_menu_bar(message)

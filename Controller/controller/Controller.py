@@ -18,9 +18,9 @@ class Controller:
 	def __init__(self):
 		#logging.basicConfig(filename='controller.log', level=logging.INFO)
 		self.log = logging.getLogger()
-		self.log.setLevel(logging.INFO)
+		self.log.setLevel(logging.WARNING)
 		ch = logging.StreamHandler(sys.stdout)
-		ch.setLevel(logging.INFO)
+		ch.setLevel(logging.WARNING)
 		#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 		formatter = logging.Formatter('%(asctime)s.%(msecs)03d - {%(pathname)s:%(lineno)d} %(levelname)s: %(message)s','%H:%M:%S')
 		ch.setFormatter(formatter)
