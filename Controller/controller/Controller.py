@@ -771,9 +771,9 @@ class Controller:
 							self._update_selected_object(None)
 							self.view.set_cur_scene(layer)
 				else:
-					self.view.zoom(-1)
+					self.view.zoom(level)
 			elif level > 0:
-				self.view.zoom(1)
+				self.view.zoom(level)
 		return None
 
 	def fade_away(self, user_id):

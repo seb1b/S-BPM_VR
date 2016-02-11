@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/New Process Di 09 Feb 2016 20:28:55 CET.owl#PASSProcessModel-Z84FhkzjBHfg">
+    <ns0:hasModelComponent xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:resource="http://www.imi.kit.edu/passModelInstances/New Process Di 09 Feb 2016 20:28:55 CET.owl#BaseLayer-UHlPNRECuXlJ"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/New Process Di 09 Feb 2016 20:28:55 CET.owl#PASSProcessModel-Z84FhkzjBHfg">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Z84FhkzjBHfg</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/New Process Di 09 Feb 2016 20:28:55 CET.owl#PASSProcessModel-Z84FhkzjBHfg">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#PASSProcessModel"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/New Process Di 09 Feb 2016 20:28:55 CET.owl#BaseLayer-UHlPNRECuXlJ">
+    <ns0:hasModelComponentID xmlns:ns0="http://www.imi.kit.edu/abstract-pass-ont#" rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UHlPNRECuXlJ</ns0:hasModelComponentID>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.imi.kit.edu/passModelInstances/New Process Di 09 Feb 2016 20:28:55 CET.owl#BaseLayer-UHlPNRECuXlJ">
+    <rdf:type rdf:resource="http://www.imi.kit.edu/abstract-pass-ont#BaseLayer"/>
+  </rdf:Description>
+</rdf:RDF>
